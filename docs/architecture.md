@@ -7,6 +7,9 @@ StockFlow will start as a .NET console application.
 Current project:
 
 src/StockFlow.Console
+Models/Product.cs
+Services/InventoryService.cs
+Program.cs
 
 ### Folder Responsibilities
 - Models/ Contains business data classes such as Product, Order, OrderItem, Payment, and Receipt.

@@ -16,14 +16,28 @@ Build the first usable console version of StockFlow.
 
 Milestones:
 
-- M00 - Project Initialization
-- M01 - Product Model and Inventory Basics
-- M02 - Inventory CRUD Operations
-- M03 - Service Structure and Input Validation
-- M04 - Basket Management
-- M05 - Checkout and Order Creation
-- M06 - Payment Processing
-- M07 - Receipt Generation
-- M08 - Dashboard Summary
-- M09 - JSON Persistence
-- M10 - v0.1.0 Release
+### M00 - Project Initialization - Completed
+### M01 - Product Model and Inventory Basics - Completed
+### M02 - Inventory CRUD Operations - Completed
+#### Completed:
+
+- Add product
+- View active products
+- Search product by name or product code
+- Update product details
+- Deactivate product using soft delete
+
+#### Known limitations:
+
+- Input validation is still basic.
+- Data is still stored in memory.
+- Product ID generation is temporary.
+
+### M03 - Service Structure and Input Validation
+### M04 - Basket Management
+### M05 - Checkout and Order Creation
+### M06 - Payment Processing
+### M07 - Receipt Generation
+### M08 - Dashboard Summary
+### M09 - JSON Persistence
+### M10 - v0.1.0 Release

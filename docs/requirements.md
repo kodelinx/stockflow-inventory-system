@@ -4,11 +4,12 @@
 
 ### Inventory Management
 
-- The system should allow users to add products.
-- The system should allow users to view products.
-- The system should allow users to search products.
-- The system should allow users to update product details.
-- The system should allow users to deactivate products.
+- The system should allow users to add products. (v0.1.0: M02 Implemented - Console Version)
+- The system should allow users to view products. (v0.1.0: M01 Implemented - Console Version)
+- The system should allow users to search products. (v0.1.0: MO2 Implemented - Console Version)
+- The system should allow users to update product details. (v0.1.0: MO2 Implemented - Console Version)
+- The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
+- The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should track product stock quantity.
 - The system should identify low-stock products.
 

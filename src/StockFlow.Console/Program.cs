@@ -1,8 +1,10 @@
 ﻿using StockFlow.Services;
 using StockFlow.Models;
+using StockFlow.Utilities;
 
 List<Product> products = new List<Product>();
-InventoryService inventoryService = new InventoryService();
+InputValidationService inputValidationService = new InputValidationService();
+InventoryService inventoryService = new InventoryService(inputValidationService);
 
 bool keepRunning = true;
 
@@ -54,8 +56,7 @@ while (keepRunning)
     Console.WriteLine("6. Delete Product");
     Console.WriteLine("7. Exit");
 
-    Console.Write("Choose an option: ");
-    int option = Convert.ToInt32(Console.ReadLine());
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 7);
 
     switch(option)
     {
@@ -72,7 +73,7 @@ while (keepRunning)
             inventoryService.UpdateProduct(products);
             break;
         case 5:
-            inventoryService.DeativateProduct(products);
+            inventoryService.DeactivateProduct(products);
             break;
         case 6:
             inventoryService.DeleteProduct(products);

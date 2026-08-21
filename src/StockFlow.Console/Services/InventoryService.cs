@@ -2,11 +2,19 @@ using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Transactions;
 using StockFlow.Models;
+using StockFlow.Utilities;
 
 namespace StockFlow.Services;
 
+
 public class InventoryService
 {
+    private readonly InputValidationService _inputValidationService;
+
+    public InventoryService(InputValidationService inputValidationService)
+    {
+        _inputValidationService = inputValidationService;
+    }
     public void ViewProducts(List<Product> products)
     {
         if (products.Count == 0)
@@ -24,7 +32,7 @@ public class InventoryService
             Console.WriteLine($"Product Code: {product.ProductCode}");
             Console.WriteLine($"Name: {product.Name}");
             Console.WriteLine($"Category: {product.Category}");
-            Console.WriteLine($"Unit Price: {product.UnitPrice}");
+            Console.WriteLine($"Unit Price: {product.UnitPrice:F2}");
             Console.WriteLine($"Quantity in Stock: {product.QuantityInStock}");
             Console.WriteLine($"Reorder Level: {product.ReorderLevel}");
             Console.WriteLine($"Active:  {product.IsActive}\n");
@@ -39,21 +47,12 @@ public class InventoryService
         int productId = products.Count + 1;
 
         string productCode = $"PRD-{productId:000}";
+        string name = _inputValidationService.GetRequiredText("Name: ");
+        string category = _inputValidationService.GetRequiredText("Category: ");
+        decimal unitPrice = _inputValidationService.GetValidDecimal("Unit Price: ", 0.00m, 1000000m);
+        int quantityInStock = _inputValidationService.GetValidInt("Quantity in Stock: ", 0, 1000000);
+        int reorderLevel = _inputValidationService.GetValidInt("Reorder Level: ", 0, 1000000);
 
-        Console.Write("Name: ");
-        string? name = Console.ReadLine() ?? "";
-
-        Console.WriteLine("Category: ");
-        string? category = Console.ReadLine() ?? "";
-
-        Console.WriteLine("Unit Price: ");
-        decimal unitPrice = Convert.ToDecimal(Console.ReadLine());
-
-        Console.WriteLine("Quantity in Stock: ");
-        int quantityInStock = Convert.ToInt32(Console.ReadLine());
-
-        Console.WriteLine("Reorder Level: ");
-        int reorderLevel = Convert.ToInt32(Console.ReadLine());
 
         //create a Product object and initialize from data provided
         Product product = new Product(
@@ -78,8 +77,8 @@ public class InventoryService
             Console.WriteLine("There are no products available to search.");
             return;
         }
-        Console.Write("Search Product Name  OR Code: ");
-        string? searchInput = Console.ReadLine() ?? "";
+
+        string searchInput = _inputValidationService.GetRequiredText("Search Product Name OR Code: ");
 
         List<Product> matchingProducts = products.Where(product => product.IsActive  && 
             (
@@ -104,8 +103,7 @@ public class InventoryService
             Console.WriteLine("There are no products available to update");
         }
 
-        Console.Write("Enter Product Code to update: ");
-        string productCode = Console.ReadLine() ?? "";
+        string productCode = _inputValidationService.GetRequiredText("Enter Product Code to update: ");
 
         Product? product = products.FirstOrDefault(product => product.IsActive &&(
             product.ProductCode.Contains(productCode, StringComparison.OrdinalIgnoreCase)
@@ -127,37 +125,32 @@ public class InventoryService
 
             if(field == 1)
             {
-                Console.Write("Enter NEW name: ");
-                string newName = Console.ReadLine() ?? "";
-                product?.Name = newName;
+                string newName = _inputValidationService.GetRequiredText("Enter NEW name: ");
+                product.Name = newName;
                 break;
             }
             else if(field == 2)
             {
-                Console.Write("Enter NEW category: ");
-                string newCategory = Console.ReadLine() ?? "";
-                product?.Category = newCategory;
+                string newCategory = _inputValidationService.GetRequiredText("Enter NEW category: ");
+                product.Category = newCategory;
                 break;
             }
             else if(field == 3)
             {
-                Console.Write("Enter NEW unit price: ");
-                decimal newUnitPrice = Convert.ToDecimal(Console.ReadLine());
-                product?.UnitPrice = newUnitPrice;
+                decimal newUnitPrice = _inputValidationService.GetValidDecimal("Enter NEW unit price: ", 0, 1000000);
+                product.UnitPrice = newUnitPrice;
                 break;
             }
             else if(field == 4)
             {
-                Console.Write("Enter NEW quantity: ");
-                int newQuantity = Convert.ToInt32(Console.ReadLine());
-                product?.QuantityInStock = newQuantity;
+                int newQuantity = _inputValidationService.GetValidInt("Enter NEW quantity: ", 0, 1000000);
+                product.QuantityInStock = newQuantity;
                 break;
             }
             else if(field == 5)
             {
-                Console.Write("Enter NEW level: ");
-                int newLevel = Convert.ToInt32(Console.ReadLine());
-                product?.ReorderLevel = newLevel;
+                int newLevel = _inputValidationService.GetValidInt("Enter NEW name: ", 0, 1000000);
+                product.ReorderLevel = newLevel;
                 break;
             }
             else
@@ -165,12 +158,10 @@ public class InventoryService
                 Console.WriteLine("Input is incorrect.");
             }
         }
-        
-
     }
 
     //Soft deletion of product. It doesn't totally remove the product but disables it temporarily. 
-    public void DeativateProduct(List<Product> products)
+    public void DeactivateProduct(List<Product> products)
     {
         if(products.Count == 0)
         {
@@ -178,8 +169,7 @@ public class InventoryService
             return;
         }
 
-        Console.Write("Enter Code to deativate: ");
-        string? codeInput = Console.ReadLine() ?? "";
+        string codeInput = _inputValidationService.GetRequiredText("Enter the Product Code to deactivate: ");
 
         Product? product = products.FirstOrDefault(product => product.IsActive && (
             product.ProductCode.Contains(codeInput, StringComparison.OrdinalIgnoreCase)
@@ -227,7 +217,7 @@ public class InventoryService
         Console.WriteLine($"Product Code: {product.ProductCode}");
         Console.WriteLine($"Name: {product.Name}");
         Console.WriteLine($"Category: {product.Category}");
-        Console.WriteLine($"Unit Price: {product.UnitPrice}");
+        Console.WriteLine($"Unit Price: {product.UnitPrice:F2}");
         Console.WriteLine($"Quantity in Stock: {product.QuantityInStock}");
         Console.WriteLine($"Reorder Level: {product.ReorderLevel}");
         Console.WriteLine($"Active:  {product.IsActive}\n");

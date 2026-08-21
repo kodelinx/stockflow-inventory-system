@@ -1,10 +1,13 @@
 ﻿using StockFlow.Services;
 using StockFlow.Models;
 using StockFlow.Utilities;
+using System.Reflection.Metadata;
 
 List<Product> products = new List<Product>();
+List<BasketItem> basketItems = new List<BasketItem>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
+BasketService basketService = new BasketService(inputValidationService);
 
 bool keepRunning = true;
 
@@ -38,7 +41,15 @@ products.Add(new Product(
     10.00m,
     100,
     20,
-    true
+    false
+));
+
+basketItems.Add(new BasketItem(
+    3,
+    "PRD-003",
+    "Ballpen",
+    10,
+    10.00m
 ));
 
 
@@ -54,9 +65,14 @@ while (keepRunning)
     Console.WriteLine("4. Update Product");
     Console.WriteLine("5. Deactivate Product");
     Console.WriteLine("6. Delete Product");
-    Console.WriteLine("7. Exit");
+    Console.WriteLine("7. Add Product to Basket");
+    Console.WriteLine("8. View Items in Basket");
+    Console.WriteLine("9. Delete an Item in Basket");
+    Console.WriteLine("10. Clear all items in Basket");
+    Console.WriteLine("11. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 7);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 11);
+    Console.WriteLine("");
 
     switch(option)
     {
@@ -79,6 +95,18 @@ while (keepRunning)
             inventoryService.DeleteProduct(products);
             break;
         case 7:
+            basketService.AddItemToBasket(products, basketItems);
+            break;
+        case 8:
+            basketService.ViewBasket(basketItems);
+            break;
+        case 9:
+            basketService.RemoveIteminBasket(basketItems);
+            break;
+        case 10:
+            basketService.ClearBasket(basketItems);
+            break;
+        case 11:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

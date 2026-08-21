@@ -49,7 +49,7 @@
 
 ## Non-Functional Requirements
 
-- The system should validate user input.
+- The system should validate user input. (v0.1.0: MO3 Implemented - Console Version)
 - The system should use clear code structure.
 - The system should separate models, services, data, and utilities.
 - The system should save data so it is not lost after closing the app.

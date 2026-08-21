@@ -18,9 +18,17 @@ Milestones:
 
 ### M00 - Project Initialization - Completed
 ### M01 - Product Model and Inventory Basics - Completed
+#### Completed:
+- Created `Product` model
+- Added product properties such as product code, name, category, price, stock quantity, reorder level, and active status
+- Created `InventoryService`
+- Added `ViewProducts()` method
+
+#### Known limitations:
+- Pre-filled data, no input prompts
+
 ### M02 - Inventory CRUD Operations - Completed
 #### Completed:
-
 - Add product
 - View active products
 - Search product by name or product code
@@ -28,12 +36,25 @@ Milestones:
 - Deactivate product using soft delete
 
 #### Known limitations:
-
 - Input validation is still basic.
 - Data is still stored in memory.
 - Product ID generation is temporary.
 
-### M03 - Service Structure and Input Validation
+### M03 - Service Structure and Input Validation - Completed
+#### Completed:
+- Created `InputValidationService`
+- Added `GetRequiredText()`
+- Added `GetValidInt()`
+- Added `GetValidDecimal()`
+- Added `GetValidMenuOption()`
+- Updated inventory CRUD methods and main program menu option to use validation helpers
+- Prevented invalid numeric inputs from crashing the app
+
+#### Known limitations:
+- Product ID generation is still based on list count.
+- Data is still stored only in memory.
+- Hard delete should be used only for exceptional cleanup scenarios.
+
 ### M04 - Basket Management
 ### M05 - Checkout and Order Creation
 ### M06 - Payment Processing

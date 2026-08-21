@@ -6,21 +6,25 @@ StockFlow will start as a .NET console application.
 
 Current project:
 
-src/StockFlow.Console
-Models/Product.cs
-Services/InventoryService.cs
-Program.cs
+StockFlow.Console/
+├── Models/
+│   └── Product.cs
+├── Services/
+│   └── InventoryService.cs
+├── Utilities/
+│   └── InputValidationService.cs
+└── Program.cs
 
 ### Folder Responsibilities
 - Models/ Contains business data classes such as Product, Order, OrderItem, Payment, and Receipt.
-
 - Services/ Contains business actions such as inventory management, basket management, checkout, payment processing, receipt generation, dashboard summary, and notifications.
-
 - Data/ Contains storage-related logic such as JSON save and load services. Later, this may contain database access logic.
-
 - Utilities/ Contains reusable helper classes such as input validation.
 
-- Program.cs Controls the console application flow and calls the appropriate services.
+- Product.cs stores product data.
+- InventoryService.cs handles inventory actions.
+- InputValidationService.cs handles reusable user input validation.
+- Program.cs controls the console menu flow.
 
 ### Architecture Principle
 

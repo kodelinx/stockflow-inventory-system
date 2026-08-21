@@ -8,9 +8,11 @@ Current project:
 
 StockFlow.Console/
 ├── Models/
-│   └── Product.cs
+│   ├── Product.cs
+│   └── BasketItem.cs
 ├── Services/
-│   └── InventoryService.cs
+│   ├── InventoryService.cs
+│   └── BasketService.cs
 ├── Utilities/
 │   └── InputValidationService.cs
 └── Program.cs
@@ -25,6 +27,8 @@ StockFlow.Console/
 - InventoryService.cs handles inventory actions.
 - InputValidationService.cs handles reusable user input validation.
 - Program.cs controls the console menu flow.
+- BasketItem.cs represents selected products before checkout.
+- BasketService.cs handles basket/cart actions.
 
 ### Architecture Principle
 

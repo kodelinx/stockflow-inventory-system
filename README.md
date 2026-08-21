@@ -53,11 +53,11 @@ This project uses an Agile incremental development approach. Features are built 
 
 ## Version Plan
 ### v0.1.0 - Console Inventory and Sales MVP
-- M00 - Project Initialization
-- M01 - Product Model and Inventory List Display
-- M02 - Inventory CRUD Operations
-- M03 - Service Structure and Input Validation
-- M04 - Basket Management
+- M00 - Project Initialization - Completed
+- M01 - Product Model and Inventory List Display - Completed
+- M02 - Inventory CRUD Operations - Completed
+- M03 - Service Structure and Input Validation - Completed
+- M04 - Basket Management - Completed
 - M05 - Checkout and Order Creation
 - M06 - Payment Processing
 - M07 - Receipt Generation

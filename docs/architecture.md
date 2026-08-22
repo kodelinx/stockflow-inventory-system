@@ -9,10 +9,13 @@ Current project:
 StockFlow.Console/
 ├── Models/
 │   ├── Product.cs
-│   └── BasketItem.cs
+│   ├── BasketItem.cs
+│   ├── Order.cs
+│   └── OrderItem.cs
 ├── Services/
 │   ├── InventoryService.cs
-│   └── BasketService.cs
+│   ├── BasketService.cs
+│   └── OrderService.cs
 ├── Utilities/
 │   └── InputValidationService.cs
 └── Program.cs
@@ -29,6 +32,9 @@ StockFlow.Console/
 - Program.cs controls the console menu flow.
 - BasketItem.cs represents selected products before checkout.
 - BasketService.cs handles basket/cart actions.
+- Order.cs represents a completed checkout transaction.
+- OrderItem.cs represents products recorded inside an order.
+- OrderService.cs manages checkout and order viewing.
 
 ### Architecture Principle
 

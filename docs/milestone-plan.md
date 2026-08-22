@@ -56,8 +56,7 @@ Milestones:
 - Hard delete should be used only for exceptional cleanup scenarios.
 
 ### M04 - Basket Management - Completed
-Completed:
-
+#### Completed:
 - Created `BasketItem` model
 - Created `BasketService`
 - Added products to basket using product code
@@ -68,13 +67,28 @@ Completed:
 - Prevented adding inactive products
 - Prevented adding quantities greater than available stock
 
-Known limitations:
-
+#### Known limitations:
 - Basket data is temporary and stored in memory.
 - Checkout has not been implemented yet.
 - Stock is not reduced until the checkout milestone.
 
 ### M05 - Checkout and Order Creation
+#### Completed:
+- Created `Order` model
+- Created `OrderItem` model
+- Created `OrderService`
+- Added basket checkout
+- Generated order numbers
+- Calculated order totals
+- Reduced product stock after successful checkout
+- Cleared basket after checkout
+- Added order viewing
+
+#### Known limitations:
+- Orders are stored in memory only.
+- Payment processing is not yet implemented.
+- Order ID generation is temporary.
+
 ### M06 - Payment Processing
 ### M07 - Receipt Generation
 ### M08 - Dashboard Summary

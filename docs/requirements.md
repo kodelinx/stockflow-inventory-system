@@ -18,16 +18,16 @@
 - The system should allow users to add products to a basket. (v0.1.0: MO4 Implemented - Console Version)
 - The system should allow users to remove products from the basket. (v0.1.0: MO4 Implemented - Console Version)
 - The system should calculate basket totals. (v0.1.0: MO4 Implemented - Console Version)
-- The system should convert a basket into an order. (v0.1.0: MO4 Implemented - Console Version)
-- The system should reduce stock after checkout. (v0.1.0: MO4 Implemented - Console Version)
-- The system should prevent checkout when stock is insufficient. (v0.1.0: MO4 Implemented - Console Version)
+- The system should convert a basket into an order. (v0.1.0: MO5 Implemented - Console Version)
+- The system should reduce stock after checkout. (v0.1.0: MO5 Implemented - Console Version)
+- The system should prevent checkout when stock is insufficient. (v0.1.0: MO5 Implemented - Console Version)
 
 ### Payments
 
-- The system should record payment method. (v0.1.0: MO5 Implemented - Console Version)
-- The system should validate payment amount. (v0.1.0: MO5 Implemented - Console Version)
-- The system should calculate change for cash payments. (v0.1.0: MO5 Implemented - Console Version)
-- The system should track paid and unpaid orders. (v0.1.0: MO5 Implemented - Console Version)
+- The system should record payment method. (v0.1.0: MO6 Implemented - Console Version)
+- The system should validate payment amount. (v0.1.0: MO6 Implemented - Console Version)
+- The system should calculate change for cash payments. (v0.1.0: MO6 Implemented - Console Version)
+- The system should track paid and unpaid orders. (v0.1.0: MO6 Implemented - Console Version)
 
 ### Receipts
 

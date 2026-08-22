@@ -43,7 +43,7 @@ public class BasketService
             }
 
             existingBasketItem.Quantity = newQuantity;
-            existingBasketItem.TotalPrice = existingBasketItem.Quantity * existingBasketItem.UnitPrice;
+            existingBasketItem.LineTotal = existingBasketItem.Quantity * existingBasketItem.UnitPrice;
 
             Console.WriteLine("The Item in the basket has been updated.\n");
             return;
@@ -113,7 +113,7 @@ public class BasketService
         Console.WriteLine($"Product Name: {item.ProductName}");
         Console.WriteLine($"Quantity to Buy: {item.Quantity}");
         Console.WriteLine($"Unit Price: {item.UnitPrice}");
-        Console.WriteLine($"Total Price: {item.TotalPrice}\n");
+        Console.WriteLine($"Total Price: {item.LineTotal}\n");
 
     }
     public decimal CalculateLinePrice(List<BasketItem> basketItems)
@@ -122,7 +122,7 @@ public class BasketService
 
         foreach(BasketItem item in basketItems)
         {
-            total += item.TotalPrice;
+            total += item.LineTotal;
         }
 
         return total;

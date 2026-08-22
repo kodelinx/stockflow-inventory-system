@@ -2,12 +2,15 @@
 using StockFlow.Models;
 using StockFlow.Utilities;
 using System.Reflection.Metadata;
+using StockFlow.Service;
 
 List<Product> products = new List<Product>();
 List<BasketItem> basketItems = new List<BasketItem>();
+List<Order> orders = new List<Order>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
 BasketService basketService = new BasketService(inputValidationService);
+OrderService orderService = new OrderService();
 
 bool keepRunning = true;
 
@@ -17,7 +20,7 @@ products.Add(new Product(
     "Bottled Water",
     "Drinks",
     20.00m,
-    50,
+    100,
     10,
     true
 ));
@@ -41,7 +44,7 @@ products.Add(new Product(
     10.00m,
     100,
     20,
-    false
+    true
 ));
 
 basketItems.Add(new BasketItem(
@@ -50,6 +53,14 @@ basketItems.Add(new BasketItem(
     "Ballpen",
     10,
     10.00m
+));
+
+basketItems.Add(new BasketItem(
+    1,
+    "PRD-001",
+    "Bottled Water",
+    2,
+    20.00m
 ));
 
 
@@ -69,9 +80,11 @@ while (keepRunning)
     Console.WriteLine("8. View Items in Basket");
     Console.WriteLine("9. Delete an Item in Basket");
     Console.WriteLine("10. Clear all items in Basket");
-    Console.WriteLine("11. Exit");
+    Console.WriteLine("11. Checkout Basket");
+    Console.WriteLine("12. View all orders");
+    Console.WriteLine("13. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 11);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 13);
     Console.WriteLine("");
 
     switch(option)
@@ -107,6 +120,12 @@ while (keepRunning)
             basketService.ClearBasket(basketItems);
             break;
         case 11:
+            orderService.CheckoutBasket(products, basketItems, orders);
+            break;
+        case 12:
+            orderService.ViewOrders(orders);
+            break;
+        case 13:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

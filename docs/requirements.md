@@ -24,10 +24,10 @@
 
 ### Payments
 
-- The system should record payment method.
-- The system should validate payment amount.
-- The system should calculate change for cash payments.
-- The system should track paid and unpaid orders.
+- The system should record payment method. (v0.1.0: MO5 Implemented - Console Version)
+- The system should validate payment amount. (v0.1.0: MO5 Implemented - Console Version)
+- The system should calculate change for cash payments. (v0.1.0: MO5 Implemented - Console Version)
+- The system should track paid and unpaid orders. (v0.1.0: MO5 Implemented - Console Version)
 
 ### Receipts
 

@@ -11,11 +11,13 @@ StockFlow.Console/
 │   ├── Product.cs
 │   ├── BasketItem.cs
 │   ├── Order.cs
-│   └── OrderItem.cs
+│   ├── OrderItem.cs
+│   └── Payment.cs
 ├── Services/
 │   ├── InventoryService.cs
 │   ├── BasketService.cs
-│   └── OrderService.cs
+│   ├── OrderService.cs
+│   └── PaymentService.cs
 ├── Utilities/
 │   └── InputValidationService.cs
 └── Program.cs
@@ -35,6 +37,8 @@ StockFlow.Console/
 - Order.cs represents a completed checkout transaction.
 - OrderItem.cs represents products recorded inside an order.
 - OrderService.cs manages checkout and order viewing.
+- Payment.cs represents a payment record.
+- PaymentService.cs handles payment processing and payment viewing.
 
 ### Architecture Principle
 

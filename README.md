@@ -59,8 +59,8 @@ This project uses an Agile incremental development approach. Features are built 
 - M03 - Service Structure and Input Validation - Completed
 - M04 - Basket Management - Completed
 - M05 - Checkout and Order Creation - Completed
-- M06 - Payment Processing
-- M07 - Receipt Generation
+- M06 - Payment Processing - Completed
+- M07 - Receipt Generation - 
 - M08 - Dashboard Summary
 - M09 - JSON Persistence
 - M10 - v0.1.0 Release

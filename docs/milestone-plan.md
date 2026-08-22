@@ -90,6 +90,22 @@ Milestones:
 - Order ID generation is temporary.
 
 ### M06 - Payment Processing
+#### Completed:
+- Created `Payment` model
+- Created `PaymentService`
+- Added payment processing by order number
+- Added payment method selection
+- Validated amount paid
+- Calculated change amount
+- Stored payment records in memory
+- Updated order payment status after payment
+- Prevented duplicate payments
+
+#### Known limitations:
+- Payment data is stored in memory only.
+- Payment gateway integration is not implemented.
+- Receipt generation is not yet implemented.
+
 ### M07 - Receipt Generation
 ### M08 - Dashboard Summary
 ### M09 - JSON Persistence

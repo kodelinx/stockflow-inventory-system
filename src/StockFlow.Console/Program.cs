@@ -7,10 +7,12 @@ using StockFlow.Service;
 List<Product> products = new List<Product>();
 List<BasketItem> basketItems = new List<BasketItem>();
 List<Order> orders = new List<Order>();
+List<Payment> payments = new List<Payment>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
 BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
+PaymentService paymentService = new PaymentService(inputValidationService);
 
 bool keepRunning = true;
 
@@ -82,9 +84,11 @@ while (keepRunning)
     Console.WriteLine("10. Clear all items in Basket");
     Console.WriteLine("11. Checkout Basket");
     Console.WriteLine("12. View all orders");
-    Console.WriteLine("13. Exit");
+    Console.WriteLine("13. Process Payments");
+    Console.WriteLine("14. View Payments");
+    Console.WriteLine("15. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 13);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 15);
     Console.WriteLine("");
 
     switch(option)
@@ -126,6 +130,12 @@ while (keepRunning)
             orderService.ViewOrders(orders);
             break;
         case 13:
+            paymentService.ProcessPayment(orders, payments);
+            break;
+        case 14:
+            paymentService.ViewPayments(payments);
+            break;
+        case 15:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

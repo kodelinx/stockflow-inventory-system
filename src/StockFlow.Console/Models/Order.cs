@@ -8,6 +8,7 @@ public class Order
     public List<OrderItem> Items { get; set; }
     public decimal TotalAmount { get; set; }
     public string OrderStatus { get; set; }
+    public string PaymentStatus { get; set; }
 
     public Order(
         int orderId,
@@ -15,7 +16,8 @@ public class Order
         DateTime orderDate,
         List<OrderItem> items,
         decimal totalAmount,
-        string orderStatus
+        string orderStatus,
+        string paymentStatus
     )
     {
         OrderId = orderId;
@@ -24,5 +26,6 @@ public class Order
         Items = items;
         TotalAmount = totalAmount;
         OrderStatus = orderStatus;
+        PaymentStatus = paymentStatus;
     }
 }

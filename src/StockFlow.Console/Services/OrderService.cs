@@ -60,7 +60,8 @@ public class OrderService
             DateTime.Now,
             orderItems,
             totalAmount,
-            "Pending Payment"
+            "Pending Payment",
+            "Unpaid"
         );
 
         foreach (BasketItem basketItem in basketItems)

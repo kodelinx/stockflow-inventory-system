@@ -2,8 +2,6 @@
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Data;
-using System.Reflection.Metadata;
-using Stockflow.Services;
 
 
 List<Product> products = new List<Product>();

@@ -1,6 +1,6 @@
 using StockFlow.Models;
 
-namespace Stockflow.Services;
+namespace StockFlow.Services;
 
 public class DashboardService
 {

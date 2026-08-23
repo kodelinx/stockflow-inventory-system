@@ -1,0 +1,13 @@
+[
+  {
+    "ReceiptId": 1,
+    "ReceiptNumber": "001",
+    "OrderNumber": "ord-001",
+    "PaymentNumber": "PAY-001",
+    "ReceiptDate": "2026-08-23T17:12:40.5859275+08:00",
+    "TotalAmount": 60,
+    "PaymentMethod": "Cash",
+    "AmountPaid": 100,
+    "ChangeAmount": 40
+  }
+]

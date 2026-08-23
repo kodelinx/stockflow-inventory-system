@@ -3,9 +3,9 @@ namespace StockFlow.Models;
 public class Product
 {
     public int ProductId { get; set;}
-    public string ProductCode { get; set;  }
-    public string Name { get; set; }
-    public string Category { get; set;}
+    public string ProductCode { get; set;  } = String.Empty; 
+    public string Name { get; set; } = String.Empty; 
+    public string Category { get; set;} = String.Empty; 
     public decimal UnitPrice { get; set; }
     public int QuantityInStock { get; set; }
     public int ReorderLevel { get; set; }
@@ -30,6 +30,11 @@ public class Product
         QuantityInStock = quantityInStock;
         ReorderLevel = reorderLevel;
         IsActive = isActive;
+    }
+    //Constructor to be utilized by JsonSerializer.Deserialize()
+    public Product()
+    {
+        
     }
 
 }

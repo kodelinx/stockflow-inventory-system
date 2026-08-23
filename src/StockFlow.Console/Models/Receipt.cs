@@ -5,14 +5,14 @@ namespace StockFlow.Models;
 public class Receipt
 {
     public int ReceiptId { get; set; }
-    public string ReceiptNumber { get; set; }
-    public string OrderNumber { get; set; }
-    public string PaymentNumber { get; set; }
+    public string ReceiptNumber { get; set; } = String.Empty; 
+    public string OrderNumber { get; set; } = String.Empty; 
+    public string PaymentNumber { get; set; } = String.Empty; 
     public DateTime ReceiptDate{ get; set; }
 
     public decimal TotalAmount { get; set; }
-    public string PaymentMethod { get; set; }
-    public decimal AmountPaid { get; set; }
+    public string PaymentMethod { get; set; } = String.Empty; 
+    public decimal AmountPaid { get; set; } 
     public decimal ChangeAmount { get; set; }
 
     public Receipt(
@@ -36,5 +36,10 @@ public class Receipt
         PaymentMethod = paymentMethod;
         AmountPaid = amountPaid;
         ChangeAmount = changeAmount;
+    }
+    //Constructor to be utilized by JsonSerializer.Deserialize()
+    public Receipt()
+    {
+        
     }
 }

@@ -92,7 +92,7 @@ public class BasketService
             DisplayBasketItem(item);
         }
 
-        Console.WriteLine($"BASKET TOTAL PRICE: {CalculateLinePrice(basketItems)}\n");
+        Console.WriteLine($"BASKET TOTAL PRICE: {CalculateLinePrice(basketItems):C}\n");
     }
     public void ClearBasket(List<BasketItem> basketItems)
     {
@@ -112,8 +112,8 @@ public class BasketService
         Console.WriteLine($"Product Code: {item.ProductCode}");
         Console.WriteLine($"Product Name: {item.ProductName}");
         Console.WriteLine($"Quantity to Buy: {item.Quantity}");
-        Console.WriteLine($"Unit Price: {item.UnitPrice}");
-        Console.WriteLine($"Total Price: {item.LineTotal}\n");
+        Console.WriteLine($"Unit Price: {item.UnitPrice:C}");
+        Console.WriteLine($"Total Price: {item.LineTotal:C}\n");
 
     }
     public decimal CalculateLinePrice(List<BasketItem> basketItems)

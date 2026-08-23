@@ -1,0 +1,46 @@
+[
+  {
+    "OrderId": 1,
+    "OrderNumber": "ORD-001",
+    "OrderDate": "2026-08-23T17:03:21.057461+08:00",
+    "Items": [
+      {
+        "ProductId": 1,
+        "ProductCode": "PRD-001",
+        "ProductName": "Pencil",
+        "Quantity": 4,
+        "UnitPrice": 7,
+        "LineTotal": 28
+      },
+      {
+        "ProductId": 3,
+        "ProductCode": "PRD-003",
+        "ProductName": "Eraser",
+        "Quantity": 8,
+        "UnitPrice": 4,
+        "LineTotal": 32
+      }
+    ],
+    "TotalAmount": 60,
+    "OrderStatus": "Completed",
+    "PaymentStatus": "Paid"
+  },
+  {
+    "OrderId": 2,
+    "OrderNumber": "ORD-002",
+    "OrderDate": "2026-08-23T17:11:28.1110893+08:00",
+    "Items": [
+      {
+        "ProductId": 1,
+        "ProductCode": "PRD-001",
+        "ProductName": "Pencil",
+        "Quantity": 3,
+        "UnitPrice": 7,
+        "LineTotal": 21
+      }
+    ],
+    "TotalAmount": 21,
+    "OrderStatus": "Pending Payment",
+    "PaymentStatus": "Unpaid"
+  }
+]

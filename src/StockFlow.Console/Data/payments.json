@@ -1,0 +1,13 @@
+[
+  {
+    "PaymentId": 1,
+    "PaymentNumber": "PAY-001",
+    "OrderNumber": "ORD-001",
+    "PaymentDate": "2026-08-23T17:12:09.3331361+08:00",
+    "PaymentMethod": "Cash",
+    "AmountDue": 60,
+    "AmountPaid": 100,
+    "ChangeAmount": 40,
+    "PaymentStatus": "Paid"
+  }
+]

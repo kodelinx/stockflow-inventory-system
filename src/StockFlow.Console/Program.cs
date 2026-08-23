@@ -1,9 +1,10 @@
 ﻿using StockFlow.Services;
 using StockFlow.Models;
 using StockFlow.Utilities;
+using StockFlow.Data;
 using System.Reflection.Metadata;
-using StockFlow.Service;
 using Stockflow.Services;
+
 
 List<Product> products = new List<Product>();
 List<BasketItem> basketItems = new List<BasketItem>();
@@ -17,57 +18,15 @@ OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
 DashboardService dashboardService = new DashboardService();
+JsonStorageService jsonStorageService = new JsonStorageService();
+
+
+string productsFilePath = "Data/products.json";
+string ordersFilePath ="Data/orders.json";
+string paymentsFilePath = "Data/payments.json";
+string receiptsFilePath = "Data/receipts.json";
 
 bool keepRunning = true;
-
-products.Add(new Product(
-    1,
-    "PRD-001",
-    "Bottled Water",
-    "Drinks",
-    20.00m,
-    100,
-    10,
-    true
-));
-
-products.Add(new Product(
-    2,
-    "PRD-002",
-    "Notebook",
-    "School Supplies",
-    35.00m,
-    25,
-    5,
-    true
-));
-
-products.Add(new Product(
-    3,
-    "PRD-003",
-    "Ballpen",
-    "School Supplies",
-    10.00m,
-    100,
-    20,
-    true
-));
-
-basketItems.Add(new BasketItem(
-    3,
-    "PRD-003",
-    "Ballpen",
-    10,
-    10.00m
-));
-
-basketItems.Add(new BasketItem(
-    1,
-    "PRD-001",
-    "Bottled Water",
-    2,
-    20.00m
-));
 
 
 while (keepRunning)
@@ -93,9 +52,11 @@ while (keepRunning)
     Console.WriteLine("15. Generate Receipt");
     Console.WriteLine("16. View Receipts");
     Console.WriteLine("17. Show Dashboard");
-    Console.WriteLine("18. Exit");
+    Console.WriteLine("18. Save Data to JSON");
+    Console.WriteLine("19. Load Data from JSON");
+    Console.WriteLine("20. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 18);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 20);
     Console.WriteLine("");
 
     switch(option)
@@ -152,6 +113,18 @@ while (keepRunning)
             dashboardService.ShowDashboard(products, orders, payments);
             break;
         case 18:
+            jsonStorageService.SaveData(products, productsFilePath);
+            jsonStorageService.SaveData(orders, ordersFilePath);
+            jsonStorageService.SaveData(payments, paymentsFilePath);
+            jsonStorageService.SaveData(receipts, receiptsFilePath);
+            break;
+        case 19:
+            products = jsonStorageService.LoadData<Product>(productsFilePath);
+            orders = jsonStorageService.LoadData<Order>(ordersFilePath);
+            payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
+            receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);
+            break;
+        case 20:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

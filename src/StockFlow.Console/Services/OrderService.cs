@@ -2,7 +2,7 @@ using System.Numerics;
 using StockFlow.Models;
 
 
-namespace StockFlow.Service;
+namespace StockFlow.Services;
 
 public class OrderService
 {

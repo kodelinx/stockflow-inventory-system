@@ -1,0 +1,32 @@
+[
+  {
+    "ProductId": 1,
+    "ProductCode": "PRD-001",
+    "Name": "Pencil",
+    "Category": "Supplies",
+    "UnitPrice": 7,
+    "QuantityInStock": 193,
+    "ReorderLevel": 20,
+    "IsActive": true
+  },
+  {
+    "ProductId": 2,
+    "ProductCode": "PRD-002",
+    "Name": "Ballpen",
+    "Category": "Supplies",
+    "UnitPrice": 12,
+    "QuantityInStock": 100,
+    "ReorderLevel": 10,
+    "IsActive": true
+  },
+  {
+    "ProductId": 3,
+    "ProductCode": "PRD-003",
+    "Name": "Eraser",
+    "Category": "Supplies",
+    "UnitPrice": 4,
+    "QuantityInStock": 92,
+    "ReorderLevel": 10,
+    "IsActive": true
+  }
+]

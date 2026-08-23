@@ -1,5 +1,6 @@
 using System.Numerics;
 using StockFlow.Models;
+using StockFlow.Services;
 
 
 namespace StockFlow.Services;
@@ -9,7 +10,9 @@ public class OrderService
     public void CheckoutBasket(
         List<Product> products,
         List<BasketItem> basketItems, 
-        List<Order> orders)
+        List<Order> orders,
+        List<StockMovement> stockMovements,
+        StockMovementService stockMovementService)
     {   
         if (basketItems.Count == 0)
         {
@@ -71,7 +74,18 @@ public class OrderService
 
             if(product != null)
             {
+                int stockBefore = product.QuantityInStock;
                 product.QuantityInStock -= basketItem.Quantity;
+                int stockAfter = product.QuantityInStock;
+
+                stockMovementService.RecordSaleStockOut(
+                    stockMovements,
+                    product,
+                    basketItem.Quantity,
+                    stockBefore,
+                    stockAfter,
+                    order.OrderNumber
+                );
             }
         }
 

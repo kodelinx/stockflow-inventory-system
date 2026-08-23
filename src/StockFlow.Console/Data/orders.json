@@ -42,5 +42,41 @@
     "TotalAmount": 21,
     "OrderStatus": "Pending Payment",
     "PaymentStatus": "Unpaid"
+  },
+  {
+    "OrderId": 3,
+    "OrderNumber": "ORD-003",
+    "OrderDate": "2026-08-24T00:52:59.735251+08:00",
+    "Items": [
+      {
+        "ProductId": 3,
+        "ProductCode": "PRD-003",
+        "ProductName": "Eraser",
+        "Quantity": 8,
+        "UnitPrice": 4,
+        "LineTotal": 32
+      }
+    ],
+    "TotalAmount": 32,
+    "OrderStatus": "Completed",
+    "PaymentStatus": "Paid"
+  },
+  {
+    "OrderId": 4,
+    "OrderNumber": "ORD-004",
+    "OrderDate": "2026-08-24T00:58:16.6198608+08:00",
+    "Items": [
+      {
+        "ProductId": 3,
+        "ProductCode": "PRD-003",
+        "ProductName": "Eraser",
+        "Quantity": 7,
+        "UnitPrice": 4,
+        "LineTotal": 28
+      }
+    ],
+    "TotalAmount": 28,
+    "OrderStatus": "Completed",
+    "PaymentStatus": "Paid"
   }
 ]

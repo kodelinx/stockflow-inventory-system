@@ -9,6 +9,7 @@ List<BasketItem> basketItems = new List<BasketItem>();
 List<Order> orders = new List<Order>();
 List<Payment> payments = new List<Payment>();
 List<Receipt> receipts = new List<Receipt>();
+List<StockMovement> stockMovements = new List<StockMovement>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
 BasketService basketService = new BasketService(inputValidationService);
@@ -17,12 +18,14 @@ PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
 DashboardService dashboardService = new DashboardService();
 JsonStorageService jsonStorageService = new JsonStorageService();
+StockMovementService stockMovementService = new StockMovementService(inputValidationService);
 
 
 string productsFilePath = "Data/products.json";
 string ordersFilePath ="Data/orders.json";
 string paymentsFilePath = "Data/payments.json";
 string receiptsFilePath = "Data/receipts.json";
+string stockMovementsFilePath = "Data/stock-movements.json";
 
 bool keepRunning = true;
 
@@ -52,9 +55,12 @@ while (keepRunning)
     Console.WriteLine("17. Show Dashboard");
     Console.WriteLine("18. Save Data to JSON");
     Console.WriteLine("19. Load Data from JSON");
-    Console.WriteLine("20. Exit");
+    Console.WriteLine("20. Add Stock");
+    Console.WriteLine("21. Adjust Stock");
+    Console.WriteLine("22. View Stock movements");
+    Console.WriteLine("23. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 20);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 23);
     Console.WriteLine("");
 
     switch(option)
@@ -90,7 +96,7 @@ while (keepRunning)
             basketService.ClearBasket(basketItems);
             break;
         case 11:
-            orderService.CheckoutBasket(products, basketItems, orders);
+            orderService.CheckoutBasket(products, basketItems, orders, stockMovements, stockMovementService);
             break;
         case 12:
             orderService.ViewOrders(orders);
@@ -115,14 +121,25 @@ while (keepRunning)
             jsonStorageService.SaveData(orders, ordersFilePath);
             jsonStorageService.SaveData(payments, paymentsFilePath);
             jsonStorageService.SaveData(receipts, receiptsFilePath);
+            jsonStorageService.SaveData(stockMovements, stockMovementsFilePath);
             break;
         case 19:
             products = jsonStorageService.LoadData<Product>(productsFilePath);
             orders = jsonStorageService.LoadData<Order>(ordersFilePath);
             payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
             receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);
-            break;
+            stockMovements = jsonStorageService.LoadData<StockMovement>(stockMovementsFilePath);
+            break;    
         case 20:
+            stockMovementService.AddStock(products, stockMovements);
+            break;
+        case 21:
+            stockMovementService.AdjustStock(products, stockMovements);
+            break;
+        case 22:
+            stockMovementService.ViewStockMovements(stockMovements);
+            break;
+        case 23:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

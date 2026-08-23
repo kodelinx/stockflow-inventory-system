@@ -25,7 +25,7 @@
     "Name": "Eraser",
     "Category": "Supplies",
     "UnitPrice": 4,
-    "QuantityInStock": 92,
+    "QuantityInStock": 88,
     "ReorderLevel": 10,
     "IsActive": true
   }

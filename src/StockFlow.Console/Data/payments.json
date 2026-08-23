@@ -9,5 +9,27 @@
     "AmountPaid": 100,
     "ChangeAmount": 40,
     "PaymentStatus": "Paid"
+  },
+  {
+    "PaymentId": 2,
+    "PaymentNumber": "PAY-002",
+    "OrderNumber": "ORD-003",
+    "PaymentDate": "2026-08-24T00:54:00.5352531+08:00",
+    "PaymentMethod": "Cash",
+    "AmountDue": 32,
+    "AmountPaid": 50,
+    "ChangeAmount": 18,
+    "PaymentStatus": "Paid"
+  },
+  {
+    "PaymentId": 3,
+    "PaymentNumber": "PAY-003",
+    "OrderNumber": "ORD-004",
+    "PaymentDate": "2026-08-24T00:58:38.7587225+08:00",
+    "PaymentMethod": "Cash",
+    "AmountDue": 28,
+    "AmountPaid": 50,
+    "ChangeAmount": 22,
+    "PaymentStatus": "Paid"
   }
 ]

@@ -107,6 +107,21 @@ Milestones:
 - Receipt generation is not yet implemented.
 
 ### M07 - Receipt Generation
+#### Completed:
+- Created `Receipt` model
+- Created `ReceiptService`
+- Generated receipt records by order number
+- Printed receipt details in the console
+- Displayed purchased items, total amount, payment method, amount paid, and change
+- Linked receipts to order and payment records
+- Prevented receipt generation for unpaid orders
+- Prevented duplicate receipt generation
+
+
+#### Known limitations:
+- Receipts are stored in memory only.
+- Receipt file export is not yet implemented.
+
 ### M08 - Dashboard Summary
 ### M09 - JSON Persistence
 ### M10 - v0.1.0 Release

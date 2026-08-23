@@ -31,8 +31,8 @@
 
 ### Receipts
 
-- The system should generate receipts after checkout.
-- The receipt should display ordered items, quantities, prices, total, payment method, amount paid, and change.
+- The system should generate receipts after checkout. (v0.1.0: MO7 Implemented - Console Version)
+- The receipt should display ordered items, quantities, prices, total, payment method, amount paid, and change. (v0.1.0: MO7 Implemented - Console Version)
 
 ### Dashboard
 

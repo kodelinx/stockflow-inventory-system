@@ -13,14 +13,18 @@ StockFlow.Console/
 │   ├── Order.cs
 │   ├── OrderItem.cs
 │   ├── Payment.cs
-│   └── Receipt.cs
+│   ├── Receipt.cs
+│   └── StockMovement.cs
 ├── Services/
 │   ├── InventoryService.cs
 │   ├── BasketService.cs
 │   ├── OrderService.cs
 │   ├── PaymentService.cs
 │   ├── ReceiptService.cs
-│   └── DashboardService.cs
+│   ├── DashboardService.cs
+│   └── StockMovementService.cs
+├── Data/
+│   └── JsonStorageService.cs
 ├── Utilities/
 │   └── InputValidationService.cs
 └── Program.cs
@@ -45,6 +49,9 @@ StockFlow.Console/
 - Receipt.cs represents proof/output of a completed paid transaction.
 - ReceiptServices.cs handles receipt generation, viewing, and printing.
 - DashboardServices.cs calculates and displays inventory, order, payment, income, and low-stock summaries. 
+- JsonStorageService saves and loads records.
+- StockMovement.cs represents one inventory quantity change
+- StockMovementService.cs records and display stock movement history
 
 ### Architecture Principle
 

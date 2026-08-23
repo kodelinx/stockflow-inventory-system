@@ -174,3 +174,26 @@ Milestones:
 - No authentication yet
 - No automated tests yet
 - No web API yet
+
+
+### M11 - Stock Movement Tracking
+#### Completed:
+- Created `StockMovement` model
+- Created `StockMovementService`
+- Recorded stock-in movements
+- Recorded stock adjustment movements
+- Recorded stock-out movements from sales checkout
+- Added stock movement history viewing
+- Added JSON persistence for stock movement records
+
+#### Known limitations:
+- No filtering by date, product, or movement type yet.
+- No user tracking for who performed the movement.
+- No approval process for stock adjustments.
+
+### M12 - Low Stock Alerts
+### M13 - Receipt File Export
+### M14 - Sales Summary Reports
+### M15 - Email Notification Simulation
+### M16 - Error Handling and Logging Preparation
+### M17 - v0.2.0 Release

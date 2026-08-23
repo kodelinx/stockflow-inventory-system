@@ -65,6 +65,13 @@ This project uses an Agile incremental development approach. Features are built 
 - M09 - JSON Persistence - Completed
 - M10 - v0.1.0 Release - Completed
 ### v0.2.0 - Inventory Rules and Reporting
+- M11 - Stock Movement Tracking - Completed
+- M12 - Low Stock Alerts
+- M13 - Receipt File Export
+- M14 - Sales Summary Reports
+- M15 - Email Notification Simulation
+- M16 - Error Handling and Logging Preparation
+- M17 - v0.2.0 Release
 ### v0.3.0 - Database-Ready Inventory System
 ### v0.4.0 - StockFlow Web API
 ### v1.0.0 - Business MVP Release

@@ -51,7 +51,7 @@
 
 - The system should validate user input. (v0.1.0: MO3 Implemented - Console Version)
 - The system should use clear code structure.
-- The system should separate models, services, data, and utilities.
-- The system should save data so it is not lost after closing the app.
+- The system should separate models, services, data, and utilities. (v0.1.0: MO9 Implemented - Console Version)
+- The system should save data so it is not lost after closing the app. (v0.1.0: MO9 Implemented - Console Version)
 - The system should be documented through README and project docs.
 - The system should be version-controlled using Git and GitHub.

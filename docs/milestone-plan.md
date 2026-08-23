@@ -140,4 +140,18 @@ Milestones:
 - No date filters or charts are available yet.
 
 ### M09 - JSON Persistence
+#### Completed:
+- Created `JsonStorageService`
+- Added generic save and load methods
+- Saved products, orders, payments, and receipts to JSON files
+- Loaded products, orders, payments, and receipts from JSON files
+- Added save and load menu options
+- Added empty constructors to models for JSON deserialization
+
+
+#### Known limitations:
+- Storage is local JSON file storage only.
+- Database storage is not yet implemented.
+- IDs are still generated using list counts.
+
 ### M10 - v0.1.0 Release

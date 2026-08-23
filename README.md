@@ -63,7 +63,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M07 - Receipt Generation - Completed
 - M08 - Dashboard Summary - Completed
 - M09 - JSON Persistence - Completed
-- M10 - v0.1.0 Release
+- M10 - v0.1.0 Release - Completed
 ### v0.2.0 - Inventory Rules and Reporting
 ### v0.3.0 - Database-Ready Inventory System
 ### v0.4.0 - StockFlow Web API

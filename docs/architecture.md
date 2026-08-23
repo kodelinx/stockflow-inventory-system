@@ -68,3 +68,43 @@ src/
 └── StockFlow.Console/
 
 This structure will support database integration, API development, and deployment.
+
+
+## v0.1.0 Architecture Summary
+
+StockFlow v0.1.0 uses a simple console application architecture.
+
+Current structure:
+
+StockFlow.Console/
+├── Models/
+├── Services/
+├── Data/
+├── Utilities/
+└── Program.cs
+
+### Layers
+- Models contain data structures.
+- Services contain business operations.
+- Utilities contain reusable helper logic.
+- Data contains persistence logic.
+- Program.cs coordinates the console menu and service calls.
+
+### Architecture Style
+
+The project currently follows a simple service-based console architecture.
+
+This is not yet a full layered enterprise architecture, but it prepares the project for future separation into:
+
+- Domain layer
+- Application layer
+- Infrastructure layer
+- API layer
+- Test project
+
+### Known Architecture Limitations
+- Program.cs still coordinates many lists and services.
+- Data is stored in JSON files instead of a database.
+- No repository pattern yet.
+- No dependency injection container yet.
+- No automated tests yet

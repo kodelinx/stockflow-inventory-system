@@ -55,3 +55,53 @@
 - The system should save data so it is not lost after closing the app. (v0.1.0: MO9 Implemented - Console Version)
 - The system should be documented through README and project docs.
 - The system should be version-controlled using Git and GitHub.
+
+
+## v0.1.0 Requirements Status
+
+The following requirements are implemented in v0.1.0:
+
+### Inventory
+- Add products
+- View products
+- Search products
+- Update products
+- Deactivate products
+- Delete products
+
+### Basket
+- Add items to basket
+- View basket
+- Remove items from basket
+- Clear basket
+- Calculate basket total
+
+### Orders
+- Checkout basket
+- Create order records
+- Create order item records
+- View orders
+- Reduce stock after checkout
+
+### Payments
+- Process payment
+- Select payment method
+- Validate amount paid
+- Calculate change
+- View payments
+
+### Receipts
+- Generate receipts
+- View receipts
+- Prevent duplicate receipt generation
+
+### Dashboard
+- Show inventory summary
+- Show order summary
+- Show payment summary
+- Show income summary
+- Show low-stock products
+
+### Storage
+- Save products/orders/payments/receipts to JSON
+- Load products/orders/payments/receipts from JSON

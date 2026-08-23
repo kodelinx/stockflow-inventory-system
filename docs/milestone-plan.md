@@ -155,3 +155,22 @@ Milestones:
 - IDs are still generated using list counts.
 
 ### M10 - v0.1.0 Release
+#### Completed:
+- Reviewed features from M00 to M09
+- Tested inventory, basket, order, payment, receipt, dashboard, and JSON persistence flows
+- Documented v0.1.0 release
+- Added release notes
+- Updated project documentation
+- Created Git tag for v0.1.0
+
+#### Release:
+- Version: v0.1.0
+- Name: Console Inventory and Sales MVP
+
+#### Known limitations:
+- Console app only
+- JSON file storage only
+- No database yet
+- No authentication yet
+- No automated tests yet
+- No web API yet

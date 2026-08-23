@@ -21,8 +21,8 @@ The purpose of this project is to build a practical business tool while applying
 
 ## Current Development Stage
 
-Current version: Pre-release  
-Current version: M01 - Product Model and Inventory Basics
+Current version: StockFlow v0.1.0  
+Current milestone: v0.1.0 Release
 
 ## Long-Term Goal
 

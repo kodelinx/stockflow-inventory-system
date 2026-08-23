@@ -3,6 +3,7 @@ using StockFlow.Models;
 using StockFlow.Utilities;
 using System.Reflection.Metadata;
 using StockFlow.Service;
+using Stockflow.Services;
 
 List<Product> products = new List<Product>();
 List<BasketItem> basketItems = new List<BasketItem>();
@@ -15,6 +16,7 @@ BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
+DashboardService dashboardService = new DashboardService();
 
 bool keepRunning = true;
 
@@ -90,9 +92,10 @@ while (keepRunning)
     Console.WriteLine("14. View Payments");
     Console.WriteLine("15. Generate Receipt");
     Console.WriteLine("16. View Receipts");
-    Console.WriteLine("17. Exit");
+    Console.WriteLine("17. Show Dashboard");
+    Console.WriteLine("18. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 17);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 18);
     Console.WriteLine("");
 
     switch(option)
@@ -146,6 +149,9 @@ while (keepRunning)
             receiptService.ViewReceipts(orders, payments, receipts);
             break;
         case 17:
+            dashboardService.ShowDashboard(products, orders, payments);
+            break;
+        case 18:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

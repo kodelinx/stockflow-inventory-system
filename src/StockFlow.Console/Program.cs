@@ -8,11 +8,13 @@ List<Product> products = new List<Product>();
 List<BasketItem> basketItems = new List<BasketItem>();
 List<Order> orders = new List<Order>();
 List<Payment> payments = new List<Payment>();
+List<Receipt> receipts = new List<Receipt>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
 BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
+ReceiptService receiptService = new ReceiptService(inputValidationService);
 
 bool keepRunning = true;
 
@@ -86,9 +88,11 @@ while (keepRunning)
     Console.WriteLine("12. View all orders");
     Console.WriteLine("13. Process Payments");
     Console.WriteLine("14. View Payments");
-    Console.WriteLine("15. Exit");
+    Console.WriteLine("15. Generate Receipt");
+    Console.WriteLine("16. View Receipts");
+    Console.WriteLine("17. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 15);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 17);
     Console.WriteLine("");
 
     switch(option)
@@ -136,6 +140,12 @@ while (keepRunning)
             paymentService.ViewPayments(payments);
             break;
         case 15:
+            receiptService.GenerateReceipt(orders, payments, receipts);
+            break;
+        case 16:
+            receiptService.ViewReceipts(orders, payments, receipts);
+            break;
+        case 17:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

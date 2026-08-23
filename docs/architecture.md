@@ -19,7 +19,8 @@ StockFlow.Console/
 │   ├── BasketService.cs
 │   ├── OrderService.cs
 │   ├── PaymentService.cs
-│   └── ReceiptService.cs
+│   ├── ReceiptService.cs
+│   └── DashboardService.cs
 ├── Utilities/
 │   └── InputValidationService.cs
 └── Program.cs
@@ -43,6 +44,7 @@ StockFlow.Console/
 - PaymentService.cs handles payment processing and payment viewing.
 - Receipt.cs represents proof/output of a completed paid transaction.
 - ReceiptServices.cs handles receipt generation, viewing, and printing.
+- DashboardServices.cs calculates and displays inventory, order, payment, income, and low-stock summaries. 
 
 ### Architecture Principle
 

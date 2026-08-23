@@ -10,8 +10,8 @@
 - The system should allow users to update product details. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
-- The system should track product stock quantity.
-- The system should identify low-stock products.
+- The system should track product stock quantity. (v0.1.0: MO2 Implemented - Console Version)
+- The system should identify low-stock products. (v0.1.0: MO8 Implemented - Console Version)
 
 ### Basket and Orders
 
@@ -36,11 +36,11 @@
 
 ### Dashboard
 
-- The system should show total products.
-- The system should show available stock.
-- The system should show low-stock items.
-- The system should show total sales.
-- The system should show total income.
+- The system should show total products. (v0.1.0: MO8 Implemented - Console Version)
+- The system should show available stock. (v0.1.0: MO8 Implemented - Console Version)
+- The system should show low-stock items. (v0.1.0: MO8 Implemented - Console Version)
+- The system should show total sales. (v0.1.0: MO8 Implemented - Console Version)
+- The system should show total income. (v0.1.0: MO8 Implemented - Console Version)
 
 ### Notifications
 

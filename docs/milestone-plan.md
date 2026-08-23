@@ -123,5 +123,21 @@ Milestones:
 - Receipt file export is not yet implemented.
 
 ### M08 - Dashboard Summary
+#### Completed:
+- Created `DashboardService`
+- Displayed total products
+- Displayed active and inactive products
+- Displayed total available stock
+- Displayed total orders
+- Displayed completed and pending orders
+- Displayed total payments
+- Displayed total income
+- Displayed low-stock products
+
+
+#### Known limitations:
+- Dashboard is based on in-memory data only.
+- No date filters or charts are available yet.
+
 ### M09 - JSON Persistence
 ### M10 - v0.1.0 Release

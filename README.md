@@ -61,7 +61,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M05 - Checkout and Order Creation - Completed
 - M06 - Payment Processing - Completed
 - M07 - Receipt Generation - Completed
-- M08 - Dashboard Summary
+- M08 - Dashboard Summary - Completed
 - M09 - JSON Persistence
 - M10 - v0.1.0 Release
 ### v0.2.0 - Inventory Rules and Reporting

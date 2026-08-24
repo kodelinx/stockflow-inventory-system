@@ -22,7 +22,8 @@ StockFlow.Console/
 │   ├── PaymentService.cs
 │   ├── ReceiptService.cs
 │   ├── DashboardService.cs
-│   └── StockMovementService.cs
+│   ├── StockMovementService.cs
+│   └── AlertService.cs
 ├── Data/
 │   └── JsonStorageService.cs
 ├── Utilities/
@@ -52,6 +53,7 @@ StockFlow.Console/
 - JsonStorageService saves and loads records.
 - StockMovement.cs represents one inventory quantity change
 - StockMovementService.cs records and display stock movement history
+- AlertService.cs identifies and displays low-stock products.
 
 ### Architecture Principle
 

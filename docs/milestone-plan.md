@@ -192,6 +192,18 @@ Milestones:
 - No approval process for stock adjustments.
 
 ### M12 - Low Stock Alerts
+#### Completed:
+- Created `AlertService`
+- Added low-stock alert menu option
+- Displayed active products with low stock
+- Used `QuantityInStock <= ReorderLevel` as the alert rule
+- Excluded inactive products from alert results
+
+#### Known limitations:
+- Alerts are manually viewed from the menu.
+- No automatic notification system yet.
+- No supplier restocking workflow yet.
+
 ### M13 - Receipt File Export
 ### M14 - Sales Summary Reports
 ### M15 - Email Notification Simulation

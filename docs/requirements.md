@@ -11,7 +11,7 @@
 - The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should track product stock quantity. (v0.1.0: MO2 Implemented - Console Version)
-- The system should identify low-stock products. (v0.1.0: MO8 Implemented - Console Version)
+- The system should identify low-stock products. (v0.1.0: M12 Implemented - Console Version)
 
 ### Basket and Orders
 

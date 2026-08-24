@@ -4,7 +4,12 @@ namespace StockFlow.Services;
 
 public class DashboardService
 {
-    AlertService alertService = new AlertService();
+    private readonly AlertService _alertService = new AlertService();
+
+    public DashboardService(AlertService alertService)
+    {
+        _alertService = alertService;
+    }
     public void ShowDashboard(List<Product> products, List<Order> orders, List<Payment> payments)
     {
         Console.WriteLine("\nStockFlow Dashboard");
@@ -68,7 +73,7 @@ public class DashboardService
     }
     public void ShowLowStockProducts(List<Product> products)
     {
-        List<Product> lowStockProducts = alertService.GetLowStockProducts(products);
+        List<Product> lowStockProducts = _alertService.GetLowStockProducts(products);
 
         Console.WriteLine("\nLow Stock Products");
         Console.WriteLine("------------------");

@@ -31,5 +31,49 @@
     "StockAfter": 88,
     "Reason": "Sold through order ORD-004",
     "MovementDate": "2026-08-24T00:58:16.620019+08:00"
+  },
+  {
+    "StockMovementId": 4,
+    "ProductCode": "PRD-005",
+    "ProductName": "Apple",
+    "MovementType": "Stock In",
+    "QuantityChanged": 10,
+    "StockBefore": 2,
+    "StockAfter": 12,
+    "Reason": "New apples came in",
+    "MovementDate": "2026-08-25T00:12:50.2135866+08:00"
+  },
+  {
+    "StockMovementId": 5,
+    "ProductCode": "PRD-002",
+    "ProductName": "Ballpen",
+    "MovementType": "Adjustment",
+    "QuantityChanged": -95,
+    "StockBefore": 100,
+    "StockAfter": 5,
+    "Reason": "23",
+    "MovementDate": "2026-08-25T00:13:19.3493033+08:00"
+  },
+  {
+    "StockMovementId": 6,
+    "ProductCode": "PRD-004",
+    "ProductName": "Banana",
+    "MovementType": "Adjustment",
+    "QuantityChanged": 92,
+    "StockBefore": 8,
+    "StockAfter": 100,
+    "Reason": "New stock came in",
+    "MovementDate": "2026-08-25T00:14:32.3991966+08:00"
+  },
+  {
+    "StockMovementId": 7,
+    "ProductCode": "PRD-004",
+    "ProductName": "Banana",
+    "MovementType": "Stock In",
+    "QuantityChanged": 10,
+    "StockBefore": 100,
+    "StockAfter": 110,
+    "Reason": "New stock came in",
+    "MovementDate": "2026-08-25T00:17:41.8182337+08:00"
   }
 ]

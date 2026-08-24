@@ -16,10 +16,10 @@ BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
-DashboardService dashboardService = new DashboardService();
 JsonStorageService jsonStorageService = new JsonStorageService();
 StockMovementService stockMovementService = new StockMovementService(inputValidationService);
 AlertService alertService = new AlertService();
+DashboardService dashboardService = new DashboardService(alertService);
 
 
 string productsFilePath = "Data/products.json";

@@ -15,7 +15,7 @@
     "Name": "Ballpen",
     "Category": "Supplies",
     "UnitPrice": 12,
-    "QuantityInStock": 100,
+    "QuantityInStock": 5,
     "ReorderLevel": 10,
     "IsActive": true
   },
@@ -26,6 +26,26 @@
     "Category": "Supplies",
     "UnitPrice": 4,
     "QuantityInStock": 88,
+    "ReorderLevel": 10,
+    "IsActive": true
+  },
+  {
+    "ProductId": 4,
+    "ProductCode": "PRD-004",
+    "Name": "Banana",
+    "Category": "Food",
+    "UnitPrice": 5,
+    "QuantityInStock": 110,
+    "ReorderLevel": 10,
+    "IsActive": false
+  },
+  {
+    "ProductId": 5,
+    "ProductCode": "PRD-005",
+    "Name": "Apple",
+    "Category": "Food",
+    "UnitPrice": 8,
+    "QuantityInStock": 12,
     "ReorderLevel": 10,
     "IsActive": true
   }

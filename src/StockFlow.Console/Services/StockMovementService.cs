@@ -17,13 +17,13 @@ public class StockMovementService
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product => 
+        Product? product = products.FirstOrDefault(product => product.IsActive &&
             product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
         );
 
         if(product == null)
         {
-            Console.WriteLine("The product does not exist.");
+            Console.WriteLine("The product does not exist or deactivated.");
             return;
         }
 
@@ -50,13 +50,13 @@ public class StockMovementService
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product => 
+        Product? product = products.FirstOrDefault(product => product.IsActive &&
             product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
         );
 
         if (product == null)
         {
-            Console.WriteLine("The product does not exist.");
+            Console.WriteLine("The product does not exist or deactivated.");
             return;
         }
 

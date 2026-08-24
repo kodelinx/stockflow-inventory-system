@@ -19,6 +19,7 @@ ReceiptService receiptService = new ReceiptService(inputValidationService);
 DashboardService dashboardService = new DashboardService();
 JsonStorageService jsonStorageService = new JsonStorageService();
 StockMovementService stockMovementService = new StockMovementService(inputValidationService);
+AlertService alertService = new AlertService();
 
 
 string productsFilePath = "Data/products.json";
@@ -58,9 +59,10 @@ while (keepRunning)
     Console.WriteLine("20. Add Stock");
     Console.WriteLine("21. Adjust Stock");
     Console.WriteLine("22. View Stock movements");
-    Console.WriteLine("23. Exit");
+    Console.WriteLine("23. View Low Stock Products");
+    Console.WriteLine("24. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 23);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 24);
     Console.WriteLine("");
 
     switch(option)
@@ -140,6 +142,9 @@ while (keepRunning)
             stockMovementService.ViewStockMovements(stockMovements);
             break;
         case 23:
+            alertService.ShowLowstockAlers(products);
+            break;
+        case 24:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

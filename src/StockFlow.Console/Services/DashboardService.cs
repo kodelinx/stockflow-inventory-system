@@ -4,6 +4,7 @@ namespace StockFlow.Services;
 
 public class DashboardService
 {
+    AlertService alertService = new AlertService();
     public void ShowDashboard(List<Product> products, List<Order> orders, List<Payment> payments)
     {
         Console.WriteLine("\nStockFlow Dashboard");
@@ -67,11 +68,7 @@ public class DashboardService
     }
     public void ShowLowStockProducts(List<Product> products)
     {
-        List<Product> lowStockProducts = products
-            .Where(product => 
-                product.IsActive && 
-                product.QuantityInStock <= product.ReorderLevel)
-            .ToList();
+        List<Product> lowStockProducts = alertService.GetLowStockProducts(products);
 
         Console.WriteLine("\nLow Stock Products");
         Console.WriteLine("------------------");

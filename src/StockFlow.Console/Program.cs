@@ -60,9 +60,10 @@ while (keepRunning)
     Console.WriteLine("21. Adjust Stock");
     Console.WriteLine("22. View Stock movements");
     Console.WriteLine("23. View Low Stock Products");
-    Console.WriteLine("24. Exit");
+    Console.WriteLine("24. Export Receipt to Text File");
+    Console.WriteLine("25. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 24);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 25);
     Console.WriteLine("");
 
     switch(option)
@@ -145,6 +146,9 @@ while (keepRunning)
             alertService.ShowLowstockAlers(products);
             break;
         case 24:
+            receiptService.ExportReceiptToTextFile(orders, payments, receipts);
+            break;
+        case 25:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

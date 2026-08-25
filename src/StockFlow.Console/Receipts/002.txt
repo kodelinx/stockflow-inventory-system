@@ -1,0 +1,18 @@
+=================================
+          STOCKFLOW RECEIPT       
+=================================
+Receipt Number: 002
+Order Number: ord-003
+Payment Number: PAY-002
+Receipt Date: 8/24/2026 12:54:19 AM
+---------------------------------
+Items:
+Eraser x 8
+  Unit Price: $4.00
+  Line Total: $32.00
+---------------------------------
+Total Amount: $32.00
+Payment Method: Cash
+Amount Paid: $50.00
+Change: $18.00
+=================================

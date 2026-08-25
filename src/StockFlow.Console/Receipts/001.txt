@@ -1,0 +1,21 @@
+=================================
+          STOCKFLOW RECEIPT       
+=================================
+Receipt Number: 001
+Order Number: ord-001
+Payment Number: PAY-001
+Receipt Date: 8/23/2026 5:12:40 PM
+---------------------------------
+Items:
+Pencil x 4
+  Unit Price: $7.00
+  Line Total: $28.00
+Eraser x 8
+  Unit Price: $4.00
+  Line Total: $32.00
+---------------------------------
+Total Amount: $60.00
+Payment Method: Cash
+Amount Paid: $100.00
+Change: $40.00
+=================================

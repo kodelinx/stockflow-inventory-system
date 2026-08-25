@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using StockFlow.Models;
 using StockFlow.Utilities;
 
@@ -135,5 +136,100 @@ public class ReceiptService
         Console.WriteLine($"Amount Paid: {receipt.AmountPaid:C}");
         Console.WriteLine($"Change: {receipt.ChangeAmount:C}");
         Console.WriteLine("=================================\n");
+    }
+
+    public void ExportReceiptToTextFile(List<Order> orders, List<Payment> payments, List<Receipt> receipts)
+    {
+        if (receipts.Count == 0)
+        {
+            Console.WriteLine("There are no receipts to export.");
+            return;
+        }
+        string orderNumber = _inputValidationService.GetRequiredText("Input Order Number to export receipt: ");
+
+        Receipt? receipt = receipts.FirstOrDefault(receipt 
+            => receipt.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
+        );
+
+        if(receipt == null)
+        {
+            Console.WriteLine("Receipt is not found for this order.");
+            return;
+        }
+
+        Order? order = orders.FirstOrDefault(order 
+            => order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
+        );
+
+        if(order == null)
+        {
+            Console.WriteLine("The Order is not found for this receipt.");
+            return;
+        }
+
+        Payment? payment = payments.FirstOrDefault(payment 
+            => payment.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
+        );
+
+        if(payment == null)
+        {
+            Console.WriteLine("The Payment record is not found for this receipt.");
+            return;
+        }
+
+        string folderPath = "Receipts";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string filePath = Path.Combine(folderPath, $"{receipt.ReceiptNumber}.txt");
+
+        try
+        {
+            string receiptContent = BuildReceiptContent(order, payment, receipt);
+
+            File.WriteAllText(filePath, receiptContent);
+
+            Console.WriteLine($"Receipt exported successfully to {filePath}.\n");
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occured while exporting the receipt.");
+            Console.WriteLine($"Error details: {ex.Message}");
+        }
+    }
+
+    public string BuildReceiptContent(Order order, Payment payment, Receipt receipt)
+    {
+        string receiptContent = "";
+
+        receiptContent += "=================================\n";
+        receiptContent += "          STOCKFLOW RECEIPT       \n";
+        receiptContent += "=================================\n";
+        receiptContent += $"Receipt Number: {receipt.ReceiptNumber}\n";
+        receiptContent += $"Order Number: {receipt.OrderNumber}\n";
+        receiptContent += $"Payment Number: {receipt.PaymentNumber}\n";
+        receiptContent += $"Receipt Date: {receipt.ReceiptDate}\n";
+        receiptContent += "---------------------------------\n";
+        receiptContent += "Items:\n";
+
+        foreach (OrderItem item in order.Items)
+        {
+            receiptContent += $"{item.ProductName} x {item.Quantity}\n";
+            receiptContent += $"  Unit Price: {item.UnitPrice:C}\n";
+            receiptContent += $"  Line Total: {item.LineTotal:C}\n";
+        }
+
+        receiptContent += "---------------------------------\n";
+        receiptContent += $"Total Amount: {receipt.TotalAmount:C}\n";
+        receiptContent += $"Payment Method: {receipt.PaymentMethod}\n";
+        receiptContent += $"Amount Paid: {receipt.AmountPaid:C}\n";
+        receiptContent += $"Change: {receipt.ChangeAmount:C}\n";
+        receiptContent += "=================================\n";
+
+        return receiptContent;
     }
 }

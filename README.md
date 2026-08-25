@@ -67,7 +67,7 @@ This project uses an Agile incremental development approach. Features are built 
 ### v0.2.0 - Inventory Rules and Reporting
 - M11 - Stock Movement Tracking - Completed
 - M12 - Low Stock Alerts - Completed
-- M13 - Receipt File Export
+- M13 - Receipt File Export - Completedd
 - M14 - Sales Summary Reports
 - M15 - Email Notification Simulation
 - M16 - Error Handling and Logging Preparation

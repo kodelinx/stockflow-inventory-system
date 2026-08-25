@@ -33,6 +33,7 @@
 
 - The system should generate receipts after checkout. (v0.1.0: MO7 Implemented - Console Version)
 - The receipt should display ordered items, quantities, prices, total, payment method, amount paid, and change. (v0.1.0: MO7 Implemented - Console Version)
+- The system should print out receipts as text file (v0.1.0: M13 Implemented - Console Version)
 
 ### Dashboard
 

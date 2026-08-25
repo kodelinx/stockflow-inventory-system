@@ -205,6 +205,19 @@ Milestones:
 - No supplier restocking workflow yet.
 
 ### M13 - Receipt File Export
+#### Completed:
+- Added receipt export method
+- Added receipt content builder
+- Created receipt files inside a `Receipts` folder
+- Exported receipt details as readable `.txt` files
+- Added receipt export menu option
+- Added error handling for receipt export
+
+#### Known limitations:
+- Text export only.
+- No PDF export yet.
+- No receipt reprint history yet.
+
 ### M14 - Sales Summary Reports
 ### M15 - Email Notification Simulation
 ### M16 - Error Handling and Logging Preparation

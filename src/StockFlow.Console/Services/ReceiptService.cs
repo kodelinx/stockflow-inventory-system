@@ -111,32 +111,6 @@ public class ReceiptService
         }
 
     }
-    public void PrintReceipt(Order order, Payment payment, Receipt receipt)
-    {
-        Console.WriteLine("=================================");
-        Console.WriteLine("          STOCKFLOW RECEIPT       ");
-        Console.WriteLine("=================================");
-        Console.WriteLine($"Receipt Number: {receipt.ReceiptNumber}");
-        Console.WriteLine($"Order Number: {receipt.OrderNumber}");
-        Console.WriteLine($"Payment Number: {receipt.PaymentNumber}");
-        Console.WriteLine($"Receipt Date: {receipt.ReceiptDate}");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Items:");
-
-        foreach (OrderItem item in order.Items)
-        {
-            Console.WriteLine($"{item.ProductName} x {item.Quantity}");
-            Console.WriteLine($"  Unit Price: {item.UnitPrice:C}");
-            Console.WriteLine($"  Line Total: {item.LineTotal:C}");
-        }
-
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"Total Amount: {receipt.TotalAmount:C}");
-        Console.WriteLine($"Payment Method: {receipt.PaymentMethod}");
-        Console.WriteLine($"Amount Paid: {receipt.AmountPaid:C}");
-        Console.WriteLine($"Change: {receipt.ChangeAmount:C}");
-        Console.WriteLine("=================================\n");
-    }
 
     public void ExportReceiptToTextFile(List<Order> orders, List<Payment> payments, List<Receipt> receipts)
     {
@@ -231,5 +205,9 @@ public class ReceiptService
         receiptContent += "=================================\n";
 
         return receiptContent;
+    }
+    public void PrintReceipt(Order order, Payment payment, Receipt receipt)
+    {
+        Console.WriteLine(BuildReceiptContent(order, payment,  receipt));
     }
 }

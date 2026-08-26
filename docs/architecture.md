@@ -23,6 +23,7 @@ StockFlow.Console/
 │   ├── ReceiptService.cs
 │   ├── DashboardService.cs
 │   ├── StockMovementService.cs
+│   ├── SalesReportService.cs
 │   └── AlertService.cs
 ├── Data/
 │   └── JsonStorageService.cs
@@ -54,6 +55,7 @@ StockFlow.Console/
 - StockMovement.cs represents one inventory quantity change
 - StockMovementService.cs records and display stock movement history
 - AlertService.cs identifies and displays low-stock products.
+- SalesReportService.cs calculates and displays sales-related summaries.
 
 ### Architecture Principle
 

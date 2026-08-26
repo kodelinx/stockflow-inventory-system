@@ -51,6 +51,7 @@
 ### Reports
 
 - The system should record and view the increase, adjustments, and reductions of stock quantity of a product.(v0.1.0: M11 Implemented - Console Version)
+- The system should present orders and payment summaries for sales report (v0.1.0: M14 Implemented - Console Version)
 
 ## Non-Functional Requirements
 

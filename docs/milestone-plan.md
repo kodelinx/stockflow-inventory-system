@@ -219,6 +219,21 @@ Milestones:
 - No receipt reprint history yet.
 
 ### M14 - Sales Summary Reports
+#### Completed:
+- Created `SalesReportService`
+- Displayed order sales summary
+- Displayed payment sales summary
+- Calculated total sales income
+- Calculated total cash received
+- Calculated total change given
+- Displayed sales by payment method
+- Displayed completed order details
+
+#### Known limitations:
+- No date-based filtering yet.
+- No product-level sales ranking yet.
+- No exported sales report yet.
+
 ### M15 - Email Notification Simulation
 ### M16 - Error Handling and Logging Preparation
 ### M17 - v0.2.0 Release

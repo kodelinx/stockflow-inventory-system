@@ -75,5 +75,16 @@
     "StockAfter": 110,
     "Reason": "New stock came in",
     "MovementDate": "2026-08-25T00:17:41.8182337+08:00"
+  },
+  {
+    "StockMovementId": 8,
+    "ProductCode": "PRD-001",
+    "ProductName": "Pencil",
+    "MovementType": "Stock Out",
+    "QuantityChanged": -23,
+    "StockBefore": 193,
+    "StockAfter": 170,
+    "Reason": "Sold through order ORD-005",
+    "MovementDate": "2026-08-27T00:15:09.6888002+08:00"
   }
 ]

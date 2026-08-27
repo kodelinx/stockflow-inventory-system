@@ -12,6 +12,7 @@ StockFlow.Console/
 │   ├── BasketItem.cs
 │   ├── Order.cs
 │   ├── OrderItem.cs
+│   └── Notification.cs
 │   ├── Payment.cs
 │   ├── Receipt.cs
 │   └── StockMovement.cs
@@ -24,6 +25,7 @@ StockFlow.Console/
 │   ├── DashboardService.cs
 │   ├── StockMovementService.cs
 │   ├── SalesReportService.cs
+│   ├── NotificationService.cs
 │   └── AlertService.cs
 ├── Data/
 │   └── JsonStorageService.cs
@@ -56,6 +58,8 @@ StockFlow.Console/
 - StockMovementService.cs records and display stock movement history
 - AlertService.cs identifies and displays low-stock products.
 - SalesReportService.cs calculates and displays sales-related summaries.
+- Notification.cs represents a simulated notification record.
+- NotificationService.cs creates and displays notification messages.
 
 ### Architecture Principle
 

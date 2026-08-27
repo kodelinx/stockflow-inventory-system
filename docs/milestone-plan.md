@@ -235,5 +235,20 @@ Milestones:
 - No exported sales report yet.
 
 ### M15 - Email Notification Simulation
+#### Completed:
+- Created `Notification` model
+- Created `NotificationService`
+- Simulated low-stock notification messages
+- Simulated completed order notification messages
+- Simulated receipt notification messages
+- Added notification history viewing
+- Added notification JSON persistence
+
+#### Known limitations:
+- Notifications are simulated only.
+- No real email provider integration yet.
+- Recipient addresses are placeholders.
+- No retry or delivery failure handling yet.
+
 ### M16 - Error Handling and Logging Preparation
 ### M17 - v0.2.0 Release

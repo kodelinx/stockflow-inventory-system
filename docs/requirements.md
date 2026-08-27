@@ -46,7 +46,13 @@
 ### Notifications
 
 - The system should notify the owner when a new order is created.
-- The first version may simulate email notification before real email integration.
+- The first version may simulate email notification before real email integration. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated low-stock notification records. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated completed order notification records.  (v0.1.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated receipt notification records. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
+- The system stores notification type, recipient, subject, message, creation date, and status. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
+- The system allows users to view notification history. (v0.1.0: M15 Implemented - Console Version)
+- The system saves and loads notification records through JSON persistence. (v0.1.0: M15 Implemented - Console Version)
 
 ### Reports
 

@@ -69,7 +69,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M12 - Low Stock Alerts - Completed
 - M13 - Receipt File Export - Completedd
 - M14 - Sales Summary Reports - Completed
-- M15 - Email Notification Simulation
+- M15 - Email Notification Simulation - Completed
 - M16 - Error Handling and Logging Preparation
 - M17 - v0.2.0 Release
 ### v0.3.0 - Database-Ready Inventory System

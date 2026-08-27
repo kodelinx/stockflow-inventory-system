@@ -10,6 +10,7 @@ List<Order> orders = new List<Order>();
 List<Payment> payments = new List<Payment>();
 List<Receipt> receipts = new List<Receipt>();
 List<StockMovement> stockMovements = new List<StockMovement>();
+List<Notification> notifications = new List<Notification>();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService);
 BasketService basketService = new BasketService(inputValidationService);
@@ -21,6 +22,7 @@ StockMovementService stockMovementService = new StockMovementService(inputValida
 AlertService alertService = new AlertService();
 DashboardService dashboardService = new DashboardService(alertService);
 SalesReportService salesReportService = new SalesReportService();
+NotificationService notificationService = new NotificationService(inputValidationService);
 
 
 string productsFilePath = "Data/products.json";
@@ -28,6 +30,7 @@ string ordersFilePath ="Data/orders.json";
 string paymentsFilePath = "Data/payments.json";
 string receiptsFilePath = "Data/receipts.json";
 string stockMovementsFilePath = "Data/stock-movements.json";
+string notificationFilePath = "Data/nootifications.json";
 
 bool keepRunning = true;
 
@@ -63,9 +66,13 @@ while (keepRunning)
     Console.WriteLine("23. View Low Stock Products");
     Console.WriteLine("24. Export Receipt to Text File");
     Console.WriteLine("25. View Sales Summary Report");
-    Console.WriteLine("26. Exit");
+    Console.WriteLine("26. Simulate Low Stock Email");
+    Console.WriteLine("27. Simulate Order Completed Email");
+    Console.WriteLine("28. Simulate Receipt Email");
+    Console.WriteLine("29. View Notifications");
+    Console.WriteLine("30. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 26);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 30);
     Console.WriteLine("");
 
     switch(option)
@@ -127,6 +134,7 @@ while (keepRunning)
             jsonStorageService.SaveData(payments, paymentsFilePath);
             jsonStorageService.SaveData(receipts, receiptsFilePath);
             jsonStorageService.SaveData(stockMovements, stockMovementsFilePath);
+            jsonStorageService.SaveData(notifications, notificationFilePath);
             break;
         case 19:
             products = jsonStorageService.LoadData<Product>(productsFilePath);
@@ -134,6 +142,7 @@ while (keepRunning)
             payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
             receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);
             stockMovements = jsonStorageService.LoadData<StockMovement>(stockMovementsFilePath);
+            notifications = jsonStorageService.LoadData<Notification>(notificationFilePath);
             break;    
         case 20:
             stockMovementService.AddStock(products, stockMovements);
@@ -154,6 +163,18 @@ while (keepRunning)
             salesReportService.ShowSalesSummary(orders, payments);
             break;
         case 26:
+            notificationService.SimulateLowStockEmail(products, notifications, alertService);
+            break;
+        case 27:
+            notificationService.SimulateOrderCompletedEmail(orders, notifications);
+            break;
+        case 28:
+            notificationService.SimulateReceiptEmail(receipts,  notifications);
+            break;
+        case 29:
+            notificationService.ViewNotificationEmail(notifications);
+            break;
+        case 30:
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

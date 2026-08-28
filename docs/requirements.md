@@ -11,7 +11,7 @@
 - The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should track product stock quantity. (v0.1.0: MO2 Implemented - Console Version)
-- The system should identify low-stock products. (v0.1.0: M12 Implemented - Console Version)
+- The system should identify low-stock products. (v0.2.0: M12 Implemented - Console Version)
 
 ### Basket and Orders
 
@@ -33,7 +33,7 @@
 
 - The system should generate receipts after checkout. (v0.1.0: MO7 Implemented - Console Version)
 - The receipt should display ordered items, quantities, prices, total, payment method, amount paid, and change. (v0.1.0: MO7 Implemented - Console Version)
-- The system should print out receipts as text file (v0.1.0: M13 Implemented - Console Version)
+- The system should print out receipts as text file (v0.2.0: M13 Implemented - Console Version)
 
 ### Dashboard
 
@@ -46,22 +46,30 @@
 ### Notifications
 
 - The system should notify the owner when a new order is created.
-- The first version may simulate email notification before real email integration. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated low-stock notification records. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated completed order notification records.  (v0.1.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated receipt notification records. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
-- The system stores notification type, recipient, subject, message, creation date, and status. (v0.1.0: M15 Implemented - Console Version - Simulation Only)
-- The system allows users to view notification history. (v0.1.0: M15 Implemented - Console Version)
-- The system saves and loads notification records through JSON persistence. (v0.1.0: M15 Implemented - Console Version)
+- The first version may simulate email notification before real email integration. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated low-stock notification records. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated completed order notification records.  (v0.2.0: M15 Implemented - Console Version - Simulation Only)
+- The system creates simulated receipt notification records. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
+- The system stores notification type, recipient, subject, message, creation date, and status. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
+- The system allows users to view notification history. (v0.2.0: M15 Implemented - Console Version)
+- The system saves and loads notification records through JSON persistence. (v0.2.0: M15 Implemented - Console Version)
 
 ### Reports
 
-- The system should record and view the increase, adjustments, and reductions of stock quantity of a product.(v0.1.0: M11 Implemented - Console Version)
-- The system should present orders and payment summaries for sales report (v0.1.0: M14 Implemented - Console Version)
+- The system should record and view the increase, adjustments, and reductions of stock quantity of a product.(v0.2.0: M11 Implemented - Console Version)
+- The system should present orders and payment summaries for sales report (v0.2.0: M14 Implemented - Console Version)
 
 ## Non-Functional Requirements
 
 - The system should validate user input. (v0.1.0: MO3 Implemented - Console Version)
+- The system records informational log entries. (v0.2.0: M16 Implemented - Console Version)
+- The system records error log entries. (v0.2.0: M16 Implemented - Console Version)
+- The system writes logs to a text file. (v0.2.0: M16 Implemented - Console Version)
+- The system creates the log folder when needed. (v0.2.0: M16 Implemented - Console Version)
+- The system logs JSON save success events. (v0.2.0: M16 Implemented - Console Version)
+- The system logs JSON load success events. (v0.2.0: M16 Implemented - Console Version)
+- The system logs JSON save/load failures. (v0.2.0: M16 Implemented - Console Version)
+- The system continues running when logging fails. (v0.2.0: M16 Implemented - Console Version)
 - The system should use clear code structure.
 - The system should separate models, services, data, and utilities. (v0.1.0: MO9 Implemented - Console Version)
 - The system should save data so it is not lost after closing the app. (v0.1.0: MO9 Implemented - Console Version)

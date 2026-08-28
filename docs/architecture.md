@@ -27,6 +27,7 @@ StockFlow.Console/
 │   ├── SalesReportService.cs
 │   ├── NotificationService.cs
 │   └── AlertService.cs
+│   └── LoggingService.cs
 ├── Data/
 │   └── JsonStorageService.cs
 ├── Utilities/
@@ -60,6 +61,7 @@ StockFlow.Console/
 - SalesReportService.cs calculates and displays sales-related summaries.
 - Notification.cs represents a simulated notification record.
 - NotificationService.cs creates and displays notification messages.
+- LoggingService.cs records informational and error messages.
 
 ### Architecture Principle
 

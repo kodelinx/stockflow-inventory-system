@@ -251,4 +251,20 @@ Milestones:
 - No retry or delivery failure handling yet.
 
 ### M16 - Error Handling and Logging Preparation
+#### Completed:
+- Created `LoggingService`
+- Added INFO log support
+- Added ERROR log support
+- Added text file log output
+- Automatically created `Logs` folder
+- Updated `JsonStorageService` to log save and load events
+- Logged JSON save and load errors
+- Added application start and close logs
+
+#### Known limitations:
+- Basic file-based logging only.
+- No log rotation yet.
+- No structured JSON logs yet.
+- No external logging library yet.
+
 ### M17 - v0.2.0 Release

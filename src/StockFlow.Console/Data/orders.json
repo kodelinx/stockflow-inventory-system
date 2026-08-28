@@ -2,99 +2,45 @@
   {
     "OrderId": 1,
     "OrderNumber": "ORD-001",
-    "OrderDate": "2026-08-23T17:03:21.057461+08:00",
+    "OrderDate": "2026-08-29T01:49:56.5017023+08:00",
     "Items": [
       {
         "ProductId": 1,
         "ProductCode": "PRD-001",
-        "ProductName": "Pencil",
-        "Quantity": 4,
-        "UnitPrice": 7,
-        "LineTotal": 28
+        "ProductName": "Ballpen",
+        "Quantity": 18,
+        "UnitPrice": 12,
+        "LineTotal": 216
       },
       {
-        "ProductId": 3,
-        "ProductCode": "PRD-003",
-        "ProductName": "Eraser",
-        "Quantity": 8,
-        "UnitPrice": 4,
-        "LineTotal": 32
+        "ProductId": 4,
+        "ProductCode": "PRD-004",
+        "ProductName": "Water",
+        "Quantity": 22,
+        "UnitPrice": 15,
+        "LineTotal": 330
       }
     ],
-    "TotalAmount": 60,
+    "TotalAmount": 546,
     "OrderStatus": "Completed",
     "PaymentStatus": "Paid"
   },
   {
     "OrderId": 2,
     "OrderNumber": "ORD-002",
-    "OrderDate": "2026-08-23T17:11:28.1110893+08:00",
+    "OrderDate": "2026-08-29T01:50:15.8011556+08:00",
     "Items": [
       {
-        "ProductId": 1,
-        "ProductCode": "PRD-001",
+        "ProductId": 2,
+        "ProductCode": "PRD-002",
         "ProductName": "Pencil",
         "Quantity": 3,
-        "UnitPrice": 7,
-        "LineTotal": 21
+        "UnitPrice": 8,
+        "LineTotal": 24
       }
     ],
-    "TotalAmount": 21,
+    "TotalAmount": 24,
     "OrderStatus": "Pending Payment",
     "PaymentStatus": "Unpaid"
-  },
-  {
-    "OrderId": 3,
-    "OrderNumber": "ORD-003",
-    "OrderDate": "2026-08-24T00:52:59.735251+08:00",
-    "Items": [
-      {
-        "ProductId": 3,
-        "ProductCode": "PRD-003",
-        "ProductName": "Eraser",
-        "Quantity": 8,
-        "UnitPrice": 4,
-        "LineTotal": 32
-      }
-    ],
-    "TotalAmount": 32,
-    "OrderStatus": "Completed",
-    "PaymentStatus": "Paid"
-  },
-  {
-    "OrderId": 4,
-    "OrderNumber": "ORD-004",
-    "OrderDate": "2026-08-24T00:58:16.6198608+08:00",
-    "Items": [
-      {
-        "ProductId": 3,
-        "ProductCode": "PRD-003",
-        "ProductName": "Eraser",
-        "Quantity": 7,
-        "UnitPrice": 4,
-        "LineTotal": 28
-      }
-    ],
-    "TotalAmount": 28,
-    "OrderStatus": "Completed",
-    "PaymentStatus": "Paid"
-  },
-  {
-    "OrderId": 5,
-    "OrderNumber": "ORD-005",
-    "OrderDate": "2026-08-27T00:15:09.6880037+08:00",
-    "Items": [
-      {
-        "ProductId": 1,
-        "ProductCode": "PRD-001",
-        "ProductName": "Pencil",
-        "Quantity": 23,
-        "UnitPrice": 7,
-        "LineTotal": 161
-      }
-    ],
-    "TotalAmount": 161,
-    "OrderStatus": "Completed",
-    "PaymentStatus": "Paid"
   }
 ]

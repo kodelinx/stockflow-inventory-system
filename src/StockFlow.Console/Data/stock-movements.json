@@ -1,90 +1,46 @@
 [
   {
     "StockMovementId": 1,
-    "ProductCode": "PRD-003",
-    "ProductName": "Eraser",
-    "MovementType": "Stock In",
-    "QuantityChanged": 8,
-    "StockBefore": 92,
-    "StockAfter": 100,
-    "Reason": "New stock came in",
-    "MovementDate": "2026-08-24T00:57:09.4071062+08:00"
+    "ProductCode": "PRD-001",
+    "ProductName": "Ballpen",
+    "MovementType": "Stock Out",
+    "QuantityChanged": -18,
+    "StockBefore": 100,
+    "StockAfter": 82,
+    "Reason": "Sold through order ORD-001",
+    "MovementDate": "2026-08-29T01:49:56.5020955+08:00"
   },
   {
     "StockMovementId": 2,
-    "ProductCode": "PRD-003",
-    "ProductName": "Eraser",
-    "MovementType": "Adjustment",
-    "QuantityChanged": -5,
-    "StockBefore": 100,
-    "StockAfter": 95,
-    "Reason": "Some products are defective",
-    "MovementDate": "2026-08-24T00:57:46.72783+08:00"
+    "ProductCode": "PRD-004",
+    "ProductName": "Water",
+    "MovementType": "Stock Out",
+    "QuantityChanged": -22,
+    "StockBefore": 250,
+    "StockAfter": 228,
+    "Reason": "Sold through order ORD-001",
+    "MovementDate": "2026-08-29T01:49:56.502265+08:00"
   },
   {
     "StockMovementId": 3,
-    "ProductCode": "PRD-003",
-    "ProductName": "Eraser",
+    "ProductCode": "PRD-002",
+    "ProductName": "Pencil",
     "MovementType": "Stock Out",
-    "QuantityChanged": -7,
-    "StockBefore": 95,
-    "StockAfter": 88,
-    "Reason": "Sold through order ORD-004",
-    "MovementDate": "2026-08-24T00:58:16.620019+08:00"
+    "QuantityChanged": -3,
+    "StockBefore": 100,
+    "StockAfter": 97,
+    "Reason": "Sold through order ORD-002",
+    "MovementDate": "2026-08-29T01:50:15.8011582+08:00"
   },
   {
     "StockMovementId": 4,
-    "ProductCode": "PRD-005",
-    "ProductName": "Apple",
-    "MovementType": "Stock In",
-    "QuantityChanged": 10,
-    "StockBefore": 2,
-    "StockAfter": 12,
-    "Reason": "New apples came in",
-    "MovementDate": "2026-08-25T00:12:50.2135866+08:00"
-  },
-  {
-    "StockMovementId": 5,
-    "ProductCode": "PRD-002",
-    "ProductName": "Ballpen",
-    "MovementType": "Adjustment",
-    "QuantityChanged": -95,
-    "StockBefore": 100,
-    "StockAfter": 5,
-    "Reason": "23",
-    "MovementDate": "2026-08-25T00:13:19.3493033+08:00"
-  },
-  {
-    "StockMovementId": 6,
     "ProductCode": "PRD-004",
-    "ProductName": "Banana",
+    "ProductName": "Water",
     "MovementType": "Adjustment",
-    "QuantityChanged": 92,
-    "StockBefore": 8,
-    "StockAfter": 100,
-    "Reason": "New stock came in",
-    "MovementDate": "2026-08-25T00:14:32.3991966+08:00"
-  },
-  {
-    "StockMovementId": 7,
-    "ProductCode": "PRD-004",
-    "ProductName": "Banana",
-    "MovementType": "Stock In",
-    "QuantityChanged": 10,
-    "StockBefore": 100,
-    "StockAfter": 110,
-    "Reason": "New stock came in",
-    "MovementDate": "2026-08-25T00:17:41.8182337+08:00"
-  },
-  {
-    "StockMovementId": 8,
-    "ProductCode": "PRD-001",
-    "ProductName": "Pencil",
-    "MovementType": "Stock Out",
-    "QuantityChanged": -23,
-    "StockBefore": 193,
-    "StockAfter": 170,
-    "Reason": "Sold through order ORD-005",
-    "MovementDate": "2026-08-27T00:15:09.6888002+08:00"
+    "QuantityChanged": -227,
+    "StockBefore": 228,
+    "StockAfter": 1,
+    "Reason": "Defective products",
+    "MovementDate": "2026-08-29T02:02:40.7467465+08:00"
   }
 ]

@@ -3,44 +3,11 @@
     "PaymentId": 1,
     "PaymentNumber": "PAY-001",
     "OrderNumber": "ORD-001",
-    "PaymentDate": "2026-08-23T17:12:09.3331361+08:00",
+    "PaymentDate": "2026-08-29T01:50:33.8812571+08:00",
     "PaymentMethod": "Cash",
-    "AmountDue": 60,
-    "AmountPaid": 100,
-    "ChangeAmount": 40,
-    "PaymentStatus": "Paid"
-  },
-  {
-    "PaymentId": 2,
-    "PaymentNumber": "PAY-002",
-    "OrderNumber": "ORD-003",
-    "PaymentDate": "2026-08-24T00:54:00.5352531+08:00",
-    "PaymentMethod": "Cash",
-    "AmountDue": 32,
-    "AmountPaid": 50,
-    "ChangeAmount": 18,
-    "PaymentStatus": "Paid"
-  },
-  {
-    "PaymentId": 3,
-    "PaymentNumber": "PAY-003",
-    "OrderNumber": "ORD-004",
-    "PaymentDate": "2026-08-24T00:58:38.7587225+08:00",
-    "PaymentMethod": "Cash",
-    "AmountDue": 28,
-    "AmountPaid": 50,
-    "ChangeAmount": 22,
-    "PaymentStatus": "Paid"
-  },
-  {
-    "PaymentId": 4,
-    "PaymentNumber": "PAY-004",
-    "OrderNumber": "ORD-005",
-    "PaymentDate": "2026-08-27T00:16:00.8275594+08:00",
-    "PaymentMethod": "Bank Transfer",
-    "AmountDue": 161,
+    "AmountDue": 546,
     "AmountPaid": 1000,
-    "ChangeAmount": 839,
+    "ChangeAmount": 454,
     "PaymentStatus": "Paid"
   }
 ]

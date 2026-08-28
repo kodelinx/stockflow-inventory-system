@@ -2,20 +2,20 @@
   {
     "ProductId": 1,
     "ProductCode": "PRD-001",
-    "Name": "Pencil",
+    "Name": "Ballpen",
     "Category": "Supplies",
-    "UnitPrice": 7,
-    "QuantityInStock": 170,
-    "ReorderLevel": 20,
+    "UnitPrice": 12,
+    "QuantityInStock": 82,
+    "ReorderLevel": 10,
     "IsActive": true
   },
   {
     "ProductId": 2,
     "ProductCode": "PRD-002",
-    "Name": "Ballpen",
+    "Name": "Pencil",
     "Category": "Supplies",
-    "UnitPrice": 12,
-    "QuantityInStock": 5,
+    "UnitPrice": 8,
+    "QuantityInStock": 97,
     "ReorderLevel": 10,
     "IsActive": true
   },
@@ -25,28 +25,18 @@
     "Name": "Eraser",
     "Category": "Supplies",
     "UnitPrice": 4,
-    "QuantityInStock": 88,
-    "ReorderLevel": 10,
+    "QuantityInStock": 50,
+    "ReorderLevel": 5,
     "IsActive": true
   },
   {
     "ProductId": 4,
     "ProductCode": "PRD-004",
-    "Name": "Banana",
-    "Category": "Food",
-    "UnitPrice": 5,
-    "QuantityInStock": 110,
-    "ReorderLevel": 10,
-    "IsActive": false
-  },
-  {
-    "ProductId": 5,
-    "ProductCode": "PRD-005",
-    "Name": "Apple",
-    "Category": "Food",
-    "UnitPrice": 8,
-    "QuantityInStock": 12,
-    "ReorderLevel": 10,
+    "Name": "Water",
+    "Category": "Beverage",
+    "UnitPrice": 15,
+    "QuantityInStock": 1,
+    "ReorderLevel": 50,
     "IsActive": true
   }
 ]

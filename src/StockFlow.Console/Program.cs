@@ -17,7 +17,8 @@ BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
-JsonStorageService jsonStorageService = new JsonStorageService();
+LoggingService loggingService = new LoggingService();
+JsonStorageService jsonStorageService = new JsonStorageService(loggingService);
 StockMovementService stockMovementService = new StockMovementService(inputValidationService);
 AlertService alertService = new AlertService();
 DashboardService dashboardService = new DashboardService(alertService);
@@ -30,10 +31,11 @@ string ordersFilePath ="Data/orders.json";
 string paymentsFilePath = "Data/payments.json";
 string receiptsFilePath = "Data/receipts.json";
 string stockMovementsFilePath = "Data/stock-movements.json";
-string notificationFilePath = "Data/nootifications.json";
+string notificationFilePath = "Data/notifications.json";
 
 bool keepRunning = true;
 
+loggingService.LogInfo("StockFlow application started.");
 
 while (keepRunning)
 {
@@ -175,6 +177,7 @@ while (keepRunning)
             notificationService.ViewNotificationEmail(notifications);
             break;
         case 30:
+            loggingService.LogInfo("Stockflow application closed.");
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;
             break;

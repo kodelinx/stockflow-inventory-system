@@ -175,6 +175,11 @@ Milestones:
 - No automated tests yet
 - No web API yet
 
+## v0.2.0 - Inventory Rules and Reporting
+
+Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+
+Milestones:
 
 ### M11 - Stock Movement Tracking
 #### Completed:
@@ -294,3 +299,33 @@ Milestones:
 - No real email provider yet
 - No automated tests yet
 - No web API yet
+
+## v0.2.0 - Inventory Rules and Reporting
+
+Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+
+Milestones:
+
+### M18 - Database Requirements - Completed
+#### Completed:
+- Identified product data requirements
+- Identified order data requirements
+- Identified order item data requirements
+- Identified payment data requirements
+- Identified receipt data requirements
+- Identified stock movement data requirements
+- Identified notification data requirements
+- Identified active/inactive product state requirements
+- Identified historical transaction preservation requirements
+- Identified future reporting requirements
+
+#### Known limitations:
+- No database tables designed yet
+- No SQL scripts yet
+- No database integration yet
+
+### M19 - Database Table Design
+### M20 - SQL CRUD Scripts 
+### M21 - SQLite Integration
+### M22 - Repository Pattern Introduction
+### M23 - v0.3.0 Release 

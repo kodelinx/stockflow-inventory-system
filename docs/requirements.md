@@ -77,6 +77,79 @@
 - The system should be documented through README and project docs.
 - The system should be version-controlled using Git and GitHub.
 
+## Database Storage
+
+- The system should define database tables for products, orders, payments, receipts, stock movements, and notifications.
+- The system should support database-backed save and load operations.
+- The system should replace local JSON storage with database persistence.
+- The system should use safer ID generation through database identifiers.
+- The system should support SQL CRUD operations.
+
+### Database planning
+Before creating tables or writing SQL, we  should understand what business data needs to be stored and why. Database design should come from business requirements, not just from copying current C# classes.
+- Store Products
+- Store Orders
+- Store Order Items
+- Store Payments
+- Store Receipts
+- Store Stcok Movements
+- Store Notifications
+- Support Active and Inactive Products
+- Preseerve Historical Transaction data
+- Support Future Reports
+
+#### Database Entities Needed
+Main Tables:
+- Products
+- Orders
+- OrderItems
+- Payments
+- Receipts
+- StockMovements
+- Notifications
+
+Later Future Tables:
+- Users
+- Roles
+- Customers
+- Suppliers
+- Categories
+- AuditLogs
+
+#### Relationship Planning
+- One Product can appear in many OrderItems.
+- One Order has many OrderItems.
+- One Order can have one Payment.
+- One Payment can have one Receipt.
+- One Product can have many StockMovements.
+- One Product can trigger many Notifications indirectly.
+
+#### Database Requirement Rules
+
+Implemented planning (v0.3.0: M18 Implemented - Console Version)
+
+- The system should eventually store products in a database.
+- The system should eventually store orders in a database.
+- The system should eventually store order items in a database.
+- The system should eventually store payments in a database.
+- The system should eventually store receipts in a database.
+- The system should eventually store stock movements in a database.
+- The system should eventually store notifications in a database.
+- The database should preserve historical transaction data.
+- The database should support active and inactive product records.
+- The database should support future reporting by date, product, and payment method.
+- The database should reduce dependency on local JSON files.
+- The database should prepare the system for future multi-user usage.
+
+Planned for upcoming milestones:
+
+- Define database tables.
+- Define primary keys.
+- Define foreign keys.
+- Define relationships between tables.
+- Write SQL CRUD scripts.
+- Integrate SQLite.
+- Introduce repository pattern.
 
 ## v0.1.0 Requirements Status
 

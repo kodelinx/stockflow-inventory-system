@@ -73,5 +73,11 @@ This project uses an Agile incremental development approach. Features are built 
 - M16 - Error Handling and Logging Preparation - Completed
 - M17 - v0.2.0 Release - Completed
 ### v0.3.0 - Database-Ready Inventory System
+- M18 - Database Requirements - Completed
+- M19 - Database Table Design
+- M20 - SQL CRUD Scripts 
+- M21 - SQLite Integration
+- M22 - Repository Pattern Introduction
+- M23 - v0.3.0 Release 
 ### v0.4.0 - StockFlow Web API
 ### v1.0.0 - Business MVP Release

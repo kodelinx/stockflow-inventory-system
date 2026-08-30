@@ -125,3 +125,23 @@ This is not yet a full layered enterprise architecture, but it prepares the proj
 - No repository pattern yet.
 - No dependency injection container yet.
 - No automated tests yet
+
+
+## Architecture Planning Update
+Current storage architecture:
+
+StockFlow.Console
+    ↓
+JsonStorageService
+    ↓
+Local JSON files
+
+Planned future storage architecture:
+
+StockFlow.Console
+    ↓
+Services
+    ↓
+Repositories
+    ↓
+Database

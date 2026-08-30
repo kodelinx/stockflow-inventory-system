@@ -2,6 +2,7 @@
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Data;
+using StockFlow.Database;
 
 
 List<Product> products = new List<Product>();
@@ -24,6 +25,12 @@ AlertService alertService = new AlertService();
 DashboardService dashboardService = new DashboardService(alertService);
 SalesReportService salesReportService = new SalesReportService();
 NotificationService notificationService = new NotificationService(inputValidationService);
+
+DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
+databaseConnectionService.InitializeDatabase();
+
+Console.WriteLine("SQLite database initialized successfully.\n");
+
 
 
 string productsFilePath = "Data/products.json";

@@ -268,3 +268,5 @@ Milestones:
 - No external logging library yet.
 
 ### M17 - v0.2.0 Release
+- Reviewed v0.2.0 features from M11 to M16
+- Added product reactivation feature

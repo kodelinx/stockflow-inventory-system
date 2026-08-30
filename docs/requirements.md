@@ -9,6 +9,7 @@
 - The system should allow users to search products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to update product details. (v0.1.0: MO2 Implemented - Console Version)
 - The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
+- The system should allow users to reactivate products. (v0.2.0: m17 Implemented - Console Version)
 - The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
 - The system should track product stock quantity. (v0.1.0: MO2 Implemented - Console Version)
 - The system should identify low-stock products. (v0.2.0: M12 Implemented - Console Version)

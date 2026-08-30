@@ -361,5 +361,19 @@ Milestones:
 - Repository pattern is not implemented yet.
 
 ### M21 - SQLite Integration
+#### Completed:
+- Installed SQLite package
+- Created `DatabaseConnectionService`
+- Added SQLite connection string setup
+- Added database initialization method
+- Added Products table creation from C#
+- Excluded generated SQLite database files from Git
+
+#### Known limitations:
+- Only Products table is created from C# for now
+- Product CRUD still uses current service/list flow
+- JSON persistence still exists
+- Repository pattern is not implemented yet
+
 ### M22 - Repository Pattern Introduction
 ### M23 - v0.3.0 Release 

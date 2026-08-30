@@ -162,6 +162,12 @@ Implemented planning (v0.3.0: M18 Implemented - Console Version)
 - The system should have SQL examples for careful hard deletion.
 - The system should have SQL examples for basic reporting queries.
 - SQL scripts should preserve the business rules identified in earlier milestones.
+- The system should include SQLite package support.
+- The system should have a database connection service.
+- The system should define a SQLite database file path.
+- The system should initialize a local SQLite database file.
+- The system should create the Products table if it does not exist.
+- The system should exclude generated database files from Git tracking.
 
 Planned for upcoming milestones:
 
@@ -170,7 +176,7 @@ Planned for upcoming milestones:
 - Define foreign keys. (v0.3.0: M19 Implemented - Console Version)
 - Define relationships between tables. (v0.3.0: M19 Implemented - Console Version)
 - Write SQL CRUD scripts. (v0.3.0: M20 Implemented - Console Version)
-- Integrate SQLite.
+- Integrate SQLite. (v0.3.0: M21 Implemented - Console Version)
 - Create an actual SQLite database.
 - Run the SQL scripts against SQLite.
 - Connect the C# application to the database.

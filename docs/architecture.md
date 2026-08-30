@@ -127,23 +127,41 @@ This is not yet a full layered enterprise architecture, but it prepares the proj
 
 
 ## Architecture Planning Update
-Current storage architecture:
-
+### v0.2.0 storage architecture:
 StockFlow.Console
     ↓
 JsonStorageService
     ↓
 Local JSON files
 
-Planned future storage architecture:
+### Current database preparation flow:
+Program.cs
+    ↓
+DatabaseConnectionService
+    ↓
+SQLite database file
+    ↓
+Products table
 
+### Current Storage State:
+In-memory lists
+    ↓
+JsonStorageService
+    ↓
+Local JSON files
+
+### New database preparation state:
 StockFlow.Console
     ↓
-Services
+DatabaseConnectionService
     ↓
-Repositories
-    ↓
-SQLite Database -> docs/sql/stockflow-crud-scripts.sql
+Database/stockflow.db
 
-
+Architecture notes:
+- SQLite is now added to the project.
+- DatabaseConnectionService owns the connection string.
+- DatabaseConnectionService initializes the Products table.
+- Business services still use in-memory lists for now.
+- JSON persistence still exists for current app data.
+- Repository classes will be introduced later to handle actual database CRUD operations.
 

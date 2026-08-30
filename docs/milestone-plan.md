@@ -325,6 +325,25 @@ Milestones:
 - No database integration yet
 
 ### M19 - Database Table Design
+#### Completed:
+- Designed the Products table
+- Designed the Orders table
+- Designed the OrderItems table
+- Designed the Payments table
+- Designed the Receipts table
+- Designed the StockMovements table
+- Designed the Notifications table
+- Identified primary keys
+- Identified foreign keys
+- Identified table relationships
+- Documented the detailed design in `docs/database-design.md`
+
+#### Known limitations:
+- SQL scripts are not created yet
+- SQLite database is not created yet
+- Application still uses JSON storage
+- Repository pattern is not implemented yet
+
 ### M20 - SQL CRUD Scripts 
 ### M21 - SQLite Integration
 ### M22 - Repository Pattern Introduction

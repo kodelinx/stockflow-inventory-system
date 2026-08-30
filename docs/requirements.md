@@ -140,13 +140,26 @@ Implemented planning (v0.3.0: M18 Implemented - Console Version)
 - The database should support future reporting by date, product, and payment method.
 - The database should reduce dependency on local JSON files.
 - The database should prepare the system for future multi-user usage.
+- The database should include a Products table.
+- The database should include an Orders table.
+- The database should include an OrderItems table.
+- The database should include a Payments table.
+- The database should include a Receipts table.
+- The database should include a StockMovements table.
+- The database should include a Notifications table.
+- Tables should use primary keys to uniquely identify records.
+- Related tables should use foreign keys.
+- Order items should preserve product snapshot data.
+- Products should support active/inactive state.
+- Payments should distinguish AmountDue, AmountPaid, and ChangeAmount.
+- Stock movements should preserve StockBefore and StockAfter.
 
 Planned for upcoming milestones:
 
-- Define database tables.
-- Define primary keys.
-- Define foreign keys.
-- Define relationships between tables.
+- Define database tables. (v0.3.0: M19 Implemented - Console Version)
+- Define primary keys. (v0.3.0: M19 Implemented - Console Version)
+- Define foreign keys. (v0.3.0: M19 Implemented - Console Version)
+- Define relationships between tables. (v0.3.0: M19 Implemented - Console Version)
 - Write SQL CRUD scripts.
 - Integrate SQLite.
 - Introduce repository pattern.

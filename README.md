@@ -74,7 +74,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M17 - v0.2.0 Release - Completed
 ### v0.3.0 - Database-Ready Inventory System
 - M18 - Database Requirements - Completed
-- M19 - Database Table Design
+- M19 - Database Table Design - Completed
 - M20 - SQL CRUD Scripts 
 - M21 - SQLite Integration
 - M22 - Repository Pattern Introduction

@@ -345,6 +345,21 @@ Milestones:
 - Repository pattern is not implemented yet
 
 ### M20 - SQL CRUD Scripts 
+#### Completed:
+- Created `docs/sql/stockflow-crud-scripts.sql`
+- Added create table scripts
+- Added sample insert scripts
+- Added select/read scripts
+- Added update scripts
+- Added deactivate/reactivate scripts
+- Added delete examples
+- Added reporting query examples
+
+#### Known limitations:
+- Scripts are not integrated with the C# application yet.
+- SQLite database is not created yet.
+- Repository pattern is not implemented yet.
+
 ### M21 - SQLite Integration
 ### M22 - Repository Pattern Introduction
 ### M23 - v0.3.0 Release 

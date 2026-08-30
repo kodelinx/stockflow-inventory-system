@@ -153,6 +153,15 @@ Implemented planning (v0.3.0: M18 Implemented - Console Version)
 - Products should support active/inactive state.
 - Payments should distinguish AmountDue, AmountPaid, and ChangeAmount.
 - Stock movements should preserve StockBefore and StockAfter.
+- The system should have SQL scripts for creating planned database tables.
+- The system should have SQL scripts for inserting product records.
+- The system should have SQL scripts for reading product, order, payment, receipt, stock movement, and notification records.
+- The system should have SQL scripts for updating product records.
+- The system should have SQL scripts for deactivating products.
+- The system should have SQL scripts for reactivating products.
+- The system should have SQL examples for careful hard deletion.
+- The system should have SQL examples for basic reporting queries.
+- SQL scripts should preserve the business rules identified in earlier milestones.
 
 Planned for upcoming milestones:
 
@@ -160,8 +169,12 @@ Planned for upcoming milestones:
 - Define primary keys. (v0.3.0: M19 Implemented - Console Version)
 - Define foreign keys. (v0.3.0: M19 Implemented - Console Version)
 - Define relationships between tables. (v0.3.0: M19 Implemented - Console Version)
-- Write SQL CRUD scripts.
+- Write SQL CRUD scripts. (v0.3.0: M20 Implemented - Console Version)
 - Integrate SQLite.
+- Create an actual SQLite database.
+- Run the SQL scripts against SQLite.
+- Connect the C# application to the database.
+- Replace JSON persistence with repository-based database access.
 - Introduce repository pattern.
 
 ## v0.1.0 Requirements Status

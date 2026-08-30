@@ -39,7 +39,6 @@ StockFlow.Console/
 - Services/ Contains business actions such as inventory management, basket management, checkout, payment processing, receipt generation, dashboard summary, and notifications.
 - Data/ Contains storage-related logic such as JSON save and load services. Later, this may contain database access logic.
 - Utilities/ Contains reusable helper classes such as input validation.
-
 - Product.cs stores product data.
 - InventoryService.cs handles inventory actions.
 - InputValidationService.cs handles reusable user input validation.
@@ -144,4 +143,7 @@ Services
     ↓
 Repositories
     ↓
-Database
+SQLite Database -> docs/sql/stockflow-crud-scripts.sql
+
+
+

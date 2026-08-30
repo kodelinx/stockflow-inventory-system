@@ -75,8 +75,8 @@ This project uses an Agile incremental development approach. Features are built 
 ### v0.3.0 - Database-Ready Inventory System
 - M18 - Database Requirements - Completed
 - M19 - Database Table Design - Completed
-- M20 - SQL CRUD Scripts 
-- M21 - SQLite Integration
+- M20 - SQL CRUD Scripts - Completed
+- M21 - SQLite Integration 
 - M22 - Repository Pattern Introduction
 - M23 - v0.3.0 Release 
 ### v0.4.0 - StockFlow Web API

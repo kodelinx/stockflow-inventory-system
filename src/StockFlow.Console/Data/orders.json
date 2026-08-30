@@ -42,5 +42,41 @@
     "TotalAmount": 24,
     "OrderStatus": "Pending Payment",
     "PaymentStatus": "Unpaid"
+  },
+  {
+    "OrderId": 3,
+    "OrderNumber": "ORD-003",
+    "OrderDate": "2026-08-30T12:01:54.806023+08:00",
+    "Items": [
+      {
+        "ProductId": 7,
+        "ProductCode": "PRD-007",
+        "ProductName": "Apple",
+        "Quantity": 10,
+        "UnitPrice": 10,
+        "LineTotal": 100
+      }
+    ],
+    "TotalAmount": 100,
+    "OrderStatus": "Completed",
+    "PaymentStatus": "Paid"
+  },
+  {
+    "OrderId": 4,
+    "OrderNumber": "ORD-004",
+    "OrderDate": "2026-08-30T12:29:04.8720857+08:00",
+    "Items": [
+      {
+        "ProductId": 6,
+        "ProductCode": "PRD-006",
+        "ProductName": "Orange",
+        "Quantity": 1,
+        "UnitPrice": 5,
+        "LineTotal": 5
+      }
+    ],
+    "TotalAmount": 5,
+    "OrderStatus": "Completed",
+    "PaymentStatus": "Paid"
   }
 ]

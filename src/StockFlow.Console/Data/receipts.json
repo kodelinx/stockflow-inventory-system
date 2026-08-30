@@ -9,5 +9,27 @@
     "PaymentMethod": "Cash",
     "AmountPaid": 1000,
     "ChangeAmount": 454
+  },
+  {
+    "ReceiptId": 2,
+    "ReceiptNumber": "002",
+    "OrderNumber": "ord-003",
+    "PaymentNumber": "PAY-002",
+    "ReceiptDate": "2026-08-30T12:03:08.2174151+08:00",
+    "TotalAmount": 100,
+    "PaymentMethod": "Cash",
+    "AmountPaid": 100,
+    "ChangeAmount": 0
+  },
+  {
+    "ReceiptId": 3,
+    "ReceiptNumber": "003",
+    "OrderNumber": "ord-004",
+    "PaymentNumber": "PAY-003",
+    "ReceiptDate": "2026-08-30T12:29:51.37266+08:00",
+    "TotalAmount": 5,
+    "PaymentMethod": "Cash",
+    "AmountPaid": 20,
+    "ChangeAmount": 15
   }
 ]

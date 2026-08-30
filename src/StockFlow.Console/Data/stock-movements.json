@@ -42,5 +42,49 @@
     "StockAfter": 1,
     "Reason": "Defective products",
     "MovementDate": "2026-08-29T02:02:40.7467465+08:00"
+  },
+  {
+    "StockMovementId": 5,
+    "ProductCode": "PRD-007",
+    "ProductName": "Apple",
+    "MovementType": "Stock Out",
+    "QuantityChanged": -10,
+    "StockBefore": 50,
+    "StockAfter": 40,
+    "Reason": "Sold through order ORD-003",
+    "MovementDate": "2026-08-30T12:01:54.8063005+08:00"
+  },
+  {
+    "StockMovementId": 6,
+    "ProductCode": "PRD-001",
+    "ProductName": "Ballpen",
+    "MovementType": "Stock In",
+    "QuantityChanged": 3,
+    "StockBefore": 82,
+    "StockAfter": 85,
+    "Reason": "New stock came in",
+    "MovementDate": "2026-08-30T12:07:37.1694775+08:00"
+  },
+  {
+    "StockMovementId": 7,
+    "ProductCode": "PRD-001",
+    "ProductName": "Ballpen",
+    "MovementType": "Adjustment",
+    "QuantityChanged": -35,
+    "StockBefore": 85,
+    "StockAfter": 50,
+    "Reason": "Defective products",
+    "MovementDate": "2026-08-30T12:07:57.7693319+08:00"
+  },
+  {
+    "StockMovementId": 8,
+    "ProductCode": "PRD-006",
+    "ProductName": "Orange",
+    "MovementType": "Stock Out",
+    "QuantityChanged": -1,
+    "StockBefore": 80,
+    "StockAfter": 79,
+    "Reason": "Sold through order ORD-004",
+    "MovementDate": "2026-08-30T12:29:04.8723165+08:00"
   }
 ]

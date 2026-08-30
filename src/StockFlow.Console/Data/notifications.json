@@ -1,0 +1,29 @@
+[
+  {
+    "NotificationId": 1,
+    "NotificationType": "Low Stock",
+    "Recipient": "business-owner@example.com",
+    "Subject": "Low Stock Alert",
+    "Message": "The following products are low in stock: \n\n- PRD-004 - Water\n- Current Stock: 1\n- ReorderLevel: 50\n\n",
+    "CreatedAt": "2026-08-30T12:08:15.1913256+08:00",
+    "Status": "Simulated"
+  },
+  {
+    "NotificationId": 2,
+    "NotificationType": "Order Completed",
+    "Recipient": "business-owner@example.com",
+    "Subject": "Order Completed - ORD-003",
+    "Message": "Order Number: ORD-003\nOrder Date: 8/30/2026 12:01:54 PM\nTotal Amount: $100.00\nPayment Status: Paid\n",
+    "CreatedAt": "2026-08-30T12:08:25.7595047+08:00",
+    "Status": "Simulated"
+  },
+  {
+    "NotificationId": 3,
+    "NotificationType": "Receipt",
+    "Recipient": "customer@example.com",
+    "Subject": "Receipt Generated - 001",
+    "Message": "Receipt Number: 001\nOrder Number: ord-001\nPayment Number: PAY-001\nReceipt Date: 8/29/2026 1:50:42 AM\nTotal Amount: $546.00\nPayment Method: Cash\nAmount Paid: $1,000.00\nChange: $454.00\n",
+    "CreatedAt": "2026-08-30T12:08:37.6696408+08:00",
+    "Status": "Simulated"
+  }
+]

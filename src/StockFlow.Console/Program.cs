@@ -48,33 +48,34 @@ while (keepRunning)
     Console.WriteLine("3. Search Product");
     Console.WriteLine("4. Update Product");
     Console.WriteLine("5. Deactivate Product");
-    Console.WriteLine("6. Delete Product");
-    Console.WriteLine("7. Add Product to Basket");
-    Console.WriteLine("8. View Items in Basket");
-    Console.WriteLine("9. Delete an Item in Basket");
-    Console.WriteLine("10. Clear all items in Basket");
-    Console.WriteLine("11. Checkout Basket");
-    Console.WriteLine("12. View all orders");
-    Console.WriteLine("13. Process Payments");
-    Console.WriteLine("14. View Payments");
-    Console.WriteLine("15. Generate Receipt");
-    Console.WriteLine("16. View Receipts");
-    Console.WriteLine("17. Show Dashboard");
-    Console.WriteLine("18. Save Data to JSON");
-    Console.WriteLine("19. Load Data from JSON");
-    Console.WriteLine("20. Add Stock");
-    Console.WriteLine("21. Adjust Stock");
-    Console.WriteLine("22. View Stock movements");
-    Console.WriteLine("23. View Low Stock Products");
-    Console.WriteLine("24. Export Receipt to Text File");
-    Console.WriteLine("25. View Sales Summary Report");
-    Console.WriteLine("26. Simulate Low Stock Email");
-    Console.WriteLine("27. Simulate Order Completed Email");
-    Console.WriteLine("28. Simulate Receipt Email");
-    Console.WriteLine("29. View Notifications");
-    Console.WriteLine("30. Exit");
+    Console.WriteLine("6. Reactivate Product");
+    Console.WriteLine("7. Delete Product");
+    Console.WriteLine("8. Add Product to Basket");
+    Console.WriteLine("9. View Items in Basket");
+    Console.WriteLine("10. Delete an Item in Basket");
+    Console.WriteLine("11. Clear all items in Basket");
+    Console.WriteLine("12. Checkout Basket");
+    Console.WriteLine("13. View all orders");
+    Console.WriteLine("14. Process Payments");
+    Console.WriteLine("15. View Payments");
+    Console.WriteLine("16. Generate Receipt");
+    Console.WriteLine("17. View Receipts");
+    Console.WriteLine("18. Show Dashboard");
+    Console.WriteLine("19. Save Data to JSON");
+    Console.WriteLine("20. Load Data from JSON");
+    Console.WriteLine("21. Add Stock");
+    Console.WriteLine("22. Adjust Stock");
+    Console.WriteLine("23. View Stock movements");
+    Console.WriteLine("24. View Low Stock Products");
+    Console.WriteLine("25. Export Receipt to Text File");
+    Console.WriteLine("26. View Sales Summary Report");
+    Console.WriteLine("27. Simulate Low Stock Email");
+    Console.WriteLine("28. Simulate Order Completed Email");
+    Console.WriteLine("29. Simulate Receipt Email");
+    Console.WriteLine("30. View Notifications");
+    Console.WriteLine("31. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 30);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 31);
     Console.WriteLine("");
 
     switch(option)
@@ -95,42 +96,45 @@ while (keepRunning)
             inventoryService.DeactivateProduct(products);
             break;
         case 6:
-            inventoryService.DeleteProduct(products);
+            inventoryService.ReactivateProduct(products);
             break;
         case 7:
-            basketService.AddItemToBasket(products, basketItems);
+            inventoryService.DeleteProduct(products);
             break;
         case 8:
-            basketService.ViewBasket(basketItems);
+            basketService.AddItemToBasket(products, basketItems);
             break;
         case 9:
-            basketService.RemoveIteminBasket(basketItems);
+            basketService.ViewBasket(basketItems);
             break;
         case 10:
-            basketService.ClearBasket(basketItems);
+            basketService.RemoveIteminBasket(basketItems);
             break;
         case 11:
-            orderService.CheckoutBasket(products, basketItems, orders, stockMovements, stockMovementService);
+            basketService.ClearBasket(basketItems);
             break;
         case 12:
-            orderService.ViewOrders(orders);
+            orderService.CheckoutBasket(products, basketItems, orders, stockMovements, stockMovementService);
             break;
         case 13:
-            paymentService.ProcessPayment(orders, payments);
+            orderService.ViewOrders(orders);
             break;
         case 14:
-            paymentService.ViewPayments(payments);
+            paymentService.ProcessPayment(orders, payments);
             break;
         case 15:
-            receiptService.GenerateReceipt(orders, payments, receipts);
+            paymentService.ViewPayments(payments);
             break;
         case 16:
-            receiptService.ViewReceipts(orders, payments, receipts);
+            receiptService.GenerateReceipt(orders, payments, receipts);
             break;
         case 17:
-            dashboardService.ShowDashboard(products, orders, payments);
+            receiptService.ViewReceipts(orders, payments, receipts);
             break;
         case 18:
+            dashboardService.ShowDashboard(products, orders, payments);
+            break;
+        case 19:
             jsonStorageService.SaveData(products, productsFilePath);
             jsonStorageService.SaveData(orders, ordersFilePath);
             jsonStorageService.SaveData(payments, paymentsFilePath);
@@ -138,7 +142,7 @@ while (keepRunning)
             jsonStorageService.SaveData(stockMovements, stockMovementsFilePath);
             jsonStorageService.SaveData(notifications, notificationFilePath);
             break;
-        case 19:
+        case 20:
             products = jsonStorageService.LoadData<Product>(productsFilePath);
             orders = jsonStorageService.LoadData<Order>(ordersFilePath);
             payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
@@ -146,37 +150,37 @@ while (keepRunning)
             stockMovements = jsonStorageService.LoadData<StockMovement>(stockMovementsFilePath);
             notifications = jsonStorageService.LoadData<Notification>(notificationFilePath);
             break;    
-        case 20:
+        case 21:
             stockMovementService.AddStock(products, stockMovements);
             break;
-        case 21:
+        case 22:
             stockMovementService.AdjustStock(products, stockMovements);
             break;
-        case 22:
+        case 23:
             stockMovementService.ViewStockMovements(stockMovements);
             break;
-        case 23:
+        case 24:
             alertService.ShowLowstockAlers(products);
             break;
-        case 24:
+        case 25:
             receiptService.ExportReceiptToTextFile(orders, payments, receipts);
             break;
-        case 25:
+        case 26:
             salesReportService.ShowSalesSummary(orders, payments);
             break;
-        case 26:
+        case 27:
             notificationService.SimulateLowStockEmail(products, notifications, alertService);
             break;
-        case 27:
+        case 28:
             notificationService.SimulateOrderCompletedEmail(orders, notifications);
             break;
-        case 28:
+        case 29:
             notificationService.SimulateReceiptEmail(receipts,  notifications);
             break;
-        case 29:
+        case 30:
             notificationService.ViewNotificationEmail(notifications);
             break;
-        case 30:
+        case 31:
             loggingService.LogInfo("Stockflow application closed.");
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;

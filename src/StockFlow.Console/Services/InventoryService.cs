@@ -149,7 +149,7 @@ public class InventoryService
             }
             else if(field == 5)
             {
-                int newLevel = _inputValidationService.GetValidInt("Enter NEW name: ", 0, 1000000);
+                int newLevel = _inputValidationService.GetValidInt("Enter NEW reorder level: ", 0, 1000000);
                 product.ReorderLevel = newLevel;
                 break;
             }
@@ -165,7 +165,7 @@ public class InventoryService
     {
         if(products.Count == 0)
         {
-            Console.WriteLine("There are no products available to delete.\n");
+            Console.WriteLine("There are no products available to rectivate.\n");
             return;
         }
 
@@ -184,6 +184,38 @@ public class InventoryService
         product.IsActive = false;
 
         Console.WriteLine($"Product {product.ProductCode} has been deativated successfully.");
+
+    }
+
+    public void ReactivateProduct(List<Product> products)
+    {
+        if(products.Count == 0)
+        {
+            Console.WriteLine("There are no products available to reactivate");
+            return;
+        }
+
+        string productCode = _inputValidationService.GetRequiredText("Enter product code to reactivate: ");
+
+        Product? product = products.FirstOrDefault(product =>
+            product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
+        );
+
+        if (product == null)
+        {
+            Console.WriteLine("The product is is not existing in the inventory.");
+            return;
+        }
+        
+        if (product.IsActive)
+        {
+            Console.WriteLine("The product is alreaddy active.");
+            return;
+        }
+
+        product.IsActive = true;
+
+        Console.WriteLine($"{product.Name} has been reactivated successfully.\n");
 
     }
     public void DeleteProduct(List<Product> products)

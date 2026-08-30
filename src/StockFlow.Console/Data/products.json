@@ -5,8 +5,8 @@
     "Name": "Ballpen",
     "Category": "Supplies",
     "UnitPrice": 12,
-    "QuantityInStock": 82,
-    "ReorderLevel": 10,
+    "QuantityInStock": 50,
+    "ReorderLevel": 5,
     "IsActive": true
   },
   {
@@ -38,5 +38,15 @@
     "QuantityInStock": 1,
     "ReorderLevel": 50,
     "IsActive": true
+  },
+  {
+    "ProductId": 5,
+    "ProductCode": "PRD-005",
+    "Name": "Mechanical Pencil",
+    "Category": "Supplies",
+    "UnitPrice": 15,
+    "QuantityInStock": 40,
+    "ReorderLevel": 10,
+    "IsActive": false
   }
 ]

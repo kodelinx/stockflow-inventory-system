@@ -126,3 +126,60 @@ The following requirements are implemented in v0.1.0:
 ### Storage
 - Save products/orders/payments/receipts to JSON
 - Load products/orders/payments/receipts from JSON
+
+
+## v0.2.0 Requirements Status
+
+The following requirements are implemented in v0.2.0:
+
+### Stock Movement Tracking
+
+- The system records stock increases.
+- The system records stock adjustments.
+- The system records stock reductions caused by checkout.
+- The system stores stock before and stock after values.
+- The system records reasons for stock movements.
+- The system allows users to view stock movement history.
+
+### Low-Stock Alerts
+
+- The system identifies active products with low stock.
+- The system treats a product as low stock when `QuantityInStock <= ReorderLevel`.
+- The system excludes inactive products from low-stock alerts.
+- The system allows users to view low-stock alerts.
+
+### Receipt Export
+
+- The system exports generated receipts to text files.
+- The system creates a receipt folder when needed.
+- The system uses receipt data, order data, and payment data for export.
+- The system handles export errors safely.
+
+### Sales Reports
+
+- The system displays total orders.
+- The system displays completed and pending orders.
+- The system calculates total sales income.
+- The system calculates total cash received.
+- The system calculates total change given.
+- The system displays sales by payment method.
+
+### Notifications
+
+- The system creates simulated low-stock notification records.
+- The system creates simulated completed order notification records.
+- The system creates simulated receipt notification records.
+- The system allows users to view notification history.
+- The system saves and loads notifications through JSON persistence.
+
+### Logging
+
+- The system records informational log entries.
+- The system records error log entries.
+- The system writes logs to a text file.
+- The system logs JSON save/load events.
+- The system logs JSON save/load failures.
+
+### Inventory
+- Reactivate products
+

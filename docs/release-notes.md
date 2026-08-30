@@ -52,3 +52,61 @@ This release includes inventory management, basket management, checkout, payment
 ### Next Version
 
 v0.2.0 will focus on inventory rules, reporting improvements, stock movement tracking, receipt file export, and stronger error handling.
+
+## v0.2.0 - Inventory Rules and Reporting
+
+Release Date: 2026-08-29
+
+### Summary
+
+StockFlow v0.2.0 improves the console MVP by adding inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+
+### Completed Features
+
+- Stock movement tracking
+- Stock-in records
+- Stock adjustment records
+- Automatic stock-out records during checkout
+- Low-stock alert viewing
+- Receipt text file export
+- Sales summary reports
+- Sales by payment method
+- Completed order details report
+- Simulated low-stock email notifications
+- Simulated order completed email notifications
+- Simulated receipt email notifications
+- Notification history
+- Notification JSON persistence
+- Basic logging service
+- JSON save/load event logging
+- JSON save/load error logging
+
+### Technical Improvements
+
+- Added `StockMovement` model
+- Added `Notification` model
+- Added `StockMovementService`
+- Added `AlertService`
+- Added `SalesReportService`
+- Added `NotificationService`
+- Added `LoggingService`
+- Improved separation of concerns
+- Added basic application log file output
+- Improved troubleshooting support for JSON storage
+
+### Known Limitations
+
+- Console application only
+- Local JSON file storage only
+- No database yet
+- No real email sending yet
+- No PDF receipt export yet
+- No authentication or user roles yet
+- No automated tests yet
+- No web API yet
+- No advanced reporting filters yet
+- No structured logging or log rotation yet
+
+### Next Version
+
+v0.3.0 will focus on preparing StockFlow for database-backed storage, SQL design, CRUD scripts, SQLite integration, and repository pattern introduction.

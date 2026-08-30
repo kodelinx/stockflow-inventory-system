@@ -268,5 +268,29 @@ Milestones:
 - No external logging library yet.
 
 ### M17 - v0.2.0 Release
+#### Completed:
 - Reviewed v0.2.0 features from M11 to M16
 - Added product reactivation feature
+- Tested stock movement tracking
+- Tested low-stock alerts
+- Tested receipt text file export
+- Tested sales summary reports
+- Tested notification simulation
+- Tested basic logging
+- Updated project documentation
+- Updated release notes
+- Created Git tag for v0.2.0
+
+#### Release:
+
+- Version: v0.2.0
+- Name: Inventory Rules and Reporting
+
+#### Known limitations:
+
+- Console app only
+- JSON file storage only
+- No database yet
+- No real email provider yet
+- No automated tests yet
+- No web API yet

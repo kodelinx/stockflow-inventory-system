@@ -71,7 +71,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M14 - Sales Summary Reports - Completed
 - M15 - Email Notification Simulation - Completed
 - M16 - Error Handling and Logging Preparation - Completed
-- M17 - v0.2.0 Release
+- M17 - v0.2.0 Release - Completed
 ### v0.3.0 - Database-Ready Inventory System
 ### v0.4.0 - StockFlow Web API
 ### v1.0.0 - Business MVP Release

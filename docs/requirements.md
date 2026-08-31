@@ -168,6 +168,12 @@ Implemented planning (v0.3.0: M18 Implemented - Console Version)
 - The system should initialize a local SQLite database file.
 - The system should create the Products table if it does not exist.
 - The system should exclude generated database files from Git tracking.
+- The system should have a repository layer for database access.
+- Product database operations should be placed in `ProductRepository`.
+- Product insert logic should be separated from `InventoryService`.
+- Product read logic should be separated from `InventoryService`.
+- Product search by code should be available through the repository.
+- SQL commands should use parameters instead of direct string interpolation.
 
 Planned for upcoming milestones:
 
@@ -177,11 +183,11 @@ Planned for upcoming milestones:
 - Define relationships between tables. (v0.3.0: M19 Implemented - Console Version)
 - Write SQL CRUD scripts. (v0.3.0: M20 Implemented - Console Version)
 - Integrate SQLite. (v0.3.0: M21 Implemented - Console Version)
-- Create an actual SQLite database.
-- Run the SQL scripts against SQLite.
-- Connect the C# application to the database.
-- Replace JSON persistence with repository-based database access.
-- Introduce repository pattern.
+- Create an actual SQLite database. (v0.3.0: M22 Implemented - Console Version)
+- Run the SQL scripts against SQLite. (v0.3.0: M22 Implemented - Console Version)
+- Connect the C# application to the database. (v0.3.0: M22 Implemented - Console Version)
+- Replace JSON persistence with repository-based database access. (v0.3.0: M22 Implemented - Console Version)
+- Introduce repository pattern. (v0.3.0: M22 Implemented - Console Version)
 
 ## v0.1.0 Requirements Status
 

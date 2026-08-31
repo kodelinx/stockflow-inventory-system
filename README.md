@@ -77,7 +77,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M19 - Database Table Design - Completed
 - M20 - SQL CRUD Scripts - Completed
 - M21 - SQLite Integration - Completed
-- M22 - Repository Pattern Introduction
+- M22 - Repository Pattern Introduction - Completed
 - M23 - v0.3.0 Release 
 ### v0.4.0 - StockFlow Web API
 ### v1.0.0 - Business MVP Release

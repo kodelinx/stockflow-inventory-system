@@ -376,4 +376,17 @@ Milestones:
 - Repository pattern is not implemented yet
 
 ### M22 - Repository Pattern Introduction
+#### Completed:
+- Created `ProductRepository`
+- Added AddProduct database method
+- Added GetAllProducts database method
+- Added GetActiveProducts database method
+- Added FindProductByCode database method
+- Tested SQLite read/write flow through repository
+
+#### Known limitations:
+- Repository pattern is only applied to products for now.
+- Full product CRUD has not fully replaced the current in-memory service flow.
+- Other data models still use current JSON/list approach.
+
 ### M23 - v0.3.0 Release 

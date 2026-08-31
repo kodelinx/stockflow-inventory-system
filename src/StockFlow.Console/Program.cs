@@ -3,6 +3,7 @@ using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Data;
 using StockFlow.Database;
+using StockFlow.Repositories;
 
 
 List<Product> products = new List<Product>();
@@ -29,7 +30,33 @@ NotificationService notificationService = new NotificationService(inputValidatio
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
 databaseConnectionService.InitializeDatabase();
 
-Console.WriteLine("SQLite database initialized successfully.\n");
+ProductRepository productRepository = new ProductRepository(databaseConnectionService);
+
+Console.WriteLine("\nSQLite database initialized successfully.\n");
+
+Product? testProduct = productRepository.FindProductByCode("P001");
+
+if (testProduct == null)
+{
+    productRepository.AddProduct(new Product
+    {
+        ProductCode = "P001",
+        Name = "Mouse",
+        Category = "Accessories",
+        UnitPrice = 250.00m,
+        QuantityInStock = 20,
+        ReorderLevel = 5,
+        IsActive = true
+    });
+}
+
+List<Product> databaseProducts = productRepository.GetActiveProducts();
+
+Console.WriteLine("\nProducts from SQLite:");
+foreach (Product product in databaseProducts)
+{
+    Console.WriteLine($"{product.ProductCode} - {product.Name} - {product.UnitPrice:C}");
+}
 
 
 

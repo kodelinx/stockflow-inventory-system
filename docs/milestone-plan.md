@@ -426,3 +426,33 @@ Milestones:
 - No Entity Framework yet
 - No Web API yet
 - No automated tests yet
+
+## v0.3.0 - Database-Ready Inventory System
+
+Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+
+Milestones:
+### - M24 - ASP.NET Core Web API Setup
+#### Completed:
+- The system should include an ASP.NET Core Web API project.
+- The API project should be part of the StockFlow solution.
+- The API should run locally during development.
+- The API should expose a sample endpoint for initial testing.
+- The API should expose an OpenAPI document for endpoint discovery.
+- The API should prepare the project for future product, order, payment, and dashboard endpoints.
+
+#### Known limitations:
+- Add product API endpoints.
+- Add order API endpoints.
+- Add payment API endpoints.
+- Add dashboard API endpoints.
+- Add API validation and error responses.
+- Connect API endpoints to services and repositories.
+- Add Swagger UI or Scalar UI later for interactive browser testing.
+
+### M25 - Product API Endpoints
+### M26 - Order API Endpoints
+### M27 - Payment API Endpoints
+### M28 - Dashboard API Endpoints
+### M29 - API Validation and Error Responses
+### M30 - v0.4.0 Release

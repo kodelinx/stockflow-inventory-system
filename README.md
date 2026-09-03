@@ -80,7 +80,7 @@ This project uses an Agile incremental development approach. Features are built 
 - M22 - Repository Pattern Introduction - Completed
 - M23 - v0.3.0 Release - Completedd
 ### v0.4.0 - StockFlow Web API
-- M24 - ASP.NET Core Web API Setup
+- M24 - ASP.NET Core Web API Setup - Completed
 - M25 - Product API Endpoints
 - M26 - Order API Endpoints
 - M27 - Payment API Endpoints

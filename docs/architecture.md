@@ -185,3 +185,22 @@ SQLite database file
     ↓
 Products table
 
+
+### M24 Progress
+
+Created the initial ASP.NET Core Web API project for StockFlow.
+
+Completed:
+
+- Created `StockFlow.Api`
+- Added API project to the StockFlow solution
+- Confirmed API project builds
+- Confirmed API project runs locally
+- Tested the sample `/weatherforecast` endpoint
+- Tested OpenAPI document access through `/openapi/v1.json`
+- Reviewed basic ASP.NET Core Web API startup flow
+
+Known limitations:
+
+- No custom StockFlow API endpoints yet
+- Swagger UI is not configured yet

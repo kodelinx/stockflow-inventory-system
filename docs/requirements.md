@@ -181,7 +181,26 @@ Remaining planned work:
 - Reduce dependency on JSON persistence.
 - Add automated tests.
 
+## Web API Requirements
 
+Implemented setup in M24:
+
+- The system should include an ASP.NET Core Web API project.
+- The API project should be part of the StockFlow solution.
+- The API should run locally during development.
+- The API should expose a sample endpoint for initial testing.
+- The API should expose an OpenAPI document for endpoint discovery.
+- The API should prepare the project for future product, order, payment, and dashboard endpoints.
+
+Planned for future milestones:
+
+- Add product API endpoints.
+- Add order API endpoints.
+- Add payment API endpoints.
+- Add dashboard API endpoints.
+- Add API validation and error responses.
+- Connect API endpoints to services and repositories.
+- Add Swagger UI or Scalar UI later for interactive browser testing.
 
 ## v0.1.0 Requirements Status
 
@@ -288,3 +307,47 @@ The following requirements are implemented in v0.2.0:
 ### Inventory
 - Reactivate products
 
+
+## v0.3.0 Requirements Status
+
+The following requirements are implemented or planned in v0.3.0:
+
+### Database Planning
+
+- The system identifies the main data entities needed for database storage.
+- The system documents planned database tables.
+- The system documents primary keys and foreign keys.
+- The system documents relationships between products, orders, order items, payments, receipts, stock movements, and notifications.
+- The system preserves historical transaction data through order item snapshot fields.
+
+### SQL Preparation
+
+- The system includes SQL scripts for creating planned tables.
+- The system includes SQL examples for create, read, update, and delete operations.
+- The system includes SQL examples for product deactivation and reactivation.
+- The system includes SQL examples for basic reporting queries.
+
+### SQLite Integration
+
+- The system includes SQLite package support.
+- The system includes a database connection service.
+- The system can initialize a local SQLite database file.
+- The system can create the Products table if it does not exist.
+- The system excludes generated SQLite database files from Git tracking.
+
+### Repository Pattern
+
+- The system introduces a repository layer for database access.
+- The system includes `ProductRepository`.
+- The system can insert product records through the repository.
+- The system can read product records through the repository.
+- The system can search products by product code through the repository.
+- SQL commands use parameters instead of direct string interpolation.
+
+Remaining planned work:
+
+- Convert full product CRUD menu flow to SQLite.
+- Add update, deactivate, reactivate, and delete methods in `ProductRepository`.
+- Add repositories for other models.
+- Reduce dependency on JSON persistence.
+- Add automated tests.

@@ -110,3 +110,52 @@ StockFlow v0.2.0 improves the console MVP by adding inventory traceability, low-
 ### Next Version
 
 v0.3.0 will focus on preparing StockFlow for database-backed storage, SQL design, CRUD scripts, SQLite integration, and repository pattern introduction.
+
+
+## v0.3.0 - Database-Ready Inventory System
+
+Release Date: 2026-09-02
+
+### Summary
+
+StockFlow v0.3.0 prepares the application for database-backed storage. This version adds database requirements, database table design, SQL CRUD scripts, SQLite initialization, and the first repository class for product database access.
+
+### Completed Features
+
+- Defined database requirements
+- Designed planned database tables
+- Created SQL CRUD scripts
+- Added SQLite package support
+- Created `DatabaseConnectionService`
+- Added SQLite database initialization
+- Added automatic Products table creation
+- Created `ProductRepository`
+- Added product insert database method
+- Added product read database methods
+- Added product search by product code
+- Added SQL parameters for safer database commands
+- Added SQLite database file ignore rules
+
+### Technical Improvements
+
+- Introduced database-ready project direction
+- Introduced repository pattern
+- Separated database connection setup
+- Separated product database access logic
+- Prepared future repository-based storage
+- Preserved JSON storage temporarily during migration
+
+### Known Limitations
+
+- The full app is not yet database-backed
+- Product menu operations are not fully using SQLite yet
+- JSON persistence still exists
+- Only Products table is initialized from C#
+- Only ProductRepository has been started
+- Other repositories are not implemented yet
+- No web API yet
+- No automated tests yet
+
+### Next Version
+
+v0.4.0 will focus on preparing StockFlow for ASP.NET Core Web API development.

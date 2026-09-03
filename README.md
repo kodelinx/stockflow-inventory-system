@@ -78,6 +78,13 @@ This project uses an Agile incremental development approach. Features are built 
 - M20 - SQL CRUD Scripts - Completed
 - M21 - SQLite Integration - Completed
 - M22 - Repository Pattern Introduction - Completed
-- M23 - v0.3.0 Release 
+- M23 - v0.3.0 Release - Completedd
 ### v0.4.0 - StockFlow Web API
+- M24 - ASP.NET Core Web API Setup
+- M25 - Product API Endpoints
+- M26 - Order API Endpoints
+- M27 - Payment API Endpoints
+- M28 - Dashboard API Endpoints
+- M29 - API Validation and Error Responses
+- M30 - v0.4.0 Release
 ### v1.0.0 - Business MVP Release

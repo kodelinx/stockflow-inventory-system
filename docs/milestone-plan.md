@@ -300,7 +300,7 @@ Milestones:
 - No automated tests yet
 - No web API yet
 
-## v0.2.0 - Inventory Rules and Reporting
+## v0.3.0 - Database-Ready Inventory System
 
 Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
 
@@ -390,3 +390,39 @@ Milestones:
 - Other data models still use current JSON/list approach.
 
 ### M23 - v0.3.0 Release 
+#### Completedd:
+- Defined database requirements
+- Designed planned database tables
+- Created SQL CRUD scripts
+- Added SQLite package support
+- Created `DatabaseConnectionService`
+- Added SQLite database initialization
+- Added automatic Products table creation
+- Created `ProductRepository`
+- Added product insert database method
+- Added product read database methods
+- Added product search by product code
+- Used SQL parameters for safer database commands
+- Added `.gitignore` rules for SQLite database files
+- Introduced database-ready architecture
+- Introduced repository pattern
+- Separated database connection setup from program logic
+- Separated product database access into `ProductRepository`
+- Prepared the app for future database-backed CRUD operations
+
+#### Release:
+- Version: v0.3.0
+- Name: Database-Ready Inventory System
+
+
+#### Known limitations:
+
+- The full app is not yet database-backed
+- Product menu flow still primarily uses current list/service flow
+- JSON persistence still exists
+- Only Products table is initialized from C# for now
+- Only ProductRepository has been started
+- Other repositories are not implemented yet
+- No Entity Framework yet
+- No Web API yet
+- No automated tests yet

@@ -125,58 +125,6 @@ Later Future Tables:
 - One Product can trigger many Notifications indirectly.
 
 #### Database Requirement Rules
-
-Implemented planning (v0.3.0: M18 Implemented - Console Version)
-
-- The system should eventually store products in a database.
-- The system should eventually store orders in a database.
-- The system should eventually store order items in a database.
-- The system should eventually store payments in a database.
-- The system should eventually store receipts in a database.
-- The system should eventually store stock movements in a database.
-- The system should eventually store notifications in a database.
-- The database should preserve historical transaction data.
-- The database should support active and inactive product records.
-- The database should support future reporting by date, product, and payment method.
-- The database should reduce dependency on local JSON files.
-- The database should prepare the system for future multi-user usage.
-- The database should include a Products table.
-- The database should include an Orders table.
-- The database should include an OrderItems table.
-- The database should include a Payments table.
-- The database should include a Receipts table.
-- The database should include a StockMovements table.
-- The database should include a Notifications table.
-- Tables should use primary keys to uniquely identify records.
-- Related tables should use foreign keys.
-- Order items should preserve product snapshot data.
-- Products should support active/inactive state.
-- Payments should distinguish AmountDue, AmountPaid, and ChangeAmount.
-- Stock movements should preserve StockBefore and StockAfter.
-- The system should have SQL scripts for creating planned database tables.
-- The system should have SQL scripts for inserting product records.
-- The system should have SQL scripts for reading product, order, payment, receipt, stock movement, and notification records.
-- The system should have SQL scripts for updating product records.
-- The system should have SQL scripts for deactivating products.
-- The system should have SQL scripts for reactivating products.
-- The system should have SQL examples for careful hard deletion.
-- The system should have SQL examples for basic reporting queries.
-- SQL scripts should preserve the business rules identified in earlier milestones.
-- The system should include SQLite package support.
-- The system should have a database connection service.
-- The system should define a SQLite database file path.
-- The system should initialize a local SQLite database file.
-- The system should create the Products table if it does not exist.
-- The system should exclude generated database files from Git tracking.
-- The system should have a repository layer for database access.
-- Product database operations should be placed in `ProductRepository`.
-- Product insert logic should be separated from `InventoryService`.
-- Product read logic should be separated from `InventoryService`.
-- Product search by code should be available through the repository.
-- SQL commands should use parameters instead of direct string interpolation.
-
-Planned for upcoming milestones:
-
 - Define database tables. (v0.3.0: M19 Implemented - Console Version)
 - Define primary keys. (v0.3.0: M19 Implemented - Console Version)
 - Define foreign keys. (v0.3.0: M19 Implemented - Console Version)
@@ -188,6 +136,52 @@ Planned for upcoming milestones:
 - Connect the C# application to the database. (v0.3.0: M22 Implemented - Console Version)
 - Replace JSON persistence with repository-based database access. (v0.3.0: M22 Implemented - Console Version)
 - Introduce repository pattern. (v0.3.0: M22 Implemented - Console Version)
+
+## v0.3.0 Requirements Status
+
+The following requirements are implemented or planned in v0.3.0:
+
+### Database Planning
+
+- The system identifies the main data entities needed for database storage.
+- The system documents planned database tables.
+- The system documents primary keys and foreign keys.
+- The system documents relationships between products, orders, order items, payments, receipts, stock movements, and notifications.
+- The system preserves historical transaction data through order item snapshot fields.
+
+### SQL Preparation
+
+- The system includes SQL scripts for creating planned tables.
+- The system includes SQL examples for create, read, update, and delete operations.
+- The system includes SQL examples for product deactivation and reactivation.
+- The system includes SQL examples for basic reporting queries.
+
+### SQLite Integration
+
+- The system includes SQLite package support.
+- The system includes a database connection service.
+- The system can initialize a local SQLite database file.
+- The system can create the Products table if it does not exist.
+- The system excludes generated SQLite database files from Git tracking.
+
+### Repository Pattern
+
+- The system introduces a repository layer for database access.
+- The system includes `ProductRepository`.
+- The system can insert product records through the repository.
+- The system can read product records through the repository.
+- The system can search products by product code through the repository.
+- SQL commands use parameters instead of direct string interpolation.
+
+Remaining planned work:
+
+- Convert full product CRUD menu flow to SQLite.
+- Add update, deactivate, reactivate, and delete methods in `ProductRepository`.
+- Add repositories for other models.
+- Reduce dependency on JSON persistence.
+- Add automated tests.
+
+
 
 ## v0.1.0 Requirements Status
 

@@ -30,7 +30,12 @@ StockFlow.Console/
 │   └── LoggingService.cs
 ├── Data/
 │   └── JsonStorageService.cs
+├── Database/
+│   └── DatabaseConnectionService.cs
+├── Repositories/
+│   └── ProductRepositories.cs
 ├── Utilities/
+│   └── LoggingService.cs
 │   └── InputValidationService.cs
 └── Program.cs
 
@@ -61,6 +66,7 @@ StockFlow.Console/
 - Notification.cs represents a simulated notification record.
 - NotificationService.cs creates and displays notification messages.
 - LoggingService.cs records informational and error messages.
+- DatabaseConnectionService.cs handles connection string setup and database initialization.
 
 ### Architecture Principle
 
@@ -164,4 +170,18 @@ Architecture notes:
 - Business services still use in-memory lists for now.
 - JSON persistence still exists for current app data.
 - Repository classes will be introduced later to handle actual database CRUD operations.
+
+## v0.3.0 Architecture Summary
+
+StockFlow v0.3.0 introduces database-ready architecture.
+
+Current storage flow:
+
+Program.cs
+    ↓
+DatabaseConnectionService
+    ↓
+SQLite database file
+    ↓
+Products table
 

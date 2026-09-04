@@ -427,9 +427,9 @@ Milestones:
 - No Web API yet
 - No automated tests yet
 
-## v0.3.0 - Database-Ready Inventory System
+## v0.4.0 - ASP.NET Core Web API Setup
 
-Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+Goal: Expose StockFlow features through an ASP.NET Core Web API.
 
 Milestones:
 ### - M24 - ASP.NET Core Web API Setup
@@ -451,6 +451,18 @@ Milestones:
 - Add Swagger UI or Scalar UI later for interactive browser testing.
 
 ### M25 - Product API Endpoints
+#### Completed:
+- Created `ProductsController`
+- Added endpoint to get all products
+- Added endpoint to get product by product code
+- Added not found response for invalid product code
+- Tested endpoints through localhost
+
+#### Known limitations:
+- Uses sample product data only
+- SQLite repository is not connected to API yet
+- Write endpoints are not implemented yet
+
 ### M26 - Order API Endpoints
 ### M27 - Payment API Endpoints
 ### M28 - Dashboard API Endpoints

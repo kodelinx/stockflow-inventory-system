@@ -351,3 +351,20 @@ Remaining planned work:
 - Add repositories for other models.
 - Reduce dependency on JSON persistence.
 - Add automated tests.
+
+## Product API Requirements
+
+Implemented in M25:
+
+- The API should allow clients to view products.
+- The API should allow clients to search a product by product code.
+- The API should return product data as JSON.
+- The API should return 404 when a product code does not exist.
+
+Planned:
+
+- Connect product endpoints to SQLite.
+- Add create product endpoint.
+- Add update product endpoint.
+- Add deactivate/reactivate product endpoints.
+- Add API validation and standardized error responses.

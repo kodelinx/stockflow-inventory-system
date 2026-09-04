@@ -185,6 +185,28 @@ SQLite database file
     ↓
 Products table
 
+## M25 Architecture Update
+
+M25 introduced product API endpoints.
+
+Current API flow:
+
+Browser / API Client
+    ↓
+GET /api/products
+    ↓
+ProductsController
+    ↓
+JSON response
+
+## Current Project
+
+StockFlow.Api
+├── Controllers
+│   └── ProductsController.cs
+└── Program.cs
+
+- ProductsController handles product-related HTTP requests.
 
 ### M24 Progress
 
@@ -204,3 +226,16 @@ Known limitations:
 
 - No custom StockFlow API endpoints yet
 - Swagger UI is not configured yet
+
+
+### M25 Progress
+
+Added initial product API endpoints.
+
+Completed:
+
+- Created `ProductsController`
+- Added `GET /api/products`
+- Added `GET /api/products/{productCode}`
+- Added JSON product responses
+- Added 404 response for missing product code

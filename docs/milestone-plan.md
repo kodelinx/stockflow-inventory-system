@@ -1,470 +1,167 @@
 # StockFlow Milestone Plan
 
-## Version Plan
+Last updated: 2026-09-05
 
-- v0.1.0 - Console Inventory and Sales MVP
-- v0.2.0 - Inventory Rules and Reporting
-- v0.3.0 - Database-Ready Inventory System
-- v0.4.0 - StockFlow Web API
-- v1.0.0 - Business MVP Release
+## Purpose
+
+This document is the source of truth for StockFlow version and milestone tracking.
+
+Requirements are documented in `requirements.md`.  
+Changes after release are documented in `release-notes.md`.
+
+---
+
+# Version Roadmap
 
 ## v0.1.0 - Console Inventory and Sales MVP
 
-Goal:
+Status: Released
 
-Build the first usable console version of StockFlow.
-
-Milestones:
-
-### M00 - Project Initialization - Completed
-### M01 - Product Model and Inventory Basics - Completed
-#### Completed:
-- Created `Product` model
-- Added product properties such as product code, name, category, price, stock quantity, reorder level, and active status
-- Created `InventoryService`
-- Added `ViewProducts()` method
-
-#### Known limitations:
-- Pre-filled data, no input prompts
-
-### M02 - Inventory CRUD Operations - Completed
-#### Completed:
-- Add product
-- View active products
-- Search product by name or product code
-- Update product details
-- Deactivate product using soft delete
-
-#### Known limitations:
-- Input validation is still basic.
-- Data is still stored in memory.
-- Product ID generation is temporary.
-
-### M03 - Service Structure and Input Validation - Completed
-#### Completed:
-- Created `InputValidationService`
-- Added `GetRequiredText()`
-- Added `GetValidInt()`
-- Added `GetValidDecimal()`
-- Added `GetValidMenuOption()`
-- Updated inventory CRUD methods and main program menu option to use validation helpers
-- Prevented invalid numeric inputs from crashing the app
-
-#### Known limitations:
-- Product ID generation is still based on list count.
-- Data is still stored only in memory.
-- Hard delete should be used only for exceptional cleanup scenarios.
-
-### M04 - Basket Management - Completed
-#### Completed:
-- Created `BasketItem` model
-- Created `BasketService`
-- Added products to basket using product code
-- Viewed basket contents
-- Removed basket items
-- Cleared basket
-- Calculated basket total
-- Prevented adding inactive products
-- Prevented adding quantities greater than available stock
-
-#### Known limitations:
-- Basket data is temporary and stored in memory.
-- Checkout has not been implemented yet.
-- Stock is not reduced until the checkout milestone.
-
-### M05 - Checkout and Order Creation
-#### Completed:
-- Created `Order` model
-- Created `OrderItem` model
-- Created `OrderService`
-- Added basket checkout
-- Generated order numbers
-- Calculated order totals
-- Reduced product stock after successful checkout
-- Cleared basket after checkout
-- Added order viewing
-
-#### Known limitations:
-- Orders are stored in memory only.
-- Payment processing is not yet implemented.
-- Order ID generation is temporary.
-
-### M06 - Payment Processing
-#### Completed:
-- Created `Payment` model
-- Created `PaymentService`
-- Added payment processing by order number
-- Added payment method selection
-- Validated amount paid
-- Calculated change amount
-- Stored payment records in memory
-- Updated order payment status after payment
-- Prevented duplicate payments
-
-#### Known limitations:
-- Payment data is stored in memory only.
-- Payment gateway integration is not implemented.
-- Receipt generation is not yet implemented.
-
-### M07 - Receipt Generation
-#### Completed:
-- Created `Receipt` model
-- Created `ReceiptService`
-- Generated receipt records by order number
-- Printed receipt details in the console
-- Displayed purchased items, total amount, payment method, amount paid, and change
-- Linked receipts to order and payment records
-- Prevented receipt generation for unpaid orders
-- Prevented duplicate receipt generation
-
-
-#### Known limitations:
-- Receipts are stored in memory only.
-- Receipt file export is not yet implemented.
-
-### M08 - Dashboard Summary
-#### Completed:
-- Created `DashboardService`
-- Displayed total products
-- Displayed active and inactive products
-- Displayed total available stock
-- Displayed total orders
-- Displayed completed and pending orders
-- Displayed total payments
-- Displayed total income
-- Displayed low-stock products
-
-
-#### Known limitations:
-- Dashboard is based on in-memory data only.
-- No date filters or charts are available yet.
-
-### M09 - JSON Persistence
-#### Completed:
-- Created `JsonStorageService`
-- Added generic save and load methods
-- Saved products, orders, payments, and receipts to JSON files
-- Loaded products, orders, payments, and receipts from JSON files
-- Added save and load menu options
-- Added empty constructors to models for JSON deserialization
-
-
-#### Known limitations:
-- Storage is local JSON file storage only.
-- Database storage is not yet implemented.
-- IDs are still generated using list counts.
-
-### M10 - v0.1.0 Release
-#### Completed:
-- Reviewed features from M00 to M09
-- Tested inventory, basket, order, payment, receipt, dashboard, and JSON persistence flows
-- Documented v0.1.0 release
-- Added release notes
-- Updated project documentation
-- Created Git tag for v0.1.0
-
-#### Release:
-- Version: v0.1.0
-- Name: Console Inventory and Sales MVP
-
-#### Known limitations:
-- Console app only
-- JSON file storage only
-- No database yet
-- No authentication yet
-- No automated tests yet
-- No web API yet
+- M00 - Project Initialization - Completed
+- M01 - Product Model and Inventory Basics - Completed
+- M02 - Inventory CRUD Operations - Completed
+- M03 - Service Structure and Input Validation - Completed
+- M04 - Basket Management - Completed
+- M05 - Checkout and Order Creation - Completed
+- M06 - Payment Processing - Completed
+- M07 - Receipt Generation - Completed
+- M08 - Dashboard Summary - Completed
+- M09 - JSON Persistence - Completed
+- M10 - v0.1.0 Release - Completed
 
 ## v0.2.0 - Inventory Rules and Reporting
 
-Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+Status: Released
 
-Milestones:
-
-### M11 - Stock Movement Tracking
-#### Completed:
-- Created `StockMovement` model
-- Created `StockMovementService`
-- Recorded stock-in movements
-- Recorded stock adjustment movements
-- Recorded stock-out movements from sales checkout
-- Added stock movement history viewing
-- Added JSON persistence for stock movement records
-
-#### Known limitations:
-- No filtering by date, product, or movement type yet.
-- No user tracking for who performed the movement.
-- No approval process for stock adjustments.
-
-### M12 - Low Stock Alerts
-#### Completed:
-- Created `AlertService`
-- Added low-stock alert menu option
-- Displayed active products with low stock
-- Used `QuantityInStock <= ReorderLevel` as the alert rule
-- Excluded inactive products from alert results
-
-#### Known limitations:
-- Alerts are manually viewed from the menu.
-- No automatic notification system yet.
-- No supplier restocking workflow yet.
-
-### M13 - Receipt File Export
-#### Completed:
-- Added receipt export method
-- Added receipt content builder
-- Created receipt files inside a `Receipts` folder
-- Exported receipt details as readable `.txt` files
-- Added receipt export menu option
-- Added error handling for receipt export
-
-#### Known limitations:
-- Text export only.
-- No PDF export yet.
-- No receipt reprint history yet.
-
-### M14 - Sales Summary Reports
-#### Completed:
-- Created `SalesReportService`
-- Displayed order sales summary
-- Displayed payment sales summary
-- Calculated total sales income
-- Calculated total cash received
-- Calculated total change given
-- Displayed sales by payment method
-- Displayed completed order details
-
-#### Known limitations:
-- No date-based filtering yet.
-- No product-level sales ranking yet.
-- No exported sales report yet.
-
-### M15 - Email Notification Simulation
-#### Completed:
-- Created `Notification` model
-- Created `NotificationService`
-- Simulated low-stock notification messages
-- Simulated completed order notification messages
-- Simulated receipt notification messages
-- Added notification history viewing
-- Added notification JSON persistence
-
-#### Known limitations:
-- Notifications are simulated only.
-- No real email provider integration yet.
-- Recipient addresses are placeholders.
-- No retry or delivery failure handling yet.
-
-### M16 - Error Handling and Logging Preparation
-#### Completed:
-- Created `LoggingService`
-- Added INFO log support
-- Added ERROR log support
-- Added text file log output
-- Automatically created `Logs` folder
-- Updated `JsonStorageService` to log save and load events
-- Logged JSON save and load errors
-- Added application start and close logs
-
-#### Known limitations:
-- Basic file-based logging only.
-- No log rotation yet.
-- No structured JSON logs yet.
-- No external logging library yet.
-
-### M17 - v0.2.0 Release
-#### Completed:
-- Reviewed v0.2.0 features from M11 to M16
-- Added product reactivation feature
-- Tested stock movement tracking
-- Tested low-stock alerts
-- Tested receipt text file export
-- Tested sales summary reports
-- Tested notification simulation
-- Tested basic logging
-- Updated project documentation
-- Updated release notes
-- Created Git tag for v0.2.0
-
-#### Release:
-
-- Version: v0.2.0
-- Name: Inventory Rules and Reporting
-
-#### Known limitations:
-
-- Console app only
-- JSON file storage only
-- No database yet
-- No real email provider yet
-- No automated tests yet
-- No web API yet
+- M11 - Stock Movement Tracking - Completed
+- M12 - Low Stock Alerts - Completed
+- M13 - Receipt File Export - Completed
+- M14 - Sales Summary Reports - Completed
+- M15 - Email Notification Simulation - Completed
+- M16 - Error Handling and Logging Preparation - Completed
+- M17 - v0.2.0 Release - Completed
 
 ## v0.3.0 - Database-Ready Inventory System
 
-Goal: Add inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
+Status: Released
 
-Milestones:
+- M18 - Database Requirements - Completed
+- M19 - Database Table Design - Completed
+- M20 - SQL CRUD Scripts - Completed
+- M21 - SQLite Integration - Completed
+- M22 - Repository Pattern Introduction - Completed
+- M23 - v0.3.0 Release - Completed
 
-### M18 - Database Requirements - Completed
-#### Completed:
-- Identified product data requirements
-- Identified order data requirements
-- Identified order item data requirements
-- Identified payment data requirements
-- Identified receipt data requirements
-- Identified stock movement data requirements
-- Identified notification data requirements
-- Identified active/inactive product state requirements
-- Identified historical transaction preservation requirements
-- Identified future reporting requirements
+## v0.4.0 - StockFlow Web API
 
-#### Known limitations:
-- No database tables designed yet
-- No SQL scripts yet
-- No database integration yet
+Status: In Progress
 
-### M19 - Database Table Design
-#### Completed:
-- Designed the Products table
-- Designed the Orders table
-- Designed the OrderItems table
-- Designed the Payments table
-- Designed the Receipts table
-- Designed the StockMovements table
-- Designed the Notifications table
-- Identified primary keys
-- Identified foreign keys
-- Identified table relationships
-- Documented the detailed design in `docs/database-design.md`
+- M24 - ASP.NET Core Web API Setup - Completed
+- M25 - Product API Endpoints - In Progress
+- M26 - Order API Endpoints - Planned
+- M27 - Payment API Endpoints - Planned
+- M28 - Dashboard API Endpoints - Planned
+- M29 - API Validation and Error Responses - Planned
+- M30 - v0.4.0 Release - Planned
 
-#### Known limitations:
-- SQL scripts are not created yet
-- SQLite database is not created yet
-- Application still uses JSON storage
-- Repository pattern is not implemented yet
+## v0.5.0 - Shared Architecture and Full API Integration
 
-### M20 - SQL CRUD Scripts 
-#### Completed:
-- Created `docs/sql/stockflow-crud-scripts.sql`
-- Added create table scripts
-- Added sample insert scripts
-- Added select/read scripts
-- Added update scripts
-- Added deactivate/reactivate scripts
-- Added delete examples
-- Added reporting query examples
+Status: Planned
 
-#### Known limitations:
-- Scripts are not integrated with the C# application yet.
-- SQLite database is not created yet.
-- Repository pattern is not implemented yet.
+- M31 - Create StockFlow.Core Class Library
+- M32 - Move Models to StockFlow.Core
+- M33 - Move Services to StockFlow.Core
+- M34 - Create StockFlow.Infrastructure Class Library
+- M35 - Move Repositories and Database Logic to StockFlow.Infrastructure
+- M36 - Connect API Endpoints to Real Services
+- M37 - Connect API Endpoints to SQLite Repositories
+- M38 - v0.5.0 Release
 
-### M21 - SQLite Integration
-#### Completed:
-- Installed SQLite package
-- Created `DatabaseConnectionService`
-- Added SQLite connection string setup
-- Added database initialization method
-- Added Products table creation from C#
-- Excluded generated SQLite database files from Git
+## v0.6.0 - Full Database-Backed StockFlow
 
-#### Known limitations:
-- Only Products table is created from C# for now
-- Product CRUD still uses current service/list flow
-- JSON persistence still exists
-- Repository pattern is not implemented yet
+Status: Planned
 
-### M22 - Repository Pattern Introduction
-#### Completed:
-- Created `ProductRepository`
-- Added AddProduct database method
-- Added GetAllProducts database method
-- Added GetActiveProducts database method
-- Added FindProductByCode database method
-- Tested SQLite read/write flow through repository
+- M39 - Complete Product Repository CRUD
+- M40 - Add Order Repository
+- M41 - Add OrderItem Repository
+- M42 - Add Payment Repository
+- M43 - Add Receipt Repository
+- M44 - Add StockMovement Repository
+- M45 - Add Notification Repository
+- M46 - Replace JSON Flow with SQLite Flow
+- M47 - v0.6.0 Release
 
-#### Known limitations:
-- Repository pattern is only applied to products for now.
-- Full product CRUD has not fully replaced the current in-memory service flow.
-- Other data models still use current JSON/list approach.
+## v0.7.0 - Authentication and User Roles
 
-### M23 - v0.3.0 Release 
-#### Completedd:
-- Defined database requirements
-- Designed planned database tables
-- Created SQL CRUD scripts
-- Added SQLite package support
-- Created `DatabaseConnectionService`
-- Added SQLite database initialization
-- Added automatic Products table creation
-- Created `ProductRepository`
-- Added product insert database method
-- Added product read database methods
-- Added product search by product code
-- Used SQL parameters for safer database commands
-- Added `.gitignore` rules for SQLite database files
-- Introduced database-ready architecture
-- Introduced repository pattern
-- Separated database connection setup from program logic
-- Separated product database access into `ProductRepository`
-- Prepared the app for future database-backed CRUD operations
+Status: Planned
 
-#### Release:
-- Version: v0.3.0
-- Name: Database-Ready Inventory System
+- M48 - User and Role Requirements
+- M49 - User Model and Role Model
+- M50 - Login Endpoint
+- M51 - Role-Based Authorization Rules
+- M52 - Protect Product, Order, and Payment Endpoints
+- M53 - v0.7.0 Release
 
+## v0.8.0 - Frontend Web Dashboard
 
-#### Known limitations:
+Status: Planned
 
-- The full app is not yet database-backed
-- Product menu flow still primarily uses current list/service flow
-- JSON persistence still exists
-- Only Products table is initialized from C# for now
-- Only ProductRepository has been started
-- Other repositories are not implemented yet
-- No Entity Framework yet
-- No Web API yet
-- No automated tests yet
+- M54 - Frontend Project Setup
+- M55 - Product Management Page
+- M56 - Order Management Page
+- M57 - Payment Management Page
+- M58 - Dashboard Summary Page
+- M59 - Connect Frontend to StockFlow API
+- M60 - v0.8.0 Release
 
-## v0.4.0 - ASP.NET Core Web API Setup
+## v0.9.0 - Testing, Error Handling, and Production Readiness
 
-Goal: Expose StockFlow features through an ASP.NET Core Web API.
+Status: Planned
 
-Milestones:
-### - M24 - ASP.NET Core Web API Setup
-#### Completed:
-- The system should include an ASP.NET Core Web API project.
-- The API project should be part of the StockFlow solution.
-- The API should run locally during development.
-- The API should expose a sample endpoint for initial testing.
-- The API should expose an OpenAPI document for endpoint discovery.
-- The API should prepare the project for future product, order, payment, and dashboard endpoints.
+- M61 - Unit Test Project Setup
+- M62 - Service Unit Tests
+- M63 - Repository Tests
+- M64 - API Integration Tests
+- M65 - Standardized Error Handling
+- M66 - Logging and Environment Configuration
+- M67 - Seed Data and Demo Data Setup
+- M68 - v0.9.0 Release
 
-#### Known limitations:
-- Add product API endpoints.
-- Add order API endpoints.
-- Add payment API endpoints.
-- Add dashboard API endpoints.
-- Add API validation and error responses.
-- Connect API endpoints to services and repositories.
-- Add Swagger UI or Scalar UI later for interactive browser testing.
+## v1.0.0 - Business MVP Release
 
-### M25 - Product API Endpoints
-#### Completed:
-- Created `ProductsController`
-- Added endpoint to get all products
-- Added endpoint to get product by product code
-- Added not found response for invalid product code
-- Tested endpoints through localhost
+Status: Planned
 
-#### Known limitations:
-- Uses sample product data only
-- SQLite repository is not connected to API yet
-- Write endpoints are not implemented yet
+- M69 - Final Feature Review
+- M70 - Final Bug Fixes and Cleanup
+- M71 - Final Documentation Update
+- M72 - Portfolio README Update
+- M73 - Demo Walkthrough Preparation
+- M74 - v1.0.0 Business MVP Release
 
-### M26 - Order API Endpoints
-### M27 - Payment API Endpoints
-### M28 - Dashboard API Endpoints
-### M29 - API Validation and Error Responses
-### M30 - v0.4.0 Release
+---
+
+# Milestone Update Rules
+
+For every milestone:
+
+1. Complete the code work.
+2. Test the feature.
+3. Update the affected documentation.
+4. Commit code changes.
+5. Commit documentation changes.
+6. Update this milestone plan.
+7. Update release notes if the milestone belongs to an active version.
+8. Tag the release only at release milestones.
+
+# Release Tag Rules
+
+Use Git tags for completed release milestones:
+
+```text
+v0.1.0
+v0.2.0
+v0.3.0
+v0.4.0
+```
+
+Do not create a tag for every milestone. Tags are for release checkpoints.

@@ -1,14 +1,27 @@
-## v0.1.0 - Console Inventory and Sales MVP
+# StockFlow Release Notes
+
+Last updated: 2026-09-05
+
+## Purpose
+
+This document records what changed in each released version of StockFlow.
+
+Milestone tracking belongs in `milestone-plan.md`.  
+Requirements belong in `requirements.md`.
+
+---
+
+# v0.1.0 - Console Inventory and Sales MVP
 
 Release Date: 2026-08-23
 
-### Summary
+## Summary
 
 StockFlow v0.1.0 is the first working console-based MVP of the inventory and sales management system.
 
 This release includes inventory management, basket management, checkout, payment processing, receipt generation, dashboard summaries, and JSON file persistence.
 
-### Completed Features
+## Completed Features
 
 - Product model and inventory listing
 - Product CRUD operations
@@ -28,7 +41,7 @@ This release includes inventory management, basket management, checkout, payment
 - Dashboard summary
 - JSON save and load support
 
-### Technical Improvements
+## Technical Improvements
 
 - Separated models, services, utilities, and data storage
 - Used service classes for business operations
@@ -37,7 +50,7 @@ This release includes inventory management, basket management, checkout, payment
 - Added validation for common invalid inputs
 - Added basic error handling for file operations
 
-### Known Limitations
+## Known Limitations
 
 - Console application only
 - Data is stored in local JSON files
@@ -49,19 +62,17 @@ This release includes inventory management, basket management, checkout, payment
 - ID generation is still based on list counts
 - No date-based reports yet
 
-### Next Version
+---
 
-v0.2.0 will focus on inventory rules, reporting improvements, stock movement tracking, receipt file export, and stronger error handling.
-
-## v0.2.0 - Inventory Rules and Reporting
+# v0.2.0 - Inventory Rules and Reporting
 
 Release Date: 2026-08-29
 
-### Summary
+## Summary
 
 StockFlow v0.2.0 improves the console MVP by adding inventory traceability, low-stock alerting, receipt export, sales reporting, notification simulation, and basic logging preparation.
 
-### Completed Features
+## Completed Features
 
 - Stock movement tracking
 - Stock-in records
@@ -81,20 +92,20 @@ StockFlow v0.2.0 improves the console MVP by adding inventory traceability, low-
 - JSON save/load event logging
 - JSON save/load error logging
 
-### Technical Improvements
+## Technical Improvements
 
-- Added `StockMovement` model
-- Added `Notification` model
-- Added `StockMovementService`
-- Added `AlertService`
-- Added `SalesReportService`
-- Added `NotificationService`
-- Added `LoggingService`
+- Added StockMovement model
+- Added Notification model
+- Added StockMovementService
+- Added AlertService
+- Added SalesReportService
+- Added NotificationService
+- Added LoggingService
 - Improved separation of concerns
 - Added basic application log file output
 - Improved troubleshooting support for JSON storage
 
-### Known Limitations
+## Known Limitations
 
 - Console application only
 - Local JSON file storage only
@@ -107,36 +118,33 @@ StockFlow v0.2.0 improves the console MVP by adding inventory traceability, low-
 - No advanced reporting filters yet
 - No structured logging or log rotation yet
 
-### Next Version
+---
 
-v0.3.0 will focus on preparing StockFlow for database-backed storage, SQL design, CRUD scripts, SQLite integration, and repository pattern introduction.
-
-
-## v0.3.0 - Database-Ready Inventory System
+# v0.3.0 - Database-Ready Inventory System
 
 Release Date: 2026-09-02
 
-### Summary
+## Summary
 
 StockFlow v0.3.0 prepares the application for database-backed storage. This version adds database requirements, database table design, SQL CRUD scripts, SQLite initialization, and the first repository class for product database access.
 
-### Completed Features
+## Completed Features
 
 - Defined database requirements
 - Designed planned database tables
 - Created SQL CRUD scripts
 - Added SQLite package support
-- Created `DatabaseConnectionService`
+- Created DatabaseConnectionService
 - Added SQLite database initialization
 - Added automatic Products table creation
-- Created `ProductRepository`
+- Created ProductRepository
 - Added product insert database method
 - Added product read database methods
 - Added product search by product code
 - Added SQL parameters for safer database commands
 - Added SQLite database file ignore rules
 
-### Technical Improvements
+## Technical Improvements
 
 - Introduced database-ready project direction
 - Introduced repository pattern
@@ -145,17 +153,88 @@ StockFlow v0.3.0 prepares the application for database-backed storage. This vers
 - Prepared future repository-based storage
 - Preserved JSON storage temporarily during migration
 
-### Known Limitations
+## Known Limitations
 
-- The full app is not yet database-backed
-- Product menu operations are not fully using SQLite yet
-- JSON persistence still exists
-- Only Products table is initialized from C#
-- Only ProductRepository has been started
-- Other repositories are not implemented yet
-- No web API yet
-- No automated tests yet
+- The full app is not yet database-backed.
+- Product menu operations are not fully using SQLite yet.
+- JSON persistence still exists.
+- Only Products table is initialized from C#.
+- Only ProductRepository has been started.
+- Other repositories are not implemented yet.
+- No Web API yet.
+- No automated tests yet.
 
-### Next Version
+---
 
-v0.4.0 will focus on preparing StockFlow for ASP.NET Core Web API development.
+# v0.4.0 - StockFlow Web API
+
+Status: In Progress
+
+## Summary
+
+StockFlow v0.4.0 introduces ASP.NET Core Web API support. The goal is to expose core StockFlow features through HTTP endpoints.
+
+## Progress
+
+### M24 - ASP.NET Core Web API Setup
+
+Status: Completed
+
+Completed:
+
+- Created StockFlow.Api project
+- Added API project to the StockFlow solution
+- Confirmed API project builds
+- Confirmed API project runs locally
+- Tested sample `/weatherforecast` endpoint
+- Tested OpenAPI document access through `/openapi/v1.json`
+- Reviewed basic ASP.NET Core Web API startup flow
+
+Known limitations:
+
+- Swagger UI is not configured yet.
+- Custom StockFlow endpoints were not part of M24.
+
+### M25 - Product API Endpoints
+
+Status: Completed
+
+Completed:
+
+- Created `ProductsController`
+- Added `GET /api/products`
+- Added `GET /api/products/{productCode}`
+- Connected product endpoints to `ProductRepository`
+- Retrieved active products through repository-based data access
+- Returned product data as JSON
+- Added `404 Not Found` response for missing product codes
+- Confirmed product API routes work locally
+
+Known limitations:
+
+- Product API currently supports read operations only
+- Create, update, delete, and deactivate product endpoints are not yet implemented
+- API authentication and authorization are not yet implemented
+- Shared architecture cleanup is planned for a future version
+
+## Expected v0.4.0 Outcome
+
+By the end of v0.4.0, StockFlow should have:
+
+- Working API project
+- Product API endpoints
+- Order API endpoints
+- Payment API endpoints
+- Dashboard API endpoints
+- Basic API validation
+- Basic API error responses
+- OpenAPI document access
+
+## Expected v0.4.0 Limitations
+
+- API may still use temporary sample data.
+- Full SQLite-backed API integration may not be complete.
+- Console app may still contain the main business flow.
+- Authentication is not yet implemented.
+- Frontend UI is not yet implemented.
+- Swagger UI or Scalar UI is not yet configured unless added later.

@@ -1,370 +1,689 @@
 # StockFlow Requirements
 
-## Functional Requirements
+## Document Purpose
 
-### Inventory Management
+This document defines what StockFlow should do as a system.
 
-- The system should allow users to add products. (v0.1.0: M02 Implemented - Console Version)
-- The system should allow users to view products. (v0.1.0: M01 Implemented - Console Version)
-- The system should allow users to search products. (v0.1.0: MO2 Implemented - Console Version)
-- The system should allow users to update product details. (v0.1.0: MO2 Implemented - Console Version)
-- The system should allow users to deactivate products. (v0.1.0: MO2 Implemented - Console Version)
-- The system should allow users to reactivate products. (v0.2.0: m17 Implemented - Console Version)
-- The system should allow users to delete products. (v0.1.0: MO2 Implemented - Console Version)
-- The system should track product stock quantity. (v0.1.0: MO2 Implemented - Console Version)
-- The system should identify low-stock products. (v0.2.0: M12 Implemented - Console Version)
+It should answer:
 
-### Basket and Orders
+- What features should StockFlow support?
+- What business needs should the system solve?
+- What rules should the system follow?
+- What requirements are implemented, in progress, planned, or deferred?
 
-- The system should allow users to add products to a basket. (v0.1.0: MO4 Implemented - Console Version)
-- The system should allow users to remove products from the basket. (v0.1.0: MO4 Implemented - Console Version)
-- The system should calculate basket totals. (v0.1.0: MO4 Implemented - Console Version)
-- The system should convert a basket into an order. (v0.1.0: MO5 Implemented - Console Version)
-- The system should reduce stock after checkout. (v0.1.0: MO5 Implemented - Console Version)
-- The system should prevent checkout when stock is insufficient. (v0.1.0: MO5 Implemented - Console Version)
+This file should not be the main milestone tracker. Version and milestone progress are tracked in `docs/milestone-plan.md`.
 
-### Payments
+## Requirement Status Labels
 
-- The system should record payment method. (v0.1.0: MO6 Implemented - Console Version)
-- The system should validate payment amount. (v0.1.0: MO6 Implemented - Console Version)
-- The system should calculate change for cash payments. (v0.1.0: MO6 Implemented - Console Version)
-- The system should track paid and unpaid orders. (v0.1.0: MO6 Implemented - Console Version)
+Use only these status labels to keep this document easy to update:
 
-### Receipts
+- Implemented - already working
+- In Progress - currently being developed
+- Planned - planned for a future milestone or version
+- Deferred - moved to a later version
+- Future Enhancement - useful, but not part of the current MVP plan
 
-- The system should generate receipts after checkout. (v0.1.0: MO7 Implemented - Console Version)
-- The receipt should display ordered items, quantities, prices, total, payment method, amount paid, and change. (v0.1.0: MO7 Implemented - Console Version)
-- The system should print out receipts as text file (v0.2.0: M13 Implemented - Console Version)
+## Requirement ID Guide
 
-### Dashboard
+- INV - Inventory
+- ORD - Orders and basket
+- PAY - Payments
+- RCT - Receipts
+- STK - Stock movement
+- DASH - Dashboard and reporting
+- NOTIF - Notifications
+- USER - Users and roles
+- API - Web API
+- DB - Database
+- NFR - Non-functional requirements
 
-- The system should show total products. (v0.1.0: MO8 Implemented - Console Version)
-- The system should show available stock. (v0.1.0: MO8 Implemented - Console Version)
-- The system should show low-stock items. (v0.1.0: MO8 Implemented - Console Version)
-- The system should show total sales. (v0.1.0: MO8 Implemented - Console Version)
-- The system should show total income. (v0.1.0: MO8 Implemented - Console Version)
+## How to Update This File
 
-### Notifications
+When a milestone changes, update only the affected requirement cards.
 
-- The system should notify the owner when a new order is created.
-- The first version may simulate email notification before real email integration. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated low-stock notification records. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated completed order notification records.  (v0.2.0: M15 Implemented - Console Version - Simulation Only)
-- The system creates simulated receipt notification records. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
-- The system stores notification type, recipient, subject, message, creation date, and status. (v0.2.0: M15 Implemented - Console Version - Simulation Only)
-- The system allows users to view notification history. (v0.2.0: M15 Implemented - Console Version)
-- The system saves and loads notification records through JSON persistence. (v0.2.0: M15 Implemented - Console Version)
+Do not repeat the full version roadmap here. Use short references only, such as:
 
-### Reports
+```text
+Related Milestone: M25
+```
 
-- The system should record and view the increase, adjustments, and reductions of stock quantity of a product.(v0.2.0: M11 Implemented - Console Version)
-- The system should present orders and payment summaries for sales report (v0.2.0: M14 Implemented - Console Version)
+The full version roadmap belongs in `docs/milestone-plan.md`.
 
-## Non-Functional Requirements
+---
 
-- The system should validate user input. (v0.1.0: MO3 Implemented - Console Version)
-- The system records informational log entries. (v0.2.0: M16 Implemented - Console Version)
-- The system records error log entries. (v0.2.0: M16 Implemented - Console Version)
-- The system writes logs to a text file. (v0.2.0: M16 Implemented - Console Version)
-- The system creates the log folder when needed. (v0.2.0: M16 Implemented - Console Version)
-- The system logs JSON save success events. (v0.2.0: M16 Implemented - Console Version)
-- The system logs JSON load success events. (v0.2.0: M16 Implemented - Console Version)
-- The system logs JSON save/load failures. (v0.2.0: M16 Implemented - Console Version)
-- The system continues running when logging fails. (v0.2.0: M16 Implemented - Console Version)
-- The system should use clear code structure.
-- The system should separate models, services, data, and utilities. (v0.1.0: MO9 Implemented - Console Version)
-- The system should save data so it is not lost after closing the app. (v0.1.0: MO9 Implemented - Console Version)
-- The system should be documented through README and project docs.
-- The system should be version-controlled using Git and GitHub.
+# Functional Requirements
 
-## Database Storage
+## Inventory Management
 
-- The system should define database tables for products, orders, payments, receipts, stock movements, and notifications.
-- The system should support database-backed save and load operations.
-- The system should replace local JSON storage with database persistence.
-- The system should use safer ID generation through database identifiers.
-- The system should support SQL CRUD operations.
+Business need:
 
-### Database planning
-Before creating tables or writing SQL, we  should understand what business data needs to be stored and why. Database design should come from business requirements, not just from copying current C# classes.
-- Store Products
-- Store Orders
-- Store Order Items
-- Store Payments
-- Store Receipts
-- Store Stcok Movements
-- Store Notifications
-- Support Active and Inactive Products
-- Preseerve Historical Transaction data
-- Support Future Reports
+Small businesses need to create, view, search, update, deactivate, reactivate, and monitor products.
 
-#### Database Entities Needed
-Main Tables:
-- Products
-- Orders
-- OrderItems
-- Payments
-- Receipts
-- StockMovements
-- Notifications
+#### INV-001 - Add Products
 
-Later Future Tables:
-- Users
-- Roles
-- Customers
-- Suppliers
-- Categories
-- AuditLogs
+- Requirement: The system should allow authorized users to add products.
+- Status: Implemented
+- Related Milestone: M02
+- Notes: Product code should be unique. Product name should not be empty.
 
-#### Relationship Planning
-- One Product can appear in many OrderItems.
-- One Order has many OrderItems.
-- One Order can have one Payment.
-- One Payment can have one Receipt.
-- One Product can have many StockMovements.
-- One Product can trigger many Notifications indirectly.
+#### INV-002 - View Products
 
-#### Database Requirement Rules
-- Define database tables. (v0.3.0: M19 Implemented - Console Version)
-- Define primary keys. (v0.3.0: M19 Implemented - Console Version)
-- Define foreign keys. (v0.3.0: M19 Implemented - Console Version)
-- Define relationships between tables. (v0.3.0: M19 Implemented - Console Version)
-- Write SQL CRUD scripts. (v0.3.0: M20 Implemented - Console Version)
-- Integrate SQLite. (v0.3.0: M21 Implemented - Console Version)
-- Create an actual SQLite database. (v0.3.0: M22 Implemented - Console Version)
-- Run the SQL scripts against SQLite. (v0.3.0: M22 Implemented - Console Version)
-- Connect the C# application to the database. (v0.3.0: M22 Implemented - Console Version)
-- Replace JSON persistence with repository-based database access. (v0.3.0: M22 Implemented - Console Version)
-- Introduce repository pattern. (v0.3.0: M22 Implemented - Console Version)
+- Requirement: The system should allow users or API clients to view product records.
+- Status: Implemented
+- Related Milestone: M01, M25
+- Notes: Console version is implemented. API version is currently part of M25.
 
-## v0.3.0 Requirements Status
+#### INV-003 - Search Products
 
-The following requirements are implemented or planned in v0.3.0:
+- Requirement: The system should allow users or API clients to search products by product code.
+- Status: Implemented
+- Related Milestone: M02, M25
+- Notes: API version should return 404 when the product code does not exist.
 
-### Database Planning
+#### INV-004 - Update Products
 
-- The system identifies the main data entities needed for database storage.
-- The system documents planned database tables.
-- The system documents primary keys and foreign keys.
-- The system documents relationships between products, orders, order items, payments, receipts, stock movements, and notifications.
-- The system preserves historical transaction data through order item snapshot fields.
+- Requirement: The system should allow authorized users to update product details.
+- Status: Implemented
+- Related Milestone: M02
+- Notes: API and database-backed versions are planned for later.
 
-### SQL Preparation
+#### INV-005 - Deactivate Products
 
-- The system includes SQL scripts for creating planned tables.
-- The system includes SQL examples for create, read, update, and delete operations.
-- The system includes SQL examples for product deactivation and reactivation.
-- The system includes SQL examples for basic reporting queries.
+- Requirement: The system should allow authorized users to deactivate products.
+- Status: Implemented
+- Related Milestone: M02
+- Notes: Deactivation should be preferred over hard deletion when transaction history exists.
 
-### SQLite Integration
+#### INV-006 - Reactivate Products
 
-- The system includes SQLite package support.
-- The system includes a database connection service.
-- The system can initialize a local SQLite database file.
-- The system can create the Products table if it does not exist.
-- The system excludes generated SQLite database files from Git tracking.
+- Requirement: The system should allow authorized users to reactivate inactive products.
+- Status: Implemented
+- Related Milestone: v0.2.0
+- Notes: Reactivated products can be used again in normal inventory operations.
 
-### Repository Pattern
+#### INV-007 - Delete Products
 
-- The system introduces a repository layer for database access.
-- The system includes `ProductRepository`.
-- The system can insert product records through the repository.
-- The system can read product records through the repository.
-- The system can search products by product code through the repository.
-- SQL commands use parameters instead of direct string interpolation.
+- Requirement: The system should allow authorized users to delete products only when appropriate.
+- Status: Implemented
+- Related Milestone: M02
+- Notes: Hard delete should be controlled by business rules.
 
-Remaining planned work:
+#### INV-008 - Track Stock Quantity
 
-- Convert full product CRUD menu flow to SQLite.
-- Add update, deactivate, reactivate, and delete methods in `ProductRepository`.
-- Add repositories for other models.
-- Reduce dependency on JSON persistence.
+- Requirement: The system should track product stock quantity.
+- Status: Implemented
+- Related Milestone: M02
+- Notes: Full database-backed stock tracking is planned for a later version.
+
+#### INV-009 - Identify Low-Stock Products
+
+- Requirement: The system should identify products where stock is at or below reorder level.
+- Status: Implemented
+- Related Milestone: M12
+- Notes: Dashboard API version is planned for M28.
+
+---
+
+## Basket and Order Management
+
+Business need:
+
+The business needs to select products for checkout and convert them into order records.
+
+#### ORD-001 - Add Items to Basket
+
+- Requirement: The system should allow users to add products to a basket.
+- Status: Implemented
+- Related Milestone: M04
+- Notes: Basket data is temporary in the current console version.
+
+#### ORD-002 - View Basket
+
+- Requirement: The system should allow users to view basket contents.
+- Status: Implemented
+- Related Milestone: M04
+
+#### ORD-003 - Remove Items from Basket
+
+- Requirement: The system should allow users to remove items from the basket.
+- Status: Implemented
+- Related Milestone: M04
+
+#### ORD-004 - Clear Basket
+
+- Requirement: The system should allow users to clear the basket.
+- Status: Implemented
+- Related Milestone: M04
+
+#### ORD-005 - Calculate Basket Total
+
+- Requirement: The system should calculate basket totals using quantity and unit price.
+- Status: Implemented
+- Related Milestone: M04
+
+#### ORD-006 - Checkout Basket
+
+- Requirement: The system should convert a valid basket into an order.
+- Status: Implemented
+- Related Milestone: M05
+- Notes: Checkout should not proceed when stock is insufficient.
+
+#### ORD-007 - Create Order Records
+
+- Requirement: The system should create order records.
+- Status: Implemented
+- Related Milestone: M05
+- Notes: API read endpoint is planned for M26.
+
+#### ORD-008 - Create Order Item Records
+
+- Requirement: The system should create order item records for products inside an order.
+- Status: Implemented
+- Related Milestone: M05
+- Notes: Order items should preserve product snapshot data.
+
+#### ORD-009 - View Orders
+
+- Requirement: The system should allow users or API clients to view orders.
+- Status: Planned
+- Related Milestone: M26
+
+#### ORD-010 - Search Orders
+
+- Requirement: The system should allow users or API clients to search orders by order number.
+- Status: Planned
+- Related Milestone: M26
+
+---
+
+## Payment Management
+
+Business need:
+
+The business needs to record customer payments and track paid or unpaid orders.
+
+#### PAY-001 - Process Payment
+
+- Requirement: The system should allow users to process payment for an order.
+- Status: Implemented
+- Related Milestone: M06
+
+#### PAY-002 - Record Payment Method
+
+- Requirement: The system should record payment method.
+- Status: Implemented
+- Related Milestone: M06
+
+#### PAY-003 - Validate Payment Amount
+
+- Requirement: The system should validate that amount paid is enough to cover amount due.
+- Status: Implemented
+- Related Milestone: M06
+
+#### PAY-004 - Calculate Change
+
+- Requirement: The system should calculate change when amount paid is greater than amount due.
+- Status: Implemented
+- Related Milestone: M06
+
+#### PAY-005 - Track Payment Status
+
+- Requirement: The system should track paid and unpaid orders.
+- Status: Implemented
+- Related Milestone: M06
+
+#### PAY-006 - View Payment Records
+
+- Requirement: The system should allow users or API clients to view payment records.
+- Status: Planned
+- Related Milestone: M27
+
+#### PAY-007 - Search Payment Records
+
+- Requirement: The system should allow users or API clients to search payment records by payment number or order number.
+- Status: Planned
+- Related Milestone: M27
+
+---
+
+## Receipt Management
+
+Business need:
+
+The business needs proof of completed transactions.
+
+#### RCT-001 - Generate Receipt
+
+- Requirement: The system should generate receipts after successful payment.
+- Status: Implemented
+- Related Milestone: M07
+
+#### RCT-002 - Prevent Duplicate Receipts
+
+- Requirement: The system should prevent duplicate receipt generation for the same order.
+- Status: Implemented
+- Related Milestone: M07
+
+#### RCT-003 - Display Receipt Details
+
+- Requirement: The receipt should display ordered items, quantities, prices, total amount, payment method, amount paid, and change.
+- Status: Implemented
+- Related Milestone: M07
+
+#### RCT-004 - View Receipts
+
+- Requirement: The system should allow users to view generated receipts.
+- Status: Implemented
+- Related Milestone: M07
+
+#### RCT-005 - Export Receipt to Text File
+
+- Requirement: The system should export receipts as text files.
+- Status: Implemented
+- Related Milestone: M13
+
+#### RCT-006 - Export Receipt to PDF
+
+- Requirement: The system should support receipt PDF export.
+- Status: Future Enhancement
+- Related Milestone: Future
+
+---
+
+## Stock Movement Requirements
+
+Business need:
+
+The business needs an audit trail of inventory quantity changes.
+
+#### STK-001 - Record Stock In
+
+- Requirement: The system should record stock increases.
+- Status: Implemented
+- Related Milestone: M11
+
+#### STK-002 - Record Stock Adjustments
+
+- Requirement: The system should record stock adjustments.
+- Status: Implemented
+- Related Milestone: M11
+
+#### STK-003 - Record Stock Out
+
+- Requirement: The system should record stock reductions caused by checkout.
+- Status: Implemented
+- Related Milestone: M11
+
+#### STK-004 - Store Stock Before and After
+
+- Requirement: Stock movement records should store stock before and stock after values.
+- Status: Implemented
+- Related Milestone: M11
+
+#### STK-005 - Record Movement Reason
+
+- Requirement: Stock movement records should include a reason.
+- Status: Implemented
+- Related Milestone: M11
+
+#### STK-006 - View Stock Movement History
+
+- Requirement: The system should allow users to view stock movement history.
+- Status: Implemented
+- Related Milestone: M11
+
+---
+
+## Dashboard and Reporting Requirements
+
+Business need:
+
+The business needs summaries to understand inventory, orders, payments, and sales performance.
+
+#### DASH-001 - Inventory Summary
+
+- Requirement: The system should show inventory summary data.
+- Status: Implemented
+- Related Milestone: M08
+- Notes: API dashboard version is planned for M28.
+
+#### DASH-002 - Order Summary
+
+- Requirement: The system should show order summary data.
+- Status: Implemented
+- Related Milestone: M08, M14
+- Notes: API dashboard version is planned for M28.
+
+#### DASH-003 - Payment Summary
+
+- Requirement: The system should show payment summary data.
+- Status: Implemented
+- Related Milestone: M08, M14
+- Notes: API dashboard version is planned for M28.
+
+#### DASH-004 - Income Summary
+
+- Requirement: The system should show total sales income.
+- Status: Implemented
+- Related Milestone: M08, M14
+- Notes: Use amount due as actual sales income.
+
+#### DASH-005 - Low-Stock Summary
+
+- Requirement: The system should show low-stock product summary.
+- Status: Implemented
+- Related Milestone: M08, M12
+
+#### DASH-006 - Sales by Payment Method
+
+- Requirement: The system should display sales grouped by payment method.
+- Status: Implemented
+- Related Milestone: M14
+
+#### DASH-007 - Dashboard API Endpoint
+
+- Requirement: The API should expose dashboard summary data.
+- Status: Planned
+- Related Milestone: M28
+
+---
+
+## Notification Requirements
+
+Business need:
+
+The system should record or notify important business events.
+
+#### NOTIF-001 - Simulate Low-Stock Notification
+
+- Requirement: The system should create simulated low-stock notification records.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-002 - Simulate Completed Order Notification
+
+- Requirement: The system should create simulated completed order notification records.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-003 - Simulate Receipt Notification
+
+- Requirement: The system should create simulated receipt notification records.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-004 - Store Notification Details
+
+- Requirement: The system should store notification type, recipient, subject, message, creation date, and status.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-005 - View Notification History
+
+- Requirement: The system should allow users to view notification history.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-006 - Save and Load Notifications
+
+- Requirement: The system should save and load notification records through persistence.
+- Status: Implemented
+- Related Milestone: M15
+
+#### NOTIF-007 - Real Email Notification
+
+- Requirement: The system should support real email sending in the future.
+- Status: Future Enhancement
+- Related Milestone: Future
+
+---
+
+## User Management and Role Requirements
+
+Business need:
+
+A business-ready system should restrict actions based on user roles.
+
+#### USER-001 - User Accounts
+
+- Requirement: The system should support user accounts.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+#### USER-002 - Login
+
+- Requirement: The system should support user login.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+#### USER-003 - Role-Based Access
+
+- Requirement: The system should support role-based access.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+#### USER-004 - Admin, Staff, and Cashier Roles
+
+- Requirement: The system should support Admin, Staff, and Cashier roles.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+#### USER-005 - Protected Actions
+
+- Requirement: The system should restrict sensitive actions such as product deletion and payment processing.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+---
+
+# Database Requirements
+
+#### DB-001 - Define Database Entities
+
+- Requirement: The system should identify main business entities that need storage.
+- Status: Implemented
+- Related Milestone: M18
+
+#### DB-002 - Design Database Tables
+
+- Requirement: The system should define planned database tables.
+- Status: Implemented
+- Related Milestone: M19
+
+#### DB-003 - Define Keys and Relationships
+
+- Requirement: The system should define primary keys, foreign keys, and table relationships.
+- Status: Implemented
+- Related Milestone: M19
+
+#### DB-004 - Preserve Historical Transaction Data
+
+- Requirement: The system should preserve historical product details in order items.
+- Status: Implemented
+- Related Milestone: M19
+
+#### DB-005 - SQL CRUD Scripts
+
+- Requirement: The system should include SQL scripts for create, read, update, and delete operations.
+- Status: Implemented
+- Related Milestone: M20
+
+#### DB-006 - SQLite Integration
+
+- Requirement: The system should initialize a local SQLite database file.
+- Status: Implemented
+- Related Milestone: M21
+
+#### DB-007 - Repository Pattern
+
+- Requirement: The system should separate database access through repositories.
+- Status: Started
+- Related Milestone: M22
+
+#### DB-008 - Full Database-Backed Flow
+
+- Requirement: The system should eventually replace JSON persistence with database-backed storage.
+- Status: Planned
+- Related Milestone: v0.6.0
+
+---
+
+# API Requirements
+
+#### API-001 - API Project Setup
+
+- Requirement: The system should include an ASP.NET Core Web API project.
+- Status: Implemented
+- Related Milestone: M24
+
+#### API-002 - OpenAPI Document
+
+- Requirement: The API should expose an OpenAPI document for endpoint discovery.
+- Status: Implemented
+- Related Milestone: M24
+- Notes: Current route is `/openapi/v1.json`.
+
+#### API-003 - Product List Endpoint
+
+- Requirement: The API should expose `GET /api/products`.
+- Status: Implemented
+- Related Milestone: M25
+
+#### API-004 - Product Search Endpoint
+
+- Requirement: The API should expose `GET /api/products/{productCode}`.
+- Status: Implemented
+- Related Milestone: M25
+
+#### API-005 - Order List Endpoint
+
+- Requirement: The API should expose `GET /api/orders`.
+- Status: Planned
+- Related Milestone: M26
+
+#### API-006 - Order Search Endpoint
+
+- Requirement: The API should expose `GET /api/orders/{orderNumber}`.
+- Status: Planned
+- Related Milestone: M26
+
+#### API-007 - Payment List Endpoint
+
+- Requirement: The API should expose `GET /api/payments`.
+- Status: Planned
+- Related Milestone: M27
+
+#### API-008 - Payment Search Endpoint
+
+- Requirement: The API should expose `GET /api/payments/{paymentNumber}`.
+- Status: Planned
+- Related Milestone: M27
+
+#### API-009 - Dashboard Endpoint
+
+- Requirement: The API should expose dashboard summary data.
+- Status: Planned
+- Related Milestone: M28
+
+#### API-010 - API Validation and Error Responses
+
+- Requirement: The API should return proper status codes and clear error messages.
+- Status: Planned
+- Related Milestone: M29
+
+#### API-011 - Swagger UI or Scalar UI
+
+- Requirement: The API may support an interactive browser testing UI.
+- Status: Future Enhancement
+- Related Milestone: Future
+
+---
+
+# Non-Functional Requirements
+
+#### NFR-001 - Input Validation
+
+- Requirement: The system should validate user input and prevent common invalid inputs from crashing the app.
+- Status: Implemented
+- Related Milestone: M03, M29
+
+#### NFR-002 - Clear Code Structure
+
+- Requirement: The system should separate responsibilities into appropriate folders and classes.
+- Status: Ongoing
+- Related Milestone: All milestones
+
+#### NFR-003 - Persistence
+
+- Requirement: The system should save important business data so it is not lost after closing the app.
+- Status: Implemented
+- Related Milestone: M09, v0.6.0
+
+#### NFR-004 - Logging
+
+- Requirement: The system should record informational and error log entries.
+- Status: Implemented
+- Related Milestone: M16
+
+#### NFR-005 - Reliability
+
+- Requirement: The system should handle expected errors safely.
+- Status: Ongoing
+- Related Milestone: M03, M13, M16, M29, v0.9.0
+
+#### NFR-006 - Security
+
+- Requirement: The system should protect sensitive actions and avoid storing secrets in source code.
+- Status: Planned
+- Related Milestone: v0.7.0
+
+#### NFR-007 - Testing
+
+- Requirement: The system should include automated tests.
+- Status: Planned
+- Related Milestone: v0.9.0
+
+#### NFR-008 - Documentation
+
+- Requirement: The system should be documented through README and project docs.
+- Status: Ongoing
+- Related Milestone: All releases
+
+#### NFR-009 - Version Control
+
+- Requirement: The system should use Git and GitHub with clear commits and release tags.
+- Status: Ongoing
+- Related Milestone: All releases
+
+---
+
+# Known Current Limitations
+
+- The full app is not yet production-ready.
+- The full app is not yet fully database-backed.
+- JSON persistence still exists.
+- API endpoints may still use temporary sample data.
+- M25 should remain In Progress until API routes are fully verified.
+- Authentication is not yet implemented.
+- Role-based access is not yet implemented.
+- Frontend UI is not yet implemented.
+- Automated tests are not yet implemented.
+- Real email sending is not yet implemented.
+- Deployment is not yet implemented.
+
+# Future Enhancements
+
+- Add Swagger UI or Scalar UI for interactive API testing.
+- Add full SQLite-backed API integration.
+- Add authentication and authorization.
+- Add frontend dashboard.
 - Add automated tests.
-
-## Web API Requirements
-
-Implemented setup in M24:
-
-- The system should include an ASP.NET Core Web API project.
-- The API project should be part of the StockFlow solution.
-- The API should run locally during development.
-- The API should expose a sample endpoint for initial testing.
-- The API should expose an OpenAPI document for endpoint discovery.
-- The API should prepare the project for future product, order, payment, and dashboard endpoints.
-
-Planned for future milestones:
-
-- Add product API endpoints.
-- Add order API endpoints.
-- Add payment API endpoints.
-- Add dashboard API endpoints.
-- Add API validation and error responses.
-- Connect API endpoints to services and repositories.
-- Add Swagger UI or Scalar UI later for interactive browser testing.
-
-## v0.1.0 Requirements Status
-
-The following requirements are implemented in v0.1.0:
-
-### Inventory
-- Add products
-- View products
-- Search products
-- Update products
-- Deactivate products
-- Delete products
-
-### Basket
-- Add items to basket
-- View basket
-- Remove items from basket
-- Clear basket
-- Calculate basket total
-
-### Orders
-- Checkout basket
-- Create order records
-- Create order item records
-- View orders
-- Reduce stock after checkout
-
-### Payments
-- Process payment
-- Select payment method
-- Validate amount paid
-- Calculate change
-- View payments
-
-### Receipts
-- Generate receipts
-- View receipts
-- Prevent duplicate receipt generation
-
-### Dashboard
-- Show inventory summary
-- Show order summary
-- Show payment summary
-- Show income summary
-- Show low-stock products
-
-### Storage
-- Save products/orders/payments/receipts to JSON
-- Load products/orders/payments/receipts from JSON
-
-
-## v0.2.0 Requirements Status
-
-The following requirements are implemented in v0.2.0:
-
-### Stock Movement Tracking
-
-- The system records stock increases.
-- The system records stock adjustments.
-- The system records stock reductions caused by checkout.
-- The system stores stock before and stock after values.
-- The system records reasons for stock movements.
-- The system allows users to view stock movement history.
-
-### Low-Stock Alerts
-
-- The system identifies active products with low stock.
-- The system treats a product as low stock when `QuantityInStock <= ReorderLevel`.
-- The system excludes inactive products from low-stock alerts.
-- The system allows users to view low-stock alerts.
-
-### Receipt Export
-
-- The system exports generated receipts to text files.
-- The system creates a receipt folder when needed.
-- The system uses receipt data, order data, and payment data for export.
-- The system handles export errors safely.
-
-### Sales Reports
-
-- The system displays total orders.
-- The system displays completed and pending orders.
-- The system calculates total sales income.
-- The system calculates total cash received.
-- The system calculates total change given.
-- The system displays sales by payment method.
-
-### Notifications
-
-- The system creates simulated low-stock notification records.
-- The system creates simulated completed order notification records.
-- The system creates simulated receipt notification records.
-- The system allows users to view notification history.
-- The system saves and loads notifications through JSON persistence.
-
-### Logging
-
-- The system records informational log entries.
-- The system records error log entries.
-- The system writes logs to a text file.
-- The system logs JSON save/load events.
-- The system logs JSON save/load failures.
-
-### Inventory
-- Reactivate products
-
-
-## v0.3.0 Requirements Status
-
-The following requirements are implemented or planned in v0.3.0:
-
-### Database Planning
-
-- The system identifies the main data entities needed for database storage.
-- The system documents planned database tables.
-- The system documents primary keys and foreign keys.
-- The system documents relationships between products, orders, order items, payments, receipts, stock movements, and notifications.
-- The system preserves historical transaction data through order item snapshot fields.
-
-### SQL Preparation
-
-- The system includes SQL scripts for creating planned tables.
-- The system includes SQL examples for create, read, update, and delete operations.
-- The system includes SQL examples for product deactivation and reactivation.
-- The system includes SQL examples for basic reporting queries.
-
-### SQLite Integration
-
-- The system includes SQLite package support.
-- The system includes a database connection service.
-- The system can initialize a local SQLite database file.
-- The system can create the Products table if it does not exist.
-- The system excludes generated SQLite database files from Git tracking.
-
-### Repository Pattern
-
-- The system introduces a repository layer for database access.
-- The system includes `ProductRepository`.
-- The system can insert product records through the repository.
-- The system can read product records through the repository.
-- The system can search products by product code through the repository.
-- SQL commands use parameters instead of direct string interpolation.
-
-Remaining planned work:
-
-- Convert full product CRUD menu flow to SQLite.
-- Add update, deactivate, reactivate, and delete methods in `ProductRepository`.
-- Add repositories for other models.
-- Reduce dependency on JSON persistence.
-- Add automated tests.
-
-## Product API Requirements
-
-Implemented in M25:
-
-- The API should allow clients to view products.
-- The API should allow clients to search a product by product code.
-- The API should return product data as JSON.
-- The API should return 404 when a product code does not exist.
-
-Planned:
-
-- Connect product endpoints to SQLite.
-- Add create product endpoint.
-- Add update product endpoint.
-- Add deactivate/reactivate product endpoints.
-- Add API validation and standardized error responses.
+- Add deployment configuration.
+- Add real email notifications.
+- Add customer management.
+- Add supplier management.
+- Add product categories.
+- Add audit logs.
+- Add advanced reports.
+- Add PDF and Excel exports.
+- Add barcode scanning.

@@ -1,3 +1,7 @@
+# StockFlow Database Design
+
+Last updated: 2026-09-05
+
 ## Version
 
 v0.3.0 - Database-Ready Inventory System
@@ -6,11 +10,13 @@ v0.3.0 - Database-Ready Inventory System
 
 This document describes the planned database structure for StockFlow.
 
-The goal is to prepare the system for future database-backed storage.
+The goal is to prepare the system for database-backed storage while preserving important business records such as products, orders, payments, receipts, stock movements, and notifications.
 
-## Current Storage
+---
 
-StockFlow currently uses JSON file storage.
+# Current Storage
+
+StockFlow currently still uses JSON file storage for the main console app flow.
 
 ```text
 StockFlow.Console
@@ -20,23 +26,25 @@ JsonStorageService
 Local JSON files
 ```
 
-## Planned Storage
+# Planned Storage
 
-StockFlow will later move toward database-backed storage.
+StockFlow will move toward repository-based database storage.
 
 ```text
-StockFlow.Console
+Application
     ↓
 Services
     ↓
 Repositories
     ↓
-Database
+SQLite Database
 ```
 
-## Planned Tables
+---
 
-StockFlow will need the following database tables:
+# Planned Tables
+
+Main planned tables:
 
 - Products
 - Orders
@@ -45,6 +53,15 @@ StockFlow will need the following database tables:
 - Receipts
 - StockMovements
 - Notifications
+
+Future possible tables:
+
+- Users
+- Roles
+- Customers
+- Suppliers
+- Categories
+- AuditLogs
 
 ---
 
@@ -72,8 +89,7 @@ Design notes:
 - Products should be deactivated instead of hard deleted when transaction history exists.
 - `IsActive = 1` means active.
 - `IsActive = 0` means inactive.
-
----
+- ProductCode should be treated as the business-facing product identifier.
 
 ## Orders
 
@@ -94,8 +110,7 @@ Design notes:
 
 - Orders are created during checkout.
 - An order should only be completed after payment is processed.
-
----
+- OrderNumber is the user-facing business reference.
 
 ## OrderItems
 
@@ -120,8 +135,6 @@ Design notes:
 - Order items store product snapshot data.
 - Product name and unit price are saved here so old receipts remain accurate even if product details change later.
 
----
-
 ## Payments
 
 Purpose:
@@ -143,11 +156,10 @@ Main columns:
 
 Design notes:
 
-- `AmountDue` is the actual sales income.
-- `AmountPaid` is the money received from the customer.
-- `ChangeAmount` is the money returned to the customer.
-
----
+- AmountDue is the actual sales income.
+- AmountPaid is the money received from the customer.
+- ChangeAmount is the money returned to the customer.
+- PaymentNumber is the user-facing payment reference.
 
 ## Receipts
 
@@ -173,8 +185,7 @@ Design notes:
 
 - A receipt should only be generated for a paid order.
 - Receipts are used for transaction proof, viewing, and future export or reprinting.
-
----
+- ReceiptNumber is the user-facing receipt reference.
 
 ## StockMovements
 
@@ -198,12 +209,10 @@ Main columns:
 Design notes:
 
 - Stock movements create an inventory audit trail.
-- `QuantityChanged` can be positive, negative, or zero.
+- QuantityChanged can be positive, negative, or zero.
 - Stock In is usually positive.
 - Stock Out is usually negative.
 - Adjustment can be positive, negative, or zero.
-
----
 
 ## Notifications
 
@@ -262,10 +271,10 @@ Notifications
 
 Planned database type guide:
 
-- `INTEGER` - IDs, quantities, boolean values in SQLite
-- `TEXT` - names, codes, statuses, messages
-- `DECIMAL(10,2)` - money values
-- `DATETIME` - dates and timestamps
+- INTEGER - IDs, quantities, boolean values in SQLite
+- TEXT - names, codes, statuses, messages
+- DECIMAL(10,2) - money values
+- DATETIME - dates and timestamps
 
 SQLite boolean note:
 
@@ -283,12 +292,21 @@ IsActive = 0 means inactive
 
 ---
 
-# Design Notes
+# Database Design Rules
 
 - Product records should be deactivated instead of hard deleted when transaction history exists.
 - Order items should preserve historical product details.
-- Sales reports should use `AmountDue` as income.
+- Sales reports should use AmountDue as income.
 - Stock movements should explain why inventory quantity changed.
 - Receipts should be generated only for paid orders.
 - Notifications are simulated for now but prepare the app for future real email integration.
 - Future database access should be separated using repositories.
+- Generated database files should not be committed to Git.
+
+# Current Limitations
+
+- Only Products table is currently initialized from C#.
+- ProductRepository has been started.
+- Other repositories are not yet implemented.
+- Full app flow is not yet database-backed.
+- JSON persistence still exists.

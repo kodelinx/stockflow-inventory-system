@@ -1,241 +1,351 @@
 # StockFlow Architecture
 
-## Current Architecture
+## Purpose
 
-StockFlow will start as a .NET console application.
+This document explains how StockFlow is structured and how the main parts of the system work together.
 
-Current project:
+Requirements explain what the system should do. Architecture explains how the system is organized.
 
-StockFlow.Console/
-├── Models/
-│   ├── Product.cs
-│   ├── BasketItem.cs
-│   ├── Order.cs
-│   ├── OrderItem.cs
-│   └── Notification.cs
-│   ├── Payment.cs
-│   ├── Receipt.cs
-│   └── StockMovement.cs
-├── Services/
-│   ├── InventoryService.cs
-│   ├── BasketService.cs
-│   ├── OrderService.cs
-│   ├── PaymentService.cs
-│   ├── ReceiptService.cs
-│   ├── DashboardService.cs
-│   ├── StockMovementService.cs
-│   ├── SalesReportService.cs
-│   ├── NotificationService.cs
-│   └── AlertService.cs
-│   └── LoggingService.cs
-├── Data/
-│   └── JsonStorageService.cs
-├── Database/
-│   └── DatabaseConnectionService.cs
-├── Repositories/
-│   └── ProductRepositories.cs
-├── Utilities/
-│   └── LoggingService.cs
-│   └── InputValidationService.cs
-└── Program.cs
+---
 
-### Folder Responsibilities
-- Models/ Contains business data classes such as Product, Order, OrderItem, Payment, and Receipt.
-- Services/ Contains business actions such as inventory management, basket management, checkout, payment processing, receipt generation, dashboard summary, and notifications.
-- Data/ Contains storage-related logic such as JSON save and load services. Later, this may contain database access logic.
-- Utilities/ Contains reusable helper classes such as input validation.
-- Product.cs stores product data.
-- InventoryService.cs handles inventory actions.
-- InputValidationService.cs handles reusable user input validation.
-- Program.cs controls the console menu flow.
-- BasketItem.cs represents selected products before checkout.
-- BasketService.cs handles basket/cart actions.
-- Order.cs represents a completed checkout transaction.
-- OrderItem.cs represents products recorded inside an order.
-- OrderService.cs manages checkout and order viewing.
-- Payment.cs represents a payment record.
-- PaymentService.cs handles payment processing and payment viewing.
-- Receipt.cs represents proof/output of a completed paid transaction.
-- ReceiptServices.cs handles receipt generation, viewing, and printing.
-- DashboardServices.cs calculates and displays inventory, order, payment, income, and low-stock summaries. 
-- JsonStorageService saves and loads records.
-- StockMovement.cs represents one inventory quantity change
-- StockMovementService.cs records and display stock movement history
-- AlertService.cs identifies and displays low-stock products.
-- SalesReportService.cs calculates and displays sales-related summaries.
-- Notification.cs represents a simulated notification record.
-- NotificationService.cs creates and displays notification messages.
-- LoggingService.cs records informational and error messages.
-- DatabaseConnectionService.cs handles connection string setup and database initialization.
+# Current Solution Structure
 
-### Architecture Principle
+StockFlow currently uses a staged architecture.
 
-StockFlow follows separation of concerns.
+```text
+stockflow-inventory-system/
+├── README.md
+├── docs/
+├── src/
+│   ├── StockFlow.Console/
+│   └── StockFlow.Api/
+├── tests/
+└── StockFlow.sln
+```
 
-Models represent data.
-Services perform business actions.
-Data classes handle storage.
-Utilities provide reusable helpers.
-Program.cs controls the application flow.
+## Current Projects
 
-### Future Architecture
+### StockFlow.Console
 
-Later versions may evolve into:
+The console project contains the original working application flow.
 
-src/
-├── StockFlow.Domain/
-├── StockFlow.Application/
-├── StockFlow.Infrastructure/
-├── StockFlow.Api/
-└── StockFlow.Console/
+Responsibilities:
 
-This structure will support database integration, API development, and deployment.
+- Console menu
+- User input
+- Inventory actions
+- Basket and checkout flow
+- Payment processing
+- Receipt generation
+- Dashboard summaries
+- JSON persistence
+- Basic logging
+- SQLite preparation
+- Initial repository work
 
+### StockFlow.Api
 
-## v0.1.0 Architecture Summary
+The API project is the new Web API entry point.
 
-StockFlow v0.1.0 uses a simple console application architecture.
+Responsibilities:
 
-Current structure:
+- HTTP endpoints
+- API request/response handling
+- OpenAPI document generation
+- Future product, order, payment, and dashboard endpoints
 
-StockFlow.Console/
-├── Models/
-├── Services/
-├── Data/
-├── Utilities/
-└── Program.cs
+---
 
-### Layers
-- Models contain data structures.
-- Services contain business operations.
-- Utilities contain reusable helper logic.
-- Data contains persistence logic.
-- Program.cs coordinates the console menu and service calls.
+# Current Console Architecture
 
-### Architecture Style
-
-The project currently follows a simple service-based console architecture.
-
-This is not yet a full layered enterprise architecture, but it prepares the project for future separation into:
-
-- Domain layer
-- Application layer
-- Infrastructure layer
-- API layer
-- Test project
-
-### Known Architecture Limitations
-- Program.cs still coordinates many lists and services.
-- Data is stored in JSON files instead of a database.
-- No repository pattern yet.
-- No dependency injection container yet.
-- No automated tests yet
-
-
-## Architecture Planning Update
-### v0.2.0 storage architecture:
-StockFlow.Console
+```text
+User
+    ↓
+Program.cs
+    ↓
+Services
+    ↓
+Models
     ↓
 JsonStorageService
     ↓
 Local JSON files
+```
 
-### Current database preparation flow:
-Program.cs
-    ↓
-DatabaseConnectionService
-    ↓
-SQLite database file
-    ↓
-Products table
+## Console Folder Responsibilities
 
-### Current Storage State:
-In-memory lists
-    ↓
-JsonStorageService
-    ↓
-Local JSON files
+### Models
 
-### New database preparation state:
-StockFlow.Console
-    ↓
-DatabaseConnectionService
-    ↓
-Database/stockflow.db
+Contains business data classes.
 
-Architecture notes:
-- SQLite is now added to the project.
-- DatabaseConnectionService owns the connection string.
-- DatabaseConnectionService initializes the Products table.
-- Business services still use in-memory lists for now.
-- JSON persistence still exists for current app data.
-- Repository classes will be introduced later to handle actual database CRUD operations.
+Examples:
 
-## v0.3.0 Architecture Summary
+- Product
+- BasketItem
+- Order
+- OrderItem
+- Payment
+- Receipt
+- StockMovement
+- Notification
 
-StockFlow v0.3.0 introduces database-ready architecture.
+### Services
 
-Current storage flow:
+Contains business actions.
 
-Program.cs
-    ↓
-DatabaseConnectionService
-    ↓
-SQLite database file
-    ↓
-Products table
+Examples:
 
-## M25 Architecture Update
+- InventoryService
+- BasketService
+- OrderService
+- PaymentService
+- ReceiptService
+- DashboardService
+- StockMovementService
+- SalesReportService
+- NotificationService
+- AlertService
 
-M25 introduced product API endpoints.
+### Data
 
-Current API flow:
+Contains storage-related services.
 
+Example:
+
+- JsonStorageService
+
+### Database
+
+Contains database setup and initialization logic.
+
+Example:
+
+- DatabaseConnectionService
+
+### Repositories
+
+Contains database access classes.
+
+Example:
+
+- ProductRepository
+
+### Utilities
+
+Contains reusable helper classes.
+
+Examples:
+
+- InputValidationService
+- LoggingService
+
+---
+
+# Current API Architecture
+
+```text
 Browser / API Client
-    ↓
-GET /api/products
     ↓
 ProductsController
     ↓
-JSON response
+ProductRepository
+    ↓
+SQLite Database
+    ↓
+JSON Response
+```
 
-## Current Project
+Current API project:
 
-StockFlow.Api
-├── Controllers
+```text
+StockFlow.Api/
+├── Controllers/
 │   └── ProductsController.cs
-└── Program.cs
+├── Program.cs
+├── appsettings.json
+└── StockFlow.Api.csproj
+```
 
-- ProductsController handles product-related HTTP requests.
+Current API notes:
 
-### M24 Progress
+- The API project was introduced in v0.4.0.
+- OpenAPI document is available through `/openapi/v1.json`.
+- Swagger UI is not currently configured.
+- Product API endpoints are being developed in M25.
 
-Created the initial ASP.NET Core Web API project for StockFlow.
+---
 
-Completed:
+# Current Database Preparation Architecture
 
-- Created `StockFlow.Api`
-- Added API project to the StockFlow solution
-- Confirmed API project builds
-- Confirmed API project runs locally
-- Tested the sample `/weatherforecast` endpoint
-- Tested OpenAPI document access through `/openapi/v1.json`
-- Reviewed basic ASP.NET Core Web API startup flow
+```text
+Program.cs
+    ↓
+DatabaseConnectionService
+    ↓
+SQLite database file
+    ↓
+Products table
+```
 
-Known limitations:
+Current database notes:
 
-- No custom StockFlow API endpoints yet
-- Swagger UI is not configured yet
+- SQLite has been added.
+- DatabaseConnectionService owns the connection string and initialization logic.
+- Products table can be created from C#.
+- ProductRepository has been started.
+- Most app flows still use lists and JSON persistence for now.
 
+---
 
-### M25 Progress
+# Architecture Principles
 
-Added initial product API endpoints.
+## Separation of Concerns
 
-Completed:
+Each part of the system should have a clear responsibility.
 
-- Created `ProductsController`
-- Added `GET /api/products`
-- Added `GET /api/products/{productCode}`
-- Added JSON product responses
-- Added 404 response for missing product code
+- Models represent data.
+- Services perform business actions.
+- Repositories handle database access.
+- Data services handle file-based persistence.
+- Utilities provide reusable helper logic.
+- Controllers handle API requests and responses.
+- Program.cs coordinates startup and app flow.
+
+## Gradual Refactoring
+
+StockFlow is intentionally built in stages.
+
+The project starts with a working console system before being refactored into a more professional architecture.
+
+This allows the project to demonstrate:
+
+- Feature development
+- Refactoring
+- Database migration
+- API development
+- Better layering over time
+
+---
+
+# Target Future Architecture
+
+A later version should move toward this structure:
+
+```text
+src/
+├── StockFlow.Api/
+├── StockFlow.Console/
+├── StockFlow.Core/
+└── StockFlow.Infrastructure/
+```
+
+## Planned Project Responsibilities
+
+### StockFlow.Core
+
+Will contain shared business models and business service contracts.
+
+Possible contents:
+
+- Models
+- Business rules
+- Service interfaces
+- DTOs if needed
+
+### StockFlow.Infrastructure
+
+Will contain technical implementation details.
+
+Possible contents:
+
+- Repositories
+- Database connection
+- SQLite implementation
+- Logging implementation
+- External integrations
+
+### StockFlow.Api
+
+Will contain Web API-specific code.
+
+Possible contents:
+
+- Controllers
+- API request/response models
+- API validation
+- API startup configuration
+
+### StockFlow.Console
+
+Will contain console-specific code.
+
+Possible contents:
+
+- Console menu
+- Console input and output
+- Console-only workflow
+
+---
+
+# Target Future Flow
+
+```text
+Frontend / API Client
+    ↓
+StockFlow.Api
+    ↓
+Services
+    ↓
+Repositories
+    ↓
+SQLite Database
+```
+
+Console target flow:
+
+```text
+Console User
+    ↓
+StockFlow.Console
+    ↓
+Services
+    ↓
+Repositories
+    ↓
+SQLite Database
+```
+
+Shared logic target:
+
+```text
+StockFlow.Api      StockFlow.Console
+       ↓                 ↓
+          StockFlow.Core
+                ↓
+      StockFlow.Infrastructure
+                ↓
+           SQLite Database
+```
+
+---
+
+# Current Known Architecture Limitations
+
+- The console app still contains the main working business flow.
+- The API project has started repository integration for product read endpoints, but it is not fully integrated with all business services yet.
+- JSON persistence still exists.
+- SQLite integration has started but is not yet the main storage flow.
+- ProductRepository is currently used by the Product API endpoints, but other repositories are not implemented yet.
+- Other repositories are not implemented yet.
+- No shared Core or Infrastructure class library exists yet.
+- No automated tests yet.
+- Authentication and authorization are not implemented yet.
+
+# Architecture Improvement Plan
+
+- v0.4.0 - Introduce Web API endpoints.
+- v0.5.0 - Create shared Core and Infrastructure projects.
+- v0.6.0 - Make SQLite the main storage system.
+- v0.7.0 - Add authentication and user roles.
+- v0.8.0 - Add frontend dashboard.
+- v0.9.0 - Add automated tests and production-readiness improvements.

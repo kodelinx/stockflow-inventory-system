@@ -1,90 +1,136 @@
 # StockFlow Inventory System
 
-StockFlow is an inventory and sales management system designed for small business operations. It helps manage products, stock levels, customer orders, payments, receipts, sales income, and business dashboard summaries.
+StockFlow is an inventory and sales management system for small business operations. It is being built as a portfolio project to demonstrate practical C#/.NET development, software planning, documentation, Git workflow, database preparation, and Web API development.
 
-## Project Status
+## Current Status
 
-Current version: Pre-release
-Current milestone: M00 - Project Initialization
+- Current version: v0.4.0 - StockFlow Web API
+- Current milestone: M25 - Product API Endpoints
+- Current milestone status: In Progress
+- Last updated: 2026-09-05
 
-## Purpose
 
-The purpose of StockFlow is to provide a practical business tool for managing inventory and sales operations while demonstrating professional software development practices, including requirements gathering, architecture planning, version control, documentation, and staged product releases.
+## Project Goal
 
-## Core Features
+Build StockFlow from a console-based inventory system into a business-ready application with database storage, API access, user roles, frontend dashboard, testing, and production-ready documentation.
 
-Planned features:
+## Main Features
 
-- Product inventory management
-- Add, view, search, update, and deactivate products
-- Basket/cart ordering
-- Checkout and order processing
+Current and planned feature areas:
+
+- Product and inventory management
+- Basket and order processing
 - Payment tracking
 - Receipt generation
-- Sales and income tracking
-- Dashboard summaries
-- Low-stock monitoring
-- Email notifications for new orders
-- JSON file persistence
-- Future database integration
-- Future web API support
+- Stock movement history
+- Low-stock alerts
+- Sales reports
+- Notification simulation
+- SQLite database preparation
+- ASP.NET Core Web API
+- Future authentication and user roles
+- Future frontend dashboard
+- Future automated tests
 
-## Tech Stack
+## Technology Stack
 
 Current:
 
 - C#
-- .NET Console App
-- Git
-- GitHub
+- .NET
+- ASP.NET Core Web API
+- SQLite
+- JSON file persistence
+- Git and GitHub
+- Markdown documentation
 
 Planned:
 
-- JSON file storage
-- SQL database
-- ASP.NET Core Web API
-- Entity Framework Core
-- Email notification service
-- Web dashboard
+- Shared class libraries
+- Full repository-based database persistence
+- Authentication and authorization
+- Frontend dashboard
+- Automated tests
+- Deployment preparation
 
-## Development Model
+## How to Run
 
-This project uses an Agile incremental development approach. Features are built through small milestones, tested, documented, committed to Git, and improved through versioned releases.
+From the project root:
 
-## Version Plan
+```powershell
+dotnet build
+```
+
+Run the console app:
+
+```powershell
+dotnet run --project src/StockFlow.Console
+```
+
+Run the API project:
+
+```powershell
+dotnet run --project src/StockFlow.Api
+```
+
+Open the API locally using the terminal port:
+
+```text
+http://localhost:<port>/openapi/v1.json
+http://localhost:<port>/api/products
+```
+
+## Documentation Map
+
+- [Project Overview](docs/project-overview.md) - business context, goals, users, scope
+- [Requirements](docs/requirements.md) - what the system should do
+- [Business Rules](docs/business-rules.md) - rules the system must follow
+- [Architecture](docs/architecture.md) - how the solution is structured
+- [Database Design](docs/database-design.md) - tables, columns, relationships
+- [API Design](docs/api-design.md) - API endpoints and testing approach
+- [Acceptance Criteria](docs/acceptance-criteria.md) - how features are verified
+- [Milestone Plan](docs/milestone-plan.md) - version roadmap and progress tracker
+- [Release Notes](docs/release-notes.md) - release history and changes
+
+## Version Roadmap
+
 ### v0.1.0 - Console Inventory and Sales MVP
-- M00 - Project Initialization - Completed
-- M01 - Product Model and Inventory List Display - Completed
-- M02 - Inventory CRUD Operations - Completed
-- M03 - Service Structure and Input Validation - Completed
-- M04 - Basket Management - Completed
-- M05 - Checkout and Order Creation - Completed
-- M06 - Payment Processing - Completed
-- M07 - Receipt Generation - Completed
-- M08 - Dashboard Summary - Completed
-- M09 - JSON Persistence - Completed
-- M10 - v0.1.0 Release - Completed
+
+Status: Released
+
 ### v0.2.0 - Inventory Rules and Reporting
-- M11 - Stock Movement Tracking - Completed
-- M12 - Low Stock Alerts - Completed
-- M13 - Receipt File Export - Completedd
-- M14 - Sales Summary Reports - Completed
-- M15 - Email Notification Simulation - Completed
-- M16 - Error Handling and Logging Preparation - Completed
-- M17 - v0.2.0 Release - Completed
+
+Status: Released
+
 ### v0.3.0 - Database-Ready Inventory System
-- M18 - Database Requirements - Completed
-- M19 - Database Table Design - Completed
-- M20 - SQL CRUD Scripts - Completed
-- M21 - SQLite Integration - Completed
-- M22 - Repository Pattern Introduction - Completed
-- M23 - v0.3.0 Release - Completedd
+
+Status: Released
+
 ### v0.4.0 - StockFlow Web API
-- M24 - ASP.NET Core Web API Setup - Completed
-- M25 - Product API Endpoints - Completed
-- M26 - Order API Endpoints
-- M27 - Payment API Endpoints
-- M28 - Dashboard API Endpoints
-- M29 - API Validation and Error Responses
-- M30 - v0.4.0 Release
+
+Status: In Progress
+
+### v0.5.0 - Shared Architecture and Full API Integration
+
+Status: Planned
+
+### v0.6.0 - Full Database-Backed StockFlow
+
+Status: Planned
+
+### v0.7.0 - Authentication and User Roles
+
+Status: Planned
+
+### v0.8.0 - Frontend Web Dashboard
+
+Status: Planned
+
+### v0.9.0 - Testing, Error Handling, and Production Readiness
+
+Status: Planned
+
 ### v1.0.0 - Business MVP Release
+
+Status: Planned
+

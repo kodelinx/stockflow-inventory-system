@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using StockFlow.Models;
+using StockFlow.Repositories;
 
 namespace StockFlow.Api.Controllers;
 
@@ -6,32 +8,18 @@ namespace StockFlow.Api.Controllers;
 [Route("api/products")]
 public class ProductsController : ControllerBase
 {
+    private readonly ProductRepository _productRepository;
+
+    public ProductsController(ProductRepository productRepository)
+    {
+        _productRepository = productRepository;
+    }
+
     [HttpGet]
     public IActionResult GetProducts()
     {
-        var products = new[]
-        {
-            new
-            {
-                ProductCode = "P001",
-                Name = "Mouse",
-                Category = "Accessories",
-                UnitPrice = 250.00,
-                QuantityInStock = 20,
-                ReorderLevel = 5,
-                IsActive = true
-            },
-            new
-            {
-                ProductCode = "P002",
-                Name = "Keyboard",
-                Category = "Accessories",
-                UnitPrice = 750.00,
-                QuantityInStock = 10,
-                ReorderLevel = 3,
-                IsActive = true
-            }
-        };
+        
+        List<Product> products = _productRepository.GetActiveProducts();
 
         return Ok(products);
     }
@@ -39,37 +27,11 @@ public class ProductsController : ControllerBase
     [HttpGet("{productCode}")]
     public IActionResult GetProductByCode(string productCode)
     {
-        var products = new[]
-        {
-            new
-            {
-                ProductCode = "P001",
-                Name = "Mouse",
-                Category = "Accessories",
-                UnitPrice = 250.00,
-                QuantityInStock = 20,
-                ReorderLevel = 5,
-                IsActive = true
-            },
-            new
-            {
-                ProductCode = "P002",
-                Name = "Keyboard",
-                Category = "Accessories",
-                UnitPrice = 750.00,
-                QuantityInStock = 10,
-                ReorderLevel = 3,
-                IsActive = true
-            }
-        };
-
-        var product = products.FirstOrDefault(product =>
-            product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
-        );
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if (product == null)
         {
-            return NotFound($"Product with code {productCode} was not found.");
+            return NotFound($"Product with code {productCode} was not found");
         }
 
         return Ok(product);

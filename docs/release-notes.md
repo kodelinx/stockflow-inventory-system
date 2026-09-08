@@ -287,3 +287,29 @@ Known limitations:
 - Payment endpoints are not yet connected to SQLite
 - Payment processing through API is not yet implemented
 - API authentication and authorization are not yet implemented
+
+### M28 - Dashboard API Endpoints
+
+Status: In Progress
+
+Completed:
+
+- Created DashboardController
+- Added GET /api/dashboard/summary
+- Returned dashboard summary data as JSON
+- Used typed temporary sample dashboard data for API testing
+
+Pending verification:
+
+- Confirm GET /api/dashboard/summary returns dashboard summary data
+- Confirm response includes inventory summary values
+- Confirm response includes order summary values
+- Confirm response includes payment and income summary values
+
+Known limitations:
+
+- Dashboard API currently supports read-only summary data
+- Dashboard endpoint uses temporary sample data
+- Dashboard endpoint is not yet connected to DashboardService
+- Dashboard endpoint is not yet connected to SQLite
+- API authentication and authorization are not yet implemented

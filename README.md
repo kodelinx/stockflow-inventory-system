@@ -5,7 +5,7 @@ StockFlow is an inventory and sales management system for small business operati
 ## Current Status
 
 - Current version: v0.4.0 - StockFlow Web API
-- Current milestone: M25 - Product API Endpoints
+- Current milestone: M27 - Product API Endpoints
 - Current milestone status: In Progress
 - Last updated: 2026-09-05
 

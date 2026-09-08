@@ -344,8 +344,8 @@ The business needs summaries to understand inventory, orders, payments, and sale
 
 - Requirement: The system should show inventory summary data.
 - Status: Implemented
-- Related Milestone: M08
-- Notes: API dashboard version is planned for M28.
+- Related Milestone: M08, M28
+- Notes: Console dashboard summary is implemented. API dashboard summary is implemented through `GET /api/dashboard/summary`.
 
 #### DASH-002 - Order Summary
 
@@ -358,21 +358,22 @@ The business needs summaries to understand inventory, orders, payments, and sale
 
 - Requirement: The system should show payment summary data.
 - Status: Implemented
-- Related Milestone: M08, M14
-- Notes: API dashboard version is planned for M28.
+- Related Milestone: M08, M14, M28
+- Notes: API dashboard summary includes total payments.
 
 #### DASH-004 - Income Summary
 
 - Requirement: The system should show total sales income.
 - Status: Implemented
-- Related Milestone: M08, M14
-- Notes: Use amount due as actual sales income.
+- Related Milestone: M08, M14, M28
+- Notes: API dashboard summary includes total sales income.
 
 #### DASH-005 - Low-Stock Summary
 
 - Requirement: The system should show low-stock product summary.
 - Status: Implemented
-- Related Milestone: M08, M12
+- Related Milestone: M08, M12, M28
+- Notes: API dashboard summary includes low-stock product count.
 
 #### DASH-006 - Sales by Payment Method
 
@@ -383,7 +384,7 @@ The business needs summaries to understand inventory, orders, payments, and sale
 #### DASH-007 - Dashboard API Endpoint
 
 - Requirement: The API should expose dashboard summary data.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M28
 
 ---
@@ -582,7 +583,7 @@ A business-ready system should restrict actions based on user roles.
 #### API-009 - Dashboard Endpoint
 
 - Requirement: The API should expose dashboard summary data.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M28
 
 #### API-010 - API Validation and Error Responses

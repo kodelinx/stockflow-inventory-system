@@ -235,13 +235,13 @@ The business needs to record customer payments and track paid or unpaid orders.
 #### PAY-006 - View Payment Records
 
 - Requirement: The system should allow users or API clients to view payment records.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M27
 
 #### PAY-007 - Search Payment Records
 
 - Requirement: The system should allow users or API clients to search payment records by payment number or order number.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M27
 
 ---
@@ -570,13 +570,13 @@ A business-ready system should restrict actions based on user roles.
 #### API-007 - Payment List Endpoint
 
 - Requirement: The API should expose `GET /api/payments`.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M27
 
 #### API-008 - Payment Search Endpoint
 
 - Requirement: The API should expose `GET /api/payments/{paymentNumber}`.
-- Status: Planned
+- Status: Implemented
 - Related Milestone: M27
 
 #### API-009 - Dashboard Endpoint

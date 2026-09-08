@@ -217,6 +217,28 @@ Known limitations:
 - API authentication and authorization are not yet implemented
 - Shared architecture cleanup is planned for a future version
 
+### M26 - Order API Endpoints
+
+Status: Completed
+
+Completed:
+
+- Created `OrdersController`
+- Added `GET /api/orders`
+- Added `GET /api/orders/{orderNumber}`
+- Returned order data as JSON
+- Added `404 Not Found` response for missing order numbers
+- Used typed temporary sample order data for API testing
+- Confirmed order API routes work locally
+
+Known limitations:
+
+- Order API currently supports read operations only
+- Order endpoints use temporary sample data
+- Order endpoints are not yet connected to SQLite
+- Create, update, and checkout order API endpoints are not yet implemented
+- API authentication and authorization are not yet implemented
+
 ## Expected v0.4.0 Outcome
 
 By the end of v0.4.0, StockFlow should have:
@@ -238,3 +260,30 @@ By the end of v0.4.0, StockFlow should have:
 - Authentication is not yet implemented.
 - Frontend UI is not yet implemented.
 - Swagger UI or Scalar UI is not yet configured unless added later.
+
+### M27 - Payment API Endpoints
+
+Status: In Progress
+
+Completed:
+
+- Created PaymentsController
+- Added GET /api/payments
+- Added GET /api/payments/{paymentNumber}
+- Returned payment data as JSON
+- Added 404 Not Found response for missing payment numbers
+- Used typed temporary sample payment data for API testing
+
+Pending verification:
+
+- Confirm GET /api/payments returns payment records
+- Confirm GET /api/payments/PAY-001 returns one payment
+- Confirm GET /api/payments/PAY-999 returns 404 Not Found
+
+Known limitations:
+
+- Payment API currently supports read operations only
+- Payment endpoints use temporary sample data
+- Payment endpoints are not yet connected to SQLite
+- Payment processing through API is not yet implemented
+- API authentication and authorization are not yet implemented

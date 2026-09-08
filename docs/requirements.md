@@ -185,13 +185,13 @@ The business needs to select products for checkout and convert them into order r
 #### ORD-009 - View Orders
 
 - Requirement: The system should allow users or API clients to view orders.
-- Status: Planned
+- Status: Completed
 - Related Milestone: M26
 
 #### ORD-010 - Search Orders
 
 - Requirement: The system should allow users or API clients to search orders by order number.
-- Status: Planned
+- Status: Completed
 - Related Milestone: M26
 
 ---
@@ -558,13 +558,13 @@ A business-ready system should restrict actions based on user roles.
 #### API-005 - Order List Endpoint
 
 - Requirement: The API should expose `GET /api/orders`.
-- Status: Planned
+- Status: Completed
 - Related Milestone: M26
 
 #### API-006 - Order Search Endpoint
 
 - Requirement: The API should expose `GET /api/orders/{orderNumber}`.
-- Status: Planned
+- Status: Completed
 - Related Milestone: M26
 
 #### API-007 - Payment List Endpoint

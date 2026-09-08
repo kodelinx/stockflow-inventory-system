@@ -114,32 +114,50 @@ Current behavior:
 
 ### GET /api/orders
 
-Purpose:
+Status: Implemented
 
-Return order records.
+Purpose:Returns the order list as JSON.
 
-Status:
+Controller: `OrdersController`
 
-- M26 - Planned
+Expected response: `200 OK`
 
-Expected response:
+Example URL: `/api/orders`
 
-- 200 OK with order list as JSON
+Current behavior:
+
+- Returns typed temporary sample order data.
+- Used for API route and response testing.
+
+Current limitation: Not yet connected to SQLite or `OrderRepository`.
+
+---
 
 ### GET /api/orders/{orderNumber}
 
-Purpose:
+Status: Implemented
 
-Return one order by order number.
+Purpose: Returns one order by order number.
 
-Status:
-
-- M26 - Planned
+Controller:`OrdersController`
 
 Expected responses:
 
-- 200 OK when order exists
-- 404 Not Found when order does not exist
+- `200 OK` if the order exists
+- `404 Not Found` if the order does not exist
+
+Example test URLs:
+
+- `/api/orders/ORD-001`
+- `/api/orders/ORD-999`
+
+Current behavior:
+
+- Searches temporary sample orders by order number.
+- Uses case-insensitive comparison.
+- Returns a clear not-found response when no matching order exists.
+
+Current limitation: Not yet connected to SQLite or `OrderRepository`.
 
 ---
 

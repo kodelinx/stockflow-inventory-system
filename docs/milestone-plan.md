@@ -54,7 +54,7 @@ Status: Released
 
 ## v0.4.0 - StockFlow Web API
 
-Status: In Progress
+Status: Released
 
 - M24 - ASP.NET Core Web API Setup - Completed
 - M25 - Product API Endpoints - Completed
@@ -66,9 +66,9 @@ Status: In Progress
 
 ## v0.5.0 - Shared Architecture and Full API Integration
 
-Status: Planned
+Status: In Progress
 
-- M31 - Create StockFlow.Core Class Library - Planned
+- M31 - Create StockFlow.Core Class Library - Completed
 - M32 - Move Models to StockFlow.Core - Planned
 - M33 - Move Services to StockFlow.Core - Planned
 - M34 - Create StockFlow.Infrastructure Class Library - Planned

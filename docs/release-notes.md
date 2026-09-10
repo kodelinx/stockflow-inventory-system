@@ -168,7 +168,7 @@ StockFlow v0.3.0 prepares the application for database-backed storage. This vers
 
 # v0.4.0 - StockFlow Web API
 
-Status: In Progress
+Release Date: 2026-09-11
 
 ## Summary
 
@@ -263,7 +263,7 @@ By the end of v0.4.0, StockFlow should have:
 
 ### M27 - Payment API Endpoints
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -290,7 +290,7 @@ Known limitations:
 
 ### M28 - Dashboard API Endpoints
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -316,7 +316,7 @@ Known limitations:
 
 ### M29 - API Validation and Error Responses
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -400,3 +400,24 @@ This release added API endpoints for products, orders, payments, and dashboard s
 - Full shared architecture cleanup is planned for v0.5.0
 - Full database-backed flow is planned for v0.6.0
 
+## v0.5.0 - Shared Architecture and Full API Integration
+
+Status: In Progress
+
+### M31 - Create StockFlow.Core Class Library
+
+Status: Completed
+
+Completed:
+
+- Created `StockFlow.Core` class library project
+- Added `StockFlow.Core` to the solution
+- Added project reference from `StockFlow.Console` to `StockFlow.Core`
+- Added project reference from `StockFlow.Api` to `StockFlow.Core`
+- Created initial Core folders for Models, Services, and Interfaces
+
+Known limitations:
+
+- Shared models have not been moved yet
+- Shared services have not been moved yet
+- Repository and database logic are still outside Infrastructure

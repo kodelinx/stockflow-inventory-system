@@ -18,7 +18,8 @@ stockflow-inventory-system/
 ├── docs/
 ├── src/
 │   ├── StockFlow.Console/
-│   └── StockFlow.Api/
+│   ├── StockFlow.Api/
+│   └── StockFlow.Core/
 ├── tests/
 └── StockFlow.sln
 ```
@@ -53,6 +54,25 @@ Responsibilities:
 - API request/response handling
 - OpenAPI document generation
 - Future product, order, payment, and dashboard endpoints
+
+### StockFlow.Core
+
+The Core project contains shared business code that can be used by both the console app and the API.
+
+Responsibilities:
+
+- Shared business models
+- Shared business logic
+- Future service interfaces
+- Future repository interfaces
+
+Current status:
+
+- Project created
+- Added to solution
+- Referenced by StockFlow.Console
+- Referenced by StockFlow.Api
+- Model migration planned for M32
 
 ---
 

@@ -313,3 +313,30 @@ Known limitations:
 - Dashboard endpoint is not yet connected to DashboardService
 - Dashboard endpoint is not yet connected to SQLite
 - API authentication and authorization are not yet implemented
+
+### M29 - API Validation and Error Responses
+
+Status: In Progress
+
+Completed:
+
+- Added basic route parameter validation
+- Added `400 Bad Request` response for invalid required values
+- Confirmed `404 Not Found` behavior for missing products
+- Confirmed `404 Not Found` behavior for missing orders
+- Confirmed `404 Not Found` behavior for missing payments
+- Clarified that empty list responses should return `200 OK`
+
+Pending verification:
+
+- Confirm product search response behavior
+- Confirm order search response behavior
+- Confirm payment search response behavior
+- Confirm dashboard summary still returns `200 OK`
+
+Known limitations:
+
+- Validation is still basic
+- Full request body validation is not yet implemented
+- Create, update, and delete endpoints are not yet implemented
+- Authentication and authorization are not yet implemented

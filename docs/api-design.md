@@ -13,7 +13,7 @@ The API allows clients such as browsers, frontend dashboards, mobile apps, Postm
 # Current API Status
 
 - Current API version: v0.4.0 - StockFlow Web API
-- Current API milestone: M25 - Product API Endpoints
+- Current API milestone: M29 - API Validation and Error Responses
 
 ---
 
@@ -33,11 +33,27 @@ OpenAPI document:
 http://localhost:<port>/openapi/v1.json
 ```
 
-Product endpoint:
+Product endpoints:
 
-```text
 http://localhost:<port>/api/products
-```
+http://localhost:<port>/api/products/P001
+http://localhost:<port>/api/products/P999
+
+Order endpoints:
+
+http://localhost:<port>/api/orders
+http://localhost:<port>/api/orders/ORD-001
+http://localhost:<port>/api/orders/ORD-999
+
+Payment endpoints:
+
+http://localhost:<port>/api/payments
+http://localhost:<port>/api/payments/PAY-001
+http://localhost:<port>/api/payments/PAY-999
+
+Dashboard endpoint:
+
+http://localhost:<port>/api/dashboard/summary
 
 Important:
 
@@ -165,114 +181,122 @@ Current limitation: Not yet connected to SQLite or `OrderRepository`.
 
 ### GET /api/payments
 
+Status: Implemented
+
 Purpose:
 
-Return payment records.
+Returns payment records as JSON.
 
-Status:
+Controller: `PaymentsController`
 
-- M27 - Planned
+Expected response: `200 OK`
 
-Expected response:
+Example URL: `/api/payments`
 
-- 200 OK with payment list as JSON
+Current behavior:
+
+- Returns typed temporary sample payment data.
+- Used for API route and response testing.
+
+Current limitation:
+
+- Not yet connected to SQLite or `PaymentRepository`.
+
+---
 
 ### GET /api/payments/{paymentNumber}
 
-Purpose:
-
-Return one payment by payment number.
-
-Status:
-
-- M27 - Planned
-
-Expected responses:
-
-- 200 OK when payment exists
-- 404 Not Found when payment does not exist
-
-### GET /api/payments/order/{orderNumber}
+Status: Implemented
 
 Purpose:
 
-Return payment record by order number.
+Returns one payment by payment number.
 
-Status:
-
-- M27 - Optional / Planned
+Controller: `PaymentsController`
 
 Expected responses:
 
-- 200 OK when payment exists for order
-- 404 Not Found when no payment exists for order
+- `200 OK` if the payment exists
+- `404 Not Found` if the payment does not exist
+
+Example test URLs:
+
+- `/api/payments/PAY-001`
+- `/api/payments/PAY-999`
+
+Current behavior:
+
+- Searches temporary sample payments by payment number.
+- Uses case-insensitive comparison.
+- Returns a clear not-found response when no matching payment exists.
+
+Current limitation:
+
+- Not yet connected to SQLite or `PaymentRepository`.
 
 ---
 
 ## Dashboard Endpoints
 
-### GET /api/dashboard
+### GET /api/dashboard/summary
+
+Status: Implemented
 
 Purpose:
 
-Return business summary data.
+Returns dashboard summary data as JSON.
 
-Status:
-
-- M28 - Planned
+Controller: `DashboardController`
 
 Expected response:
 
-- 200 OK with dashboard summary JSON
+- `200 OK`
 
-Possible summary fields:
+Example URL:
 
-- Total products
-- Active products
-- Low-stock count
-- Total orders
-- Completed orders
-- Pending orders
-- Total payments
-- Total income
+`/api/dashboard/summary`
+
+Current behavior:
+
+- Returns total products
+- Returns low-stock product count
+- Returns total orders
+- Returns completed order count
+- Returns pending order count
+- Returns total payments
+- Returns total sales income
+
+Current limitation:
+
+- Uses typed temporary sample dashboard data
+- Not yet connected to real product, order, payment, or dashboard services
 
 ---
 
 # API Validation and Error Responses
 
-Planned for M29.
+Status: In Progress
+
+Related Milestone: M29
 
 Expected behavior:
 
-- Return 200 OK for successful read requests.
-- Return 400 Bad Request for invalid input where applicable.
-- Return 404 Not Found when requested data does not exist.
+- Return `200 OK` for successful read requests.
+- Return `400 Bad Request` for invalid input where applicable.
+- Return `404 Not Found` when requested data does not exist.
 - Return clear error messages.
 - Avoid exposing unnecessary internal error details.
 
-Example 404 response:
+Current response rules:
 
-```json
-{
-  "message": "Product with code P999 was not found."
-}
-```
+- List endpoints should return `200 OK`, even when the list is empty.
+- Search endpoints should return `404 Not Found` when the record does not exist.
+- Route parameters should be validated before searching.
+- Empty list responses are not errors.
 
-Example 400 response:
+Examples:
 
-```json
-{
-  "message": "Product code is required."
-}
-```
-
----
-
-# Current Limitations
-
-- API endpoints may still use temporary sample data.
-- API is not fully connected to SQLite yet.
-- No authentication yet.
-- No frontend UI yet.
-- No Swagger UI or Scalar UI yet.
-- No automated API tests yet.
+- `GET /api/products` returns `200 OK`
+- `GET /api/products/P999` returns `404 Not Found`
+- `GET /api/orders/ORD-999` returns `404 Not Found`
+- `GET /api/payments/PAY-999` returns `404 Not Found`

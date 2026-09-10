@@ -143,24 +143,32 @@ Examples:
 
 # Current API Architecture
 
-```text
 Browser / API Client
     ↓
-ProductsController
+StockFlow.Api
     ↓
-ProductRepository
+Controllers
     ↓
-SQLite Database
+Data Source
     ↓
 JSON Response
-```
+
+Current API data sources:
+
+- ProductsController uses ProductRepository and SQLite.
+- OrdersController uses typed temporary sample order data.
+- PaymentsController uses typed temporary sample payment data.
+- DashboardController uses typed temporary sample dashboard data.
 
 Current API project:
 
 ```text
 StockFlow.Api/
 ├── Controllers/
-│   └── ProductsController.cs
+│   ├── ProductsController.cs
+│   ├── OrdersController.cs
+│   ├── PaymentsController.cs
+│   └── DashboardController.cs
 ├── Program.cs
 ├── appsettings.json
 └── StockFlow.Api.csproj
@@ -171,7 +179,55 @@ Current API notes:
 - The API project was introduced in v0.4.0.
 - OpenAPI document is available through `/openapi/v1.json`.
 - Swagger UI is not currently configured.
-- Product API endpoints are being developed in M25.
+- Product API endpoints were added in M25.
+- Order API endpoints were added in M26.
+- Payment API endpoints were added in M27.
+- Dashboard summary endpoint was added in M28.
+- Basic API validation and error response handling is being improved in M29.
+
+## Current API Controller Flows
+
+### Product API Flow
+
+HTTP GET Request
+    ↓
+ProductsController
+    ↓
+ProductRepository
+    ↓
+SQLite Database
+    ↓
+HTTP JSON Response
+
+### Order API Flow
+
+HTTP GET Request
+    ↓
+OrdersController
+    ↓
+Typed temporary sample order data
+    ↓
+HTTP JSON Response
+
+### Payment API Flow
+
+HTTP GET Request
+    ↓
+PaymentsController
+    ↓
+Typed temporary sample payment data
+    ↓
+HTTP JSON Response
+
+### Dashboard API Flow
+
+HTTP GET Request
+    ↓
+DashboardController
+    ↓
+Typed temporary sample dashboard summary data
+    ↓
+HTTP JSON Response
 
 ---
 

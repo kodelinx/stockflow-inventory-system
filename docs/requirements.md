@@ -589,7 +589,7 @@ A business-ready system should restrict actions based on user roles.
 #### API-010 - API Validation and Error Responses
 
 - Requirement: The API should return proper status codes and clear error messages.
-- Status: Planned
+- Status: Impemented
 - Related Milestone: M29
 
 #### API-011 - Swagger UI or Scalar UI
@@ -629,7 +629,7 @@ A business-ready system should restrict actions based on user roles.
 #### NFR-005 - Reliability
 
 - Requirement: The system should handle expected errors safely.
-- Status: Ongoing
+- Status: Implemented
 - Related Milestone: M03, M13, M16, M29, v0.9.0
 
 #### NFR-006 - Security

@@ -59,9 +59,9 @@ Status: In Progress
 - M24 - ASP.NET Core Web API Setup - Completed
 - M25 - Product API Endpoints - Completed
 - M26 - Order API Endpoints - Completed
-- M27 - Payment API Endpoints - Planned
-- M28 - Dashboard API Endpoints - Planned
-- M29 - API Validation and Error Responses - Planned
+- M27 - Payment API Endpoints - Completed
+- M28 - Dashboard API Endpoints - Completed
+- M29 - API Validation and Error Responses - Competed
 - M30 - v0.4.0 Release - Planned
 
 ## v0.5.0 - Shared Architecture and Full API Integration

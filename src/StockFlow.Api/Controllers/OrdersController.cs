@@ -17,6 +17,13 @@ public class OrderControllers : ControllerBase
     [HttpGet("{orderNumber}")]
     public IActionResult GetOrderByNumber(string orderNumber)
     {
+        if (string.IsNullOrWhiteSpace(orderNumber))
+        {
+            return BadRequest("Order number is required");
+        }
+
+        orderNumber = orderNumber.Trim();
+
         var orders = GetSampleOrders();
 
         var order = orders.FirstOrDefault(order => 

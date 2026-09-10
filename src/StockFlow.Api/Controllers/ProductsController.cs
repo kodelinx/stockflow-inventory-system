@@ -27,6 +27,13 @@ public class ProductsController : ControllerBase
     [HttpGet("{productCode}")]
     public IActionResult GetProductByCode(string productCode)
     {
+        if (string.IsNullOrWhiteSpace(productCode))
+        {
+            return BadRequest("Product code is required");
+        }
+
+        productCode = productCode.Trim();
+
         Product? product = _productRepository.FindProductByCode(productCode);
 
         if (product == null)

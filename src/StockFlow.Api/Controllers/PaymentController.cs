@@ -14,10 +14,17 @@ public class PaymentController : ControllerBase
 
         return Ok(payments);
     }
-    
+
     [HttpGet("{paymentNumber}")]
     public IActionResult GetPaymentByNumber(string paymentNumber)
     {
+        if (string.IsNullOrWhiteSpace(paymentNumber))
+        {
+            return BadRequest("Payment number is required");
+        }
+
+        paymentNumber = paymentNumber.Trim();
+
         List<SamplePayment> payments = GetSamplePayments();
 
         SamplePayment? payment = payments.FirstOrDefault(payment => 

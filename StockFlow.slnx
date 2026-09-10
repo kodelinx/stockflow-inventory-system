@@ -2,5 +2,6 @@
   <Folder Name="/src/">
     <Project Path="src/StockFlow.Api/StockFlow.Api.csproj" />
     <Project Path="src/StockFlow.Core/StockFlow.Core.csproj" />
+    <Project Path="src/StockFlow.Infrastructure/StockFlow.Infrastructure.csproj" />
   </Folder>
 </Solution>

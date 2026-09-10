@@ -314,7 +314,9 @@ IsActive = 0 means inactive
 ## Current Database Implementation Status
 
 - SQLite integration has started.
-- The Products table is currently initialized from C#.
-- ProductRepository is currently used by the Product API endpoints.
-- Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications tables are planned but not yet fully implemented in the application flow.
-- The full database-backed system is planned for v0.6.0.
+- DatabaseConnectionService has been moved to StockFlow.Infrastructure.
+- ProductRepository has been moved to StockFlow.Infrastructure.
+- ProductRepository currently supports product data access.
+- Product API endpoints use ProductRepository and SQLite.
+- Other repositories are not yet implemented.
+- Full database-backed application flow is planned for a later version.

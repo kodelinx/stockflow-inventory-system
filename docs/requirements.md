@@ -610,9 +610,10 @@ A business-ready system should restrict actions based on user roles.
 
 #### NFR-002 - Clear Code Structure
 
-- Requirement: The system should separate responsibilities into appropriate folders and classes.
+- Requirement: The system should separate responsibilities into appropriate projects, folders, and classes.
 - Status: Ongoing
-- Related Milestone: All milestones
+- Related Milestone: M31, M32, M33, M34, M35
+- Notes: StockFlow.Core now contains shared models. StockFlow.Infrastructure now contains database and repository logic. Current services remain in StockFlow.Console until pure business logic can be extracted.
 
 #### NFR-003 - Persistence
 

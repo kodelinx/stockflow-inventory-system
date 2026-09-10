@@ -19,7 +19,8 @@ stockflow-inventory-system/
 ├── src/
 │   ├── StockFlow.Console/
 │   ├── StockFlow.Api/
-│   └── StockFlow.Core/
+│   ├── StockFlow.Core/
+│   └── StockFlow.Infrastructure/
 ├── tests/
 └── StockFlow.sln
 ```
@@ -59,20 +60,52 @@ Responsibilities:
 
 The Core project contains shared business code that can be used by both the console app and the API.
 
-Responsibilities:
+Current responsibilities:
 
 - Shared business models
-- Shared business logic
+- Future pure business services
 - Future service interfaces
-- Future repository interfaces
+
+Current contents:
+
+- Product
+- BasketItem
+- Order
+- OrderItem
+- Payment
+- Receipt
+- StockMovement
+- Notification
 
 Current status:
 
-- Project created
-- Added to solution
-- Referenced by StockFlow.Console
-- Referenced by StockFlow.Api
-- Model migration planned for M32
+- StockFlow.Core was created in M31
+- Shared models were moved to StockFlow.Core in M32
+- Current services were not moved because they depend heavily on console input/output
+
+### StockFlow.Infrastructure
+
+The Infrastructure project contains technical implementation details.
+
+Current responsibilities:
+
+- Database connection setup
+- SQLite integration
+- Repository classes
+- Future repository implementations
+
+Current contents:
+
+- DatabaseConnectionService
+- ProductRepository
+
+Current status:
+
+- StockFlow.Infrastructure was created in M34
+- DatabaseConnectionService was moved to StockFlow.Infrastructure
+- ProductRepository was moved to StockFlow.Infrastructure
+- StockFlow.Infrastructure references StockFlow.Core
+- StockFlow.Api and StockFlow.Console reference StockFlow.Infrastructure
 
 ---
 

@@ -421,3 +421,77 @@ Known limitations:
 - Shared models have not been moved yet
 - Shared services have not been moved yet
 - Repository and database logic are still outside Infrastructure
+
+### M32 - Move Models to StockFlow.Core
+
+Status: Completed
+
+Completed:
+
+- Moved shared model classes to StockFlow.Core
+- Kept model namespaces stable under StockFlow.Models
+- Confirmed shared models can be used by StockFlow.Api and StockFlow.Console
+- Removed duplicate model definitions from StockFlow.Console
+
+Known limitations:
+
+- Shared services have not been extracted yet
+- Some business logic remains inside console workflow services
+
+### M33 - Service Layer Assessment
+
+Status: Completed
+
+Completed:
+
+- Reviewed the current service layer
+- Identified that existing services depend heavily on InputValidationService
+- Confirmed that current services are still console workflow services
+- Decided not to move services directly into StockFlow.Core
+- Planned future extraction of pure business logic into Core services
+
+Outcome:
+
+- Services remain in StockFlow.Console for now
+- InputValidationService remains in StockFlow.Console
+- Pure business service extraction is planned for M36
+
+Known limitations:
+
+- Current services still contain console input/output logic
+- API endpoints are not yet connected to reusable Core business services
+
+### M34 - Create StockFlow.Infrastructure Class Library
+
+Status: Completed
+
+Completed:
+
+- Created StockFlow.Infrastructure class library project
+- Added StockFlow.Infrastructure to the solution
+- Added reference from StockFlow.Infrastructure to StockFlow.Core
+- Added references from StockFlow.Api and StockFlow.Console to StockFlow.Infrastructure
+- Installed Microsoft.Data.Sqlite in StockFlow.Infrastructure
+
+Known limitations:
+
+- Only current database/repository logic has been moved so far
+- Other repositories are not yet implemented
+
+### M35 - Move Database and Repository Logic to StockFlow.Infrastructure
+
+Status: Completed
+
+Completed:
+
+- Moved DatabaseConnectionService to StockFlow.Infrastructure
+- Moved ProductRepository to StockFlow.Infrastructure
+- Removed StockFlow.Api dependency on StockFlow.Console
+- Resolved duplicate Product type issue
+- Resolved circular project reference issue
+- Confirmed the project builds after architecture cleanup
+
+Known limitations:
+
+- Services remain in StockFlow.Console because they are console-heavy
+- OrderRepository, PaymentRepository, ReceiptRepository, and other repositories are not yet implemented

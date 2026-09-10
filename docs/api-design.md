@@ -13,7 +13,8 @@ The API allows clients such as browsers, frontend dashboards, mobile apps, Postm
 # Current API Status
 
 - Current API version: v0.4.0 - StockFlow Web API
-- Current API milestone: M29 - API Validation and Error Responses
+- Current API milestone: M30 - v0.4.0 Release
+- Current API release status: Released
 
 ---
 

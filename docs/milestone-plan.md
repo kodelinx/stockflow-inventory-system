@@ -69,12 +69,12 @@ Status: Released
 Status: In Progress
 
 - M31 - Create StockFlow.Core Class Library - Completed
-- M32 - Move Models to StockFlow.Core - Planned
-- M33 - Move Services to StockFlow.Core - Planned
-- M34 - Create StockFlow.Infrastructure Class Library - Planned
-- M35 - Move Repositories and Database Logic to StockFlow.Infrastructure - Planned
-- M36 - Connect API Endpoints to Real Services - Planned
-- M37 - Connect API Endpoints to SQLite Repositories - Planned
+- M32 - Move Models to StockFlow.Core - Completed
+- M33 - Service Layer Assessment - Completed
+- M34 - Create StockFlow.Infrastructure Class Library - Completed
+- M35 - Move Database and Repository Logic to StockFlow.Infrastructure - Completed
+- M36 - Extract Pure Business Services to StockFlow.Core - Planned
+- M37 - Connect API Endpoints to Real Services and Repositories - Planned
 - M38 - v0.5.0 Release - Planned
 
 ## v0.6.0 - Full Database-Backed StockFlow

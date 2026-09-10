@@ -1,7 +1,7 @@
 using StockFlow.Models;
 using StockFlow.Services;
 
-namespace StockFlow.Models;
+namespace StockFlow.Services;
 
 public class SalesReportService
 {

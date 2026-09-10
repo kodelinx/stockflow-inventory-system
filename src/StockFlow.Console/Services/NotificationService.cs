@@ -2,7 +2,7 @@ using StockFlow.Models;
 using StockFlow.Services;
 using StockFlow.Utilities;
 
-namespace StockFlow.Models;
+namespace StockFlow.Services;
 
 public class NotificationService
 {

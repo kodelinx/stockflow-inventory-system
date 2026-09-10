@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockFlow.Console\StockFlow.Console.csproj" />
     <ProjectReference Include="..\StockFlow.Core\StockFlow.Core.csproj" />
+    <ProjectReference Include="..\StockFlow.Infrastructure\StockFlow.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

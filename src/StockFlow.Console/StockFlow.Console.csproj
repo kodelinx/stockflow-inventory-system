@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockFlow.Core\StockFlow.Core.csproj" />
+    <ProjectReference Include="..\StockFlow.Infrastructure\StockFlow.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

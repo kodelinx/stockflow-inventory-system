@@ -340,3 +340,63 @@ Known limitations:
 - Full request body validation is not yet implemented
 - Create, update, and delete endpoints are not yet implemented
 - Authentication and authorization are not yet implemented
+
+## v0.4.0 - StockFlow Web API
+
+Release date: 2026-09-10
+
+Status: Released
+
+### Summary
+
+v0.4.0 introduced the ASP.NET Core Web API layer for StockFlow.
+
+This release added API endpoints for products, orders, payments, and dashboard summary data. It also introduced basic API response handling using standard HTTP responses such as 200 OK, 400 Bad Request, and 404 Not Found.
+
+### Completed Milestones
+
+- M24 - ASP.NET Core Web API Setup
+- M25 - Product API Endpoints
+- M26 - Order API Endpoints
+- M27 - Payment API Endpoints
+- M28 - Dashboard API Endpoints
+- M29 - API Validation and Error Responses
+- M30 - v0.4.0 Release
+
+### Added
+
+- Added `StockFlow.Api` ASP.NET Core Web API project
+- Added OpenAPI JSON support through `/openapi/v1.json`
+- Added `ProductsController`
+- Added `OrdersController`
+- Added `PaymentsController`
+- Added `DashboardController`
+- Added `GET /api/products`
+- Added `GET /api/products/{productCode}`
+- Added `GET /api/orders`
+- Added `GET /api/orders/{orderNumber}`
+- Added `GET /api/payments`
+- Added `GET /api/payments/{paymentNumber}`
+- Added `GET /api/dashboard/summary`
+
+### Improved
+
+- Added basic route parameter validation
+- Added clearer API error responses
+- Used `200 OK` for successful requests
+- Used `400 Bad Request` for invalid input where applicable
+- Used `404 Not Found` for missing records
+- Clarified that empty list responses are successful responses
+
+### Current Limitations
+
+- The API is not production-ready yet
+- Product endpoints use repository-backed SQLite access
+- Order endpoints use typed temporary sample data
+- Payment endpoints use typed temporary sample data
+- Dashboard endpoint uses typed temporary sample data
+- Create, update, and delete API endpoints are not yet implemented
+- Authentication and authorization are not yet implemented
+- Full shared architecture cleanup is planned for v0.5.0
+- Full database-backed flow is planned for v0.6.0
+

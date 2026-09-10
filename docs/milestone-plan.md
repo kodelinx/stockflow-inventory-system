@@ -62,20 +62,20 @@ Status: In Progress
 - M27 - Payment API Endpoints - Completed
 - M28 - Dashboard API Endpoints - Completed
 - M29 - API Validation and Error Responses - Competed
-- M30 - v0.4.0 Release - Planned
+- M30 - v0.4.0 Release - Completed
 
 ## v0.5.0 - Shared Architecture and Full API Integration
 
 Status: Planned
 
-- M31 - Create StockFlow.Core Class Library
-- M32 - Move Models to StockFlow.Core
-- M33 - Move Services to StockFlow.Core
-- M34 - Create StockFlow.Infrastructure Class Library
-- M35 - Move Repositories and Database Logic to StockFlow.Infrastructure
-- M36 - Connect API Endpoints to Real Services
-- M37 - Connect API Endpoints to SQLite Repositories
-- M38 - v0.5.0 Release
+- M31 - Create StockFlow.Core Class Library - Planned
+- M32 - Move Models to StockFlow.Core - Planned
+- M33 - Move Services to StockFlow.Core - Planned
+- M34 - Create StockFlow.Infrastructure Class Library - Planned
+- M35 - Move Repositories and Database Logic to StockFlow.Infrastructure - Planned
+- M36 - Connect API Endpoints to Real Services - Planned
+- M37 - Connect API Endpoints to SQLite Repositories - Planned
+- M38 - v0.5.0 Release - Planned
 
 ## v0.6.0 - Full Database-Backed StockFlow
 

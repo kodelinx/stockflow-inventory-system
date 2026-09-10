@@ -5,7 +5,7 @@ StockFlow is an inventory and sales management system for small business operati
 ## Current Status
 
 - Current version: v0.4.0 - StockFlow Web API
-- Current milestone: M29 - API Validation and Error Responses
+- Current milestone: M30 - v0.4.0 Release
 - Current milestone status: In Progress
 - Last updated: 2026-09-10
 
@@ -108,7 +108,27 @@ Status: Released
 
 ### v0.4.0 - StockFlow Web API
 
-Status: In Progress
+Status: Released
+
+StockFlow now includes an ASP.NET Core Web API project that exposes product, order, payment, and dashboard endpoints through HTTP.
+
+Current API features:
+
+- OpenAPI JSON support
+- Product read endpoints
+- Order read endpoints
+- Payment read endpoints
+- Dashboard summary endpoint
+- Basic API validation and error response handling
+
+Current limitations:
+
+- Product endpoints use repository-backed SQLite access
+- Order, payment, and dashboard endpoints currently use typed temporary sample data
+- Create, update, and delete API endpoints are not yet implemented
+- Authentication and authorization are not yet implemented
+- Full shared architecture cleanup is planned for v0.5.0
+- Full database-backed flow is planned for v0.6.0
 
 ### v0.5.0 - Shared Architecture and Full API Integration
 

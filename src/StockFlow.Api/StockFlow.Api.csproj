@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockFlow.Console\StockFlow.Console.csproj" />
+    <ProjectReference Include="..\StockFlow.Core\StockFlow.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -495,3 +495,30 @@ Known limitations:
 
 - Services remain in StockFlow.Console because they are console-heavy
 - OrderRepository, PaymentRepository, ReceiptRepository, and other repositories are not yet implemented
+
+### M36 - Extract Product Business Service to StockFlow.Core
+
+Status: In Progress
+
+Completed:
+
+- Created `ProductManager` in `StockFlow.Core`
+- Added reusable product business logic without console input/output
+- Added product creation logic through clean parameters
+- Added low-stock checking logic
+- Added enough-stock checking logic
+- Added product deactivation logic
+- Kept console-heavy services inside `StockFlow.Console`
+
+Pending verification:
+
+- Run `dotnet build`
+- Confirm console project still builds
+- Confirm API project still builds
+- Optionally connect `InventoryService` to `ProductManager`
+
+Known limitations:
+
+- Not all service logic has been extracted yet
+- Existing console services still contain input/output workflow
+- API endpoints are not yet fully connected to Core business services

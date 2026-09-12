@@ -77,6 +77,10 @@ Current contents:
 - StockMovement
 - Notification
 
+Current Core services:
+
+- ProductManager
+
 Current status:
 
 - StockFlow.Core was created in M31
@@ -306,6 +310,20 @@ Current database notes:
 
 ---
 
+## Current Dependency Direction
+
+StockFlow.Api → StockFlow.Core
+StockFlow.Api → StockFlow.Infrastructure
+
+StockFlow.Console → StockFlow.Core
+StockFlow.Console → StockFlow.Infrastructure
+
+StockFlow.Infrastructure → StockFlow.Core
+
+StockFlow.Core → no project references
+
+
+
 # Architecture Principles
 
 ## Separation of Concerns
@@ -449,6 +467,39 @@ StockFlow.Api      StockFlow.Console
 - No shared Core or Infrastructure class library exists yet.
 - No automated tests yet.
 - Authentication and authorization are not implemented yet.
+
+## Current Service Layer Decision
+
+Current services remain in StockFlow.Console because they depend heavily on InputValidationService, Console.ReadLine, and Console.WriteLine.
+
+This means they are still console workflow services.
+
+They should not be moved directly into StockFlow.Core.
+
+Future refactoring will extract pure business logic into new Core services that receive clean values as parameters and return results without directly reading from or writing to the console.
+
+## M36 Service Extraction Pattern
+
+M36 started extracting pure business logic into StockFlow.Core.
+
+The current approach is:
+
+Console service:
+- asks for user input
+- validates console input
+- prints messages
+- calls Core business service
+
+Core service:
+- receives clean values as parameters
+- applies business rules
+- creates or updates models
+- returns results
+- does not use Console.ReadLine
+- does not use Console.WriteLine
+- does not depend on InputValidationService
+
+This keeps StockFlow.Core reusable by the Console app, API, future frontend, and tests.
 
 # Architecture Improvement Plan
 

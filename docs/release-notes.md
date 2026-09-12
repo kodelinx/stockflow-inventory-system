@@ -549,3 +549,51 @@ Known limitations:
 - Order, payment, and dashboard endpoints still use temporary sample data
 - Create, update, and delete API endpoints are not yet implemented
 
+## v0.5.0 - Shared Architecture and Full API Integration
+
+Release date: 2026-09-13
+
+Status: Released
+
+### Summary
+
+v0.5.0 improved StockFlow’s architecture by separating the project into clearer layers.
+
+This release introduced `StockFlow.Core` for shared business models and pure business logic, and `StockFlow.Infrastructure` for database and repository implementation. It also removed the API dependency on the Console project and connected the Product API to both Core and Infrastructure.
+
+### Added
+
+- Added `StockFlow.Core`
+- Added `StockFlow.Infrastructure`
+- Added `ProductManager`
+- Added Core project references where needed
+- Added Infrastructure project references where needed
+
+### Changed
+
+- Moved shared models to `StockFlow.Core`
+- Moved `DatabaseConnectionService` to `StockFlow.Infrastructure`
+- Moved `ProductRepository` to `StockFlow.Infrastructure`
+- Updated Product API flow to use Core business logic and Infrastructure repository access
+- Removed the API dependency on `StockFlow.Console`
+
+### Fixed
+
+- Fixed duplicate `Product` type issue
+- Fixed circular project reference issue
+- Fixed incorrect dependency direction between projects
+- Fixed product API architecture by removing Console dependency
+
+### Service Layer Decision
+
+Current console services remain in `StockFlow.Console` because they depend heavily on `InputValidationService`, `Console.ReadLine`, and `Console.WriteLine`.
+
+Future Core services should be extracted gradually. They should receive clean parameters, apply business rules, and return results without directly depending on console input/output.
+
+### Current Limitations
+
+- Existing console services still contain console workflow logic
+- Only product business logic has been extracted into Core
+- Only ProductRepository currently exists
+- Other repositories are not yet implemented
+- Full database-backed business flow is planned for v0.6.0

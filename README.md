@@ -4,8 +4,8 @@ StockFlow is an inventory and sales management system for small business operati
 
 ## Current Status
 
-- Current version: v0.5.0 - Shared Architecture and Full API Integration
-- Current milestone: M38 - v0.5.0 Release 
+- Current version: v0.6.0 - Full Database-Backed StockFlow
+- Current milestone: M39 - Complete Product Repository CRUD
 - Current milestone status: In Progress
 - Last updated: 2026-09-13
 
@@ -132,11 +132,30 @@ Current limitations:
 
 ### v0.5.0 - Shared Architecture and Full API Integration
 
-Status: Planned
+Status: Released
+
+StockFlow has been refactored into a cleaner layered architecture with separate projects for API, Console, Core, and Infrastructure.
+
+Current architecture highlights:
+
+- `StockFlow.Core` contains shared business models
+- `StockFlow.Core` contains `ProductManager` for reusable product business logic
+- `StockFlow.Infrastructure` contains database and repository implementation
+- `DatabaseConnectionService` was moved to Infrastructure
+- `ProductRepository` was moved to Infrastructure
+- `StockFlow.Api` no longer references `StockFlow.Console`
+- Product API uses Core business logic and Infrastructure data access
+
+Current limitations:
+
+- Existing console services still contain console input/output workflow
+- Only ProductRepository is currently implemented
+- Order, payment, receipt, and stock movement repositories are not yet implemented
+- Full database-backed business flow is planned for v0.6.0
 
 ### v0.6.0 - Full Database-Backed StockFlow
 
-Status: Planned
+Status: In Progress
 
 ### v0.7.0 - Authentication and User Roles
 

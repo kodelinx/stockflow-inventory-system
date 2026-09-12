@@ -17,13 +17,38 @@ stockflow-inventory-system/
 ├── README.md
 ├── docs/
 ├── src/
-│   ├── StockFlow.Console/
-│   ├── StockFlow.Api/
-│   ├── StockFlow.Core/
-│   └── StockFlow.Infrastructure/
+├── StockFlow.Api/
+│   ├── Controllers/
+│   └── Program.cs
+│
+├── StockFlow.Console/
+│   ├── Services/
+│   ├── Utilities/
+│   ├── Data/
+│   └── Program.cs
+│
+├── StockFlow.Core/
+│   ├── Models/
+│   └── Services/
+│       └── ProductManager.cs
+│
+└── StockFlow.Infrastructure/
+│   ├── Database/
+│   │   └── DatabaseConnectionService.cs
+│   └── Repositories/
+│       └── ProductRepository.cs
 ├── tests/
 └── StockFlow.sln
 ```
+
+## Current Layered Architecture
+
+StockFlow currently uses four main projects:
+
+- `StockFlow.Api` - Web API entry point
+- `StockFlow.Console` - Console application entry point
+- `StockFlow.Core` - Shared business models and pure business logic
+- `StockFlow.Infrastructure` - Database and repository implementation
 
 ## Current Projects
 
@@ -241,6 +266,20 @@ Current API notes:
 - Payment API endpoints were added in M27.
 - Dashboard summary endpoint was added in M28.
 - Basic API validation and error response handling is being improved in M29.
+
+## Current Product API Flow
+
+HTTP GET Request
+    ↓
+ProductsController
+    ↓
+ProductManager
+    ↓
+ProductRepository
+    ↓
+SQLite Database
+    ↓
+HTTP JSON Response
 
 ## Current API Controller Flows
 
@@ -500,6 +539,43 @@ Core service:
 - does not depend on InputValidationService
 
 This keeps StockFlow.Core reusable by the Console app, API, future frontend, and tests.
+
+## M37 Product API Integration Flow
+
+M37 connected the Product API to both the Core and Infrastructure layers.
+
+Current Product API flow:
+
+HTTP GET Request
+    ↓
+ProductsController
+    ↓
+ProductManager
+    ↓
+ProductRepository
+    ↓
+SQLite Database
+    ↓
+HTTP JSON Response
+
+Layer responsibilities:
+
+- ProductsController handles HTTP requests and responses.
+- ProductManager contains reusable product business rules.
+- ProductRepository handles product database access.
+- DatabaseConnectionService manages SQLite setup and connection details.
+- Product model is stored in StockFlow.Core.
+
+Current behavior:
+
+- `GET /api/products` returns active products from SQLite.
+- `GET /api/products/{productCode}` returns one product and includes calculated low-stock status.
+- Missing products return `404 Not Found`.
+
+Current limitation:
+
+- Product API only supports read operations.
+- Other API areas are not yet fully connected to Core and Infrastructure.
 
 # Architecture Improvement Plan
 

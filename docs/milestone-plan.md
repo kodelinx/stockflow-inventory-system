@@ -75,21 +75,21 @@ Status: In Progress
 - M35 - Move Database and Repository Logic to StockFlow.Infrastructure - Completed
 - M36 - Extract Pure Business Service to StockFlow.Core - Completed
 - M37 - Connect API Endpoints to Real Service and Repositories - Competed
-- M38 - v0.5.0 Release - In Progress
+- M38 - v0.5.0 Release - Competed
 
 ## v0.6.0 - Full Database-Backed StockFlow
 
 Status: Planned
 
-- M39 - Complete Product Repository CRUD
-- M40 - Add Order Repository
-- M41 - Add OrderItem Repository
-- M42 - Add Payment Repository
-- M43 - Add Receipt Repository
-- M44 - Add StockMovement Repository
-- M45 - Add Notification Repository
-- M46 - Replace JSON Flow with SQLite Flow
-- M47 - v0.6.0 Release
+- M39 - Complete Product Repository CRUD - Planned
+- M40 - Add Order Repository - Planned
+- M41 - Add OrderItem Repository - Planned
+- M42 - Add Payment Repository - Planned
+- M43 - Add Receipt Repository - Planned
+- M44 - Add StockMovement Repository - Planned
+- M45 - Add Notification Repository - Planned
+- M46 - Replace JSON Flow with SQLite Flow - Planned
+- M47 - v0.6.0 Release - Planned
 
 ## v0.7.0 - Authentication and User Roles
 

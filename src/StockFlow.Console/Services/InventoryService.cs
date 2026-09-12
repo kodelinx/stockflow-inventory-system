@@ -10,10 +10,15 @@ namespace StockFlow.Services;
 public class InventoryService
 {
     private readonly InputValidationService _inputValidationService;
+    private readonly ProductManager _productManager;
 
-    public InventoryService(InputValidationService inputValidationService)
+    public InventoryService(
+        InputValidationService inputValidationService,
+        ProductManager productManager
+    )
     {
         _inputValidationService = inputValidationService;
+        _productManager = productManager;
     }
     public void ViewProducts(List<Product> products)
     {
@@ -44,9 +49,9 @@ public class InventoryService
     {
         Console.WriteLine("Enter the Product Details\n");
 
-        int productId = products.Count + 1;
+        //int productId = products.Count + 1;
 
-        string productCode = $"PRD-{productId:000}";
+        string productCode = $"PRD-{products.Count + 1:000}";
         string name = _inputValidationService.GetRequiredText("Name: ");
         string category = _inputValidationService.GetRequiredText("Category: ");
         decimal unitPrice = _inputValidationService.GetValidDecimal("Unit Price: ", 0.00m, 1000000m);
@@ -55,15 +60,16 @@ public class InventoryService
 
 
         //create a Product object and initialize from data provided
-        Product product = new Product(
-            productId, 
+        Product product = _productManager.CreateProduct(
+            //productId,
             productCode, 
             name, 
             category, 
             unitPrice, 
             quantityInStock,
             reorderLevel,
-            true);
+            true
+            );
 
         products.Add(product);
 

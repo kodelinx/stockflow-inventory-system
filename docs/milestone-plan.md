@@ -74,8 +74,8 @@ Status: In Progress
 - M34 - Create StockFlow.Infrastructure Class Library - Completed
 - M35 - Move Database and Repository Logic to StockFlow.Infrastructure - Completed
 - M36 - Extract Pure Business Service to StockFlow.Core - Completed
-- M37 - Connect API Endpoints to Real Service and Repositories - Planned
-- M38 - v0.5.0 Release - Planned
+- M37 - Connect API Endpoints to Real Service and Repositories - Competed
+- M38 - v0.5.0 Release - In Progress
 
 ## v0.6.0 - Full Database-Backed StockFlow
 

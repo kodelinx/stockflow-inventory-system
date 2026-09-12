@@ -522,3 +522,30 @@ Known limitations:
 - Not all service logic has been extracted yet
 - Existing console services still contain input/output workflow
 - API endpoints are not yet fully connected to Core business services
+
+### M37 - Connect Product API to Core and Infrastructure
+
+Status: In Progress
+
+Completed:
+
+- Registered `ProductManager` in the API dependency injection container
+- Injected `ProductManager` into `ProductsController`
+- Kept `ProductRepository` as the product database access class
+- Used `ProductManager.IsLowStock()` inside the Product API response
+- Improved the Product API flow to use both Core and Infrastructure layers
+
+Pending verification:
+
+- Run `dotnet build`
+- Confirm `GET /api/products` still works
+- Confirm `GET /api/products/P001` returns one product
+- Confirm `GET /api/products/P001` includes `isLowStock`
+- Confirm `GET /api/products/P999` returns `404 Not Found`
+
+Known limitations:
+
+- Only product endpoints are connected to Core and Infrastructure
+- Order, payment, and dashboard endpoints still use temporary sample data
+- Create, update, and delete API endpoints are not yet implemented
+

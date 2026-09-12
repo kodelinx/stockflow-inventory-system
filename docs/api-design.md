@@ -104,15 +104,20 @@ Current behavior:
 
 Status: Implemented
 
-Purpose:Returns one product by product code.
+Purpose:
+
+Returns one product by product code.
 
 Controller: `ProductsController`
+
+Core service: `ProductManager.IsLowStock(product)`
 
 Repository method: `ProductRepository.FindProductByCode(productCode)`
 
 Expected responses:
 
 - `200 OK` if the product exists
+- `400 Bad Request` if the product code is invalid
 - `404 Not Found` if the product does not exist
 
 Example test URLs:
@@ -123,6 +128,8 @@ Example test URLs:
 Current behavior:
 
 - Searches product records by product code.
+- Uses `ProductRepository` for database access.
+- Uses `ProductManager` to calculate low-stock status.
 - Returns a clear not-found response when no matching product exists.
 
 ---

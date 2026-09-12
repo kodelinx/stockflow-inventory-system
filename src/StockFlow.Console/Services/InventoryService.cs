@@ -50,6 +50,9 @@ public class InventoryService
         Console.WriteLine("Enter the Product Details\n");
 
         //int productId = products.Count + 1;
+        int nextProductId = products.Count == 0
+        ? 1
+        : products.Max(product => product.ProductId) + 1;
 
         string productCode = $"PRD-{products.Count + 1:000}";
         string name = _inputValidationService.GetRequiredText("Name: ");
@@ -70,6 +73,8 @@ public class InventoryService
             reorderLevel,
             true
             );
+            
+        product.ProductId = nextProductId;
 
         products.Add(product);
 

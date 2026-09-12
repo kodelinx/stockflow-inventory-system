@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug StockFlow Console",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/StockFlow.Console/bin/Debug/net10.0/StockFlow.Console.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/StockFlow.Console",
+      "console": "integratedTerminal",
+      "stopAtEntry": false,
+      "preLaunchTask": "build-console"
+    },
+    {
+      "name": "Debug StockFlow API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/StockFlow.Api/bin/Debug/net10.0/StockFlow.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "stopAtEntry": false,
+      "preLaunchTask": "build-api"
+    }
+  ]
+}

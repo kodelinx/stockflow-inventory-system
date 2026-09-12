@@ -23,7 +23,7 @@ public class DatabaseConnectionService
         string createProductsTableSql = @"
             CREATE TABLE IF NOT EXISTS Products (
                 ProductId INTEGER PRIMARY KEY,
-                ProductCode INTEGER NOT NULL UNIQUE,
+                ProductCode STRING NOT NULL UNIQUE,
                 Name TEXT NOT NULL,
                 Category TEXT NOT NULL,
                 UnitPrice DECIMAL(10,2) NOT NULL,
@@ -111,7 +111,7 @@ public class DatabaseConnectionService
             "Monitor",
             "Display",
             5500.00m,
-            4,
+            1,
             2,
             true
         );

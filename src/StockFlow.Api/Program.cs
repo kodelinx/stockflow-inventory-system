@@ -1,5 +1,6 @@
 using StockFlow.Database;
 using StockFlow.Repositories;
+using StockFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<DatabaseConnectionService>();
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductManager>();
 
 var app = builder.Build();
 

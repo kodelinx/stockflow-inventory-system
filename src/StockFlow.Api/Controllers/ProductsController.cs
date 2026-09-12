@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StockFlow.Models;
 using StockFlow.Repositories;
+using StockFlow.Services;
 
 namespace StockFlow.Api.Controllers;
 
@@ -9,10 +10,15 @@ namespace StockFlow.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
+    private readonly ProductManager _productManager;
 
-    public ProductsController(ProductRepository productRepository)
+    public ProductsController(
+        ProductRepository productRepository,
+        ProductManager productManager
+    )
     {
         _productRepository = productRepository;
+        _productManager = productManager;
     }
 
     [HttpGet]
@@ -41,6 +47,21 @@ public class ProductsController : ControllerBase
             return NotFound($"Product with code {productCode} was not found");
         }
 
-        return Ok(product);
+        bool isLowStock = _productManager.IsLowStock(product);
+
+        var response = new
+        {
+            product.ProductId,
+            product.ProductCode,
+            product.Name,
+            product.Category,
+            product.UnitPrice,
+            product.QuantityInStock,
+            product.ReorderLevel,
+            product.IsActive,
+            IsLowStock = isLowStock
+        };
+
+        return Ok(response);
     }
 }

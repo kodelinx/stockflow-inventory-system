@@ -188,6 +188,75 @@ public class ProductRepository
 
         return null;
     }
+
+    public void UpdateProduct(Product product)
+    {
+        using SqliteConnection connection = new SqliteConnection(_databaseConnectionService.GetConnectionString());
+        connection.Open();
+
+        string updateSql = @"
+        
+            UPDATE Products
+            SET
+                Name = @Name,
+                Category = @Category,
+                UnitPrice = @UnitPrice,
+                QuantityInStock = @QuantityInStock,
+                ReorderLevel = @ReorderLevel,
+                IsActive = @IsActive
+            WHERE ProductCode = @ProductCode;
+        ";
+
+        using SqliteCommand command = new SqliteCommand(updateSql, connection);
+
+        command.Parameters.AddWithValue("@ProductCode", product.ProductCode);
+        command.Parameters.AddWithValue("@Name", product.Name);
+        command.Parameters.AddWithValue("@Category", product.Category);
+        command.Parameters.AddWithValue("@UnitPrice", product.UnitPrice);
+        command.Parameters.AddWithValue("@QuantityInStock", product.QuantityInStock);
+        command.Parameters.AddWithValue("@ReorderLevel", product.ReorderLevel);
+        command.Parameters.AddWithValue("@IsActive", product.IsActive);
+
+        command.ExecuteNonQuery();
+    }
+
+    public void DeactivateProduct(string productCode)
+    {
+        using SqliteConnection connection = new SqliteConnection(_databaseConnectionService.GetConnectionString());
+        connection.Open();
+
+        string deactivateSql = @"
+            UPDATE Products
+            SET IsActive = @IsActive
+            WHERE ProductCode = @ProductCode; 
+        ";
+
+        using SqliteCommand command = new SqliteCommand(deactivateSql, connection);
+
+        command.Parameters.AddWithValue("@ProductCode", productCode);
+        command.Parameters.AddWithValue("@IsActive", false);
+
+        command.ExecuteNonQuery();
+        
+    }
+
+    public void DeleteProduct(string productCode)
+    {
+        using SqliteConnection connection = new SqliteConnection(_databaseConnectionService.GetConnectionString());
+        connection.Open();
+
+        string deleteSql = @"
+            DELETE FROM Products
+            WHERE ProductCode = @ProductCode;
+        ";
+
+        using SqliteCommand command = new SqliteCommand(deleteSql, connection);
+
+        command.Parameters.AddWithValue("@ProductCode", productCode);
+
+        command.ExecuteNonQuery();
+    }
+
     private Product MapReaderToProduct(SqliteDataReader reader)
     {
         return new Product

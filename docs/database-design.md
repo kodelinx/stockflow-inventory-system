@@ -183,6 +183,15 @@ Design notes:
 - ChangeAmount is the money returned to the customer.
 - PaymentNumber is the user-facing payment reference.
 
+Current implementation status:
+
+- Payments table is initialized from C#.
+- PaymentRepository has been added to StockFlow.Infrastructure.
+- PaymentRepository supports adding payments, reading all payments, finding one payment by payment number, and getting payments by order number.
+- PaymentNumber is used to identify one specific payment transaction.
+- OrderNumber is used to group payments under one order.
+- The design can support future partial payments, split payments, and payment history tracking.
+
 ## Receipts
 
 Purpose:

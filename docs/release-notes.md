@@ -498,7 +498,7 @@ Known limitations:
 
 ### M36 - Extract Product Business Service to StockFlow.Core
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -525,7 +525,7 @@ Known limitations:
 
 ### M37 - Connect Product API to Core and Infrastructure
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -604,7 +604,7 @@ Status: In Progress
 
 ### M39 - Complete Product Repository CRUD
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -630,7 +630,7 @@ Known limitations:
 
 ### M40 - Add Order Repository
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -659,7 +659,7 @@ Known limitations:
 
 ### M41 - Add OrderItem Repository
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -675,3 +675,31 @@ Known limitations:
 - Order items are not yet connected to the full checkout flow
 - Console order flow is not yet fully SQLite-backed
 - API order endpoints may still use temporary sample data
+
+### M42 - Add Payment Repository
+
+Status: Completed
+
+Completed:
+
+- Added Payments table initialization
+- Created PaymentRepository in StockFlow.Infrastructure
+- Added AddPayment method
+- Added GetAllPayments method
+- Added FindPaymentByNumber method
+- Added GetPaymentsByOrderNumber method
+- Added MapReaderToPayment helper method
+- Registered PaymentRepository for dependency injection
+
+Business notes:
+
+- FindPaymentByNumber is used to retrieve one exact payment transaction.
+- GetPaymentsByOrderNumber is used to retrieve all payment records connected to one order.
+- This design supports future partial payments, split payments, and payment history tracking.
+
+Known limitations:
+
+- PaymentRepository is repository-level only for now
+- Payment processing is not yet fully connected to the checkout flow
+- API payment endpoints may still use temporary sample data
+- Full SQLite checkout/payment flow is planned for a later milestone

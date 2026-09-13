@@ -84,8 +84,8 @@ Status: Planned
 - M39 - Complete Product Repository CRUD - Completed
 - M40 - Add Order Repository - Completed
 - M41 - Add OrderItem Repository - Completed
-- M42 - Add Payment Repository - In Progress
-- M43 - Add Receipt Repository - Planned
+- M42 - Add Payment Repository - Completed
+- M43 - Add Receipt Repository - In Progress
 - M44 - Add StockMovement Repository - Planned
 - M45 - Add Notification Repository - Planned
 - M46 - Replace JSON Flow with SQLite Flow - Planned

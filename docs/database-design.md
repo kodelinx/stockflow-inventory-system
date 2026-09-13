@@ -150,6 +150,13 @@ Design notes:
 - Order items store product snapshot data.
 - Product name and unit price are saved here so old receipts remain accurate even if product details change later.
 
+Current implementation status:
+
+- OrderItems table is initialized from C#.
+- OrderItemRepository has been added to StockFlow.Infrastructure.
+- OrderItemRepository supports adding order items and retrieving order items by OrderId.
+- Full checkout integration is planned for a later milestone.
+
 ## Payments
 
 Purpose:

@@ -656,3 +656,22 @@ Known limitations:
 - OrderItems are not yet saved through this repository
 - Console order flow is not yet fully connected to SQLite
 - API order endpoints may still use temporary sample data
+
+### M41 - Add OrderItem Repository
+
+Status: In Progress
+
+Completed:
+
+- Added OrderItems table initialization
+- Created OrderItemRepository in StockFlow.Infrastructure
+- Added AddOrderItem method
+- Added GetOrderItemsByOrderId method
+- Added MapReaderToOrderItem helper method
+- Registered OrderItemRepository for dependency injection
+
+Known limitations:
+
+- Order items are not yet connected to the full checkout flow
+- Console order flow is not yet fully SQLite-backed
+- API order endpoints may still use temporary sample data

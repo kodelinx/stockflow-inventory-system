@@ -44,9 +44,25 @@ public class DatabaseConnectionService
             );
         ";
 
+        string createOrderItemsTableSql = @"
+            CREATE TABLE IF NOT EXISTING OrderItems(
+                OrderItemId INTEGER PRIMARY KEY,
+                OrderId INTEGER NOT NULL,
+                ProductId INTEGER NOT NUL,
+                ProductCode INTEGER NOT NULL,
+                ProductName STRING NOT NULL,
+                Quantity INTEGER NUT NULL,
+                UnitPrice DECIMAL(10,2) NOT NULL,
+                LineTota DECIMAL(10,2) NOT NULL,
+                FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
+                FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+            );
+        ";
+
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = createProductsTableSql;
         command.CommandText = createOrdersTableSql;
+        command.CommandText = createOrderItemsTableSql;
         //Runs SQL commands that do not return rows.
         command.ExecuteNonQuery();
 

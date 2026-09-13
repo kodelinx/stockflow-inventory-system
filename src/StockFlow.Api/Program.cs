@@ -12,6 +12,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSingleton<DatabaseConnectionService>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderItemRespository>();
 builder.Services.AddScoped<ProductManager>();
 
 

@@ -120,6 +120,13 @@ Design notes:
 - An order should only be completed after payment is processed.
 - OrderNumber is the user-facing business reference.
 
+Current implementation status:
+
+- Orders table is initialized from C#.
+- OrderRepository has been added to StockFlow.Infrastructure.
+- OrderRepository supports adding orders, reading all orders, finding orders by order number, and updating order/payment status.
+- Order items are planned for M41.
+
 ## OrderItems
 
 Purpose:

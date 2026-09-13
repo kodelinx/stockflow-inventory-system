@@ -627,3 +627,32 @@ Known limitations:
 - Full API create/update/delete endpoints are not yet implemented
 - Console product flow is not yet fully database-backed
 - Other repositories are not yet implemented
+
+### M40 - Add Order Repository
+
+Status: In Progress
+
+Completed:
+
+- Added Orders table initialization
+- Created OrderRepository in StockFlow.Infrastructure
+- Added AddOrder method
+- Added GetAllOrders method
+- Added FindOrderByNumber method
+- Added UpdateOrderStatus method
+- Added UpdatePaymentStatus method
+- Added MapReaderToOrder helper method
+- Registered OrderRepository for dependency injection
+
+Pending verification:
+
+- Run dotnet build
+- Confirm the API project still builds
+- Confirm the Console project still builds
+
+Known limitations:
+
+- OrderRepository currently handles order summary records only
+- OrderItems are not yet saved through this repository
+- Console order flow is not yet fully connected to SQLite
+- API order endpoints may still use temporary sample data

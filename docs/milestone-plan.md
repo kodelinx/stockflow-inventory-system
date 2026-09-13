@@ -81,7 +81,7 @@ Status: In Progress
 
 Status: Planned
 
-- M39 - Complete Product Repository CRUD - Planned
+- M39 - Complete Product Repository CRUD - Completed
 - M40 - Add Order Repository - Planned
 - M41 - Add OrderItem Repository - Planned
 - M42 - Add Payment Repository - Planned

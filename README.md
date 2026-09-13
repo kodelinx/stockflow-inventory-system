@@ -5,7 +5,7 @@ StockFlow is an inventory and sales management system for small business operati
 ## Current Status
 
 - Current version: v0.6.0 - Full Database-Backed StockFlow
-- Current milestone: M39 - Complete Product Repository CRUD
+- Current milestone: M40 - Add Order Repository
 - Current milestone status: In Progress
 - Last updated: 2026-09-13
 

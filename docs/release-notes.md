@@ -402,7 +402,7 @@ This release added API endpoints for products, orders, payments, and dashboard s
 
 ## v0.5.0 - Shared Architecture and Full API Integration
 
-Status: In Progress
+Status: Released
 
 ### M31 - Create StockFlow.Core Class Library
 
@@ -597,3 +597,33 @@ Future Core services should be extracted gradually. They should receive clean pa
 - Only ProductRepository currently exists
 - Other repositories are not yet implemented
 - Full database-backed business flow is planned for v0.6.0
+
+## v0.6.0 - Full Database-Backed StockFlow
+
+Status: In Progress
+
+### M39 - Complete Product Repository CRUD
+
+Status: In Progress
+
+Completed:
+
+- Reviewed existing ProductRepository database methods
+- Added or confirmed product create/read methods
+- Added product update method
+- Added product deactivate method for soft delete
+- Added product delete method for hard delete
+- Kept ProductRepository inside StockFlow.Infrastructure
+
+Pending verification:
+
+- Run dotnet build
+- Confirm existing product API endpoints still work
+- Confirm product repository methods compile successfully
+
+Known limitations:
+
+- Product CRUD is repository-level only for now
+- Full API create/update/delete endpoints are not yet implemented
+- Console product flow is not yet fully database-backed
+- Other repositories are not yet implemented

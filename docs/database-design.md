@@ -91,6 +91,14 @@ Design notes:
 - `IsActive = 0` means inactive.
 - ProductCode should be treated as the business-facing product identifier.
 
+Current implementation status:
+
+- Products table is initialized from C#.
+- ProductRepository is implemented in StockFlow.Infrastructure.
+- ProductRepository supports product create, read, update, deactivate, and delete operations.
+- Product API currently uses ProductRepository for read operations.
+- Full Console product flow is not yet fully SQLite-backed.
+
 ## Orders
 
 Purpose:

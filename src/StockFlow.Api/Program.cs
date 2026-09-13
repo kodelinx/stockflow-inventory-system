@@ -1,4 +1,5 @@
 using StockFlow.Database;
+using StockFlow.Models;
 using StockFlow.Repositories;
 using StockFlow.Services;
 
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<DatabaseConnectionService>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<OrderItemRespository>();
+builder.Services.AddScoped<Payment>();
 builder.Services.AddScoped<ProductManager>();
 
 

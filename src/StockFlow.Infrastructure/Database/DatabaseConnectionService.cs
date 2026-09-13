@@ -59,10 +59,27 @@ public class DatabaseConnectionService
             );
         ";
 
+        string createPaymentsTableSql = @"
+            CREATE TABLE IF NOT EXISTING Payments(
+                PaymentId INTEGER PRIMARY KEY,
+                PaymentNumber INTEGER NOT NULL UNIQUE,
+                OrderId INTEGER NOT NULL,
+                OrderNumber TEXT NOT NULL,
+                PaymentDate TEXT NOT NULL,
+                PaymentMethod TEXT NOT NULL,
+                AmountDue DECIMAL(10,2) NOT NULL,
+                AmountPaid DECIMAL(10,2) NOT NULL,
+                ChangeAmount DECIMAL(10,2) NOT NULL,
+                PaymentStatus TEXT NOT NULL,
+                FOREIGN KEY (OrderId) REFERENCES Orders(OrderId)
+            );
+        ";
+
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = createProductsTableSql;
         command.CommandText = createOrdersTableSql;
         command.CommandText = createOrderItemsTableSql;
+        command.CommandText = createPaymentsTableSql;
         //Runs SQL commands that do not return rows.
         command.ExecuteNonQuery();
 

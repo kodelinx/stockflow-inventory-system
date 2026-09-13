@@ -33,8 +33,20 @@ public class DatabaseConnectionService
             );
         ";
 
+        string createOrdersTableSql = @"
+            CREATE TABLE IF NOT EXISTS Orders(
+                OrderID INTEGER PRIMARY KEY,
+                OrderNumber TEXT NOT NULL UNIQUE,
+                OrderDate TEXT NOT NULL,
+                TotalAmount DECIMAL(10,2) NOT NULL,
+                OrderStatus TEXT NOT NULL,
+                PaymentStatus TEXT NOT NULL
+            );
+        ";
+
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = createProductsTableSql;
+        command.CommandText = createOrdersTableSql;
         //Runs SQL commands that do not return rows.
         command.ExecuteNonQuery();
 

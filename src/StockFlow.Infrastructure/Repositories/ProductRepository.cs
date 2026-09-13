@@ -57,16 +57,18 @@ public class ProductRepository
         command.ExecuteNonQuery();
     }
 
-    public List<Product> GetAllProdcuts()
+    public List<Product> GetAllProducts()
     {
         List<Product> products = new List<Product>();
 
+        // Opens a connection to the SQLite database.
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()
         );
 
         connection.Open();
 
+        // Gets all products, whether active or inactive.
         string sql = @"
             SELECT
                 ProductId,
@@ -83,10 +85,12 @@ public class ProductRepository
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = sql;
 
+        // Reads the rows returned by the SELECT query.
         using SqliteDataReader reader = command.ExecuteReader();
 
         while (reader.Read())
         {
+            // Converts the current database row into a Product object.
             Product product = new Product
             {
                 ProductId = reader.GetInt32(0),
@@ -96,6 +100,8 @@ public class ProductRepository
                 UnitPrice = reader.GetDecimal(4),
                 QuantityInStock = reader.GetInt32(5),
                 ReorderLevel = reader.GetInt32(6),
+
+                // SQLite stores bool as 1 or 0, so convert it to true/false.
                 IsActive = reader.GetInt32(7) == 1  
             };
 

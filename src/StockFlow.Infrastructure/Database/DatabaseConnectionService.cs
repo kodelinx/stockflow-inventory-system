@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.Data.Sqlite;
 
 namespace StockFlow.Database;
@@ -93,14 +94,47 @@ public class DatabaseConnectionService
             );
         ";
 
-        using SqliteCommand command = connection.CreateCommand();
-        command.CommandText = createProductsTableSql;
-        command.CommandText = createOrdersTableSql;
-        command.CommandText = createOrderItemsTableSql;
-        command.CommandText = createPaymentsTableSql;
-        command.CommandText = createReceiptsTableSql;
-        //Runs SQL commands that do not return rows.
-        command.ExecuteNonQuery();
+        string createStockMovementTableSql = @"
+            CREATE TABLE IF NOT EXISTING StockMovements (
+                StockMovementId INTEGER PRIMARY KEY,
+                ProductId INTEGER NOT NULL,
+                ProductCode TEXT NOT NULL,
+                ProductName TEXT NOT NULL,
+                MovementType TEXT NOT NULL,
+                QuantityChanged INTEGER NOT NULL,
+                StockBefore INTEGER NOT NULL,
+                StockAfter INTEGER NOT NULL,
+                Reason TEXT NOT NULL,
+                MovementDate TEXT NOT NULL,
+                ReferenceNumber TEXT,
+                FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+            )
+        
+        ";
+
+        using SqliteCommand createProductsCommand = connection.CreateCommand();
+        createProductsCommand.CommandText = createProductsTableSql;
+        createProductsCommand.ExecuteNonQuery();
+
+        using SqliteCommand createOrdersCommand = connection.CreateCommand();
+        createOrdersCommand.CommandText = createOrdersTableSql;
+        createOrdersCommand.ExecuteNonQuery();
+
+        using SqliteCommand createOrderItemsCommand = connection.CreateCommand();
+        createOrderItemsCommand.CommandText = createOrderItemsTableSql;
+        createOrderItemsCommand.ExecuteNonQuery();
+        
+        using SqliteCommand createPaymentsCommand = connection.CreateCommand();
+        createPaymentsCommand.CommandText = createPaymentsTableSql;
+        createPaymentsCommand.ExecuteNonQuery();
+
+        using SqliteCommand createReceiptsCommand = connection.CreateCommand();
+        createReceiptsCommand.CommandText = createReceiptsTableSql;
+        createReceiptsCommand.ExecuteNonQuery();
+
+        using SqliteCommand createStockMovementCommand = connection.CreateCommand();
+        createStockMovementCommand.CommandText = createStockMovementTableSql;
+        createStockMovementCommand.ExecuteNonQuery();
 
         SeedProducts();
     }

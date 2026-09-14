@@ -762,3 +762,33 @@ Known limitations:
 - Product stock updates are not yet fully connected to SQLite
 - Checkout stock-out flow is not yet fully database-backed
 - Full SQLite inventory flow is planned for a later milestone
+
+### M45 - Add Notification Repository
+
+Status: In Progress
+
+Completed:
+
+- Added Notifications table initialization
+- Created or confirmed Notification model in StockFlow.Core
+- Created NotificationRepository in StockFlow.Infrastructure
+- Added AddNotification method
+- Added GetAllNotifications method
+- Added GetUnreadNotifications method
+- Added MarkAsRead method
+- Added MapReaderToNotification helper method
+- Registered NotificationRepository for dependency injection
+
+Business notes:
+
+- NotificationRepository stores system alerts and business messages.
+- Notifications can support low stock warnings, payment reminders, order updates, and other system messages.
+- IsRead tracks whether the notification has already been viewed.
+- RelatedReference can optionally connect a notification to a product, order, payment, receipt, or stock movement.
+
+Known limitations:
+
+- NotificationRepository is repository-level only for now
+- Automatic notification generation is not yet connected
+- API notification endpoints are not yet implemented
+- Full SQLite business flow is planned for a later milestone

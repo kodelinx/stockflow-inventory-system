@@ -284,6 +284,14 @@ Design notes:
 - This table prepares the system for future real email sending.
 - Possible future statuses include Pending, Sent, Failed, and Simulated.
 
+Current implementation status:
+
+- Notifications table is initialized from C#.
+- NotificationRepository has been added to StockFlow.Infrastructure.
+- NotificationRepository supports adding notifications, reading all notifications, reading unread notifications, and marking notifications as read.
+- IsRead uses 0 or 1 in SQLite and is converted to true or false in C#.
+- RelatedReference is optional and can connect a notification to a product, order, payment, receipt, or stock movement.
+
 ---
 
 # Relationship Summary

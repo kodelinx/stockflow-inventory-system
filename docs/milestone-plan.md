@@ -87,8 +87,8 @@ Status: Planned
 - M42 - Add Payment Repository - Completed
 - M43 - Add Receipt Repository - Completed
 - M44 - Add StockMovement Repository - Completed
-- M45 - Add Notification Repository - In Progress
-- M46 - Replace JSON Flow with SQLite Flow - Planned
+- M45 - Add Notification Repository - Completed
+- M46 - Replace JSON Flow with SQLite Flow - In Progress
 - M47 - v0.6.0 Release - Planned
 
 ## v0.7.0 - Authentication and User Roles

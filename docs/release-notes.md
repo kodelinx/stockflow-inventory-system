@@ -732,3 +732,33 @@ Known limitations:
 - Receipt generation is not yet fully connected to the checkout flow
 - API receipt endpoints may still use temporary sample data
 - Full SQLite checkout/payment/receipt flow is planned for a later milestone
+
+### M44 - Add StockMovement Repository
+
+Status: In Progress
+
+Completed:
+
+- Added StockMovements table initialization
+- Created StockMovementRepository in StockFlow.Infrastructure
+- Added AddStockMovement method
+- Added GetAllStockMovements method
+- Added GetStockMovementsByProductCode method
+- Added GetStockMovementsByReferenceNumber method
+- Added MapReaderToStockMovement helper method
+- Registered StockMovementRepository for dependency injection
+
+Business notes:
+
+- StockMovementRepository stores inventory movement history.
+- QuantityChanged uses positive values for stock increases.
+- QuantityChanged uses negative values for stock decreases.
+- ReferenceNumber can connect a movement to an order, receipt, or adjustment.
+- Stock movement history helps explain why product quantity changed.
+
+Known limitations:
+
+- StockMovementRepository is repository-level only for now
+- Product stock updates are not yet fully connected to SQLite
+- Checkout stock-out flow is not yet fully database-backed
+- Full SQLite inventory flow is planned for a later milestone

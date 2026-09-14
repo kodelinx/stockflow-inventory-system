@@ -254,6 +254,14 @@ Design notes:
 - Stock Out is usually negative.
 - Adjustment can be positive, negative, or zero.
 
+Current implementation status:
+
+- StockMovements table is initialized from C#.
+- StockMovementRepository has been added to StockFlow.Infrastructure.
+- StockMovementRepository supports adding stock movements, reading all stock movements, retrieving movements by product code, and retrieving movements by reference number.
+- QuantityChanged stores positive values for stock increases and negative values for stock decreases.
+- ReferenceNumber can be used to connect movement history to an order, receipt, or adjustment.
+
 ## Notifications
 
 Purpose:

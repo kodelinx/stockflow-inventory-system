@@ -94,7 +94,7 @@ public class DatabaseConnectionService
             );
         ";
 
-        string createStockMovementTableSql = @"
+        string createStockMovementsTableSql = @"
             CREATE TABLE IF NOT EXISTING StockMovements (
                 StockMovementId INTEGER PRIMARY KEY,
                 ProductId INTEGER NOT NULL,
@@ -112,31 +112,23 @@ public class DatabaseConnectionService
         
         ";
 
-        using SqliteCommand createProductsCommand = connection.CreateCommand();
-        createProductsCommand.CommandText = createProductsTableSql;
-        createProductsCommand.ExecuteNonQuery();
-
-        using SqliteCommand createOrdersCommand = connection.CreateCommand();
-        createOrdersCommand.CommandText = createOrdersTableSql;
-        createOrdersCommand.ExecuteNonQuery();
-
-        using SqliteCommand createOrderItemsCommand = connection.CreateCommand();
-        createOrderItemsCommand.CommandText = createOrderItemsTableSql;
-        createOrderItemsCommand.ExecuteNonQuery();
-        
-        using SqliteCommand createPaymentsCommand = connection.CreateCommand();
-        createPaymentsCommand.CommandText = createPaymentsTableSql;
-        createPaymentsCommand.ExecuteNonQuery();
-
-        using SqliteCommand createReceiptsCommand = connection.CreateCommand();
-        createReceiptsCommand.CommandText = createReceiptsTableSql;
-        createReceiptsCommand.ExecuteNonQuery();
-
-        using SqliteCommand createStockMovementCommand = connection.CreateCommand();
-        createStockMovementCommand.CommandText = createStockMovementTableSql;
-        createStockMovementCommand.ExecuteNonQuery();
+        // Runs each CREATE TABLE command.
+        ExecuteNonQuery(connection, createProductsTableSql);
+        ExecuteNonQuery(connection, createOrdersTableSql);
+        ExecuteNonQuery(connection, createOrderItemsTableSql);
+        ExecuteNonQuery(connection, createPaymentsTableSql);
+        ExecuteNonQuery(connection, createReceiptsTableSql);
+        ExecuteNonQuery(connection, createStockMovementsTableSql);
 
         SeedProducts();
+    }
+
+    private void  ExecuteNonQuery(SqliteConnection connection, string sql)
+    {
+        // Runs SQL commands that do not return rows.
+        using SqliteCommand command = connection.CreateCommand();
+        command.CommandText = sql;
+        command.ExecuteNonQuery();
     }
 
     private void SeedProducts()

@@ -75,11 +75,30 @@ public class DatabaseConnectionService
             );
         ";
 
+        string createReceiptsTableSql = @"
+            CREATE TABLE IF NOOT EXISTING Receipts(
+                ReceiptId INTEGER PRIMARY KEY,
+                ReceiptNumber TEXT NOT NULL UNIQUE,
+                OrderId INTEGER NOT NULL,
+                PaymentId INTEGER NOT NULL,
+                OrderNumber TEXT NOT NULL,
+                PaymentNumber TEXT NOT NULL,
+                ReceiptDate TEXT NOT NULL,
+                TotalAmount DECIMAL(10,2) NOT NULL,
+                PaymentMethod TEXT NOT NULL,
+                AmountPaid DECIMAL(10,2) NOT NULL,
+                ChangeAmount DECIMAL(10,2) NOT NULL,
+                FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
+                FOREIGN KEY (PaymentId) REFERENCES Payments(PaymentId)
+            );
+        ";
+
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = createProductsTableSql;
         command.CommandText = createOrdersTableSql;
         command.CommandText = createOrderItemsTableSql;
         command.CommandText = createPaymentsTableSql;
+        command.CommandText = createReceiptsTableSql;
         //Runs SQL commands that do not return rows.
         command.ExecuteNonQuery();
 

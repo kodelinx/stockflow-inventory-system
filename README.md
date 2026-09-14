@@ -5,9 +5,9 @@ StockFlow is an inventory and sales management system for small business operati
 ## Current Status
 
 - Current version: v0.6.0 - Full Database-Backed StockFlow
-- Current milestone: M42 - Add Payment Repository
+- Current milestone: M43 - Add StockMovement Repository
 - Current milestone status: In Progress
-- Last updated: 2026-09-14
+- Last updated: 2026-09-15
 
 
 ## Project Goal

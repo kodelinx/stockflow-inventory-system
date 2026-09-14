@@ -218,6 +218,15 @@ Design notes:
 - Receipts are used for transaction proof, viewing, and future export or reprinting.
 - ReceiptNumber is the user-facing receipt reference.
 
+Current implementation status:
+
+- Receipts table is initialized from C#.
+- ReceiptRepository has been added to StockFlow.Infrastructure.
+- ReceiptRepository supports adding receipts, reading all receipts, finding one receipt by receipt number, and getting receipts by order number.
+- ReceiptNumber is used to identify one specific issued receipt.
+- OrderNumber is used to retrieve receipts connected to one order.
+- Receipts are linked to Orders and Payments through OrderId and PaymentId.
+
 ## StockMovements
 
 Purpose:

@@ -703,3 +703,32 @@ Known limitations:
 - Payment processing is not yet fully connected to the checkout flow
 - API payment endpoints may still use temporary sample data
 - Full SQLite checkout/payment flow is planned for a later milestone
+
+### M43 - Add Receipt Repository
+
+Status: In Progress
+
+Completed:
+
+- Added Receipts table initialization
+- Created ReceiptRepository in StockFlow.Infrastructure
+- Added AddReceipt method
+- Added GetAllReceipts method
+- Added FindReceiptByNumber method
+- Added GetReceiptsByOrderNumber method
+- Added MapReaderToReceipt helper method
+- Registered ReceiptRepository for dependency injection
+
+Business notes:
+
+- ReceiptRepository stores transaction proof after payment.
+- Receipts are linked to both orders and payments.
+- ReceiptNumber identifies one issued receipt.
+- OrderNumber can be used to retrieve receipts connected to one order.
+
+Known limitations:
+
+- ReceiptRepository is repository-level only for now
+- Receipt generation is not yet fully connected to the checkout flow
+- API receipt endpoints may still use temporary sample data
+- Full SQLite checkout/payment/receipt flow is planned for a later milestone

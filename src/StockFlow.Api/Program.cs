@@ -1,6 +1,7 @@
 using StockFlow.Database;
 using StockFlow.Models;
 using StockFlow.Repositories;
+using StockFlow.Respositories;
 using StockFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<OrderItemRespository>();
 builder.Services.AddScoped<ReceiptRepository>();
 builder.Services.AddScoped<StockMovementRepository>();
+builder.Services.AddScoped<NotificationRepository>();
 builder.Services.AddScoped<Payment>();
 builder.Services.AddScoped<ProductManager>();
 

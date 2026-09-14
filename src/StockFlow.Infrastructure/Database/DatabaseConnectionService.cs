@@ -108,8 +108,19 @@ public class DatabaseConnectionService
                 MovementDate TEXT NOT NULL,
                 ReferenceNumber TEXT,
                 FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
-            )
-        
+            );
+        ";
+
+        string createNotificationsTableSql = @"
+            CREATE TABLE IF  NOT EXISTING Notification(
+                NotificationId INTEGER PRIMARY KEY,
+                NotificationType TEXT NOT NULL,
+                Title TEXT NOT NULL,
+                Message TEXT NOT NULL,
+                RelatedReference TEXT,
+                IsRead INTEGER NOT NULL,
+                CreatedAt TEXT NOT NULL
+            );
         ";
 
         // Runs each CREATE TABLE command.
@@ -119,11 +130,12 @@ public class DatabaseConnectionService
         ExecuteNonQuery(connection, createPaymentsTableSql);
         ExecuteNonQuery(connection, createReceiptsTableSql);
         ExecuteNonQuery(connection, createStockMovementsTableSql);
+        ExecuteNonQuery(connection, createNotificationsTableSql);
 
         SeedProducts();
     }
 
-    private void  ExecuteNonQuery(SqliteConnection connection, string sql)
+    private void ExecuteNonQuery(SqliteConnection connection, string sql)
     {
         // Runs SQL commands that do not return rows.
         using SqliteCommand command = connection.CreateCommand();

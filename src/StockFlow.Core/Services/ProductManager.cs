@@ -10,8 +10,7 @@ public class ProductManager
         string category,
         decimal unitPrice,
         int quantityInStock,
-        int reorderLevel,
-        bool isActive
+        int reorderLevel
     )
     {
         return new Product

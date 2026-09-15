@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Transactions;
 using StockFlow.Models;
 using StockFlow.Utilities;
+using StockFlow.Repositories;
 
 namespace StockFlow.Services;
 
@@ -11,14 +12,17 @@ public class InventoryService
 {
     private readonly InputValidationService _inputValidationService;
     private readonly ProductManager _productManager;
+    private readonly ProductRepository _productRepository;
 
     public InventoryService(
         InputValidationService inputValidationService,
-        ProductManager productManager
+        ProductManager productManager,
+        ProductRepository productRepository
     )
     {
         _inputValidationService = inputValidationService;
         _productManager = productManager;
+        _productRepository = productRepository;
     }
     public void ViewProducts(List<Product> products)
     {
@@ -50,9 +54,9 @@ public class InventoryService
         Console.WriteLine("Enter the Product Details\n");
 
         //int productId = products.Count + 1;
-        int nextProductId = products.Count == 0
+        /*int nextProductId = products.Count == 0
         ? 1
-        : products.Max(product => product.ProductId) + 1;
+        : products.Max(product => product.ProductId) + 1;*/
 
         string productCode = $"PRD-{products.Count + 1:000}";
         string name = _inputValidationService.GetRequiredText("Name: ");
@@ -70,13 +74,16 @@ public class InventoryService
             category, 
             unitPrice, 
             quantityInStock,
-            reorderLevel,
-            true
+            reorderLevel
             );
             
-        product.ProductId = nextProductId;
+        //product.ProductId = nextProductId;
 
-        products.Add(product);
+        //products.Add(product);
+        _productRepository.AddProduct(product);
+
+        products.Clear();
+        products.AddRange(_productRepository.GetActiveProducts());
 
         Console.WriteLine($"Product {product.ProductCode} has been added successfully");
     }

@@ -7,7 +7,6 @@ using StockFlow.Repositories;
 
 ProductManager productManager = new ProductManager();
 InputValidationService inputValidationService = new InputValidationService();
-InventoryService inventoryService = new InventoryService(inputValidationService, productManager);
 BasketService basketService = new BasketService(inputValidationService);
 OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
@@ -26,6 +25,11 @@ databaseConnectionService.InitializeDatabase();
 
 // Creates repositories used by the Console app.
 ProductRepository productRepository = new ProductRepository(databaseConnectionService);
+InventoryService inventoryService = new InventoryService(
+    inputValidationService, 
+    productManager,
+    productRepository
+);
 
 // Loads active products from SQLite instead of JSON.
 List<Product> products = productRepository.GetActiveProducts();

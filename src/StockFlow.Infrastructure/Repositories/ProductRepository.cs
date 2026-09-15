@@ -245,6 +245,27 @@ public class ProductRepository
         command.ExecuteNonQuery();
         
     }
+    public void ReactivateProduct(string productCode)
+    {
+        // Opens a connection to the SQLite database.
+        using SqliteConnection connection = new SqliteConnection(
+            _databaseConnectionService.GetConnectionString()
+        );
+        connection.Open();
+
+        // Marks one product as active again.
+        string sql = @"
+            UPDATE Products
+            SET IsActive = 1
+            WHERE ProductCode = @ProductCode;
+        ";
+
+        using SqliteCommand command = new SqliteCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@ProductCode", productCode);
+
+        command.ExecuteNonQuery();
+    }
 
     public void DeleteProduct(string productCode)
     {

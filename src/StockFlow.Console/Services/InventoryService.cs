@@ -4,6 +4,7 @@ using System.Transactions;
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Repositories;
+using System.Net.Http.Headers;
 
 namespace StockFlow.Services;
 
@@ -26,6 +27,7 @@ public class InventoryService
     }
     public void ViewProducts(List<Product> products)
     {
+        products = _productRepository.GetAllProducts();
         if (products.Count == 0)
         {
             Console.WriteLine("No products to view.");
@@ -176,6 +178,15 @@ public class InventoryService
                 Console.WriteLine("Input is incorrect.");
             }
         }
+        
+        // Saves the updated product to SQLite.
+        _productRepository.UpdateProduct(product);
+
+        // Refreshes the temporary list after saving changes.
+        products.Clear();
+        products.AddRange(_productRepository.GetActiveProducts());
+
+        Console.WriteLine("Product updated successfully.\n");
     }
 
     //Soft deletion of product. It doesn't totally remove the product but disables it temporarily. 
@@ -199,7 +210,10 @@ public class InventoryService
             return;
         }
 
-        product.IsActive = false;
+        _productRepository.DeactivateProduct(product.ProductCode);
+
+        products.Clear();
+        products.AddRange(_productRepository.GetActiveProducts());
 
         Console.WriteLine($"Product {product.ProductCode} has been deativated successfully.");
 
@@ -207,6 +221,8 @@ public class InventoryService
 
     public void ReactivateProduct(List<Product> products)
     {
+        products = _productRepository.GetAllProducts();
+
         if(products.Count == 0)
         {
             Console.WriteLine("There are no products available to reactivate");
@@ -231,13 +247,18 @@ public class InventoryService
             return;
         }
 
-        product.IsActive = true;
+        _productRepository.ReactivateProduct(product.ProductCode);
+
+        products.Clear();
+        products.AddRange(_productRepository.GetActiveProducts());
 
         Console.WriteLine($"{product.Name} has been reactivated successfully.\n");
 
     }
     public void DeleteProduct(List<Product> products)
     {
+        products = _productRepository.GetAllProducts();
+
         if(products.Count == 0)
         {
             Console.WriteLine("There are no products available to delete.\n");
@@ -257,9 +278,12 @@ public class InventoryService
             return;
         }
 
-        Console.WriteLine($"Product {product.ProductCode} has been deleted successfully.");
+        _productRepository.DeleteProduct(product.ProductCode);
 
-        products.Remove(product);
+        products.Clear();
+        products.AddRange(_productRepository.GetActiveProducts());
+
+        Console.WriteLine($"Product {product.ProductCode} has been deleted successfully.");
     }
     public void DisplayProduct(Product product)
     {

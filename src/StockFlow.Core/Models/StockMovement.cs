@@ -4,19 +4,18 @@ public class StockMovement
 {
     public int StockMovementId { get; set; }
     public int ProductId { get; set; }
-    public string ProductCode { get; set; } = String.Empty;
-    public string ProductName { get; set; } = String.Empty;
-    public string MovementType { get; set; } = String.Empty;
+    public string ProductCode { get; set; } = string.Empty;
+    public string ProductName { get; set; } = string.Empty;
+    public string MovementType { get; set; } = string.Empty;
     public int QuantityChanged { get; set; }
     public int StockBefore { get; set; }
     public int StockAfter { get; set; }
-    public string Reason { get; set; } = String.Empty;
+    public string Reason { get; set; } = string.Empty;
     public DateTime MovementDate { get; set; }
-    public string ReferenceNumber { get; set; } = String.Empty;
+    public string ReferenceNumber { get; set; } = string.Empty;
 
     public StockMovement()
     {
-        
     }
 
     public StockMovement(
@@ -29,9 +28,8 @@ public class StockMovement
         int stockBefore,
         int stockAfter,
         string reason,
-        DateTime movementDate, 
-        string referenceNumber
-    )
+        DateTime movementDate,
+        string referenceNumber)
     {
         StockMovementId = stockMovementId;
         ProductId = productId;

@@ -1,8 +1,8 @@
 using Microsoft.Data.Sqlite;
-using StockFlow.Models;
 using StockFlow.Database;
+using StockFlow.Models;
 
-namespace StockFlow.Respositories;
+namespace StockFlow.Repositories;
 
 public class NotificationRepository
 {
@@ -27,20 +27,26 @@ public class NotificationRepository
             INSERT INTO Notifications
             (
                 NotificationType,
+                Recipient,
+                Subject,
                 Title,
                 Message,
                 RelatedReference,
                 IsRead,
-                CreatedAt
+                CreatedAt,
+                Status
             )
             VALUES
             (
                 @NotificationType,
+                @Recipient,
+                @Subject,
                 @Title,
                 @Message,
                 @RelatedReference,
                 @IsRead,
-                @CreatedAt
+                @CreatedAt,
+                @Status
             );
         ";
 
@@ -48,11 +54,14 @@ public class NotificationRepository
         command.CommandText = sql;
 
         command.Parameters.AddWithValue("@NotificationType", notification.NotificationType);
+        command.Parameters.AddWithValue("@Recipient", notification.Recipient);
+        command.Parameters.AddWithValue("@Subject", notification.Subject);
         command.Parameters.AddWithValue("@Title", notification.Title);
         command.Parameters.AddWithValue("@Message", notification.Message);
         command.Parameters.AddWithValue("@RelatedReference", notification.RelatedReference);
         command.Parameters.AddWithValue("@IsRead", notification.IsRead);
         command.Parameters.AddWithValue("@CreatedAt", notification.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+        command.Parameters.AddWithValue("@Status", notification.Status);
 
         command.ExecuteNonQuery();
     }
@@ -73,11 +82,14 @@ public class NotificationRepository
             SELECT
                 NotificationId,
                 NotificationType,
+                Recipient,
+                Subject,
                 Title,
                 Message,
                 RelatedReference,
                 IsRead,
-                CreatedAt
+                CreatedAt,
+                Status
             FROM Notifications;
         ";
 
@@ -113,11 +125,14 @@ public class NotificationRepository
             SELECT
                 NotificationId,
                 NotificationType,
+                Recipient,
+                Subject,
                 Title,
                 Message,
                 RelatedReference,
                 IsRead,
-                CreatedAt
+                CreatedAt,
+                Status
             FROM Notifications
             WHERE IsRead = 0;
         ";
@@ -168,11 +183,14 @@ public class NotificationRepository
         {
             NotificationId = reader.GetInt32(0),
             NotificationType = reader.GetString(1),
-            Title = reader.GetString(2),
-            Message = reader.GetString(3),
-            RelatedReference = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
-            IsRead = reader.GetInt32(5) == 1,
-            CreatedAt = DateTime.Parse(reader.GetString(6))
+            Recipient = reader.GetString(2),
+            Subject = reader.GetString(3),
+            Title = reader.GetString(4),
+            Message = reader.GetString(5),
+            RelatedReference = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+            IsRead = reader.GetInt32(7) == 1,
+            CreatedAt = DateTime.Parse(reader.GetString(8)),
+            Status = reader.GetString(9)
         };
     }
 }

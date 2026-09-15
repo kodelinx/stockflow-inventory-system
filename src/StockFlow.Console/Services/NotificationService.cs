@@ -1,20 +1,20 @@
 using StockFlow.Models;
-using StockFlow.Services;
 using StockFlow.Utilities;
 
 namespace StockFlow.Services;
 
 public class NotificationService
 {
-    private readonly InputValidationService _inputValidationService = new InputValidationService();
+    private readonly InputValidationService _inputValidationService;
 
     public NotificationService(InputValidationService inputValidationService)
     {
         _inputValidationService = inputValidationService;
     }
+
     public void SimulateLowStockEmail(
-        List<Product> products, 
-        List<Notification> notifications, 
+        List<Product> products,
+        List<Notification> notifications,
         AlertService alertService)
     {
         List<Product> lowStockProducts = alertService.GetLowStockProducts(products);
@@ -26,37 +26,42 @@ public class NotificationService
         }
 
         string subject = "Low Stock Alert";
-        string message = "The following products are low in stock: \n\n";
+        string message = "The following products are low in stock:\n\n";
 
         foreach (Product product in lowStockProducts)
         {
             message += $"- {product.ProductCode} - {product.Name}\n";
             message += $"- Current Stock: {product.QuantityInStock}\n";
-            message += $"- ReorderLevel: {product.ReorderLevel}\n\n";
+            message += $"- Reorder Level: {product.ReorderLevel}\n\n";
         }
 
+        // Creates a simulated low-stock notification.
         CreateNotification(
             notifications,
             "Low Stock",
             "business-owner@example.com",
             subject,
-            message
+            subject,
+            message,
+            string.Empty
         );
 
-        Console.WriteLine("Low-stock email notification simulated successfully");
+        Console.WriteLine("Low-stock email notification simulated successfully.\n");
     }
 
-    public void SimulateOrderCompletedEmail(List<Order> orders, List<Notification> notifications)
+    public void SimulateOrderCompletedEmail(
+        List<Order> orders,
+        List<Notification> notifications)
     {
         if (orders.Count == 0)
         {
-            Console.WriteLine("No order available for notification\n");
+            Console.WriteLine("No order available for notification.\n");
             return;
         }
 
-        string orderNumber = _inputValidationService.GetRequiredText("Enter completed order name: ");
+        string orderNumber = _inputValidationService.GetRequiredText("Enter completed order number: ");
 
-        Order? order = orders.FirstOrDefault(order => 
+        Order? order = orders.FirstOrDefault(order =>
             order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
         );
 
@@ -80,19 +85,23 @@ public class NotificationService
         message += $"Total Amount: {order.TotalAmount:C}\n";
         message += $"Payment Status: {order.PaymentStatus}\n";
 
+        // Creates a simulated order completed notification.
         CreateNotification(
             notifications,
             "Order Completed",
             "business-owner@example.com",
             subject,
-            message
+            subject,
+            message,
+            order.OrderNumber
         );
 
         Console.WriteLine("Order completed email notification simulated successfully.\n");
-
     }
 
-    public void SimulateReceiptEmail(List<Receipt> receipts, List<Notification> notifications)
+    public void SimulateReceiptEmail(
+        List<Receipt> receipts,
+        List<Notification> notifications)
     {
         if (receipts.Count == 0)
         {
@@ -124,12 +133,15 @@ public class NotificationService
         message += $"Amount Paid: {receipt.AmountPaid:C}\n";
         message += $"Change: {receipt.ChangeAmount:C}\n";
 
+        // Creates a simulated receipt notification.
         CreateNotification(
             notifications,
             "Receipt",
             "customer@example.com",
             subject,
-            message
+            subject,
+            message,
+            receipt.ReceiptNumber
         );
 
         Console.WriteLine("Receipt email notification simulated successfully.\n");
@@ -152,7 +164,10 @@ public class NotificationService
             Console.WriteLine($"Type: {notification.NotificationType}");
             Console.WriteLine($"Recipient: {notification.Recipient}");
             Console.WriteLine($"Subject: {notification.Subject}");
+            Console.WriteLine($"Title: {notification.Title}");
             Console.WriteLine($"Message:\n{notification.Message}");
+            Console.WriteLine($"Related Reference: {notification.RelatedReference}");
+            Console.WriteLine($"Is Read: {notification.IsRead}");
             Console.WriteLine($"Created At: {notification.CreatedAt}");
             Console.WriteLine($"Status: {notification.Status}");
             Console.WriteLine("--------------------");
@@ -164,9 +179,11 @@ public class NotificationService
         string notificationType,
         string recipient,
         string subject,
-        string message
-    )
+        string title,
+        string message,
+        string relatedReference)
     {
+        // Creates the next temporary notification ID for list/JSON flow.
         int notificationId = notifications.Count + 1;
 
         Notification notification = new Notification(
@@ -174,7 +191,10 @@ public class NotificationService
             notificationType,
             recipient,
             subject,
+            title,
             message,
+            relatedReference,
+            false,
             DateTime.Now,
             "Simulated"
         );

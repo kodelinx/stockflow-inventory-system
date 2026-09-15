@@ -63,8 +63,18 @@ public class StockMovementRepository
         command.Parameters.AddWithValue("@StockBefore", stockMovement.StockBefore);
         command.Parameters.AddWithValue("@StockAfter", stockMovement.StockAfter);
         command.Parameters.AddWithValue("@Reason", stockMovement.Reason);
-        command.Parameters.AddWithValue("@MovementDate", stockMovement.MovementDate.ToString("yyyy-MM-dd HH:mm:ss"));
-        command.Parameters.AddWithValue("@ReferenceNumber", stockMovement.ReferenceNumber);
+        command.Parameters.AddWithValue(
+            "@MovementDate",
+            stockMovement.MovementDate.ToString("yyyy-MM-dd HH:mm:ss")
+        );
+
+        // Saves NULL when there is no related order, receipt, or adjustment.
+        command.Parameters.AddWithValue(
+            "@ReferenceNumber",
+            string.IsNullOrWhiteSpace(stockMovement.ReferenceNumber)
+                ? DBNull.Value
+                : stockMovement.ReferenceNumber
+        );
 
         command.ExecuteNonQuery();
     }
@@ -222,6 +232,8 @@ public class StockMovementRepository
             StockAfter = reader.GetInt32(7),
             Reason = reader.GetString(8),
             MovementDate = DateTime.Parse(reader.GetString(9)),
+
+            // Converts database NULL into an empty string.
             ReferenceNumber = reader.IsDBNull(10) ? string.Empty : reader.GetString(10)
         };
     }

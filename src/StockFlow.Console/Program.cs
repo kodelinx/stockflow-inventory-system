@@ -178,7 +178,8 @@ while (keepRunning)
             jsonStorageService.SaveData(notifications, notificationFilePath);
             break;
         case 20:
-            products = jsonStorageService.LoadData<Product>(productsFilePath);
+            products = productRepository.GetActiveProducts();
+            //products = jsonStorageService.LoadData<Product>(productsFilePath);
             orders = jsonStorageService.LoadData<Order>(ordersFilePath);
             payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
             receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);

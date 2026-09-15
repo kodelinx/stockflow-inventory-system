@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using StockFlow.Models;
 using StockFlow.Utilities;
 
@@ -17,13 +16,14 @@ public class StockMovementService
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product => product.IsActive &&
+        Product? product = products.FirstOrDefault(product =>
+            product.IsActive &&
             product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
         );
 
-        if(product == null)
+        if (product == null)
         {
-            Console.WriteLine("The product does not exist or deactivated.");
+            Console.WriteLine("The product does not exist or is deactivated.");
             return;
         }
 
@@ -31,9 +31,13 @@ public class StockMovementService
         string reason = _inputValidationService.GetRequiredText("Reason: ");
 
         int stockBefore = product.QuantityInStock;
+
+        // Adds the entered quantity to the current product stock.
         CalculateStockChange(product, quantityChanged);
+
         int stockAfter = product.QuantityInStock;
 
+        // Records this stock increase in the movement history.
         RecordMovement(
             stockMovements,
             product,
@@ -41,22 +45,25 @@ public class StockMovementService
             stockBefore,
             quantityChanged,
             stockAfter,
-            reason
+            reason,
+            string.Empty
         );
 
         Console.WriteLine("The stock has been added successfully.");
     }
+
     public void AdjustStock(List<Product> products, List<StockMovement> stockMovements)
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product => product.IsActive &&
+        Product? product = products.FirstOrDefault(product =>
+            product.IsActive &&
             product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
         );
 
         if (product == null)
         {
-            Console.WriteLine("The product does not exist or deactivated.");
+            Console.WriteLine("The product does not exist or is deactivated.");
             return;
         }
 
@@ -64,10 +71,15 @@ public class StockMovementService
         string reason = _inputValidationService.GetRequiredText("Reason: ");
 
         int stockBefore = product.QuantityInStock;
+
+        // Calculates the difference between old stock and new stock.
         int quantityChanged = newStockQuantity - stockBefore;
+
         product.QuantityInStock = newStockQuantity;
+
         int stockAfter = product.QuantityInStock;
 
+        // Records the stock adjustment in the movement history.
         RecordMovement(
             stockMovements,
             product,
@@ -75,7 +87,8 @@ public class StockMovementService
             stockBefore,
             quantityChanged,
             stockAfter,
-            reason
+            reason,
+            string.Empty
         );
 
         Console.WriteLine("The stock has been adjusted successfully.");
@@ -87,9 +100,9 @@ public class StockMovementService
         int quantitySold,
         int stockBefore,
         int stockAfter,
-        string orderNumber
-    )
+        string orderNumber)
     {
+        // Records stock decrease caused by a completed sale/order.
         RecordMovement(
             stockMovements,
             product,
@@ -97,9 +110,11 @@ public class StockMovementService
             stockBefore,
             -quantitySold,
             stockAfter,
-            $"Sold through order {orderNumber}"
+            $"Sold through order {orderNumber}",
+            orderNumber
         );
     }
+
     public void ViewStockMovements(List<StockMovement> stockMovements)
     {
         if (stockMovements.Count == 0)
@@ -121,6 +136,7 @@ public class StockMovementService
             Console.WriteLine($"Stock Before: {movement.StockBefore}");
             Console.WriteLine($"Stock After: {movement.StockAfter}");
             Console.WriteLine($"Reason: {movement.Reason}");
+            Console.WriteLine($"Reference Number: {movement.ReferenceNumber}");
             Console.WriteLine($"Date: {movement.MovementDate}");
             Console.WriteLine("----------------------");
         }
@@ -133,13 +149,16 @@ public class StockMovementService
         int stockBefore,
         int quantityChanged,
         int stockAfter,
-        string reason
-    )
+        string reason,
+        string referenceNumber)
     {
-        int stockMovementId  = stockMovements.Count + 1;
+        // Creates the next temporary movement ID for list/JSON flow.
+        int stockMovementId = stockMovements.Count + 1;
 
+        // Creates one stock movement history record.
         StockMovement stockMovement = new StockMovement(
             stockMovementId,
+            product.ProductId,
             product.ProductCode,
             product.Name,
             movementType,
@@ -147,7 +166,8 @@ public class StockMovementService
             stockBefore,
             stockAfter,
             reason,
-            DateTime.Now
+            DateTime.Now,
+            referenceNumber
         );
 
         stockMovements.Add(stockMovement);
@@ -155,6 +175,7 @@ public class StockMovementService
 
     public void CalculateStockChange(Product product, int quantityChanged)
     {
+        // Updates the product's current stock quantity.
         product.QuantityInStock += quantityChanged;
     }
 }

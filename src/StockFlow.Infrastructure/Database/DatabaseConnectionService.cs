@@ -46,10 +46,10 @@ public class DatabaseConnectionService
         ";
 
         string createOrderItemsTableSql = @"
-            CREATE TABLE IF NOT EXISTING OrderItems(
+            CREATE TABLE IF NOT EXISTS OrderItems(
                 OrderItemId INTEGER PRIMARY KEY,
                 OrderId INTEGER NOT NULL,
-                ProductId INTEGER NOT NUL,
+                ProductId INTEGER NOT NULL,
                 ProductCode INTEGER NOT NULL,
                 ProductName STRING NOT NULL,
                 Quantity INTEGER NUT NULL,
@@ -61,7 +61,7 @@ public class DatabaseConnectionService
         ";
 
         string createPaymentsTableSql = @"
-            CREATE TABLE IF NOT EXISTING Payments(
+            CREATE TABLE IF NOT EXISTS Payments(
                 PaymentId INTEGER PRIMARY KEY,
                 PaymentNumber INTEGER NOT NULL UNIQUE,
                 OrderId INTEGER NOT NULL,
@@ -77,7 +77,7 @@ public class DatabaseConnectionService
         ";
 
         string createReceiptsTableSql = @"
-            CREATE TABLE IF NOOT EXISTING Receipts(
+            CREATE TABLE IF NOT EXISTS Receipts(
                 ReceiptId INTEGER PRIMARY KEY,
                 ReceiptNumber TEXT NOT NULL UNIQUE,
                 OrderId INTEGER NOT NULL,
@@ -95,7 +95,7 @@ public class DatabaseConnectionService
         ";
 
         string createStockMovementsTableSql = @"
-            CREATE TABLE IF NOT EXISTING StockMovements (
+            CREATE TABLE IF NOT EXISTS StockMovements (
                 StockMovementId INTEGER PRIMARY KEY,
                 ProductId INTEGER NOT NULL,
                 ProductCode TEXT NOT NULL,
@@ -112,14 +112,17 @@ public class DatabaseConnectionService
         ";
 
         string createNotificationsTableSql = @"
-            CREATE TABLE IF  NOT EXISTING Notification(
+            CREATE TABLE IF  NOT EXISTS Notification(
                 NotificationId INTEGER PRIMARY KEY,
                 NotificationType TEXT NOT NULL,
+                Recipient TEXT NOT NULL,
+                Subject TEXT NOT NULL,
                 Title TEXT NOT NULL,
                 Message TEXT NOT NULL,
                 RelatedReference TEXT,
                 IsRead INTEGER NOT NULL,
-                CreatedAt TEXT NOT NULL
+                CreatedAt TEXT NOT NULL,
+                Status TEXT NOT NULL
             );
         ";
 

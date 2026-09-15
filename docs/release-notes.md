@@ -792,3 +792,35 @@ Known limitations:
 - Automatic notification generation is not yet connected
 - API notification endpoints are not yet implemented
 - Full SQLite business flow is planned for a later milestone
+
+### M46 - Replace JSON Flow with SQLite Flow
+
+Status: In Progress
+
+Completed:
+
+- Started migration from JSON/list storage to SQLite-backed repository flow
+- Fixed SQLite table creation syntax by using CREATE TABLE IF NOT EXISTS
+- Added ExecuteNonQuery helper method for repeated non-query SQL commands
+- Confirmed database initialization should run before repository usage
+- Began preparing Console app to use SQLite repositories
+
+Business notes:
+
+- SQLite is becoming the main storage system for StockFlow.
+- JSON storage is being phased out gradually.
+- Database tables must be initialized before product, order, payment, receipt, stock movement, or notification data can be used.
+
+Technical notes:
+
+- CREATE TABLE IF NOT EXISTS is the correct SQLite syntax.
+- CREATE TABLE IF NOT EXISTING is invalid and causes a SQLite syntax error.
+- dotnet build compiles the project but does not normally create the database.
+- dotnet run starts the app and executes InitializeDatabase().
+
+Known limitations:
+
+- Full JSON-to-SQLite flow replacement is still in progress.
+- Product add/update/deactivate flow may still use old list or JSON logic.
+- Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite flow.
+- Database path is still relative and may depend on where the app is run from.

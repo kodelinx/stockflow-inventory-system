@@ -376,3 +376,12 @@ IsActive = 0 means inactive
 - Product API endpoints use ProductRepository and SQLite.
 - Other repositories are not yet implemented.
 - Full database-backed application flow is planned for a later version.
+
+### Database initialization
+
+Current implementation status:
+- DatabaseConnectionService creates the SQLite database folder.
+- DatabaseConnectionService opens a SQLite connection.
+- DatabaseConnectionService creates required tables using CREATE TABLE IF NOT EXISTS.
+- ExecuteNonQuery is used to run CREATE TABLE commands.
+- Database initialization currently creates tables for Products, Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications.

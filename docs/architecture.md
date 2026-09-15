@@ -577,6 +577,24 @@ Current limitation:
 - Product API only supports read operations.
 - Other API areas are not yet fully connected to Core and Infrastructure.
 
+### SQLite-backed application flow
+
+StockFlow is transitioning from JSON-based storage to SQLite-backed repository storage.
+
+Current flow:
+
+Console/API
+→ Repository
+→ DatabaseConnectionService
+→ SQLite database
+
+DatabaseConnectionService initializes the database tables before repositories are used.
+
+Repositories are responsible for database actions.
+DatabaseConnectionService is responsible for database connection setup and table initialization.
+Core models remain in StockFlow.Core.
+Infrastructure repositories remain in StockFlow.Infrastructure.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

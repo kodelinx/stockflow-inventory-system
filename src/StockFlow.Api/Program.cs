@@ -1,7 +1,6 @@
 using StockFlow.Database;
 using StockFlow.Models;
 using StockFlow.Repositories;
-using StockFlow.Repositories;
 using StockFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);

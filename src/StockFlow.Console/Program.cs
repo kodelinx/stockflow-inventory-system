@@ -5,14 +5,6 @@ using StockFlow.Data;
 using StockFlow.Database;
 using StockFlow.Repositories;
 
-
-List<Product> products = new List<Product>();
-List<BasketItem> basketItems = new List<BasketItem>();
-List<Order> orders = new List<Order>();
-List<Payment> payments = new List<Payment>();
-List<Receipt> receipts = new List<Receipt>();
-List<StockMovement> stockMovements = new List<StockMovement>();
-List<Notification> notifications = new List<Notification>();
 ProductManager productManager = new ProductManager();
 InputValidationService inputValidationService = new InputValidationService();
 InventoryService inventoryService = new InventoryService(inputValidationService, productManager);
@@ -28,37 +20,25 @@ DashboardService dashboardService = new DashboardService(alertService);
 SalesReportService salesReportService = new SalesReportService();
 NotificationService notificationService = new NotificationService(inputValidationService);
 
+// Prepares the SQLite database and creates needed tables.
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
 databaseConnectionService.InitializeDatabase();
 
+// Creates repositories used by the Console app.
 ProductRepository productRepository = new ProductRepository(databaseConnectionService);
 
+// Loads active products from SQLite instead of JSON.
+List<Product> products = productRepository.GetActiveProducts();
+
+// Existing lists can stay for now while we transition.
+List<BasketItem> basketItems = new List<BasketItem>();
+List<Order> orders = new List<Order>();
+List<Payment> payments = new List<Payment>();
+List<Receipt> receipts = new List<Receipt>();
+List<StockMovement> stockMovements = new List<StockMovement>();
+List<Notification> notifications = new List<Notification>();
+
 Console.WriteLine("\nSQLite database initialized successfully.\n");
-
-Product? testProduct = productRepository.FindProductByCode("P001");
-
-if (testProduct == null)
-{
-    productRepository.AddProduct(new Product
-    {
-        ProductCode = "P001",
-        Name = "Mouse",
-        Category = "Accessories",
-        UnitPrice = 250.00m,
-        QuantityInStock = 20,
-        ReorderLevel = 5,
-        IsActive = true
-    });
-}
-
-List<Product> databaseProducts = productRepository.GetActiveProducts();
-
-Console.WriteLine("\nProducts from SQLite:");
-foreach (Product product in databaseProducts)
-{
-    Console.WriteLine($"{product.ProductCode} - {product.Name} - {product.UnitPrice:C}");
-}
-
 
 
 string productsFilePath = "Data/products.json";
@@ -97,7 +77,7 @@ while (keepRunning)
     Console.WriteLine("17. View Receipts");
     Console.WriteLine("18. Show Dashboard");
     Console.WriteLine("19. Save Data to JSON");
-    Console.WriteLine("20. Load Data from JSON");
+    Console.WriteLine("20. Reload Data");
     Console.WriteLine("21. Add Stock");
     Console.WriteLine("22. Adjust Stock");
     Console.WriteLine("23. View Stock movements");
@@ -170,6 +150,7 @@ while (keepRunning)
             dashboardService.ShowDashboard(products, orders, payments);
             break;
         case 19:
+             // Transitional only: products are now read from SQLite, but JSON save still exists.
             jsonStorageService.SaveData(products, productsFilePath);
             jsonStorageService.SaveData(orders, ordersFilePath);
             jsonStorageService.SaveData(payments, paymentsFilePath);
@@ -178,14 +159,16 @@ while (keepRunning)
             jsonStorageService.SaveData(notifications, notificationFilePath);
             break;
         case 20:
+            // Reloads products from SQLite.
             products = productRepository.GetActiveProducts();
-            //products = jsonStorageService.LoadData<Product>(productsFilePath);
+
+            // Other records still use JSON during the transition.
             orders = jsonStorageService.LoadData<Order>(ordersFilePath);
             payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
             receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);
             stockMovements = jsonStorageService.LoadData<StockMovement>(stockMovementsFilePath);
             notifications = jsonStorageService.LoadData<Notification>(notificationFilePath);
-            break;    
+            break;  
         case 21:
             stockMovementService.AddStock(products, stockMovements);
             break;

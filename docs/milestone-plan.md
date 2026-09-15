@@ -89,12 +89,14 @@ Status: Planned
 - M44 - Add StockMovement Repository - Completed
 - M45 - Add Notification Repository - Completed
 - M46 - Replace JSON Flow with SQLite Flow - In Progress
-  - M46.1 - Fix SQLite database initialization syntax - Completed
-  - M46.2 - Replace product read flow with SQLite - In Progress
-  - M46.3 - Replace product add/update/deactivate flow with SQLite - Planned
-  - M46.4 - Replace order saving flow with SQLite - Planned
-  - M46.5 - Replace payment and receipt saving flow with SQLite - Planned
-  - M46.6 - Replace stock movement and notification saving flow with SQLite - Planned
+  - M46.0 - Fix SQLite database initialization syntax - Completed
+  - M46.1 - Connect product read flow to SQLite - Completed
+  - M46.2 - Connect product add flow to SQLite - Planned
+  - M46.3 - Connect product update/deactivate flow to SQLite - Planned
+  - M46.4 - Connect order and order item saving flow to SQLite - Planned
+  - M46.5 - Connect payment and receipt saving flow to SQLite - Planned
+  - M46.6 - Connect stock movement and notification saving flow to SQLite - Planned
+  - M46.7 - Archive or remove old JSON flow - Planned
 - M47 - v0.6.0 Release - Planned
 
 ## v0.7.0 - Authentication and User Roles

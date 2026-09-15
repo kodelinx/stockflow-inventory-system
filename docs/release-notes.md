@@ -824,3 +824,30 @@ Known limitations:
 - Product add/update/deactivate flow may still use old list or JSON logic.
 - Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite flow.
 - Database path is still relative and may depend on where the app is run from.
+
+### M46.1 - Connect Product Read Flow to SQLite
+
+Status: Completed
+
+Completed:
+
+- Began connecting the Console app to SQLite repository flow
+- Initialized DatabaseConnectionService from the Console app
+- Created ProductRepository in the Console app
+- Replaced initial product loading with ProductRepository.GetActiveProducts()
+- Updated reload flow so products are reloaded from SQLite
+- Removed incorrect ProductHeaderValue usage from product list setup
+- Kept JSON flow temporarily for non-product records during transition
+
+Business notes:
+
+- Product records are now read from SQLite for the Console product display flow.
+- SQLite is becoming the main product data source.
+- List<Product> still exists as a temporary in-memory working copy after reading from the database.
+
+Known limitations:
+
+- Product add/update/deactivate flow may still use older list logic
+- Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite flow
+- JSON services may still exist during the transition
+- Product reload may discard unsaved list-only product changes until product write operations are connected to SQLite

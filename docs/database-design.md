@@ -385,3 +385,13 @@ Current implementation status:
 - DatabaseConnectionService creates required tables using CREATE TABLE IF NOT EXISTS.
 - ExecuteNonQuery is used to run CREATE TABLE commands.
 - Database initialization currently creates tables for Products, Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications.
+
+### Product read flow status
+
+Current implementation status:
+
+- Products table is initialized by DatabaseConnectionService.
+- ProductRepository reads active product records from SQLite.
+- The Console app now begins using ProductRepository.GetActiveProducts() for product display.
+- Product data is loaded into List<Product> as a temporary in-memory working copy.
+- Product add/update/deactivate flow is planned for the next SQLite integration step.

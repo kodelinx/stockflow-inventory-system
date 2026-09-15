@@ -595,6 +595,25 @@ DatabaseConnectionService is responsible for database connection setup and table
 Core models remain in StockFlow.Core.
 Infrastructure repositories remain in StockFlow.Infrastructure.
 
+### Console SQLite product read flow
+
+The Console app has started using the SQLite repository layer for product reading.
+
+Current product read flow:
+
+StockFlow.Console
+→ ProductRepository
+→ DatabaseConnectionService
+→ SQLite Products table
+
+ProductRepository belongs to StockFlow.Infrastructure.
+Product models belong to StockFlow.Core.
+The Console app still uses List<Product> as a temporary working copy after database records are read.
+
+Current limitation:
+
+Only the product read/display flow has started moving to SQLite. Other flows may still use JSON or in-memory lists during the transition.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

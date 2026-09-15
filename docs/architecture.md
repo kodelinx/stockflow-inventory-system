@@ -614,6 +614,20 @@ Current limitation:
 
 Only the product read/display flow has started moving to SQLite. Other flows may still use JSON or in-memory lists during the transition.
 
+### Console SQLite product add flow
+
+The Console app now saves new products through the SQLite repository layer.
+
+Current product add flow:
+
+StockFlow.Console
+→ InventoryService
+→ ProductRepository
+→ DatabaseConnectionService
+→ SQLite Products table
+
+After saving the product, the Console app refreshes List<Product> from SQLite so the in-memory list reflects the latest database state.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

@@ -395,3 +395,12 @@ Current implementation status:
 - The Console app now begins using ProductRepository.GetActiveProducts() for product display.
 - Product data is loaded into List<Product> as a temporary in-memory working copy.
 - Product add/update/deactivate flow is planned for the next SQLite integration step.
+
+### Product add flow status
+
+Current implementation status:
+
+- ProductRepository supports inserting new product records into SQLite.
+- InventoryService now uses ProductRepository.AddProduct() when adding products.
+- Newly added products are saved in the Products table.
+- The Console product list is refreshed from SQLite after adding a product.

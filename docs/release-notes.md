@@ -851,3 +851,26 @@ Known limitations:
 - Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite flow
 - JSON services may still exist during the transition
 - Product reload may discard unsaved list-only product changes until product write operations are connected to SQLite
+
+### M46.2 - Connect Product Add Flow to SQLite
+
+Status: Completed
+
+Completed:
+
+- Updated InventoryService to use ProductRepository
+- Connected Add Product flow to SQLite
+- Saved new products using ProductRepository.AddProduct()
+- Refreshed the temporary product list after saving to SQLite
+
+Business notes:
+
+- New products are now saved to the SQLite Products table.
+- Products can remain available after the app restarts.
+- List<Product> still acts as a temporary working copy after database operations.
+
+Known limitations:
+
+- Product update, deactivate, reactivate, and delete flows may still use older list logic
+- Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite
+- JSON save/load options may still exist during the transition

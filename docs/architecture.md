@@ -628,6 +628,20 @@ StockFlow.Console
 
 After saving the product, the Console app refreshes List<Product> from SQLite so the in-memory list reflects the latest database state.
 
+### Console SQLite product management flow
+
+The Console app now sends product update, deactivate, reactivate, and delete actions through ProductRepository.
+
+Current product management flow:
+
+StockFlow.Console
+→ InventoryService
+→ ProductRepository
+→ DatabaseConnectionService
+→ SQLite Products table
+
+After each product change, the Console app refreshes List<Product> from SQLite so the working list reflects the latest database state.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

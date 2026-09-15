@@ -874,3 +874,28 @@ Known limitations:
 - Product update, deactivate, reactivate, and delete flows may still use older list logic
 - Orders, payments, receipts, stock movements, and notifications are not yet fully connected to SQLite
 - JSON save/load options may still exist during the transition
+
+### M46.3 - Connect Product Update, Status, and Delete Flow to SQLite
+
+Status: In Progress
+
+Completed:
+
+- Connected product update flow to ProductRepository.UpdateProduct()
+- Connected product deactivation flow to ProductRepository.DeactivateProduct()
+- Connected product reactivation flow to ProductRepository.ReactivateProduct()
+- Connected product delete flow to ProductRepository.DeleteProduct()
+- Refreshed the temporary product list from SQLite after product changes
+
+Business notes:
+
+- Product changes are now saved permanently in SQLite.
+- Deactivation is the preferred normal removal method because it preserves product history.
+- Hard delete is available for cleanup but should be used carefully when records are linked to orders or stock movements.
+- Inactive products are hidden from active product lists but can be retrieved using GetAllProducts().
+
+Known limitations:
+
+- Order, payment, receipt, stock movement, and notification flows are not yet fully connected to SQLite.
+- Some JSON save/load options may still exist during the transition.
+- Hard delete may become restricted later once products are connected to transaction history.

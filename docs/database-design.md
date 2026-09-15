@@ -404,3 +404,15 @@ Current implementation status:
 - InventoryService now uses ProductRepository.AddProduct() when adding products.
 - Newly added products are saved in the Products table.
 - The Console product list is refreshed from SQLite after adding a product.
+
+### Product management flow status
+
+Current implementation status:
+
+- Products can be updated through ProductRepository.UpdateProduct().
+- Products can be deactivated using ProductRepository.DeactivateProduct().
+- Products can be reactivated using ProductRepository.ReactivateProduct().
+- Products can be hard deleted using ProductRepository.DeleteProduct().
+- IsActive uses 1 or 0 in SQLite and is converted to true or false in C#.
+- GetActiveProducts() returns only active products.
+- GetAllProducts() returns both active and inactive products.

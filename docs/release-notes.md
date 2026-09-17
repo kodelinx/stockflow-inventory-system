@@ -877,7 +877,7 @@ Known limitations:
 
 ### M46.3 - Connect Product Update, Status, and Delete Flow to SQLite
 
-Status: In Progress
+Status: Completed
 
 Completed:
 
@@ -899,3 +899,34 @@ Known limitations:
 - Order, payment, receipt, stock movement, and notification flows are not yet fully connected to SQLite.
 - Some JSON save/load options may still exist during the transition.
 - Hard delete may become restricted later once products are connected to transaction history.
+
+### M46.4 - Connect Order and Order Item Saving Flow to SQLite
+
+Status: Completed
+
+Completed:
+
+- Connected checkout flow to OrderRepository
+- Connected checkout flow to OrderItemRepository
+- Saved order summary records to the Orders table
+- Saved order item records to the OrderItems table
+- Used SQLite-generated OrderId to link order items to their parent order
+- Used object initializer syntax for Order creation
+- Fixed SQL syntax issues in OrderRepository
+- Corrected OrderItems column naming from LineTota to LineTotal where needed
+
+Business notes:
+
+- Checkout now creates a database-backed order record.
+- Orders and order items are stored separately.
+- OrderNumber is the business-facing reference.
+- OrderId is the internal SQLite-generated identifier.
+- OrderItems use OrderId to link back to the parent order.
+
+Known limitations:
+
+- Order display may still use the temporary in-memory orders list.
+- Product stock update may still be list-based after checkout.
+- Stock movement records are not yet fully saved to SQLite.
+- Payment, receipt, and notification flows are not yet fully connected to SQLite.
+- JSON save/load options may still exist during the transition.

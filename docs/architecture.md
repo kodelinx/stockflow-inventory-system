@@ -642,6 +642,24 @@ StockFlow.Console
 
 After each product change, the Console app refreshes List<Product> from SQLite so the working list reflects the latest database state.
 
+### Console SQLite checkout order flow
+
+The Console checkout flow now saves order data through repository classes.
+
+Current checkout saving flow:
+
+StockFlow.Console
+→ OrderService
+→ OrderRepository
+→ OrderItemRepository
+→ DatabaseConnectionService
+→ SQLite Orders and OrderItems tables
+
+The Orders table stores the order summary.
+The OrderItems table stores the products included in the order.
+
+After the order is saved, StockFlow retrieves the saved order by OrderNumber to get the SQLite-generated OrderId. That OrderId is then used to save each order item under the correct parent order.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

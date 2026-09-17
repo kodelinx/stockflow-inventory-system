@@ -8,7 +8,6 @@ using StockFlow.Repositories;
 ProductManager productManager = new ProductManager();
 InputValidationService inputValidationService = new InputValidationService();
 BasketService basketService = new BasketService(inputValidationService);
-OrderService orderService = new OrderService();
 PaymentService paymentService = new PaymentService(inputValidationService);
 ReceiptService receiptService = new ReceiptService(inputValidationService);
 LoggingService loggingService = new LoggingService();
@@ -23,13 +22,24 @@ NotificationService notificationService = new NotificationService(inputValidatio
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
 databaseConnectionService.InitializeDatabase();
 
+// Temporary migration: fixes old typo in existing OrderItems table.
+//databaseConnectionService.RenameLineTotaColumnIfNeeded();
+
 // Creates repositories used by the Console app.
 ProductRepository productRepository = new ProductRepository(databaseConnectionService);
+OrderRepository orderRepository = new OrderRepository(databaseConnectionService);
+OrderItemRepository orderItemRepository = new OrderItemRepository(databaseConnectionService);
+
 InventoryService inventoryService = new InventoryService(
     inputValidationService, 
     productManager,
     productRepository
 );
+OrderService orderService = new OrderService(
+    orderRepository,
+    orderItemRepository
+);
+
 
 // Loads active products from SQLite instead of JSON.
 List<Product> products = productRepository.GetActiveProducts();

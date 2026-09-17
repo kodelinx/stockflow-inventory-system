@@ -4,16 +4,16 @@ using StockFlow.Database;
 
 namespace StockFlow.Repositories;
 
-public class OrderItemRespository
+public class OrderItemRepository
 {
     private readonly DatabaseConnectionService _databaseConnectionService;
 
-    public OrderItemRespository(DatabaseConnectionService databaseConnectionService)
+    public OrderItemRepository(DatabaseConnectionService databaseConnectionService)
     {
         _databaseConnectionService = databaseConnectionService;
     }
 
-    public void AddOrderitem(int orderId, OrderItem orderItem)
+    public void AddOrderItem(int orderId, OrderItem orderItem)
     {
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()

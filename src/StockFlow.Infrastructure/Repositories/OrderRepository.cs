@@ -31,7 +31,7 @@ public class OrderRepository
                 OrderStatus,
                 PaymentStatus
             )
-            VAUES(
+            VALUES(
                 @OrderNumber,
                 @OrderDate,
                 @TotalAmount,
@@ -101,8 +101,8 @@ public class OrderRepository
                 OrderDate,
                 TotalAmount,
                 OrderStatus,
-                PaymentStatus,
-            FROM Orders,
+                PaymentStatus
+            FROM Orders
             WHERE OrderNumber = @OrderNumber;
         ";
 

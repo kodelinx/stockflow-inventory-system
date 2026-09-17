@@ -54,7 +54,7 @@ public class DatabaseConnectionService
                 ProductName STRING NOT NULL,
                 Quantity INTEGER NUT NULL,
                 UnitPrice DECIMAL(10,2) NOT NULL,
-                LineTota DECIMAL(10,2) NOT NULL,
+                LineTotal DECIMAL(10,2) NOT NULL,
                 FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
                 FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
             );
@@ -245,4 +245,20 @@ public class DatabaseConnectionService
 
         command.ExecuteNonQuery();
     }
+
+    /*public void RenameLineTotaColumnIfNeeded()
+    {
+        using SqliteConnection connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+
+        string sql = @"
+            ALTER TABLE OrderItems
+            RENAME COLUMN LineTota TO LineTotal;
+        ";
+
+        using SqliteCommand command = connection.CreateCommand();
+        command.CommandText = sql;
+
+        command.ExecuteNonQuery();
+    }**/
 }

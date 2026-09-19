@@ -5,6 +5,7 @@ public class Payment
 {
     public int PaymentId { get; set; }
     public string PaymentNumber { get; set; } = String.Empty; 
+    public int OrderId { get; set; }
     public string OrderNumber { get; set; } = String.Empty; 
     public DateTime PaymentDate { get; set; }
     public string PaymentMethod { get; set; } = String.Empty; 
@@ -16,6 +17,7 @@ public class Payment
     public Payment(
         int paymentId,
         string paymentNumber,
+        int orderId,
         string orderNumber,
         DateTime paymentDate,
         string paymentMethod,
@@ -27,6 +29,7 @@ public class Payment
     {
         PaymentId = paymentId;
         PaymentNumber = paymentNumber;
+        OrderId = orderId;
         OrderNumber = orderNumber;
         PaymentDate = paymentDate;
         PaymentMethod = paymentMethod;

@@ -35,7 +35,7 @@ public class ReceiptRepository
                 AmountPaid,
                 ChangeAmount
             )
-            VALUE
+            VALUES
             (
                 @ReceiptNumber,
                 @OrderId,
@@ -196,13 +196,15 @@ public class ReceiptRepository
         {
             ReceiptId = reader.GetInt32(0),
             ReceiptNumber = reader.GetString(1),
-            OrderNumber = reader.GetString(2),
-            PaymentNumber = reader.GetString(3),
-            ReceiptDate = DateTime.Parse(reader.GetString(4)),
-            TotalAmount = reader.GetDecimal(5),
-            PaymentMethod = reader.GetString(6),
-            AmountPaid = reader.GetDecimal(7),
-            ChangeAmount = reader.GetDecimal(8)
+            OrderId = reader.GetInt32(2),
+            PaymentId = reader.GetInt32(3),
+            OrderNumber = reader.GetString(4),
+            PaymentNumber = reader.GetString(5),
+            ReceiptDate = DateTime.Parse(reader.GetString(6)),
+            TotalAmount = reader.GetDecimal(7),
+            PaymentMethod = reader.GetString(8),
+            AmountPaid = reader.GetDecimal(9),
+            ChangeAmount = reader.GetDecimal(10)
         };
     }
 

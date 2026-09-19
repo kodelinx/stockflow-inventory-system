@@ -190,13 +190,14 @@ public class PaymentRepository
         {
             PaymentId = reader.GetInt32(0),
             PaymentNumber = reader.GetString(1),
-            OrderNumber = reader.GetString(2),
-            PaymentDate = DateTime.Parse(reader.GetString(3)),
-            PaymentMethod = reader.GetString(4),
-            AmountDue = reader.GetDecimal(5),
-            AmountPaid = reader.GetDecimal(6),
-            ChangeAmount = reader.GetDecimal(7),
-            PaymentStatus = reader.GetString(8)
+            OrderId = reader.GetInt32(2),
+            OrderNumber = reader.GetString(3),
+            PaymentDate = DateTime.Parse(reader.GetString(4)),
+            PaymentMethod = reader.GetString(5),
+            AmountDue = reader.GetDecimal(6),
+            AmountPaid = reader.GetDecimal(7),
+            ChangeAmount = reader.GetDecimal(8),
+            PaymentStatus = reader.GetString(9)
         };
     }
 }

@@ -1,30 +1,41 @@
 using System.Security.Authentication.ExtendedProtection;
 using StockFlow.Models;
 using StockFlow.Utilities;
+using StockFlow.Repositories;
 
 namespace StockFlow.Services;
 
 public class PaymentService
 {
     private readonly InputValidationService _inputValidationService;
+    private readonly PaymentRepository _paymentRepository;
+    private readonly OrderRepository _orderRepository;
 
-    public PaymentService(InputValidationService inputValidationService)
+    public PaymentService(
+        InputValidationService inputValidationService,
+        PaymentRepository paymentRepository,
+        OrderRepository orderRepository
+    )
     {
         _inputValidationService = inputValidationService;
+        _paymentRepository = paymentRepository;
+        _orderRepository = orderRepository;
     }
 
     public void ProcessPayment(List<Order> orders, List<Payment> payments)
     {
-        if(orders.Count == 0)
+        /*if(orders.Count == 0)
         {
             Console.WriteLine("There are no Orders available for payment.");
             return;
-        }
+        }*/
         
         string orderNumber = _inputValidationService.GetRequiredText("Input Order Number to pay: ");
 
-        Order? order = orders.FirstOrDefault(order => 
-            order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase));
+        /*Order? order = orders.FirstOrDefault(order => 
+            order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase));*/
+
+        Order? order = _orderRepository.FindOrderByNumber(orderNumber);
 
         if(order == null)
         {
@@ -45,27 +56,39 @@ public class PaymentService
             order.TotalAmount, 
             1000000m);
 
-        int paymentId = payments.Count + 1;
-        string paymentNumber = $"PAY-{paymentId:000}";
+        //int paymentId = payments.Count + 1;
+        //string paymentNumber = $"PAY-{paymentId:000}";
+        string paymentNumber = GenerateNextPaymentNumber();
 
         decimal changeAmount = CalculateChange(order.TotalAmount, amountPaid);
 
-        Payment payment = new Payment(
-            paymentId,
-            paymentNumber,
-            order.OrderNumber,
-            DateTime.Now,
-            paymentMethod,
-            order.TotalAmount,
-            amountPaid,
-            changeAmount,
-            "Paid"
-        );
+        Payment payment = new Payment
+        {
+            //paymentId,
+            PaymentNumber = paymentNumber,
+            OrderNumber = order.OrderNumber,
+            PaymentDate = DateTime.Now,
+            PaymentMethod = paymentMethod,
+            AmountDue = order.TotalAmount,
+            AmountPaid = amountPaid,
+            ChangeAmount = changeAmount,
+            PaymentStatus = "Paid"
+        };
 
-        payments.Add(payment);
+        //payments.Add(payment);
+        _paymentRepository.AddPayment(order.OrderId, payment);
 
-        order.PaymentStatus = "Paid";
-        order.OrderStatus = "Completed";
+        //order.PaymentStatus = "Paid";
+        _orderRepository.UpdatePaymentStatus(order.OrderNumber, "Paid");
+        //order.OrderStatus = "Completed";
+        _orderRepository.UpdateOrderStatus(order.OrderNumber, "completed");
+
+        Payment? savedPayment = _paymentRepository.FindPaymentByNumber(payment.PaymentNumber);
+
+        if(savedPayment != null)
+        {
+            payments.Add(savedPayment);
+        }
 
         Console.WriteLine($"Payment {payment.PaymentNumber} processed successfully.");
         Console.WriteLine($"Order Number: {payment.OrderNumber}");
@@ -74,6 +97,22 @@ public class PaymentService
         Console.WriteLine($"Amount Paid: {payment.AmountPaid:C}");
         Console.WriteLine($"Change: {payment.ChangeAmount:C}");
         Console.WriteLine($"Payment Status: {payment.PaymentStatus}\n");
+    }
+
+    public string GenerateNextPaymentNumber()
+    {
+        List<Payment> savedPayments = _paymentRepository.GetAllPayments();
+
+        if(savedPayments.Count == 0)
+        {
+            return "PAY - 001";
+        }
+
+        int nextPaymentNumber = savedPayments.Max(payment => payment.PaymentId) + 1;
+
+        return $"PAY-{nextPaymentNumber:D3}";
+
+
     }
     public string GetPaymentMethod()
     {

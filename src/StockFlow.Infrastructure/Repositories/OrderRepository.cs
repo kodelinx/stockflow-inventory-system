@@ -165,8 +165,6 @@ public class OrderRepository
         command.ExecuteNonQuery();
     }
 
-
-
     private Order MapReaderToOrder(SqliteDataReader reader)
     {
         // Converts database column values into an Order model.

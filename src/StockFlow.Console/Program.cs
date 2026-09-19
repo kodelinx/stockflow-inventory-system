@@ -8,8 +8,6 @@ using StockFlow.Repositories;
 ProductManager productManager = new ProductManager();
 InputValidationService inputValidationService = new InputValidationService();
 BasketService basketService = new BasketService(inputValidationService);
-PaymentService paymentService = new PaymentService(inputValidationService);
-ReceiptService receiptService = new ReceiptService(inputValidationService);
 LoggingService loggingService = new LoggingService();
 JsonStorageService jsonStorageService = new JsonStorageService(loggingService);
 StockMovementService stockMovementService = new StockMovementService(inputValidationService);
@@ -29,6 +27,8 @@ databaseConnectionService.InitializeDatabase();
 ProductRepository productRepository = new ProductRepository(databaseConnectionService);
 OrderRepository orderRepository = new OrderRepository(databaseConnectionService);
 OrderItemRepository orderItemRepository = new OrderItemRepository(databaseConnectionService);
+PaymentRepository paymentRepository = new PaymentRepository(databaseConnectionService);
+ReceiptRepository receiptRepository = new ReceiptRepository(databaseConnectionService);
 
 InventoryService inventoryService = new InventoryService(
     inputValidationService, 
@@ -39,6 +39,18 @@ OrderService orderService = new OrderService(
     orderRepository,
     orderItemRepository
 );
+
+PaymentService paymentService = new PaymentService(
+        inputValidationService,
+        paymentRepository,
+        orderRepository
+    );
+ReceiptService receiptService = new ReceiptService(
+        inputValidationService,
+        paymentRepository,
+        orderRepository,
+        receiptRepository
+    );
 
 
 // Loads active products from SQLite instead of JSON.
@@ -155,7 +167,7 @@ while (keepRunning)
             paymentService.ViewPayments(payments);
             break;
         case 16:
-            receiptService.GenerateReceipt(orders, payments, receipts);
+            receiptService.GenerateReceipt(receipts);
             break;
         case 17:
             receiptService.ViewReceipts(orders, payments, receipts);

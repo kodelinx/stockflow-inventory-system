@@ -930,3 +930,32 @@ Known limitations:
 - Stock movement records are not yet fully saved to SQLite.
 - Payment, receipt, and notification flows are not yet fully connected to SQLite.
 - JSON save/load options may still exist during the transition.
+
+### M46.5 - Connect Payment and Receipt Saving Flow to SQLite
+
+Status: Completed
+
+Completed:
+
+- Connected payment processing to PaymentRepository
+- Saved payment records to the Payments table
+- Updated order payment status after successful payment
+- Connected receipt generation to ReceiptRepository
+- Saved receipt records to the Receipts table
+- Used SQLite-generated PaymentId and ReceiptId
+- Used StockFlow-generated PaymentNumber and ReceiptNumber
+
+Business notes:
+
+- Payment records are now permanently stored in SQLite.
+- Receipt records are now permanently stored in SQLite.
+- PaymentNumber is the business-facing payment reference.
+- ReceiptNumber is the business-facing receipt reference.
+- PaymentId and ReceiptId are internal SQLite-generated identifiers.
+
+Known limitations:
+
+- Product stock deduction may still be list-based during checkout.
+- Stock movement records are not yet fully saved to SQLite.
+- Notification records are not yet fully saved to SQLite.
+- JSON save/load options may still exist during the transition.

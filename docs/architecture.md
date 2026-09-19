@@ -660,6 +660,29 @@ The OrderItems table stores the products included in the order.
 
 After the order is saved, StockFlow retrieves the saved order by OrderNumber to get the SQLite-generated OrderId. That OrderId is then used to save each order item under the correct parent order.
 
+### Console SQLite payment and receipt flow
+
+The Console app now saves payment and receipt data through repository classes.
+
+Current payment saving flow:
+
+StockFlow.Console
+→ PaymentService
+→ PaymentRepository
+→ DatabaseConnectionService
+→ SQLite Payments table
+
+Current receipt saving flow:
+
+StockFlow.Console
+→ ReceiptService
+→ ReceiptRepository
+→ DatabaseConnectionService
+→ SQLite Receipts table
+
+Payments are linked to orders using OrderId and OrderNumber.
+Receipts are linked to both orders and payments using OrderId, PaymentId, OrderNumber, and PaymentNumber.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

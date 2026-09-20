@@ -10,11 +10,9 @@ InputValidationService inputValidationService = new InputValidationService();
 BasketService basketService = new BasketService(inputValidationService);
 LoggingService loggingService = new LoggingService();
 JsonStorageService jsonStorageService = new JsonStorageService(loggingService);
-StockMovementService stockMovementService = new StockMovementService(inputValidationService);
 AlertService alertService = new AlertService();
 DashboardService dashboardService = new DashboardService(alertService);
 SalesReportService salesReportService = new SalesReportService();
-NotificationService notificationService = new NotificationService(inputValidationService);
 
 // Prepares the SQLite database and creates needed tables.
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
@@ -29,6 +27,8 @@ OrderRepository orderRepository = new OrderRepository(databaseConnectionService)
 OrderItemRepository orderItemRepository = new OrderItemRepository(databaseConnectionService);
 PaymentRepository paymentRepository = new PaymentRepository(databaseConnectionService);
 ReceiptRepository receiptRepository = new ReceiptRepository(databaseConnectionService);
+StockMovementRepository stockMovementRepository = new StockMovementRepository(databaseConnectionService);
+NotificationRepository notificationRepository = new NotificationRepository(databaseConnectionService);
 
 InventoryService inventoryService = new InventoryService(
     inputValidationService, 
@@ -51,6 +51,19 @@ ReceiptService receiptService = new ReceiptService(
         orderRepository,
         receiptRepository
     );
+
+StockMovementService stockMovementService = new StockMovementService(
+    inputValidationService,
+    stockMovementRepository,
+    productRepository
+    
+);
+
+NotificationService notificationService = new NotificationService(
+    inputValidationService,
+    notificationRepository
+);
+
 
 
 // Loads active products from SQLite instead of JSON.
@@ -188,12 +201,14 @@ while (keepRunning)
             // Reloads products from SQLite.
             products = productRepository.GetActiveProducts();
 
-            // Other records still use JSON during the transition.
-            orders = jsonStorageService.LoadData<Order>(ordersFilePath);
-            payments = jsonStorageService.LoadData<Payment>(paymentsFilePath);
-            receipts = jsonStorageService.LoadData<Receipt>(receiptsFilePath);
-            stockMovements = jsonStorageService.LoadData<StockMovement>(stockMovementsFilePath);
-            notifications = jsonStorageService.LoadData<Notification>(notificationFilePath);
+            // Orders, payments, and receipts may now also be database-backed.
+            orders = orderRepository.GetAllOrders();
+            payments = paymentRepository.GetAllPayments();
+            receipts = receiptRepository.GetAllReceipts();
+
+            // Reloads stock movements and notifications from SQLite.
+            stockMovements = stockMovementRepository.GetAllStockMovements();
+            notifications = notificationRepository.GetAllNotifications();
             break;  
         case 21:
             stockMovementService.AddStock(products, stockMovements);
@@ -217,6 +232,7 @@ while (keepRunning)
             notificationService.SimulateLowStockEmail(products, notifications, alertService);
             break;
         case 28:
+            orders = orderRepository.GetAllOrders();
             notificationService.SimulateOrderCompletedEmail(orders, notifications);
             break;
         case 29:

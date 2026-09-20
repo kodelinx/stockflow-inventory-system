@@ -139,6 +139,12 @@ public class OrderService
 
     public void ViewOrders(List<Order> orders)
     {
+        // Reloads latest orders from SQLite.
+        List<Order> savedOrders = _orderRepository.GetAllOrders();
+
+        orders.Clear();
+        orders.AddRange(savedOrders);
+
         if (orders.Count == 0)
         {
             Console.WriteLine("There are no orders available.");

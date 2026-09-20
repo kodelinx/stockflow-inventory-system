@@ -83,6 +83,28 @@ public class PaymentService
         //order.OrderStatus = "Completed";
         _orderRepository.UpdateOrderStatus(order.OrderNumber, "completed");
 
+        // Reloads the updated order from SQLite.
+        Order? updatedOrder = _orderRepository.FindOrderByNumber(order.OrderNumber);
+
+        if (updatedOrder != null)
+        {
+            Order? existingOrder = orders.FirstOrDefault(currentOrder =>
+                currentOrder.OrderNumber.Equals(updatedOrder.OrderNumber, StringComparison.OrdinalIgnoreCase)
+            );
+
+            if (existingOrder != null)
+            {
+                existingOrder.OrderStatus = updatedOrder.OrderStatus;
+                existingOrder.PaymentStatus = updatedOrder.PaymentStatus;
+                existingOrder.TotalAmount = updatedOrder.TotalAmount;
+                existingOrder.OrderDate = updatedOrder.OrderDate;
+            }
+            else
+            {
+                orders.Add(updatedOrder);
+            }
+        }
+
         Payment? savedPayment = _paymentRepository.FindPaymentByNumber(payment.PaymentNumber);
 
         if(savedPayment != null)

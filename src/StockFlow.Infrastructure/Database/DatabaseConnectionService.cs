@@ -112,7 +112,7 @@ public class DatabaseConnectionService
         ";
 
         string createNotificationsTableSql = @"
-            CREATE TABLE IF  NOT EXISTS Notification(
+            CREATE TABLE IF  NOT EXISTS Notifications(
                 NotificationId INTEGER PRIMARY KEY,
                 NotificationType TEXT NOT NULL,
                 Recipient TEXT NOT NULL,

@@ -1,4 +1,5 @@
 using StockFlow.Models;
+using StockFlow.Repositories;
 using StockFlow.Utilities;
 
 namespace StockFlow.Services;
@@ -6,10 +7,16 @@ namespace StockFlow.Services;
 public class NotificationService
 {
     private readonly InputValidationService _inputValidationService;
+    private readonly NotificationRepository _notificationRepository;
 
-    public NotificationService(InputValidationService inputValidationService)
+    public NotificationService(
+        InputValidationService inputValidationService,
+        NotificationRepository notificationRepository
+    )
     {
         _inputValidationService = inputValidationService;
+        _notificationRepository = notificationRepository;
+
     }
 
     public void SimulateLowStockEmail(
@@ -149,6 +156,12 @@ public class NotificationService
 
     public void ViewNotificationEmail(List<Notification> notifications)
     {
+        List<Notification> savedNotifications =
+            _notificationRepository.GetAllNotifications();
+
+        notifications.Clear();
+        notifications.AddRange(savedNotifications);
+
         if (notifications.Count == 0)
         {
             Console.WriteLine("No notifications available.\n");
@@ -183,22 +196,23 @@ public class NotificationService
         string message,
         string relatedReference)
     {
-        // Creates the next temporary notification ID for list/JSON flow.
-        int notificationId = notifications.Count + 1;
+        Notification notification = new Notification
+        {
+            NotificationType = notificationType,
+            Recipient = recipient,
+            Subject = subject,
+            Title = title,
+            Message = message,
+            RelatedReference = relatedReference,
+            IsRead = false,
+            CreatedAt = DateTime.Now,
+            Status = "Simulated"
+        };
 
-        Notification notification = new Notification(
-            notificationId,
-            notificationType,
-            recipient,
-            subject,
-            title,
-            message,
-            relatedReference,
-            false,
-            DateTime.Now,
-            "Simulated"
-        );
+        // Saves the notification permanently to SQLite.
+        _notificationRepository.AddNotification(notification);
 
+        // Keeps a temporary copy while the Console app is running.
         notifications.Add(notification);
     }
 }

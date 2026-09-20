@@ -1,4 +1,5 @@
 using StockFlow.Models;
+using StockFlow.Repositories;
 using StockFlow.Utilities;
 
 namespace StockFlow.Services;
@@ -6,10 +7,18 @@ namespace StockFlow.Services;
 public class StockMovementService
 {
     private readonly InputValidationService _inputValidationService;
+    private readonly StockMovementRepository _stockMovementRepository;
+    private readonly ProductRepository _productRepository;
 
-    public StockMovementService(InputValidationService inputValidationService)
+    public StockMovementService(
+        InputValidationService inputValidationService,
+        StockMovementRepository stockMovementRepository,
+        ProductRepository productRepository
+    )
     {
         _inputValidationService = inputValidationService;
+        _stockMovementRepository = stockMovementRepository;
+        _productRepository = productRepository;
     }
 
     public void AddStock(List<Product> products, List<StockMovement> stockMovements)
@@ -36,6 +45,8 @@ public class StockMovementService
         CalculateStockChange(product, quantityChanged);
 
         int stockAfter = product.QuantityInStock;
+
+        _productRepository.UpdateProduct(product);
 
         // Records this stock increase in the movement history.
         RecordMovement(
@@ -79,6 +90,9 @@ public class StockMovementService
 
         int stockAfter = product.QuantityInStock;
 
+        // Saves the updated product stock to SQLite.
+        _productRepository.UpdateProduct(product);
+
         // Records the stock adjustment in the movement history.
         RecordMovement(
             stockMovements,
@@ -102,6 +116,9 @@ public class StockMovementService
         int stockAfter,
         string orderNumber)
     {
+        // Saves the updated product stock to SQLite after checkout deduction.
+        _productRepository.UpdateProduct(product);
+
         // Records stock decrease caused by a completed sale/order.
         RecordMovement(
             stockMovements,
@@ -153,22 +170,24 @@ public class StockMovementService
         string referenceNumber)
     {
         // Creates the next temporary movement ID for list/JSON flow.
-        int stockMovementId = stockMovements.Count + 1;
+        // int stockMovementId = stockMovements.Count + 1;
 
         // Creates one stock movement history record.
-        StockMovement stockMovement = new StockMovement(
-            stockMovementId,
-            product.ProductId,
-            product.ProductCode,
-            product.Name,
-            movementType,
-            quantityChanged,
-            stockBefore,
-            stockAfter,
-            reason,
-            DateTime.Now,
-            referenceNumber
-        );
+        StockMovement stockMovement = new StockMovement
+        {
+            ProductId = product.ProductId,
+            ProductCode = product.ProductCode,
+            ProductName = product.Name,
+            MovementType = movementType,
+            QuantityChanged = quantityChanged,
+            StockBefore = stockBefore,
+            StockAfter = stockAfter,
+            Reason = reason,
+            MovementDate = DateTime.Now,
+            ReferenceNumber = referenceNumber
+        };
+
+        _stockMovementRepository.AddStockMovement(stockMovement);
 
         stockMovements.Add(stockMovement);
     }

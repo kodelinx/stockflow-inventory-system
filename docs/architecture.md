@@ -683,6 +683,29 @@ StockFlow.Console
 Payments are linked to orders using OrderId and OrderNumber.
 Receipts are linked to both orders and payments using OrderId, PaymentId, OrderNumber, and PaymentNumber.
 
+### Console SQLite stock movement and notification flow
+
+The Console app now saves stock movement and notification records through repository classes.
+
+Stock movement flow:
+
+StockFlow.Console
+→ StockMovementService
+→ StockMovementRepository
+→ DatabaseConnectionService
+→ SQLite StockMovements table
+
+Notification flow:
+
+StockFlow.Console
+→ NotificationService
+→ NotificationRepository
+→ DatabaseConnectionService
+→ SQLite Notifications table
+
+Stock movements record inventory changes such as stock-in, stock-out, and adjustment.
+Notifications record simulated system alerts and email events.
+
 # Architecture Improvement Plan
 
 - v0.4.0 - Introduce Web API endpoints.

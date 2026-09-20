@@ -959,3 +959,29 @@ Known limitations:
 - Stock movement records are not yet fully saved to SQLite.
 - Notification records are not yet fully saved to SQLite.
 - JSON save/load options may still exist during the transition.
+
+### M46.6 - Connect Stock Movement and Notification Saving Flow to SQLite
+
+Status: Completed
+
+Completed:
+
+- Connected stock movement recording to StockMovementRepository
+- Saved stock-in, stock-out, and adjustment records to SQLite
+- Updated product quantity in SQLite after stock changes
+- Connected notification creation to NotificationRepository
+- Saved simulated email notifications to SQLite
+- Updated stock movement and notification viewing to read from SQLite
+
+Business notes:
+
+- Stock movement records now provide permanent inventory history.
+- Checkout stock-out movement is now traceable by order number.
+- Notifications are now permanently stored instead of only existing in memory.
+- Product quantity changes can now persist after app restart.
+
+Known limitations:
+
+- JSON save/load options may still exist during the transition.
+- Full JSON cleanup is planned for M46.7.
+- More advanced reporting may be improved in later versions.

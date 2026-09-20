@@ -95,8 +95,8 @@ Status: Planned
   - M46.3 - Connect product update/deactivate flow to SQLite - Completed
   - M46.4 - Connect order and order item saving flow to SQLite - Completed
   - M46.5 - Connect payment and receipt saving flow to SQLite - Completed
-  - M46.6 - Connect stock movement and notification saving flow to SQLite - Planned
-  - M46.7 - Archive or remove old JSON flow - Planned
+  - M46.6 - Connect stock movement and notification saving flow to SQLite - Completed
+  - M46.7 - Archive or remove old JSON flow - In Progress
 - M47 - v0.6.0 Release - Planned
 
 ## v0.7.0 - Authentication and User Roles

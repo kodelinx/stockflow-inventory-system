@@ -106,7 +106,7 @@ Status: In Progress
 ### Repository-First Service Refactor
 
 - M47 - Repository-First Console Service Refactor - In Progress
-  - M47.1 - Refactor InventoryService to Repository-First Flow - In Progress
+  - M47.1 - Refactor InventoryService to Repository-First Flow - Completed
   - M47.2 - Refactor BasketService Product Access - Planned
   - M47.3 - Refactor Order and OrderItem Flow - In Progress
   - M47.4 - Refactor Payment and Receipt Flow - In Progress

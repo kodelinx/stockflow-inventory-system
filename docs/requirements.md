@@ -67,7 +67,7 @@ Never reuse a retired identifier for a different requirement. Keep milestone ref
 | INV-001 | Create products with a unique product code and required product details. | Implemented | Console | M02, M46.2; code-generation cleanup in M47 |
 | INV-002 | View product records, including active records as appropriate to the operation. | Implemented | Console, API | M01, M25; product API reads SQLite |
 | INV-003 | Search products by product code; Console may also search by name. | Implemented | Console, API | M02, M25 |
-| INV-004 | Update product name, category, price, quantity and reorder level. | Implemented | Console | M02, M46.3; API write operations not yet implemented |
+| INV-004 | Update a product's name, category, unit price, and reorder level. Inventory quantity changes must use a stock movement workflow that records the reason and the stock quantity before and after the operation. | Implemented | Console | M47.1; quantity changes through Add Stock and Adjust Stock |
 | INV-005 | Deactivate a product without deleting its record. | Implemented | Console | M02, M46.3 |
 | INV-006 | Reactivate an inactive product. | Implemented | Console | M46.3 |
 | INV-007 | Allow hard deletion only when permitted by referential-integrity and business rules. | In Progress | Console | M02, M47; deletion safeguards need verification |

@@ -44,6 +44,8 @@ Moves the Console application's persistent business records from JSON/list-based
 - Keeping `List<BasketItem>` as temporary session state until checkout; saved `OrderItem` records remain in SQLite after the basket is cleared.
 - Updating order and receipt display to load related `OrderItems` from their own repository.
 - Updating alerts, dashboard summaries, sales reports, and notification simulations to use current repository-backed data.
+- Completed repository-first inventory-service cleanup and separated ordinary product-detail updates from audited stock-quantity adjustments.
+
 
 #### Fixed
 
@@ -57,6 +59,7 @@ Moves the Console application's persistent business records from JSON/list-based
 - Complete development-only database reset/path diagnostics and confirm database isolation.
 - Run full manual regression checks and implement the first automated repository/workflow tests.
 - Confirm that `dotnet build` and `dotnet test` pass before tagging v0.6.0.
+
 
 #### Known Limitations
 

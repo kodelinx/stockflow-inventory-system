@@ -152,9 +152,10 @@ while (keepRunning)
     Console.WriteLine("28. Simulate Order Completed Email");
     Console.WriteLine("29. Simulate Receipt Email");
     Console.WriteLine("30. View Notifications");
-    Console.WriteLine("31. Exit");
+    Console.WriteLine("31. Reset Database");
+    Console.WriteLine("32. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 31);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 32);
     Console.WriteLine("");
 
     switch(option)
@@ -276,7 +277,7 @@ while (keepRunning)
             databaseConnectionService.ResetDatabase();
             basketItems.Clear();
 
-            Console.WriteLine( $"New database location: {databaseConnectionService.GetDatabaseFilePath()}");
+            Console.WriteLine( $"Current database location: {databaseConnectionService.GetDatabaseFilePath()}");
             break;
         case 32:
             loggingService.LogInfo("Stockflow application closed.");

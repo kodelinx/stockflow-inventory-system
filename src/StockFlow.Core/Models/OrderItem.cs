@@ -2,6 +2,8 @@ namespace StockFlow.Models;
 
 public class OrderItem
 {
+    public int OrderItemId { get; set; }
+    public int OrderId { get; set; }
     public int ProductId { get; set; }
     public string ProductCode { get; set; }= String.Empty; 
     public string ProductName { get; set; } = String.Empty; 

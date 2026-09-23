@@ -11,6 +11,10 @@ public class DatabaseConnectionService
             return $"Data Source={_databaseFilePath}";
     }
 
+    public string GetDatabaseFilePath()
+    {
+        return Path.GetFullPath(_databaseFilePath);
+    }
     public void InitializeDatabase()
     {
         Directory.CreateDirectory("Database");
@@ -261,4 +265,30 @@ public class DatabaseConnectionService
 
         command.ExecuteNonQuery();
     }**/
+    public void ResetDatabase()
+    {
+        Console.Write(
+            "WARNING: This will permanently delete all StockFlow database records. Type RESET to continue: "
+        );
+
+        string? confirmation = Console.ReadLine();
+
+        if (!string.Equals(
+            confirmation,
+            "RESET",
+            StringComparison.Ordinal))
+        {
+            Console.WriteLine("Database reset cancelled.\n");
+            return;
+        }
+
+        if (File.Exists(_databaseFilePath))
+        {
+            File.Delete(_databaseFilePath);
+        }
+
+        InitializeDatabase();
+
+        Console.WriteLine("Database has been reset successfully.\n");
+    }
 }

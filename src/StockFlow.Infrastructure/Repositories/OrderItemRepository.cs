@@ -64,6 +64,8 @@ public class OrderItemRepository
 
         string sql = @"
             SELECT
+                OrderItemId,
+                OrderId,
                 ProductId,
                 ProductCode,
                 ProductName,
@@ -94,12 +96,14 @@ public class OrderItemRepository
     {
         return new OrderItem
         {
-            ProductId = reader.GetInt32(0),
-            ProductCode = reader.GetString(1),
-            ProductName = reader.GetString(2),
-            Quantity = reader.GetInt32(3),
-            UnitPrice = reader.GetDecimal(4),
-            LineTotal = reader.GetDecimal(5)
+            OrderItemId = reader.GetInt32(0),
+            OrderId = reader.GetInt32(1),
+            ProductId = reader.GetInt32(2),
+            ProductCode = reader.GetString(3),
+            ProductName = reader.GetString(4),
+            Quantity = reader.GetInt32(5),
+            UnitPrice = reader.GetDecimal(6),
+            LineTotal = reader.GetDecimal(7)
         };
     }
 

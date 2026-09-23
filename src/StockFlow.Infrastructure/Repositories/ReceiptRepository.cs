@@ -145,6 +145,43 @@ public class ReceiptRepository
 
         return null;
     }
+
+    public Receipt? FindReceiptByPaymentNumber(string paymentNumber)
+    {
+        using SqliteConnection connection = new SqliteConnection(
+            _databaseConnectionService.GetConnectionString()
+        );
+
+        connection.Open();
+
+        string sql = @"
+            SELECT
+                ReceiptId,
+                ReceiptNumber,
+                OrderId,
+                PaymentId,
+                OrderNumber,
+                PaymentNumber,
+                ReceiptDate,
+                TotalAmount,
+                PaymentMethod,
+                AmountPaid,
+                ChangeAmount
+            FROM Payments
+            WHERE PaymentNumber = @PaymentNumber
+        ";
+
+        using SqliteCommand command = new SqliteCommand(sql, connection);
+
+        using SqliteDataReader reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            return MapReaderToReceipt(reader); 
+        }
+
+        return null;
+    }
     public List<Receipt> GetReceiptsByOrderNumber(string orderNumber)
     {
         // Stores all receipts connected to one order.

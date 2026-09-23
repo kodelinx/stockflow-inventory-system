@@ -61,7 +61,6 @@ public class InventoryService
 
         //create a Product object and initialize from data provided
         Product product = _productManager.CreateProduct(
-            //productId,
             productCode, 
             name, 
             category, 
@@ -70,9 +69,6 @@ public class InventoryService
             reorderLevel
             );
             
-        //product.ProductId = nextProductId;
-
-        //products.Add(product);
         _productRepository.AddProduct(product);
 
         Console.WriteLine($"Product {product.ProductCode} has been added successfully");
@@ -124,23 +120,20 @@ public class InventoryService
     }
     public void UpdateProduct()
     {
-        /*List<Product> products = _productRepository.GetActiveProducts();
-        if(products.Count == 0)
-        {
-            Console.WriteLine("There are no products available to update");
-        }*/
 
         string productCode = _inputValidationService.GetRequiredText("Enter Product Code to update: ");
 
         Product? product = _productRepository.FindProductByCode(productCode);
 
-        /*Product? product = products.FirstOrDefault(product => product.IsActive &&(
-            product.ProductCode.Contains(productCode, StringComparison.OrdinalIgnoreCase)
-        ));*/
-
         if(product == null)
         {
             Console.WriteLine("The product is not found.");
+            return;
+        }
+
+        if (!product.IsActive)
+        {
+            Console.WriteLine("This product is inactive. Reactivate it before updating");
             return;
         }
         
@@ -148,7 +141,7 @@ public class InventoryService
 
         while (true)
         {
-            Console.WriteLine("\n(1) Name\n(2) Category\n(3) Unit Price\n(4) Quantity in Stock\n(5) Reorder Level\n");
+            Console.WriteLine("\n(1) Name\n(2) Category\n(3) Unit Price\n(4) Reorder Level\n");
             int field = _inputValidationService.GetValidInt("Enter the field you want to update: ", 1, 5);
 
             if(field == 1)
@@ -170,12 +163,6 @@ public class InventoryService
                 break;
             }
             else if(field == 4)
-            {
-                int newQuantity = _inputValidationService.GetValidInt("Enter NEW quantity: ", 0, 1000000);
-                product.QuantityInStock = newQuantity;
-                break;
-            }
-            else if(field == 5)
             {
                 int newLevel = _inputValidationService.GetValidInt("Enter NEW reorder level: ", 0, 1000000);
                 product.ReorderLevel = newLevel;
@@ -210,6 +197,12 @@ public class InventoryService
         if(product == null)
         {
             Console.WriteLine("The product is not found.");
+            return;
+        }
+
+        if (!product.IsActive)
+        {
+            Console.WriteLine("This product is already inactive.");
             return;
         }
 
@@ -271,9 +264,6 @@ public class InventoryService
         }
 
         _productRepository.DeleteProduct(productCode);
-
-        products.Clear();
-        products.AddRange(_productRepository.GetActiveProducts());
 
         Console.WriteLine($"Product {product.ProductCode} has been deleted successfully.");
     }

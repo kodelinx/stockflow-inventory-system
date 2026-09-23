@@ -142,8 +142,7 @@ public class ProductRepository
 
         while (reader.Read())
         {
-            Product product = MapReaderToProduct(reader);
-            products.Add(product);
+            products.Add(MapReaderToProduct(reader));
         }
 
         return products;
@@ -179,17 +178,7 @@ public class ProductRepository
 
         if (reader.Read())
         {
-            return new Product
-            {
-                ProductId = reader.GetInt32(0),
-                ProductCode = reader.GetString(1),
-                Name = reader.GetString(2),
-                Category = reader.GetString(3),
-                UnitPrice = reader.GetDecimal(4),
-                QuantityInStock = reader.GetInt32(5),
-                ReorderLevel = reader.GetInt32(6),
-                IsActive = reader.GetInt32(7) == 1
-            };
+            return MapReaderToProduct(reader);
         }
 
         return null;

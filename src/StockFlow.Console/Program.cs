@@ -103,13 +103,14 @@ List<BasketItem> basketItems = new List<BasketItem>();
 
 Console.WriteLine("\nSQLite database initialized successfully.\n");
 
-
+/*
 string productsFilePath = "Data/products.json";
 string ordersFilePath ="Data/orders.json";
 string paymentsFilePath = "Data/payments.json";
 string receiptsFilePath = "Data/receipts.json";
 string stockMovementsFilePath = "Data/stock-movements.json";
 string notificationFilePath = "Data/notifications.json";
+*/
 
 bool keepRunning = true;
 

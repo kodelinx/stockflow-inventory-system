@@ -1,10 +1,6 @@
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Transactions;
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Repositories;
-using System.Net.Http.Headers;
 
 namespace StockFlow.Services;
 
@@ -25,9 +21,9 @@ public class InventoryService
         _productManager = productManager;
         _productRepository = productRepository;
     }
-    public void ViewProducts(List<Product> products)
+    public void ViewProducts()
     {
-        products = _productRepository.GetAllProducts();
+        List<Product> products = _productRepository.GetAllProducts();
         if (products.Count == 0)
         {
             Console.WriteLine("No products to view.");
@@ -51,16 +47,11 @@ public class InventoryService
         }
         Console.WriteLine("");
     }
-    public void AddProduct(List<Product> products)
+    public void AddProduct()
     {
         Console.WriteLine("Enter the Product Details\n");
 
-        //int productId = products.Count + 1;
-        /*int nextProductId = products.Count == 0
-        ? 1
-        : products.Max(product => product.ProductId) + 1;*/
-
-        string productCode = $"PRD-{products.Count + 1:000}";
+        string productCode = GenerateNextProductCode();
         string name = _inputValidationService.GetRequiredText("Name: ");
         string category = _inputValidationService.GetRequiredText("Category: ");
         decimal unitPrice = _inputValidationService.GetValidDecimal("Unit Price: ", 0.00m, 1000000m);
@@ -84,14 +75,25 @@ public class InventoryService
         //products.Add(product);
         _productRepository.AddProduct(product);
 
-        products.Clear();
-        products.AddRange(_productRepository.GetActiveProducts());
-
         Console.WriteLine($"Product {product.ProductCode} has been added successfully");
     }
-
-    public void SearchProduct(List<Product> products)
+    private string GenerateNextProductCode()
     {
+        List<Product> products = _productRepository.GetAllProducts();
+
+        if (products.Count == 0)
+        {
+            return "PRD-001";
+        }
+
+        int nextProductNumber =
+            products.Max(product => product.ProductId) + 1;
+
+        return $"PRD-{nextProductNumber:D3}";
+    }
+    public void SearchProduct()
+    {
+        List<Product> products = _productRepository.GetActiveProducts();
         if(products.Count == 0)
         {
             Console.WriteLine("There are no products available to search.");
@@ -107,27 +109,34 @@ public class InventoryService
             )
         ).ToList();
 
-        if(matchingProducts == null)
+        if(matchingProducts.Count == 0)
         {
             Console.WriteLine("Product is not found.\n");
             return;
         }
 
         Console.WriteLine("\nProduct found");
-        ViewProducts(matchingProducts);
+
+        foreach (Product matchingProduct in matchingProducts)
+        {
+            DisplayProduct(matchingProduct);
+        }
     }
-    public void UpdateProduct(List<Product> products)
+    public void UpdateProduct()
     {
+        /*List<Product> products = _productRepository.GetActiveProducts();
         if(products.Count == 0)
         {
             Console.WriteLine("There are no products available to update");
-        }
+        }*/
 
         string productCode = _inputValidationService.GetRequiredText("Enter Product Code to update: ");
 
-        Product? product = products.FirstOrDefault(product => product.IsActive &&(
+        Product? product = _productRepository.FindProductByCode(productCode);
+
+        /*Product? product = products.FirstOrDefault(product => product.IsActive &&(
             product.ProductCode.Contains(productCode, StringComparison.OrdinalIgnoreCase)
-        ));
+        ));*/
 
         if(product == null)
         {
@@ -140,8 +149,7 @@ public class InventoryService
         while (true)
         {
             Console.WriteLine("\n(1) Name\n(2) Category\n(3) Unit Price\n(4) Quantity in Stock\n(5) Reorder Level\n");
-            Console.Write("Enter the field you want to update: ");
-            int field = Convert.ToInt32(Console.ReadLine());
+            int field = _inputValidationService.GetValidInt("Enter the field you want to update: ", 1, 5);
 
             if(field == 1)
             {
@@ -182,27 +190,22 @@ public class InventoryService
         // Saves the updated product to SQLite.
         _productRepository.UpdateProduct(product);
 
-        // Refreshes the temporary list after saving changes.
-        products.Clear();
-        products.AddRange(_productRepository.GetActiveProducts());
-
         Console.WriteLine("Product updated successfully.\n");
     }
 
     //Soft deletion of product. It doesn't totally remove the product but disables it temporarily. 
-    public void DeactivateProduct(List<Product> products)
+    public void DeactivateProduct()
     {
+        List<Product> products = _productRepository.GetActiveProducts();
         if(products.Count == 0)
         {
             Console.WriteLine("There are no products available to rectivate.\n");
             return;
         }
 
-        string codeInput = _inputValidationService.GetRequiredText("Enter the Product Code to deactivate: ");
+        string productCode = _inputValidationService.GetRequiredText("Enter the Product Code to deactivate: ");
 
-        Product? product = products.FirstOrDefault(product => product.IsActive && (
-            product.ProductCode.Contains(codeInput, StringComparison.OrdinalIgnoreCase)
-        ));
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if(product == null)
         {
@@ -210,18 +213,14 @@ public class InventoryService
             return;
         }
 
-        _productRepository.DeactivateProduct(product.ProductCode);
-
-        products.Clear();
-        products.AddRange(_productRepository.GetActiveProducts());
+        _productRepository.DeactivateProduct(productCode);
 
         Console.WriteLine($"Product {product.ProductCode} has been deativated successfully.");
-
     }
 
-    public void ReactivateProduct(List<Product> products)
+    public void ReactivateProduct()
     {
-        products = _productRepository.GetAllProducts();
+        List<Product> products = _productRepository.GetAllProducts();
 
         if(products.Count == 0)
         {
@@ -231,9 +230,7 @@ public class InventoryService
 
         string productCode = _inputValidationService.GetRequiredText("Enter product code to reactivate: ");
 
-        Product? product = products.FirstOrDefault(product =>
-            product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
-        );
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if (product == null)
         {
@@ -247,17 +244,14 @@ public class InventoryService
             return;
         }
 
-        _productRepository.ReactivateProduct(product.ProductCode);
-
-        products.Clear();
-        products.AddRange(_productRepository.GetActiveProducts());
+        _productRepository.ReactivateProduct(productCode);
 
         Console.WriteLine($"{product.Name} has been reactivated successfully.\n");
 
     }
-    public void DeleteProduct(List<Product> products)
+    public void DeleteProduct()
     {
-        products = _productRepository.GetAllProducts();
+        List<Product> products = _productRepository.GetAllProducts();
 
         if(products.Count == 0)
         {
@@ -266,11 +260,9 @@ public class InventoryService
         }
 
         Console.Write("Enter the Code of the Product to Delete: ");
-        string? codeInput = Console.ReadLine() ?? "";
+        string? productCode = Console.ReadLine() ?? "";
 
-        Product? product = products.FirstOrDefault(product => product.IsActive && (
-            product.ProductCode.Contains(codeInput, StringComparison.OrdinalIgnoreCase)
-        ));
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if(product == null)
         {
@@ -278,7 +270,7 @@ public class InventoryService
             return;
         }
 
-        _productRepository.DeleteProduct(product.ProductCode);
+        _productRepository.DeleteProduct(productCode);
 
         products.Clear();
         products.AddRange(_productRepository.GetActiveProducts());

@@ -1,28 +1,41 @@
 using StockFlow.Models;
+using StockFlow.Repositories;
 
 namespace StockFlow.Services;
 
 public class DashboardService
 {
-    private readonly AlertService _alertService = new AlertService();
+    private readonly AlertService _alertService;
+    private readonly ProductRepository _productRepository;
+    private readonly OrderRepository _orderRepository;
+    private readonly PaymentRepository _paymentRepository;
 
-    public DashboardService(AlertService alertService)
+    public DashboardService(    
+        AlertService alertService,
+        ProductRepository productRepository,
+        OrderRepository orderRepository,
+        PaymentRepository paymentRepository
+    )
     {
         _alertService = alertService;
+        _productRepository = productRepository;
+        _orderRepository = orderRepository;
+        _paymentRepository = paymentRepository;
     }
-    public void ShowDashboard(List<Product> products, List<Order> orders, List<Payment> payments)
+    public void ShowDashboard()
     {
         Console.WriteLine("\nStockFlow Dashboard");
         Console.WriteLine("================");
-        ShowInventorySummary(products);
-        ShowOrderSummary(orders);
-        ShowPaymentSummary(payments);
-        ShowLowStockProducts(products);
+        ShowInventorySummary();
+        ShowOrderSummary();
+        ShowPaymentSummary();
+        ShowLowStockProducts();
 
         Console.WriteLine();
     }
-    public void ShowInventorySummary(List<Product> products)
+    public void ShowInventorySummary()
     {
+        List<Product> products = _productRepository.GetAllProducts();
         int totalProducts = products.Count;
         int activeProducts = products.Count(product => product.IsActive);
         int inactiveProducts = products.Count(product => !product.IsActive);
@@ -43,8 +56,9 @@ public class DashboardService
         Console.WriteLine($"Total Stock Quantity: {totalStockQuantity}");
         
     }
-    public void ShowOrderSummary(List<Order> orders)
+    public void ShowOrderSummary()
     {
+        List<Order> orders = _orderRepository.GetAllOrders();
         int totalOrders = orders.Count;
         int completedOrders = orders.Count(order => 
             order.OrderStatus.Equals("Completed", StringComparison.OrdinalIgnoreCase)
@@ -59,8 +73,9 @@ public class DashboardService
         Console.WriteLine($"Completed Orders: {completedOrders}");
         Console.WriteLine($"Pending Orders: {pendingOrders}");
     }
-    public void ShowPaymentSummary(List<Payment> payments)
+    public void ShowPaymentSummary()
     {
+        List<Payment> payments = _paymentRepository.GetAllPayments();
         int totalPayments = payments.Count;
         decimal totalIncome = payments
         .Where(payment => payment.PaymentStatus.Equals("Paid", StringComparison.OrdinalIgnoreCase))
@@ -71,9 +86,9 @@ public class DashboardService
         Console.WriteLine($"Total Payments: {totalPayments}");
         Console.WriteLine($"Total Income: {totalIncome:C}");
     }
-    public void ShowLowStockProducts(List<Product> products)
+    public void ShowLowStockProducts()
     {
-        List<Product> lowStockProducts = _alertService.GetLowStockProducts(products);
+        List<Product> lowStockProducts = _alertService.GetLowStockProducts(_productRepository.GetActiveProducts());
 
         Console.WriteLine("\nLow Stock Products");
         Console.WriteLine("------------------");

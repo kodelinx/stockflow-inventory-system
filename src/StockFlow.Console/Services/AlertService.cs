@@ -1,13 +1,18 @@
-using System.Security.Cryptography.X509Certificates;
 using StockFlow.Models;
+using StockFlow.Repositories;
 
 namespace StockFlow.Services;
 
 public class AlertService
 {
-    public void ShowLowstockAlers(List<Product> products)
+    private readonly ProductRepository _productRepository;
+    public AlertService(ProductRepository productRepository)
     {
-        List<Product> lowStockProducts = GetLowStockProducts(products);
+        _productRepository = productRepository;
+    }
+    public void ShowLowstockAlerts()
+    {
+        List<Product> lowStockProducts = GetLowStockProducts(_productRepository.GetActiveProducts());
 
         if (lowStockProducts.Count == 0)
         {
@@ -36,8 +41,7 @@ public class AlertService
     public List<Product> GetLowStockProducts(List<Product> products)
     {
         return products
-        .Where(product => 
-            product.IsActive && 
+        .Where(product =>
             product.QuantityInStock <= product.ReorderLevel)
         .ToList();
     }

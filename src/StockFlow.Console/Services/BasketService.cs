@@ -1,25 +1,30 @@
 using System.Globalization;
 using StockFlow.Models;
+using StockFlow.Repositories;
 using StockFlow.Utilities;
 
 namespace StockFlow.Services;
 
 public class BasketService
 {
-    public InputValidationService _inputValidationService;
+    private readonly InputValidationService _inputValidationService;
+    private readonly ProductRepository _productRepository;
 
-    public BasketService(InputValidationService inputValidationService)
+    public BasketService(
+        InputValidationService inputValidationService,
+        ProductRepository productRepository
+    )
     {
         _inputValidationService = inputValidationService;
+        _productRepository = productRepository;
     }
 
-    public void AddItemToBasket(List<Product> products, List<BasketItem> basketItems)
+    public void AddItemToBasket(List<BasketItem> basketItems)
     {
+
         string productCode = _inputValidationService.GetRequiredText("Input Product Code to add to Basket: ");
 
-        Product? product = products.FirstOrDefault(
-        product => product.IsActive && 
-        product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase));
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if(product == null)
         {

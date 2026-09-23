@@ -1,26 +1,36 @@
 using StockFlow.Models;
-using StockFlow.Services;
+using StockFlow.Repositories;
 
 namespace StockFlow.Services;
 
 public class SalesReportService
 {
-    public void ShowSalesSummary(List<Order> orders, List<Payment> payments)
+    private readonly OrderRepository _orderRepository;
+    private readonly PaymentRepository _paymentRepository;
+    public SalesReportService(
+        OrderRepository orderRepository,
+        PaymentRepository paymentRepository
+    )
+    {
+        _orderRepository = orderRepository;
+        _paymentRepository = paymentRepository;
+    }
+    public void ShowSalesSummary()
     {
         Console.WriteLine("\nSales Summary Report");
         Console.WriteLine("====================");
 
-        ShowOrderSalesSummary(orders);
-        ShowCompletedOrderDetails(orders);
-        ShowPaymentSalesSummary(payments);
-        ShowSalesByPaymentMethod(payments);
+        ShowOrderSalesSummary();
+        ShowCompletedOrderDetails();
+        ShowPaymentSalesSummary();
+        ShowSalesByPaymentMethod();
         
-
         Console.WriteLine();
     }
 
-    public void ShowOrderSalesSummary(List<Order> orders)
+    public void ShowOrderSalesSummary()
     {
+        List<Order> orders = _orderRepository.GetAllOrders();
         int totalOrders = orders.Count;
 
         int completedOrders = orders.Count(order => 
@@ -38,8 +48,9 @@ public class SalesReportService
         Console.WriteLine($"Pending Orders: {pendingOrders}");
     }
 
-    public void ShowCompletedOrderDetails(List<Order> orders)
+    public void ShowCompletedOrderDetails()
     {
+        List<Order> orders = _orderRepository.GetAllOrders();
         Console.WriteLine("\nCompleted Orders Details");
         Console.WriteLine("------------------------");
         List<Order> completedOrders = orders
@@ -62,8 +73,9 @@ public class SalesReportService
         }
     }
 
-    public void ShowPaymentSalesSummary(List<Payment> payments)
+    public void ShowPaymentSalesSummary()
     {
+        List<Payment> payments = _paymentRepository.GetAllPayments();
         int totalPayments = payments.Count;
 
         decimal totalSalesIncome = payments
@@ -88,8 +100,10 @@ public class SalesReportService
 
     }
 
-    public void ShowSalesByPaymentMethod(List<Payment> payments)
+    public void ShowSalesByPaymentMethod()
     {
+        List<Payment> payments = _paymentRepository.GetAllPayments();
+
         List<Payment> paidPayments = payments
             .Where(payment => payment.PaymentStatus.Equals("Paid", StringComparison.OrdinalIgnoreCase))
             .ToList();
@@ -100,7 +114,7 @@ public class SalesReportService
             return;
         }
 
-        List<string> paymentMethods = payments
+        List<string> paymentMethods = paidPayments
             .Select(payment => payment.PaymentMethod)
             .Distinct()
             .ToList();

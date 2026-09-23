@@ -21,14 +21,11 @@ public class StockMovementService
         _productRepository = productRepository;
     }
 
-    public void AddStock(List<Product> products, List<StockMovement> stockMovements)
+    public void AddStock()
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product =>
-            product.IsActive &&
-            product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
-        );
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if (product == null)
         {
@@ -50,7 +47,6 @@ public class StockMovementService
 
         // Records this stock increase in the movement history.
         RecordMovement(
-            stockMovements,
             product,
             "Stock In",
             stockBefore,
@@ -63,14 +59,11 @@ public class StockMovementService
         Console.WriteLine("The stock has been added successfully.");
     }
 
-    public void AdjustStock(List<Product> products, List<StockMovement> stockMovements)
+    public void AdjustStock()
     {
         string productCode = _inputValidationService.GetRequiredText("Enter product code: ");
 
-        Product? product = products.FirstOrDefault(product =>
-            product.IsActive &&
-            product.ProductCode.Equals(productCode, StringComparison.OrdinalIgnoreCase)
-        );
+        Product? product = _productRepository.FindProductByCode(productCode);
 
         if (product == null)
         {
@@ -95,7 +88,6 @@ public class StockMovementService
 
         // Records the stock adjustment in the movement history.
         RecordMovement(
-            stockMovements,
             product,
             "Adjustment",
             stockBefore,
@@ -109,19 +101,14 @@ public class StockMovementService
     }
 
     public void RecordSaleStockOut(
-        List<StockMovement> stockMovements,
         Product product,
         int quantitySold,
         int stockBefore,
         int stockAfter,
         string orderNumber)
     {
-        // Saves the updated product stock to SQLite after checkout deduction.
-        _productRepository.UpdateProduct(product);
-
         // Records stock decrease caused by a completed sale/order.
         RecordMovement(
-            stockMovements,
             product,
             "Stock Out",
             stockBefore,
@@ -132,8 +119,9 @@ public class StockMovementService
         );
     }
 
-    public void ViewStockMovements(List<StockMovement> stockMovements)
+    public void ViewStockMovements()
     {
+        List<StockMovement> stockMovements = _stockMovementRepository.GetAllStockMovements();
         if (stockMovements.Count == 0)
         {
             Console.WriteLine("No stock movements available.\n");
@@ -160,7 +148,6 @@ public class StockMovementService
     }
 
     public void RecordMovement(
-        List<StockMovement> stockMovements,
         Product product,
         string movementType,
         int stockBefore,
@@ -188,8 +175,6 @@ public class StockMovementService
         };
 
         _stockMovementRepository.AddStockMovement(stockMovement);
-
-        stockMovements.Add(stockMovement);
     }
 
     public void CalculateStockChange(Product product, int quantityChanged)

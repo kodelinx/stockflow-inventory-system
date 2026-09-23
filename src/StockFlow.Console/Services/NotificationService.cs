@@ -8,23 +8,34 @@ public class NotificationService
 {
     private readonly InputValidationService _inputValidationService;
     private readonly NotificationRepository _notificationRepository;
+    private readonly ProductRepository _productRepository;
+    private readonly OrderRepository _orderRepository;
+    private readonly ReceiptRepository _receiptRepository;
+    private readonly AlertService _alertService;
 
     public NotificationService(
         InputValidationService inputValidationService,
-        NotificationRepository notificationRepository
+        NotificationRepository notificationRepository,
+        ProductRepository productRepository,
+        OrderRepository orderRepository,
+        ReceiptRepository receiptRepository,
+        AlertService alertService
     )
     {
         _inputValidationService = inputValidationService;
         _notificationRepository = notificationRepository;
+        _productRepository = productRepository;
+        _orderRepository = orderRepository;
+        _receiptRepository = receiptRepository;
+        _alertService = alertService;
 
     }
 
-    public void SimulateLowStockEmail(
-        List<Product> products,
-        List<Notification> notifications,
-        AlertService alertService)
+    public void SimulateLowStockEmail()
     {
-        List<Product> lowStockProducts = alertService.GetLowStockProducts(products);
+        List<Product> lowStockProducts = _alertService.GetLowStockProducts(
+            _productRepository.GetActiveProducts()
+        );
 
         if (lowStockProducts.Count == 0)
         {
@@ -41,10 +52,8 @@ public class NotificationService
             message += $"- Current Stock: {product.QuantityInStock}\n";
             message += $"- Reorder Level: {product.ReorderLevel}\n\n";
         }
-
         // Creates a simulated low-stock notification.
         CreateNotification(
-            notifications,
             "Low Stock",
             "business-owner@example.com",
             subject,
@@ -56,10 +65,9 @@ public class NotificationService
         Console.WriteLine("Low-stock email notification simulated successfully.\n");
     }
 
-    public void SimulateOrderCompletedEmail(
-        List<Order> orders,
-        List<Notification> notifications)
+    public void SimulateOrderCompletedEmail()
     {
+        List<Order> orders = _orderRepository.GetAllOrders();
         if (orders.Count == 0)
         {
             Console.WriteLine("No order available for notification.\n");
@@ -68,9 +76,7 @@ public class NotificationService
 
         string orderNumber = _inputValidationService.GetRequiredText("Enter completed order number: ");
 
-        Order? order = orders.FirstOrDefault(order =>
-            order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
-        );
+        Order? order = _orderRepository.FindOrderByNumber(orderNumber);
 
         if (order == null)
         {
@@ -94,7 +100,6 @@ public class NotificationService
 
         // Creates a simulated order completed notification.
         CreateNotification(
-            notifications,
             "Order Completed",
             "business-owner@example.com",
             subject,
@@ -106,10 +111,9 @@ public class NotificationService
         Console.WriteLine("Order completed email notification simulated successfully.\n");
     }
 
-    public void SimulateReceiptEmail(
-        List<Receipt> receipts,
-        List<Notification> notifications)
+    public void SimulateReceiptEmail()
     {
+        List<Receipt> receipts = _receiptRepository.GetAllReceipts();
         if (receipts.Count == 0)
         {
             Console.WriteLine("No receipts available for notification.\n");
@@ -118,9 +122,7 @@ public class NotificationService
 
         string receiptNumber = _inputValidationService.GetRequiredText("Enter receipt number: ");
 
-        Receipt? receipt = receipts.FirstOrDefault(receipt =>
-            receipt.ReceiptNumber.Equals(receiptNumber, StringComparison.OrdinalIgnoreCase)
-        );
+        Receipt? receipt = _receiptRepository.FindReceiptByNumber(receiptNumber);
 
         if (receipt == null)
         {
@@ -142,7 +144,6 @@ public class NotificationService
 
         // Creates a simulated receipt notification.
         CreateNotification(
-            notifications,
             "Receipt",
             "customer@example.com",
             subject,
@@ -154,13 +155,9 @@ public class NotificationService
         Console.WriteLine("Receipt email notification simulated successfully.\n");
     }
 
-    public void ViewNotificationEmail(List<Notification> notifications)
+    public void ViewNotificationEmail()
     {
-        List<Notification> savedNotifications =
-            _notificationRepository.GetAllNotifications();
-
-        notifications.Clear();
-        notifications.AddRange(savedNotifications);
+        List<Notification> notifications = _notificationRepository.GetAllNotifications();
 
         if (notifications.Count == 0)
         {
@@ -188,7 +185,6 @@ public class NotificationService
     }
 
     public void CreateNotification(
-        List<Notification> notifications,
         string notificationType,
         string recipient,
         string subject,
@@ -211,8 +207,5 @@ public class NotificationService
 
         // Saves the notification permanently to SQLite.
         _notificationRepository.AddNotification(notification);
-
-        // Keeps a temporary copy while the Console app is running.
-        notifications.Add(notification);
     }
 }

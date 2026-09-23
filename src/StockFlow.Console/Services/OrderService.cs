@@ -5,24 +5,32 @@ namespace StockFlow.Services;
 
 public class OrderService
 {
+    private readonly ProductRepository _productRepository;
     private readonly OrderRepository _orderRepository;
     private readonly OrderItemRepository _orderItemRepository;
+    private readonly StockMovementRepository _stockMovementRepository;
+    private readonly StockMovementService _stockMovementService;
 
     public OrderService(
+        ProductRepository productRepository,
         OrderRepository orderRepository,
-        OrderItemRepository orderItemRepository)
+        OrderItemRepository orderItemRepository,
+        StockMovementRepository stockMovementRepository,
+        StockMovementService stockMovementService
+        
+    )
     {
+        _productRepository = productRepository;
         _orderRepository = orderRepository;
         _orderItemRepository = orderItemRepository;
+        _stockMovementRepository = stockMovementRepository;
+        _stockMovementService  = stockMovementService;
     }
 
-    public void CheckoutBasket(
-        List<Product> products,
-        List<BasketItem> basketItems,
-        List<Order> orders,
-        List<StockMovement> stockMovements,
-        StockMovementService stockMovementService)
+    public void CheckoutBasket(List<BasketItem> basketItems)
     {
+        List<Product> products = _productRepository.GetActiveProducts();
+
         if (basketItems.Count == 0)
         {
             Console.WriteLine("The basket is empty.");
@@ -50,15 +58,15 @@ public class OrderService
             }
         }
 
+        List<OrderItem> orderItems = new List<OrderItem>();
+
         // Generates the next business-facing order number.
         string orderNumber = GenerateNextOrderNumber();
-
-        // Converts basket items into order items.
-        List<OrderItem> orderItems = new List<OrderItem>();
 
         foreach (BasketItem basketItem in basketItems)
         {
             OrderItem orderItem = new OrderItem(
+
                 basketItem.ProductId,
                 basketItem.ProductCode,
                 basketItem.ProductName,
@@ -98,7 +106,12 @@ public class OrderService
         // Saves each order item using the saved OrderId.
         foreach (OrderItem orderItem in orderItems)
         {
-            _orderItemRepository.AddOrderItem(savedOrder.OrderId, orderItem);
+            orderItem.OrderId = savedOrder.OrderId;
+
+            _orderItemRepository.AddOrderItem(
+                savedOrder.OrderId,
+                orderItem
+            );
         }
 
         // Updates product stock and records stock-out movement.
@@ -116,8 +129,10 @@ public class OrderService
 
                 int stockAfter = product.QuantityInStock;
 
-                stockMovementService.RecordSaleStockOut(
-                    stockMovements,
+                // Saves the updated product stock to SQLite after checkout deduction.
+                _productRepository.UpdateProduct(product);
+
+                _stockMovementService.RecordSaleStockOut(
                     product,
                     basketItem.Quantity,
                     stockBefore,
@@ -127,9 +142,6 @@ public class OrderService
             }
         }
 
-        // Keeps the temporary order list updated while the app is running.
-        orders.Add(savedOrder);
-
         basketItems.Clear();
 
         Console.WriteLine($"Order {order.OrderNumber} created successfully.");
@@ -137,13 +149,10 @@ public class OrderService
         Console.WriteLine($"Status: {order.OrderStatus}\n");
     }
 
-    public void ViewOrders(List<Order> orders)
+    public void ViewOrders()
     {
         // Reloads latest orders from SQLite.
-        List<Order> savedOrders = _orderRepository.GetAllOrders();
-
-        orders.Clear();
-        orders.AddRange(savedOrders);
+        List<Order> orders = _orderRepository.GetAllOrders();
 
         if (orders.Count == 0)
         {
@@ -156,6 +165,7 @@ public class OrderService
 
         foreach (Order order in orders)
         {
+            order.Items = _orderItemRepository.GetOrderItemsByOrderId(order.OrderId);
             DisplayOrder(order);
         }
     }
@@ -205,4 +215,4 @@ public class OrderService
 
         return $"ORD-{nextOrderNumber:D3}";
     }
-}           
+}                       

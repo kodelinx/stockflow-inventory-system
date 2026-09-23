@@ -1,4 +1,3 @@
-using System.Security.Authentication.ExtendedProtection;
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Repositories;
@@ -22,19 +21,10 @@ public class PaymentService
         _orderRepository = orderRepository;
     }
 
-    public void ProcessPayment(List<Order> orders, List<Payment> payments)
-    {
-        /*if(orders.Count == 0)
-        {
-            Console.WriteLine("There are no Orders available for payment.");
-            return;
-        }*/
-        
+    public void ProcessPayment()
+    {        
         string orderNumber = _inputValidationService.GetRequiredText("Input Order Number to pay: ");
-
-        /*Order? order = orders.FirstOrDefault(order => 
-            order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase));*/
-
+ 
         Order? order = _orderRepository.FindOrderByNumber(orderNumber);
 
         if(order == null)
@@ -56,8 +46,6 @@ public class PaymentService
             order.TotalAmount, 
             1000000m);
 
-        //int paymentId = payments.Count + 1;
-        //string paymentNumber = $"PAY-{paymentId:000}";
         string paymentNumber = GenerateNextPaymentNumber();
 
         decimal changeAmount = CalculateChange(order.TotalAmount, amountPaid);
@@ -75,42 +63,11 @@ public class PaymentService
             PaymentStatus = "Paid"
         };
 
-        //payments.Add(payment);
         _paymentRepository.AddPayment(order.OrderId, payment);
-
-        //order.PaymentStatus = "Paid";
+        
         _orderRepository.UpdatePaymentStatus(order.OrderNumber, "Paid");
-        //order.OrderStatus = "Completed";
-        _orderRepository.UpdateOrderStatus(order.OrderNumber, "completed");
-
-        // Reloads the updated order from SQLite.
-        Order? updatedOrder = _orderRepository.FindOrderByNumber(order.OrderNumber);
-
-        if (updatedOrder != null)
-        {
-            Order? existingOrder = orders.FirstOrDefault(currentOrder =>
-                currentOrder.OrderNumber.Equals(updatedOrder.OrderNumber, StringComparison.OrdinalIgnoreCase)
-            );
-
-            if (existingOrder != null)
-            {
-                existingOrder.OrderStatus = updatedOrder.OrderStatus;
-                existingOrder.PaymentStatus = updatedOrder.PaymentStatus;
-                existingOrder.TotalAmount = updatedOrder.TotalAmount;
-                existingOrder.OrderDate = updatedOrder.OrderDate;
-            }
-            else
-            {
-                orders.Add(updatedOrder);
-            }
-        }
-
-        Payment? savedPayment = _paymentRepository.FindPaymentByNumber(payment.PaymentNumber);
-
-        if(savedPayment != null)
-        {
-            payments.Add(savedPayment);
-        }
+        
+        _orderRepository.UpdateOrderStatus(order.OrderNumber, "Completed");
 
         Console.WriteLine($"Payment {payment.PaymentNumber} processed successfully.");
         Console.WriteLine($"Order Number: {payment.OrderNumber}");
@@ -127,7 +84,7 @@ public class PaymentService
 
         if(savedPayments.Count == 0)
         {
-            return "PAY - 001";
+            return "PAY-001";
         }
 
         int nextPaymentNumber = savedPayments.Max(payment => payment.PaymentId) + 1;
@@ -176,8 +133,9 @@ public class PaymentService
         Console.WriteLine($"Payment Status: {payment.PaymentStatus}");
         Console.WriteLine("--------");
     }
-    public void ViewPayments(List<Payment> payments)
+    public void ViewPayments()
     {
+        List<Payment> payments = _paymentRepository.GetAllPayments();
         if(payments.Count == 0)
         {
             Console.WriteLine("No payments available.\n");

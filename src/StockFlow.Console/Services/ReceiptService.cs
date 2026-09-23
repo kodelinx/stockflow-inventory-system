@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using StockFlow.Models;
 using StockFlow.Utilities;
 using StockFlow.Repositories;
@@ -10,36 +9,35 @@ public class ReceiptService
     private readonly InputValidationService _inputValidationService;
     private readonly PaymentRepository _paymentRepository;
     private readonly OrderRepository _orderRepository;
+
+    // Needed to load the OrderItems that belong to an Order.
+    // OrderRepository only loads the Orders table, so Items must be loaded separately.
+    private readonly OrderItemRepository _orderItemRepository;
+
     private readonly ReceiptRepository _receiptRepository;
-    
+
     public ReceiptService(
         InputValidationService inputValidationService,
         PaymentRepository paymentRepository,
         OrderRepository orderRepository,
+        OrderItemRepository orderItemRepository,
         ReceiptRepository receiptRepository
     )
     {
         _inputValidationService = inputValidationService;
         _paymentRepository = paymentRepository;
         _orderRepository = orderRepository;
+        _orderItemRepository = orderItemRepository;
         _receiptRepository = receiptRepository;
     }
 
-    public void GenerateReceipt(List<Receipt> receipts)
+    public void GenerateReceipt()
     {
-        /*if(orders.Count == 0)
-        {
-            Console.WriteLine("There are no Orders available to generate receipt.");
-            return;
-        }
-        if(payments.Count == 0)
-        {
-            Console.WriteLine("There are no Payments available to generate receipt.");
-            return;
-        }*/
+        string paymentNumber = _inputValidationService.GetRequiredText(
+            "Enter payment number: "
+        );
 
-        string paymentNumber = _inputValidationService.GetRequiredText("Enter payment number: ");
-
+        // Retrieves the payment directly from SQLite.
         Payment? payment = _paymentRepository.FindPaymentByNumber(paymentNumber);
 
         if (payment == null)
@@ -48,6 +46,17 @@ public class ReceiptService
             return;
         }
 
+        // Prevents multiple receipts for the same payment.
+        Receipt? existingReceipt = _receiptRepository.FindReceiptByPaymentNumber(payment.PaymentNumber);
+
+        if (existingReceipt != null)
+        {
+            Console.WriteLine( $"Receipt {existingReceipt.ReceiptNumber} already exists for payment {payment.PaymentNumber}.\n"            );
+
+            return;
+        }
+
+        // Retrieves the related order using the OrderNumber stored in the payment.
         Order? order = _orderRepository.FindOrderByNumber(payment.OrderNumber);
 
         if (order == null)
@@ -56,8 +65,15 @@ public class ReceiptService
             return;
         }
 
+        // CHANGE:
+        // FindOrderByNumber() only loads data from the Orders table.
+        // The related OrderItems are stored in a separate table, so load them
+        // using OrderId before printing the receipt.
+        order.Items = _orderItemRepository.GetOrderItemsByOrderId(order.OrderId);
+
         string receiptNumber = GenerateNextReceiptNumber();
 
+        // Creates a receipt snapshot using the saved payment and order data.
         Receipt receipt = new Receipt
         {
             ReceiptNumber = receiptNumber,
@@ -70,27 +86,37 @@ public class ReceiptService
             ChangeAmount = payment.ChangeAmount
         };
 
+        // Saves the receipt to SQLite and links it to the order and payment.
+        _receiptRepository.AddReceipt(
+            order.OrderId,
+            payment.PaymentId,
+            receipt
+        );
 
-        //receipts.Add(receipt);
-        _receiptRepository.AddReceipt(order.OrderId, payment.PaymentId, receipt);
-
+        // Reloads the saved receipt so the database version is used.
         Receipt? savedReceipt = _receiptRepository.FindReceiptByNumber(receipt.ReceiptNumber);
 
         if (savedReceipt != null)
         {
-            receipts.Add(savedReceipt);
             Console.WriteLine("Receipt generated successfully.\n");
-            PrintReceipt(order, payment, savedReceipt);
+
+            // order.Items is already populated above, so the purchased
+            // products can now be included when the receipt is printed.
+            PrintReceipt(order, savedReceipt);
             return;
         }
 
-        Console.WriteLine("Receipt was saved, but could not be reloaded from SQLite.\n");
-
+        Console.WriteLine(
+            "Receipt was saved, but could not be reloaded from SQLite.\n"
+        );
     }
 
-    public void ViewReceipts(List<Order> orders, List<Payment> payments, List<Receipt> receipts)
+    public void ViewReceipts()
     {
-        if(receipts.Count == 0)
+        // Retrieves the current receipt records directly from SQLite.
+        List<Receipt> receipts = _receiptRepository.GetAllReceipts();
+
+        if (receipts.Count == 0)
         {
             Console.WriteLine("No receipts available to view.");
             return;
@@ -99,87 +125,123 @@ public class ReceiptService
         Console.WriteLine("\nRECEIPTS");
         Console.WriteLine("--------");
 
-        foreach(Receipt receipt in receipts)
+        foreach (Receipt receipt in receipts)
         {
-            Order? order = orders.FirstOrDefault(order => 
-                order.OrderNumber.Equals(receipt.OrderNumber, StringComparison.OrdinalIgnoreCase));
+            // Retrieves the order related to this receipt.
+            Order? order =
+                _orderRepository.FindOrderByNumber(receipt.OrderNumber);
 
-            Payment? payment = payments.FirstOrDefault(payment => 
-                payment.PaymentNumber.Equals(receipt.PaymentNumber, StringComparison.OrdinalIgnoreCase));
-
-            if(order != null && payment != null)
+            if (order == null)
             {
-                PrintReceipt(order, payment, receipt);
+                Console.WriteLine(
+                    $"Order {receipt.OrderNumber} could not be found."
+                );
+                continue;
             }
-        }
 
+            // CHANGE:
+            // The Order object does not automatically contain its OrderItems
+            // when loaded from the Orders table. Load them before printing.
+            order.Items =_orderItemRepository.GetOrderItemsByOrderId(order.OrderId);
+
+            PrintReceipt(order, receipt);
+        }
     }
 
-    public void ExportReceiptToTextFile(List<Order> orders, List<Payment> payments, List<Receipt> receipts)
+    public void ExportReceiptToTextFile()
     {
-        if (receipts.Count == 0)
-        {
-            Console.WriteLine("There are no receipts to export.");
-            return;
-        }
-        string orderNumber = _inputValidationService.GetRequiredText("Input Order Number to export receipt: ");
-
-        Receipt? receipt = receipts.FirstOrDefault(receipt 
-            => receipt.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
+        string orderNumber = _inputValidationService.GetRequiredText(
+            "Input Order Number to export receipt: "
         );
 
-        if(receipt == null)
+        // Retrieves only receipts belonging to the requested order.
+        List<Receipt> receipts =
+            _receiptRepository.GetReceiptsByOrderNumber(orderNumber);
+
+        if (receipts.Count == 0)
         {
             Console.WriteLine("Receipt is not found for this order.");
             return;
         }
 
-        Order? order = orders.FirstOrDefault(order 
-            => order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
-        );
+        // Retrieves the order related to the receipt.
+        Order? order =
+            _orderRepository.FindOrderByNumber(orderNumber);
 
-        if(order == null)
+        if (order == null)
         {
-            Console.WriteLine("The Order is not found for this receipt.");
+            Console.WriteLine(
+                "The order is not found for this receipt."
+            );
             return;
         }
 
-        Payment? payment = payments.FirstOrDefault(payment 
-            => payment.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
-        );
-
-        if(payment == null)
-        {
-            Console.WriteLine("The Payment record is not found for this receipt.");
-            return;
-        }
+        // CHANGE:
+        // BuildReceiptContent() loops through order.Items.
+        // Load the OrderItems from SQLite before building the receipt text.
+        order.Items =
+            _orderItemRepository.GetOrderItemsByOrderId(order.OrderId);
 
         string folderPath = "Receipts";
 
+        // Creates the Receipts folder if it does not already exist.
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);
         }
 
-        string filePath = Path.Combine(folderPath, $"{receipt.ReceiptNumber}.txt");
-
-        try
+        foreach (Receipt receipt in receipts)
         {
-            string receiptContent = BuildReceiptContent(order, payment, receipt);
+            string filePath = Path.Combine(
+                folderPath,
+                $"{receipt.ReceiptNumber}.txt"
+            );
 
-            File.WriteAllText(filePath, receiptContent);
+            try
+            {
+                string receiptContent = BuildReceiptContent(order, receipt);
 
-            Console.WriteLine($"Receipt exported successfully to {filePath}.\n");
+                File.WriteAllText(filePath, receiptContent);
 
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An error occured while exporting the receipt.");
-            Console.WriteLine($"Error details: {ex.Message}");
+                Console.WriteLine(
+                    $"Receipt exported successfully to {filePath}.\n"
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    "An error occurred while exporting the receipt."
+                );
+
+                Console.WriteLine(
+                    $"Error details: {ex.Message}"
+                );
+            }
         }
     }
 
-    public string BuildReceiptContent(Order order, Payment payment, Receipt receipt)
+    public string GenerateNextReceiptNumber()
+    {
+        List<Receipt> savedReceipts =
+            _receiptRepository.GetAllReceipts();
+
+        if (savedReceipts.Count == 0)
+        {
+            return "REC-001";
+        }
+
+        int nextReceiptNumber =
+            savedReceipts.Max(receipt => receipt.ReceiptId) + 1;
+
+        return $"REC-{nextReceiptNumber:D3}";
+    }
+
+    public void PrintReceipt(Order order, Receipt receipt)
+    {
+        Console.WriteLine(BuildReceiptContent(order, receipt));
+    }
+
+    public string BuildReceiptContent(Order order, Receipt receipt)
     {
         string receiptContent = "";
 
@@ -193,6 +255,8 @@ public class ReceiptService
         receiptContent += "---------------------------------\n";
         receiptContent += "Items:\n";
 
+        // order.Items must be loaded from OrderItemRepository before
+        // this method is called.
         foreach (OrderItem item in order.Items)
         {
             receiptContent += $"{item.ProductName} x {item.Quantity}\n";
@@ -208,24 +272,5 @@ public class ReceiptService
         receiptContent += "=================================\n";
 
         return receiptContent;
-    }
-
-    public string GenerateNextReceiptNumber()
-    {
-        List<Receipt> savedReceipts = _receiptRepository.GetAllReceipts();
-
-        if(savedReceipts.Count() == 0)
-        {
-            return "REC-001";
-        }
-
-        int nextReceiptNNumber = savedReceipts.Max(receipt => receipt.ReceiptId) + 1;
-
-        return $"REC-{nextReceiptNNumber:D3}";
-        
-    }
-    public void PrintReceipt(Order order, Payment payment, Receipt receipt)
-    {
-        Console.WriteLine(BuildReceiptContent(order, payment,  receipt));
     }
 }

@@ -6,17 +6,18 @@ using StockFlow.Database;
 using StockFlow.Repositories;
 
 ProductManager productManager = new ProductManager();
-InputValidationService inputValidationService = new InputValidationService();
-BasketService basketService = new BasketService(inputValidationService);
+
 LoggingService loggingService = new LoggingService();
 JsonStorageService jsonStorageService = new JsonStorageService(loggingService);
-AlertService alertService = new AlertService();
-DashboardService dashboardService = new DashboardService(alertService);
-SalesReportService salesReportService = new SalesReportService();
+
 
 // Prepares the SQLite database and creates needed tables.
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
 databaseConnectionService.InitializeDatabase();
+
+Console.WriteLine(
+    $"Database location: {databaseConnectionService.GetDatabaseFilePath()}"
+);
 
 // Temporary migration: fixes old typo in existing OrderItems table.
 //databaseConnectionService.RenameLineTotaColumnIfNeeded();
@@ -30,14 +31,17 @@ ReceiptRepository receiptRepository = new ReceiptRepository(databaseConnectionSe
 StockMovementRepository stockMovementRepository = new StockMovementRepository(databaseConnectionService);
 NotificationRepository notificationRepository = new NotificationRepository(databaseConnectionService);
 
+InputValidationService inputValidationService = new InputValidationService();
+
+BasketService basketService = new BasketService(
+    inputValidationService,
+    productRepository
+);
+
 InventoryService inventoryService = new InventoryService(
     inputValidationService, 
     productManager,
     productRepository
-);
-OrderService orderService = new OrderService(
-    orderRepository,
-    orderItemRepository
 );
 
 PaymentService paymentService = new PaymentService(
@@ -49,6 +53,7 @@ ReceiptService receiptService = new ReceiptService(
         inputValidationService,
         paymentRepository,
         orderRepository,
+        orderItemRepository,
         receiptRepository
     );
 
@@ -59,23 +64,42 @@ StockMovementService stockMovementService = new StockMovementService(
     
 );
 
-NotificationService notificationService = new NotificationService(
-    inputValidationService,
-    notificationRepository
+OrderService orderService = new OrderService(
+    productRepository,
+    orderRepository,
+    orderItemRepository,
+    stockMovementRepository,
+    stockMovementService
 );
 
+AlertService alertService = new AlertService(
+    productRepository
+);
 
+DashboardService dashboardService = new DashboardService(
+    alertService,
+    productRepository,
+    orderRepository,
+    paymentRepository
+);
 
-// Loads active products from SQLite instead of JSON.
-List<Product> products = productRepository.GetActiveProducts();
+NotificationService notificationService = new NotificationService(
+    inputValidationService,
+    notificationRepository,
+    productRepository,
+    orderRepository,
+    receiptRepository,
+    alertService
+);
 
-// Existing lists can stay for now while we transition.
+SalesReportService salesReportService = new SalesReportService(
+    orderRepository,
+    paymentRepository
+);
+
+// Temporary lists
 List<BasketItem> basketItems = new List<BasketItem>();
-List<Order> orders = new List<Order>();
-List<Payment> payments = new List<Payment>();
-List<Receipt> receipts = new List<Receipt>();
-List<StockMovement> stockMovements = new List<StockMovement>();
-List<Notification> notifications = new List<Notification>();
+
 
 Console.WriteLine("\nSQLite database initialized successfully.\n");
 
@@ -115,8 +139,8 @@ while (keepRunning)
     Console.WriteLine("16. Generate Receipt");
     Console.WriteLine("17. View Receipts");
     Console.WriteLine("18. Show Dashboard");
-    Console.WriteLine("19. Save Data to JSON");
-    Console.WriteLine("20. Reload Data");
+    Console.WriteLine("19. Save Data to JSON (Legacy - Disabled)");
+    Console.WriteLine("20. Reload Data(Legacy - Disabled)");
     Console.WriteLine("21. Add Stock");
     Console.WriteLine("22. Adjust Stock");
     Console.WriteLine("23. View Stock movements");
@@ -135,28 +159,28 @@ while (keepRunning)
     switch(option)
     {
         case 1:
-            inventoryService.AddProduct(products);
+            inventoryService.AddProduct();
             break;
         case 2:
-            inventoryService.ViewProducts(products);
+            inventoryService.ViewProducts();
             break;
         case 3:
-            inventoryService.SearchProduct(products);
+            inventoryService.SearchProduct();
             break;
         case 4:
-            inventoryService.UpdateProduct(products);
+            inventoryService.UpdateProduct();
             break;
         case 5:
-            inventoryService.DeactivateProduct(products);
+            inventoryService.DeactivateProduct();
             break;
         case 6:
-            inventoryService.ReactivateProduct(products);
+            inventoryService.ReactivateProduct();
             break;
         case 7:
-            inventoryService.DeleteProduct(products);
+            inventoryService.DeleteProduct();
             break;
         case 8:
-            basketService.AddItemToBasket(products, basketItems);
+            basketService.AddItemToBasket(basketItems);
             break;
         case 9:
             basketService.ViewBasket(basketItems);
@@ -168,37 +192,40 @@ while (keepRunning)
             basketService.ClearBasket(basketItems);
             break;
         case 12:
-            orderService.CheckoutBasket(products, basketItems, orders, stockMovements, stockMovementService);
+            orderService.CheckoutBasket(basketItems);
             break;
         case 13:
-            orderService.ViewOrders(orders);
+            orderService.ViewOrders();
             break;
         case 14:
-            paymentService.ProcessPayment(orders, payments);
+            paymentService.ProcessPayment();
             break;
         case 15:
-            paymentService.ViewPayments(payments);
+            paymentService.ViewPayments();
             break;
         case 16:
-            receiptService.GenerateReceipt(receipts);
+            receiptService.GenerateReceipt();
             break;
         case 17:
-            receiptService.ViewReceipts(orders, payments, receipts);
+            receiptService.ViewReceipts();
             break;
         case 18:
-            dashboardService.ShowDashboard(products, orders, payments);
+            dashboardService.ShowDashboard();
             break;
         case 19:
              // Transitional only: products are now read from SQLite, but JSON save still exists.
-            jsonStorageService.SaveData(products, productsFilePath);
+            /*jsonStorageService.SaveData(products, productsFilePath);
             jsonStorageService.SaveData(orders, ordersFilePath);
             jsonStorageService.SaveData(payments, paymentsFilePath);
             jsonStorageService.SaveData(receipts, receiptsFilePath);
             jsonStorageService.SaveData(stockMovements, stockMovementsFilePath);
-            jsonStorageService.SaveData(notifications, notificationFilePath);
+            jsonStorageService.SaveData(notifications, notificationFilePath);**/
+
+            Console.WriteLine("JSON saving is disabled because SQLite is now the main data source.\n");
+
             break;
         case 20:
-            // Reloads products from SQLite.
+            /* Reloads products from SQLite.
             products = productRepository.GetActiveProducts();
 
             // Orders, payments, and receipts may now also be database-backed.
@@ -209,39 +236,48 @@ while (keepRunning)
             // Reloads stock movements and notifications from SQLite.
             stockMovements = stockMovementRepository.GetAllStockMovements();
             notifications = notificationRepository.GetAllNotifications();
+
+            Console.WriteLine("Data reloaded from SQLite successfully.\n");
+            */
+            Console.WriteLine("Functionality Disabled (Legacy)");
             break;  
         case 21:
-            stockMovementService.AddStock(products, stockMovements);
+            stockMovementService.AddStock();
             break;
         case 22:
-            stockMovementService.AdjustStock(products, stockMovements);
+            stockMovementService.AdjustStock();
             break;
         case 23:
-            stockMovementService.ViewStockMovements(stockMovements);
+            stockMovementService.ViewStockMovements();
             break;
         case 24:
-            alertService.ShowLowstockAlers(products);
+            alertService.ShowLowstockAlerts();
             break;
         case 25:
-            receiptService.ExportReceiptToTextFile(orders, payments, receipts);
+            receiptService.ExportReceiptToTextFile();
             break;
         case 26:
-            salesReportService.ShowSalesSummary(orders, payments);
+            salesReportService.ShowSalesSummary();
             break;
         case 27:
-            notificationService.SimulateLowStockEmail(products, notifications, alertService);
+            notificationService.SimulateLowStockEmail();
             break;
         case 28:
-            orders = orderRepository.GetAllOrders();
-            notificationService.SimulateOrderCompletedEmail(orders, notifications);
+            notificationService.SimulateOrderCompletedEmail();
             break;
         case 29:
-            notificationService.SimulateReceiptEmail(receipts,  notifications);
+            notificationService.SimulateReceiptEmail();
             break;
         case 30:
-            notificationService.ViewNotificationEmail(notifications);
+            notificationService.ViewNotificationEmail();
             break;
         case 31:
+            databaseConnectionService.ResetDatabase();
+            basketItems.Clear();
+
+            Console.WriteLine( $"New database location: {databaseConnectionService.GetDatabaseFilePath()}");
+            break;
+        case 32:
             loggingService.LogInfo("Stockflow application closed.");
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;

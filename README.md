@@ -1,175 +1,149 @@
 # StockFlow Inventory System
 
-StockFlow is an inventory and sales management system for small business operations. It is being built as a portfolio project to demonstrate practical C#/.NET development, software planning, documentation, Git workflow, database preparation, and Web API development.
+StockFlow is a C#/.NET inventory and sales management application for small businesses. It supports product management, stock tracking, checkout, payment recording, receipts, reporting, and simulated notifications. The project is also a development portfolio that demonstrates an incremental transition from a console MVP to a layered, database-backed application with a Web API.
 
-## Current Status
+> **Development status:** v0.6.0 in progress · M47 — Repository-First Console Service Refactor · Next: M48 — Automated Regression Testing Foundation. v0.6.0 has not yet been released.
 
-- Current version: v0.6.0 - Full Database-Backed StockFlow
-- Current milestone: M46 - Replace JSON Flow with SQLite Flow
-- Current milestone status: In Progress
-- Last updated: 2026-09-15
+## Overview
 
+StockFlow is intended to help small businesses keep inventory and sales records in one system. Its current development focus is finishing the repository-backed Console workflow and establishing repeatable tests before the next release.
 
-## Project Goal
+### Capabilities
 
-Build StockFlow from a console-based inventory system into a business-ready application with database storage, API access, user roles, frontend dashboard, testing, and production-ready documentation.
+| Area | Current scope |
+| --- | --- |
+| Inventory | Add, search, update, deactivate/reactivate, and manage products |
+| Sales | Temporary basket, checkout, and persistent orders and order items |
+| Payments and receipts | Record payments, calculate change, generate/view receipts, and export receipt text files |
+| Stock | Stock-in, adjustments, checkout stock-out history, and low-stock alerts |
+| Insights | Inventory dashboard and sales summaries |
+| Notifications | Simulated low-stock, completed-order, and receipt messages |
+| API | Read endpoints for products, orders, payments, and dashboard summary; integration levels vary by endpoint |
 
-## Main Features
+These features describe implemented workflows developed to date, not a claim that every workflow has passed final v0.6.0 regression testing. See [Requirements](docs/requirements.md) and [Acceptance Criteria](docs/acceptance-criteria.md) for their tracked status and verification conditions.
 
-Current and planned feature areas:
+## Technology and Architecture
 
-- Product and inventory management
-- Basket and order processing
-- Payment tracking
-- Receipt generation
-- Stock movement history
-- Low-stock alerts
-- Sales reports
-- Notification simulation
-- SQLite database preparation
-- ASP.NET Core Web API
-- Future authentication and user roles
-- Future frontend dashboard
-- Future automated tests
+- **Language and runtime:** C# / .NET 10
+- **API:** ASP.NET Core Web API with OpenAPI document support
+- **Database:** SQLite via `Microsoft.Data.Sqlite`
+- **Architecture:** Separate Console, API, Core, and Infrastructure projects; repository-based database access
+- **Development:** Git, GitHub, and Markdown documentation
+- **Testing:** Automated regression test foundation planned for M48
 
-## Technology Stack
+```text
+stockflow-inventory-system/
+├── src/
+│   ├── StockFlow.Console/        # Menu, user interaction, and Console workflows
+│   ├── StockFlow.Api/            # HTTP endpoints and API startup
+│   ├── StockFlow.Core/           # Shared models and reusable business logic
+│   └── StockFlow.Infrastructure/ # SQLite setup and repositories
+├── tests/                        # Automated tests as implemented
+├── docs/                         # Project specifications and engineering records
+└── StockFlow.sln
+```
 
-Current:
+The Console's persistent business records are being consolidated around SQLite repositories. `List<BasketItem>` intentionally remains temporary session state. Some Console service and `Program.cs` cleanup is still in progress; not all API endpoints are connected to live repository-backed data.
 
-- C#
-- .NET
-- ASP.NET Core Web API
-- SQLite
-- JSON file persistence
-- Git and GitHub
-- Markdown documentation
+For component boundaries and data flows, see [Architecture](docs/architecture.md) and [Database Design](docs/database-design.md).
 
-Planned:
+## Getting Started
 
-- Shared class libraries
-- Full repository-based database persistence
-- Authentication and authorization
-- Frontend dashboard
-- Automated tests
-- Deployment preparation
+### Prerequisites
 
-## How to Run
+- .NET 10 SDK
+- Git (to clone the repository)
+- An editor such as Visual Studio Code or Visual Studio
 
-From the project root:
+### Build and run
+
+From the repository root:
 
 ```powershell
+dotnet restore
 dotnet build
 ```
 
-Run the console app:
+Start the Console application:
 
 ```powershell
 dotnet run --project src/StockFlow.Console
 ```
 
-Run the API project:
+Start the API in a separate terminal:
 
 ```powershell
 dotnet run --project src/StockFlow.Api
 ```
 
-Open the API locally using the terminal port:
+Use the base address printed by the API at startup (the port may vary). Available read routes include:
 
 ```text
-http://localhost:<port>/openapi/v1.json
-http://localhost:<port>/api/products
+GET /api/products
+GET /api/products/{productCode}
+GET /api/orders
+GET /api/orders/{orderNumber}
+GET /api/payments
+GET /api/payments/{paymentNumber}
+GET /api/dashboard/summary
 ```
 
-## Documentation Map
+The OpenAPI document is available at `/openapi/v1.json` when enabled in the current environment. Some order, payment, and dashboard API routes may still return temporary sample data; consult [API Design](docs/api-design.md) for endpoint-level status.
 
-- [Project Overview](docs/project-overview.md) - business context, goals, users, scope
-- [Requirements](docs/requirements.md) - what the system should do
-- [Business Rules](docs/business-rules.md) - rules the system must follow
-- [Architecture](docs/architecture.md) - how the solution is structured
-- [Database Design](docs/database-design.md) - tables, columns, relationships
-- [API Design](docs/api-design.md) - API endpoints and testing approach
-- [Acceptance Criteria](docs/acceptance-criteria.md) - how features are verified
-- [Milestone Plan](docs/milestone-plan.md) - version roadmap and progress tracker
-- [Release Notes](docs/release-notes.md) - release history and changes
+### Database and test data
 
-## Version Roadmap
+The application uses a local SQLite database. Database initialization occurs when the relevant application startup calls `InitializeDatabase()`; `dotnet build` alone does not create a database. Database file paths can depend on the working directory until path configuration is finalized. Development database reset is destructive and must only be used on disposable development or test data. Database files should not be committed to Git.
 
-### v0.1.0 - Console Inventory and Sales MVP
+Automated regression testing is planned for M48. Once the test project is added, its normal command will be:
 
-Status: Released
+```powershell
+dotnet test
+```
 
-### v0.2.0 - Inventory Rules and Reporting
+Do not interpret this planned command as confirmation that a complete automated suite exists yet.
 
-Status: Released
+## Documentation
 
-### v0.3.0 - Database-Ready Inventory System
+| Document | What it contains |
+| --- | --- |
+| [Project Overview](docs/project-overview.md) | Business context, intended users, goals, and scope |
+| [Requirements](docs/requirements.md) | Tracked functional and non-functional requirements |
+| [Business Rules](docs/business-rules.md) | Rules that govern products, sales, and persistent data |
+| [Architecture](docs/architecture.md) | Project boundaries, dependencies, and application flows |
+| [Database Design](docs/database-design.md) | Tables, relationships, persistence, and data conventions |
+| [API Design](docs/api-design.md) | Endpoint catalog, contracts, and verification guidance |
+| [Acceptance Criteria](docs/acceptance-criteria.md) | Conditions for verifying features and releases |
+| [Milestone Plan](docs/milestone-plan.md) | Complete version roadmap and active milestone status |
+| [Release Notes](docs/release-notes.md) | Released changes and work in progress for the next release |
 
-Status: Released
+## Roadmap
 
-### v0.4.0 - StockFlow Web API
+| Version | Focus | Status |
+| --- | --- | --- |
+| v0.1.0 | Console inventory and sales MVP | Released |
+| v0.2.0 | Stock movements, alerts, reporting, and notification simulation | Released |
+| v0.3.0 | Database design and initial SQLite/repository integration | Released |
+| v0.4.0 | Initial Web API read endpoints | Released |
+| v0.5.0 | Shared Core and Infrastructure architecture | Released |
+| v0.6.0 | SQLite-backed Console, repository-first cleanup, and automated regression foundation | In Progress |
+| v0.7.0 | Remaining API integration, authentication, and roles | Planned |
+| v0.8.0 | Frontend web dashboard | Planned |
+| v0.9.0 | Expanded testing and production readiness | Planned |
+| v1.0.0 | Business MVP release | Planned |
 
-Status: Released
+The authoritative milestone breakdown, including M47 and M48, is maintained in [Milestone Plan](docs/milestone-plan.md). This README intentionally does not include individual milestone journals or duplicate detailed release history.
 
-StockFlow now includes an ASP.NET Core Web API project that exposes product, order, payment, and dashboard endpoints through HTTP.
+## Current Limitations
 
-Current API features:
+- The final repository-first Console refactor and regression verification are in progress.
+- The API's order, payment, and dashboard reads may still rely on temporary sample data.
+- Authentication, authorization, and frontend UI are not implemented.
+- Automated regression coverage is planned but not yet established.
+- Transactional consistency for multi-repository operations such as checkout needs further work before production use.
+- Simulated notifications are not real email delivery, and payment recording is not a payment-gateway integration.
 
-- OpenAPI JSON support
-- Product read endpoints
-- Order read endpoints
-- Payment read endpoints
-- Dashboard summary endpoint
-- Basic API validation and error response handling
+StockFlow is a development and portfolio project, not a production-ready financial or inventory system.
 
-Current limitations:
+## Maintaining This README
 
-- Product endpoints use repository-backed SQLite access
-- Order, payment, and dashboard endpoints currently use typed temporary sample data
-- Create, update, and delete API endpoints are not yet implemented
-- Authentication and authorization are not yet implemented
-- Full shared architecture cleanup is planned for v0.5.0
-- Full database-backed flow is planned for v0.6.0
-
-### v0.5.0 - Shared Architecture and Full API Integration
-
-Status: Released
-
-StockFlow has been refactored into a cleaner layered architecture with separate projects for API, Console, Core, and Infrastructure.
-
-Current architecture highlights:
-
-- `StockFlow.Core` contains shared business models
-- `StockFlow.Core` contains `ProductManager` for reusable product business logic
-- `StockFlow.Infrastructure` contains database and repository implementation
-- `DatabaseConnectionService` was moved to Infrastructure
-- `ProductRepository` was moved to Infrastructure
-- `StockFlow.Api` no longer references `StockFlow.Console`
-- Product API uses Core business logic and Infrastructure data access
-
-Current limitations:
-
-- Existing console services still contain console input/output workflow
-- Only ProductRepository is currently implemented
-- Order, payment, receipt, and stock movement repositories are not yet implemented
-- Full database-backed business flow is planned for v0.6.0
-
-### v0.6.0 - Full Database-Backed StockFlow
-
-Status: In Progress
-
-### v0.7.0 - Authentication and User Roles
-
-Status: Planned
-
-### v0.8.0 - Frontend Web Dashboard
-
-Status: Planned
-
-### v0.9.0 - Testing, Error Handling, and Production Readiness
-
-Status: Planned
-
-### v1.0.0 - Business MVP Release
-
-Status: Planned
-
+Keep this page as the project's short public entry point. Update the **Development status**, **Capabilities**, **Getting Started**, **Roadmap**, and **Current Limitations** in place whenever they materially change. Record granular implementation progress in `docs/milestone-plan.md`, feature specifications in the relevant design documents, and historical changes in `docs/release-notes.md`. Do not append a new README section for each milestone.

@@ -1,716 +1,340 @@
 # StockFlow Architecture
 
-## Purpose
+> **Document type:** Living technical reference  
+> **Status:** Implemented architecture with ongoing Console refactoring  
+> **Last reviewed:** 2026-09-23
 
-This document explains how StockFlow is structured and how the main parts of the system work together.
+## 1. Purpose and Scope
 
-Requirements explain what the system should do. Architecture explains how the system is organized.
+This document describes StockFlow's system structure, project boundaries, dependency rules, data flow, and architectural decisions. It is a **current-state reference**, not a milestone journal: update the relevant existing section when the implementation changes instead of appending a new section for every milestone.
 
----
+Related documents:
 
-# Current Solution Structure
+- [`requirements.md`](requirements.md) — functional and non-functional requirements.
+- [`business-rules.md`](business-rules.md) — business constraints and transaction rules.
+- [`database-design.md`](database-design.md) — tables, keys, relationships, and data types.
+- [`api-design.md`](api-design.md) — endpoint contracts and API-specific behavior.
+- [`acceptance-criteria.md`](acceptance-criteria.md) — verifiable behavior and regression criteria.
+- [`milestone-plan.md`](milestone-plan.md) — work status and upcoming milestones.
+- [`release-notes.md`](release-notes.md) — historical changes and releases.
 
-StockFlow currently uses a staged architecture.
+## 2. Architecture Overview
+
+StockFlow uses a layered .NET solution with two application entry points, shared business models and rules, and SQLite-backed persistence. The Console application contains the main operational workflow. The Web API currently has repository-backed product reads; other API areas require verification or further integration before being described as fully database-backed.
+
+```text
+Console user                         API client / future frontend
+     |                                           |
+     v                                           v
+StockFlow.Console                             StockFlow.Api
+(menu, input/output, workflows)               (HTTP controllers)
+     |                                           |
+     +----------> shared models and rules <------+ 
+     |                 StockFlow.Core            |
+     |                                           |
+     +---------> StockFlow.Infrastructure <-------+
+                  (repositories, database)
+                             |
+                             v
+                          SQLite
+```
+
+**Important:** This is a logical interaction diagram, not a project-reference chain. `StockFlow.Core` does not reference Infrastructure; both application projects reference Core and Infrastructure as needed.
+
+### Technology and architectural style
+
+| Area | Current approach |
+| --- | --- |
+| Runtime and language | C# / .NET |
+| Console interface | Menu-driven Console application |
+| HTTP interface | ASP.NET Core Web API |
+| Shared domain code | `StockFlow.Core` class library |
+| Persistence | SQLite through `Microsoft.Data.Sqlite` |
+| Data access | Repository classes in `StockFlow.Infrastructure` |
+| Dependency composition | Explicit construction in Console `Program.cs`; DI registrations in the API |
+| Testing | Manual regression checks currently; automated tests planned |
+
+## 3. Solution Structure
+
+The following tree shows the intended *logical placement* of the existing projects. It is not an exhaustive list of every file, and optional or planned test folders should not be mistaken for implemented test projects.
 
 ```text
 stockflow-inventory-system/
 ├── README.md
 ├── docs/
+│   ├── architecture.md
+│   ├── requirements.md
+│   ├── business-rules.md
+│   ├── database-design.md
+│   ├── api-design.md
+│   ├── acceptance-criteria.md
+│   ├── milestone-plan.md
+│   └── release-notes.md
 ├── src/
-├── StockFlow.Api/
-│   ├── Controllers/
-│   └── Program.cs
-│
-├── StockFlow.Console/
-│   ├── Services/
-│   ├── Utilities/
-│   ├── Data/
-│   └── Program.cs
-│
-├── StockFlow.Core/
-│   ├── Models/
-│   └── Services/
-│       └── ProductManager.cs
-│
-└── StockFlow.Infrastructure/
-│   ├── Database/
-│   │   └── DatabaseConnectionService.cs
-│   └── Repositories/
-│       └── ProductRepository.cs
-├── tests/
+│   ├── StockFlow.Console/
+│   │   ├── Services/
+│   │   ├── Utilities/
+│   │   ├── Data/                 # legacy JSON service, while retained
+│   │   └── Program.cs
+│   ├── StockFlow.Api/
+│   │   ├── Controllers/
+│   │   └── Program.cs
+│   ├── StockFlow.Core/
+│   │   ├── Models/
+│   │   ├── Services/
+│   │   └── Interfaces/           # as interfaces are introduced
+│   └── StockFlow.Infrastructure/
+│       ├── Database/
+│       └── Repositories/
+├── tests/                        # automated test project planned
 └── StockFlow.sln
 ```
 
-## Current Layered Architecture
+### Project responsibilities
 
-StockFlow currently uses four main projects:
+| Project | Owns | Does not own |
+| --- | --- | --- |
+| `StockFlow.Console` | Menu routing, user input/output, Console workflow orchestration, temporary basket session | SQL statements, shared domain models, HTTP endpoints |
+| `StockFlow.Api` | HTTP controllers, request validation and responses, API configuration and dependency registration | Console interaction, database SQL inside controllers |
+| `StockFlow.Core` | Shared models and reusable business rules without interface-specific input/output | Console input/output, HTTP response handling, SQLite connections |
+| `StockFlow.Infrastructure` | SQLite connection setup, schema initialization and repositories | Menu routing, HTTP request handling, user prompts |
 
-- `StockFlow.Api` - Web API entry point
-- `StockFlow.Console` - Console application entry point
-- `StockFlow.Core` - Shared business models and pure business logic
-- `StockFlow.Infrastructure` - Database and repository implementation
+### Main components
 
-## Current Projects
+- **Core models:** `Product`, `BasketItem`, `Order`, `OrderItem`, `Payment`, `Receipt`, `StockMovement`, and `Notification`.
+- **Core business logic:** `ProductManager`, including reusable product rules; additional pure business logic can be extracted here when it is independent of the Console.
+- **Console services:** `InventoryService`, `BasketService`, `OrderService`, `PaymentService`, `ReceiptService`, `StockMovementService`, `AlertService`, `DashboardService`, `SalesReportService`, and `NotificationService`.
+- **Console utilities:** `InputValidationService` and `LoggingService`.
+- **Infrastructure database service:** `DatabaseConnectionService`.
+- **Infrastructure repositories:** `ProductRepository`, `OrderRepository`, `OrderItemRepository`, `PaymentRepository`, `ReceiptRepository`, `StockMovementRepository`, and `NotificationRepository`.
+- **API controllers:** Product, order, payment, and dashboard controllers. Exact routes and their verified data sources belong in [`api-design.md`](api-design.md).
 
-### StockFlow.Console
+## 4. Dependency Rules
 
-The console project contains the original working application flow.
-
-Responsibilities:
-
-- Console menu
-- User input
-- Inventory actions
-- Basket and checkout flow
-- Payment processing
-- Receipt generation
-- Dashboard summaries
-- JSON persistence
-- Basic logging
-- SQLite preparation
-- Initial repository work
-
-### StockFlow.Api
-
-The API project is the new Web API entry point.
-
-Responsibilities:
-
-- HTTP endpoints
-- API request/response handling
-- OpenAPI document generation
-- Future product, order, payment, and dashboard endpoints
-
-### StockFlow.Core
-
-The Core project contains shared business code that can be used by both the console app and the API.
-
-Current responsibilities:
-
-- Shared business models
-- Future pure business services
-- Future service interfaces
-
-Current contents:
-
-- Product
-- BasketItem
-- Order
-- OrderItem
-- Payment
-- Receipt
-- StockMovement
-- Notification
-
-Current Core services:
-
-- ProductManager
-
-Current status:
-
-- StockFlow.Core was created in M31
-- Shared models were moved to StockFlow.Core in M32
-- Current services were not moved because they depend heavily on console input/output
-
-### StockFlow.Infrastructure
-
-The Infrastructure project contains technical implementation details.
-
-Current responsibilities:
-
-- Database connection setup
-- SQLite integration
-- Repository classes
-- Future repository implementations
-
-Current contents:
-
-- DatabaseConnectionService
-- ProductRepository
-
-Current status:
-
-- StockFlow.Infrastructure was created in M34
-- DatabaseConnectionService was moved to StockFlow.Infrastructure
-- ProductRepository was moved to StockFlow.Infrastructure
-- StockFlow.Infrastructure references StockFlow.Core
-- StockFlow.Api and StockFlow.Console reference StockFlow.Infrastructure
-
----
-
-# Current Console Architecture
+Project references must point in these directions:
 
 ```text
-User
-    ↓
-Program.cs
-    ↓
-Services
-    ↓
-Models
-    ↓
-JsonStorageService
-    ↓
-Local JSON files
+StockFlow.Console ──────> StockFlow.Core
+        └──────────────> StockFlow.Infrastructure ──> StockFlow.Core
+
+StockFlow.Api ──────────> StockFlow.Core
+        └──────────────> StockFlow.Infrastructure
 ```
 
-## Console Folder Responsibilities
+`StockFlow.Core` has no dependency on any other StockFlow project. Infrastructure must not reference Console or API. Console and API must not reference each other. These restrictions prevent circular project references and allow shared business code and data access to be reused by either entry point.
 
-### Models
+Within an application workflow:
 
-Contains business data classes.
+1. The entry point routes a request to the appropriate service or controller.
+2. A Console service coordinates user interaction and the relevant business operation; an API controller handles HTTP concerns.
+3. Repositories perform persistent reads and writes.
+4. Shared models represent business data; pure, interface-independent rules belong in Core.
 
-Examples:
+**Current boundary:** Console services still contain `Console.ReadLine`, `Console.WriteLine`, and `InputValidationService` use. They remain in Console, not Core. Repository-first refactoring does not by itself make a Console service reusable in the API.
 
-- Product
-- BasketItem
-- Order
-- OrderItem
-- Payment
-- Receipt
-- StockMovement
-- Notification
+## 5. Data Ownership and Persistence
 
-### Services
+### Persistent records
 
-Contains business actions.
+SQLite is the primary persistent source for the Console application's product, order, order-item, payment, receipt, stock-movement, and notification records. Repositories should retrieve current records when a workflow needs them; long-lived copies in `Program.cs` are being removed.
 
-Examples:
+| Data | Repository | General role |
+| --- | --- | --- |
+| Products | `ProductRepository` | Product catalog, stock quantity, active status |
+| Orders | `OrderRepository` | Order header and payment/order statuses |
+| Order items | `OrderItemRepository` | Purchased-item snapshots linked to a parent order |
+| Payments | `PaymentRepository` | Recorded payments linked to orders |
+| Receipts | `ReceiptRepository` | Issued receipts linked to orders and payments |
+| Stock movements | `StockMovementRepository` | History of inventory quantity changes |
+| Notifications | `NotificationRepository` | Simulated system messages and their read state |
 
-- InventoryService
-- BasketService
-- OrderService
-- PaymentService
-- ReceiptService
-- DashboardService
-- StockMovementService
-- SalesReportService
-- NotificationService
-- AlertService
+Full columns, keys, constraints, and relationships are maintained in [`database-design.md`](database-design.md), not duplicated here.
 
-### Data
+### Session state
 
-Contains storage-related services.
+`List<BasketItem>` remains intentional temporary state for the current Console shopping session. At checkout, basket entries are converted into separate `OrderItem` records that are persisted in SQLite. Clearing the basket **does not** clear or delete saved order items.
 
-Example:
+A list returned by a repository may still be used as a *local method variable* for processing or display. It should not become a second source of truth that must be manually synchronized across services.
 
-- JsonStorageService
+### Record identity
 
-### Database
+- SQLite-generated IDs, such as `OrderId`, `OrderItemId`, `PaymentId`, and `ReceiptId`, identify database records and support relationships.
+- Application-generated references, such as `OrderNumber`, `PaymentNumber`, and `ReceiptNumber`, identify transactions in the user-facing workflow.
+- `OrderRepository` loads order headers. Workflows that need purchased items load the corresponding rows through `OrderItemRepository` using `OrderId`.
 
-Contains database setup and initialization logic.
+### Legacy JSON
 
-Example:
+JSON was used as the original persistence mechanism. Its active save path has been disabled during migration; any retained `JsonStorageService` or JSON files are legacy code/data rather than authoritative records. Final removal is handled as code cleanup, not by creating additional architecture sections.
 
-- DatabaseConnectionService
+## 6. Application and Business Flows
 
-### Repositories
+These diagrams document stable responsibilities. Detailed rules and acceptance cases belong in the linked domain documents.
 
-Contains database access classes.
-
-Example:
-
-- ProductRepository
-
-### Utilities
-
-Contains reusable helper classes.
-
-Examples:
-
-- InputValidationService
-- LoggingService
-
----
-
-# Current API Architecture
-
-Browser / API Client
-    ↓
-StockFlow.Api
-    ↓
-Controllers
-    ↓
-Data Source
-    ↓
-JSON Response
-
-Current API data sources:
-
-- ProductsController uses ProductRepository and SQLite.
-- OrdersController uses typed temporary sample order data.
-- PaymentsController uses typed temporary sample payment data.
-- DashboardController uses typed temporary sample dashboard data.
-
-Current API project:
+### Product and inventory management
 
 ```text
-StockFlow.Api/
-├── Controllers/
-│   ├── ProductsController.cs
-│   ├── OrdersController.cs
-│   ├── PaymentsController.cs
-│   └── DashboardController.cs
-├── Program.cs
-├── appsettings.json
-└── StockFlow.Api.csproj
+Console menu
+    |
+    v
+InventoryService ──> ProductManager (pure product rules, where used)
+    |
+    v
+ProductRepository ──> SQLite Products
 ```
 
-Current API notes:
+Product management covers read, create, update, deactivate, reactivate, and controlled deletion. Soft deletion is preferred where transaction history must be preserved. `AlertService` evaluates low-stock conditions from current product records.
 
-- The API project was introduced in v0.4.0.
-- OpenAPI document is available through `/openapi/v1.json`.
-- Swagger UI is not currently configured.
-- Product API endpoints were added in M25.
-- Order API endpoints were added in M26.
-- Payment API endpoints were added in M27.
-- Dashboard summary endpoint was added in M28.
-- Basic API validation and error response handling is being improved in M29.
-
-## Current Product API Flow
-
-HTTP GET Request
-    ↓
-ProductsController
-    ↓
-ProductManager
-    ↓
-ProductRepository
-    ↓
-SQLite Database
-    ↓
-HTTP JSON Response
-
-## Current API Controller Flows
-
-### Product API Flow
-
-HTTP GET Request
-    ↓
-ProductsController
-    ↓
-ProductRepository
-    ↓
-SQLite Database
-    ↓
-HTTP JSON Response
-
-### Order API Flow
-
-HTTP GET Request
-    ↓
-OrdersController
-    ↓
-Typed temporary sample order data
-    ↓
-HTTP JSON Response
-
-### Payment API Flow
-
-HTTP GET Request
-    ↓
-PaymentsController
-    ↓
-Typed temporary sample payment data
-    ↓
-HTTP JSON Response
-
-### Dashboard API Flow
-
-HTTP GET Request
-    ↓
-DashboardController
-    ↓
-Typed temporary sample dashboard summary data
-    ↓
-HTTP JSON Response
-
----
-
-# Current Database Preparation Architecture
+### Basket and checkout
 
 ```text
-Program.cs
-    ↓
-DatabaseConnectionService
-    ↓
-SQLite database file
-    ↓
-Products table
+List<BasketItem> (session)
+    |
+    v
+OrderService: validate current product availability and stock
+    |
+    +──> OrderRepository: insert order header
+    |            |
+    |            v
+    |        saved OrderId
+    |
+    +──> OrderItemRepository: insert each OrderItem using OrderId
+    |
+    +──> ProductRepository: persist deducted stock quantities
+    |
+    +──> StockMovementRepository: record stock-out history
+    |
+    v
+Clear basket only after successful checkout
 ```
 
-Current database notes:
+The order header is saved before its items so the items can use the generated parent `OrderId`. The current implementation coordinates multiple repository calls from `OrderService`; **a single cross-repository SQLite transaction is a reliability improvement still to be implemented/verified**. Do not describe checkout as atomic until that improvement exists.
 
-- SQLite has been added.
-- DatabaseConnectionService owns the connection string and initialization logic.
-- Products table can be created from C#.
-- ProductRepository has been started.
-- Most app flows still use lists and JSON persistence for now.
-
----
-
-## Current Dependency Direction
-
-StockFlow.Api → StockFlow.Core
-StockFlow.Api → StockFlow.Infrastructure
-
-StockFlow.Console → StockFlow.Core
-StockFlow.Console → StockFlow.Infrastructure
-
-StockFlow.Infrastructure → StockFlow.Core
-
-StockFlow.Core → no project references
-
-
-
-# Architecture Principles
-
-## Separation of Concerns
-
-Each part of the system should have a clear responsibility.
-
-- Models represent data.
-- Services perform business actions.
-- Repositories handle database access.
-- Data services handle file-based persistence.
-- Utilities provide reusable helper logic.
-- Controllers handle API requests and responses.
-- Program.cs coordinates startup and app flow.
-
-## Gradual Refactoring
-
-StockFlow is intentionally built in stages.
-
-The project starts with a working console system before being refactored into a more professional architecture.
-
-This allows the project to demonstrate:
-
-- Feature development
-- Refactoring
-- Database migration
-- API development
-- Better layering over time
-
----
-
-# Target Future Architecture
-
-A later version should move toward this structure:
+### Payment and order completion
 
 ```text
-src/
-├── StockFlow.Api/
-├── StockFlow.Console/
-├── StockFlow.Core/
-└── StockFlow.Infrastructure/
+PaymentService
+    |
+    +──> OrderRepository: find order and validate unpaid status
+    +──> PaymentRepository: insert payment
+    +──> OrderRepository: set PaymentStatus = Paid
+    +──> OrderRepository: set OrderStatus = Completed
 ```
 
-## Planned Project Responsibilities
+The order status is stored in SQLite. A later notification workflow reads the updated persisted order rather than relying on a stale in-memory order list. Payment insertion and order-status updates likewise require transaction-level consistency work before being considered atomic.
 
-### StockFlow.Core
-
-Will contain shared business models and business service contracts.
-
-Possible contents:
-
-- Models
-- Business rules
-- Service interfaces
-- DTOs if needed
-
-### StockFlow.Infrastructure
-
-Will contain technical implementation details.
-
-Possible contents:
-
-- Repositories
-- Database connection
-- SQLite implementation
-- Logging implementation
-- External integrations
-
-### StockFlow.Api
-
-Will contain Web API-specific code.
-
-Possible contents:
-
-- Controllers
-- API request/response models
-- API validation
-- API startup configuration
-
-### StockFlow.Console
-
-Will contain console-specific code.
-
-Possible contents:
-
-- Console menu
-- Console input and output
-- Console-only workflow
-
----
-
-# Target Future Flow
+### Receipt generation and export
 
 ```text
-Frontend / API Client
-    ↓
-StockFlow.Api
-    ↓
-Services
-    ↓
-Repositories
-    ↓
-SQLite Database
+ReceiptService
+    |
+    +──> PaymentRepository: find payment
+    +──> ReceiptRepository: check for existing receipt (in progress)
+    +──> OrderRepository: load associated order
+    +──> OrderItemRepository: load purchased items
+    +──> ReceiptRepository: save or retrieve receipt
+    +──> Console display / text-file export
 ```
 
-Console target flow:
+Receipt output includes item snapshots loaded from `OrderItems`. The intended rule is one receipt per payment; application-level duplicate protection is being added and a database uniqueness constraint should be considered for stronger enforcement.
+
+### Inventory movements, alerts, and notifications
 
 ```text
-Console User
-    ↓
-StockFlow.Console
-    ↓
-Services
-    ↓
-Repositories
-    ↓
-SQLite Database
+StockMovementService ──> ProductRepository (current quantity)
+                  └────> StockMovementRepository (movement history)
+
+AlertService ──────────> ProductRepository (low-stock data)
+
+NotificationService ───> Product / Order / Receipt repositories
+                    └─> NotificationRepository (saved notification)
+
+DashboardService / SalesReportService
+                    └─> relevant repositories (current summaries)
 ```
 
-Shared logic target:
+Stock-in uses a positive `QuantityChanged`; stock-out uses a negative value; adjustments may be positive, negative, or zero. Notifications are simulations, not actual outgoing emails.
+
+## 7. API Architecture and Integration Status
+
+The API is a separate ASP.NET Core entry point. Controllers own HTTP concerns and may use Core business logic and Infrastructure repositories through configured dependencies.
 
 ```text
-StockFlow.Api      StockFlow.Console
-       ↓                 ↓
-          StockFlow.Core
-                ↓
-      StockFlow.Infrastructure
-                ↓
-           SQLite Database
+HTTP request
+    |
+    v
+StockFlow.Api controller
+    |
+    +──> Core business rules, where integrated
+    +──> Infrastructure repository, where integrated
+    |
+    v
+HTTP JSON response
 ```
 
----
+| API area | Documented integration state |
+| --- | --- |
+| Products | Reads from `ProductRepository` / SQLite and uses `ProductManager` for low-stock calculation |
+| Orders | Earlier implementation uses typed temporary sample data; live repository integration not yet confirmed |
+| Payments | Earlier implementation uses typed temporary sample data; live repository integration not yet confirmed |
+| Dashboard | Earlier implementation uses typed temporary sample data; live repository integration not yet confirmed |
 
-# Current Known Architecture Limitations
+The OpenAPI JSON document is available at `/openapi/v1.json` when the API is running. Exact routes, responses, and verification status are tracked in [`api-design.md`](api-design.md). No live order/payment/dashboard integration should be claimed until the corresponding controllers have been checked.
 
-- The console app still contains the main working business flow.
-- The API project has started repository integration for product read endpoints, but it is not fully integrated with all business services yet.
-- JSON persistence still exists.
-- SQLite integration has started but is not yet the main storage flow.
-- ProductRepository is currently used by the Product API endpoints, but other repositories are not implemented yet.
-- Other repositories are not implemented yet.
-- No shared Core or Infrastructure class library exists yet.
-- No automated tests yet.
-- Authentication and authorization are not implemented yet.
+## 8. Cross-Cutting Concerns
 
-## Current Service Layer Decision
+### Validation and error handling
 
-Current services remain in StockFlow.Console because they depend heavily on InputValidationService, Console.ReadLine, and Console.WriteLine.
+Console input validation lives in `InputValidationService`. SQL parameters are used in repositories for values supplied to SQL commands. Controllers handle HTTP-specific validation and response codes. These measures do not replace transaction checks or database constraints.
 
-This means they are still console workflow services.
+### Logging
 
-They should not be moved directly into StockFlow.Core.
+`LoggingService` supports application diagnostics. Its original JSON save/load logging context is historical; logging coverage of newer SQLite workflows should be verified separately rather than assumed.
 
-Future refactoring will extract pure business logic into new Core services that receive clean values as parameters and return results without directly reading from or writing to the console.
+### Database lifecycle and diagnostics
 
-## M36 Service Extraction Pattern
+`DatabaseConnectionService` owns connection configuration and schema initialization (`InitializeDatabase()`). Development helpers such as `GetDatabaseFilePath()` and `ResetDatabase()` may be available as the ongoing refactor is completed. Reset must be restricted to development/testing, require deliberate user confirmation in the Console, and clear the current basket if invoked during an active session. Tests should use an **isolated database path**, never the working development database.
 
-M36 started extracting pure business logic into StockFlow.Core.
+`CREATE TABLE IF NOT EXISTS` creates missing tables; it does not migrate the shape of existing tables. Schema changes require an explicit migration strategy or a deliberate development reset.
 
-The current approach is:
+### Testing
 
-Console service:
-- asks for user input
-- validates console input
-- prints messages
-- calls Core business service
+Manual regression checks currently verify the end-to-end Console workflow. Automated unit and repository integration tests are planned, with independent temporary SQLite databases and a repeatable `dotnet test` command. A successful build alone does not verify business behavior or persistence.
 
-Core service:
-- receives clean values as parameters
-- applies business rules
-- creates or updates models
-- returns results
-- does not use Console.ReadLine
-- does not use Console.WriteLine
-- does not depend on InputValidationService
+### Security and deployment
 
-This keeps StockFlow.Core reusable by the Console app, API, future frontend, and tests.
+Authentication, role-based authorization, production deployment configuration, and real email delivery are not implemented in the current architecture. Database reset and destructive product operations require stricter controls before production use.
 
-## M37 Product API Integration Flow
+## 9. Architecture Principles and Constraints
 
-M37 connected the Product API to both the Core and Infrastructure layers.
+1. **Separation of concerns:** Entry points handle interfaces; Console services coordinate workflows; Core holds reusable business rules; Infrastructure implements persistence.
+2. **Dependency direction:** Core depends on no application or Infrastructure project. Neither application entry point references the other.
+3. **Single persistent source of truth:** SQLite owns saved business records; repository results are working copies.
+4. **Intentional session state:** Keep the basket in memory until requirements call for persisted baskets.
+5. **Explicit related-data loading:** Load `OrderItems` when full order details or receipts require them.
+6. **Historical integrity:** Preserve product snapshots in order items; prefer product deactivation over deletion when history exists.
+7. **Incremental refactoring:** Keep existing behavior testable while removing transitional list and JSON dependencies.
+8. **Verifiable documentation:** Record current implementation here and milestone progress in `milestone-plan.md`; do not imply future work is already complete.
 
-Current Product API flow:
+### Current constraints and improvement priorities
 
-HTTP GET Request
-    ↓
-ProductsController
-    ↓
-ProductManager
-    ↓
-ProductRepository
-    ↓
-SQLite Database
-    ↓
-HTTP JSON Response
+| Area | Current constraint or work in progress |
+| --- | --- |
+| Console architecture | Some services and `Program.cs` still contain transitional list arguments or legacy setup |
+| Transaction consistency | Multi-repository checkout and payment writes are not yet verified to run atomically |
+| Receipts | Duplicate-per-payment protection is being implemented/verified |
+| API | Non-product areas may still use sample data |
+| Automated tests | Repository isolation and regression suite are planned |
+| Production security | Authentication, roles, and guarded administrative operations remain future work |
 
-Layer responsibilities:
+These are maintained as **current constraints**, not milestone-specific subsections. Remove or revise each row when the implementation changes.
 
-- ProductsController handles HTTP requests and responses.
-- ProductManager contains reusable product business rules.
-- ProductRepository handles product database access.
-- DatabaseConnectionService manages SQLite setup and connection details.
-- Product model is stored in StockFlow.Core.
+## 10. Maintenance Rules
 
-Current behavior:
+Keep this document stable as the project grows:
 
-- `GET /api/products` returns active products from SQLite.
-- `GET /api/products/{productCode}` returns one product and includes calculated low-stock status.
-- Missing products return `404 Not Found`.
-
-Current limitation:
-
-- Product API only supports read operations.
-- Other API areas are not yet fully connected to Core and Infrastructure.
-
-### SQLite-backed application flow
-
-StockFlow is transitioning from JSON-based storage to SQLite-backed repository storage.
-
-Current flow:
-
-Console/API
-→ Repository
-→ DatabaseConnectionService
-→ SQLite database
-
-DatabaseConnectionService initializes the database tables before repositories are used.
-
-Repositories are responsible for database actions.
-DatabaseConnectionService is responsible for database connection setup and table initialization.
-Core models remain in StockFlow.Core.
-Infrastructure repositories remain in StockFlow.Infrastructure.
-
-### Console SQLite product read flow
-
-The Console app has started using the SQLite repository layer for product reading.
-
-Current product read flow:
-
-StockFlow.Console
-→ ProductRepository
-→ DatabaseConnectionService
-→ SQLite Products table
-
-ProductRepository belongs to StockFlow.Infrastructure.
-Product models belong to StockFlow.Core.
-The Console app still uses List<Product> as a temporary working copy after database records are read.
-
-Current limitation:
-
-Only the product read/display flow has started moving to SQLite. Other flows may still use JSON or in-memory lists during the transition.
-
-### Console SQLite product add flow
-
-The Console app now saves new products through the SQLite repository layer.
-
-Current product add flow:
-
-StockFlow.Console
-→ InventoryService
-→ ProductRepository
-→ DatabaseConnectionService
-→ SQLite Products table
-
-After saving the product, the Console app refreshes List<Product> from SQLite so the in-memory list reflects the latest database state.
-
-### Console SQLite product management flow
-
-The Console app now sends product update, deactivate, reactivate, and delete actions through ProductRepository.
-
-Current product management flow:
-
-StockFlow.Console
-→ InventoryService
-→ ProductRepository
-→ DatabaseConnectionService
-→ SQLite Products table
-
-After each product change, the Console app refreshes List<Product> from SQLite so the working list reflects the latest database state.
-
-### Console SQLite checkout order flow
-
-The Console checkout flow now saves order data through repository classes.
-
-Current checkout saving flow:
-
-StockFlow.Console
-→ OrderService
-→ OrderRepository
-→ OrderItemRepository
-→ DatabaseConnectionService
-→ SQLite Orders and OrderItems tables
-
-The Orders table stores the order summary.
-The OrderItems table stores the products included in the order.
-
-After the order is saved, StockFlow retrieves the saved order by OrderNumber to get the SQLite-generated OrderId. That OrderId is then used to save each order item under the correct parent order.
-
-### Console SQLite payment and receipt flow
-
-The Console app now saves payment and receipt data through repository classes.
-
-Current payment saving flow:
-
-StockFlow.Console
-→ PaymentService
-→ PaymentRepository
-→ DatabaseConnectionService
-→ SQLite Payments table
-
-Current receipt saving flow:
-
-StockFlow.Console
-→ ReceiptService
-→ ReceiptRepository
-→ DatabaseConnectionService
-→ SQLite Receipts table
-
-Payments are linked to orders using OrderId and OrderNumber.
-Receipts are linked to both orders and payments using OrderId, PaymentId, OrderNumber, and PaymentNumber.
-
-### Console SQLite stock movement and notification flow
-
-The Console app now saves stock movement and notification records through repository classes.
-
-Stock movement flow:
-
-StockFlow.Console
-→ StockMovementService
-→ StockMovementRepository
-→ DatabaseConnectionService
-→ SQLite StockMovements table
-
-Notification flow:
-
-StockFlow.Console
-→ NotificationService
-→ NotificationRepository
-→ DatabaseConnectionService
-→ SQLite Notifications table
-
-Stock movements record inventory changes such as stock-in, stock-out, and adjustment.
-Notifications record simulated system alerts and email events.
-
-# Architecture Improvement Plan
-
-- v0.4.0 - Introduce Web API endpoints.
-- v0.5.0 - Create shared Core and Infrastructure projects.
-- v0.6.0 - Make SQLite the main storage system.
-- v0.7.0 - Add authentication and user roles.
-- v0.8.0 - Add frontend dashboard.
-- v0.9.0 - Add automated tests and production-readiness improvements.
+- **Update existing sections in place** when classes, dependencies, data ownership, or flows change. Do not add “Mxx architecture update” sections.
+- **Update the solution tree and component inventory** only when projects or responsibilities change, not for every new method.
+- **Maintain diagrams at the workflow level**. Repository method signatures and table schemas belong in code and `database-design.md`.
+- **State current vs. planned behavior explicitly**. Move work out of the constraints table only after code review and tests support the change.
+- **Record why an important architectural decision changed** in an Architecture Decision Record (ADR) if needed; record when in `release-notes.md` and its milestone status in `milestone-plan.md`.
+- **Review this file before each release** and update the “Last reviewed” date after checking it against the repository.

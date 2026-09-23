@@ -1,454 +1,328 @@
 # StockFlow Database Design
 
-Last updated: 2026-09-05
+**Status:** Active technical reference  
+**Last reviewed:** 2026-09-24  
+**Database:** SQLite  
+**Owner:** StockFlow development project
 
-## Version
+## 1. Purpose and Scope
 
-v0.3.0 - Database-Ready Inventory System
+This document defines StockFlow's **persistent data model**, its relationships, data conventions, and database lifecycle. It describes the schema the application is intended to maintain; it is not a milestone journal or a record of every repository change.
 
-## Purpose
+- **Requirements:** [`requirements.md`](requirements.md) defines *what* the system must do.
+- **Business rules:** [`business-rules.md`](business-rules.md) defines the rules applied to transactions.
+- **Architecture:** [`architecture.md`](architecture.md) describes where database responsibilities belong.
+- **Milestones:** [`milestone-plan.md`](milestone-plan.md) tracks progress.
+- **Release notes:** [`release-notes.md`](release-notes.md) records changes over time.
 
-This document describes the planned database structure for StockFlow.
+Update the existing entity, relationship, or operations section when the design changes. Do not add a new section for every milestone.
 
-The goal is to prepare the system for database-backed storage while preserving important business records such as products, orders, payments, receipts, stock movements, and notifications.
+## 2. Database Overview
 
----
+### 2.1 Storage architecture
 
-# Current Storage
-
-StockFlow currently still uses JSON file storage for the main console app flow.
-
-```text
-StockFlow.Console
-    ↓
-JsonStorageService
-    ↓
-Local JSON files
-```
-
-# Planned Storage
-
-StockFlow will move toward repository-based database storage.
+SQLite is the primary persistent store for the Console application's business records. The repository-first service refactor is still being completed. `BasketItem` is intentionally kept in memory for the current Console session; it becomes persisted `Order` and `OrderItem` data at checkout.
 
 ```text
-Application
-    ↓
-Services
-    ↓
-Repositories
-    ↓
-SQLite Database
+StockFlow.Console / StockFlow.Api
+             |
+     Application workflows
+             |
+  Infrastructure repositories
+             |
+  DatabaseConnectionService
+             |
+       SQLite database
 ```
 
----
+`StockFlow.Core` defines the shared entity models. `StockFlow.Infrastructure` contains `DatabaseConnectionService` and repository implementations. The API's integration status varies by endpoint; see `api-design.md` rather than assuming every API endpoint uses SQLite.
+
+### 2.2 Schema inventory
+
+| Table | Responsibility | Repository |
+| --- | --- | --- |
+| `Products` | Product catalog and current quantity | `ProductRepository` |
+| `Orders` | Checkout summary and order status | `OrderRepository` |
+| `OrderItems` | Purchased-product snapshots for each order | `OrderItemRepository` |
+| `Payments` | Payment transactions and amounts | `PaymentRepository` |
+| `Receipts` | Generated proof of payment | `ReceiptRepository` |
+| `StockMovements` | Inventory movement history | `StockMovementRepository` |
+| `Notifications` | Simulated alerts and notification history | `NotificationRepository` |
+
+Possible future entities include users, roles, customers, suppliers, categories, and audit logs. They are **not part of this current schema**.
 
-# Planned Tables
-
-Main planned tables:
-
-- Products
-- Orders
-- OrderItems
-- Payments
-- Receipts
-- StockMovements
-- Notifications
-
-Future possible tables:
-
-- Users
-- Roles
-- Customers
-- Suppliers
-- Categories
-- AuditLogs
-
----
-
-# Table Design Summary
-
-## Products
-
-Purpose:
-
-Stores the product catalog and current inventory quantity.
-
-Main columns:
-
-- ProductId - Primary key
-- ProductCode - Unique product code
-- Name
-- Category
-- UnitPrice
-- QuantityInStock
-- ReorderLevel
-- IsActive
-
-Design notes:
-
-- Products should be deactivated instead of hard deleted when transaction history exists.
-- `IsActive = 1` means active.
-- `IsActive = 0` means inactive.
-- ProductCode should be treated as the business-facing product identifier.
-
-Current implementation status:
-
-- Products table is initialized from C#.
-- ProductRepository is implemented in StockFlow.Infrastructure.
-- ProductRepository supports product create, read, update, deactivate, and delete operations.
-- Product API currently uses ProductRepository for read operations.
-- Full Console product flow is not yet fully SQLite-backed.
-
-## Orders
-
-Purpose:
-
-Stores checkout transactions.
-
-Main columns:
-
-- OrderId - Primary key
-- OrderNumber - Unique order number
-- OrderDate
-- TotalAmount
-- OrderStatus
-- PaymentStatus
-
-Design notes:
-
-- Orders are created during checkout.
-- An order should only be completed after payment is processed.
-- OrderNumber is the user-facing business reference.
-
-Current implementation status:
-
-- Orders table is initialized from C#.
-- OrderRepository has been added to StockFlow.Infrastructure.
-- OrderRepository supports adding orders, reading all orders, finding orders by order number, and updating order/payment status.
-- Order items are planned for M41.
-
-## OrderItems
-
-Purpose:
-
-Stores the individual products inside each order.
-
-Main columns:
-
-- OrderItemId - Primary key
-- OrderId - Foreign key to Orders
-- ProductId - Foreign key to Products
-- ProductCode
-- ProductName
-- Quantity
-- UnitPrice
-- LineTotal
-
-Design notes:
-
-- One order can have many order items.
-- Order items store product snapshot data.
-- Product name and unit price are saved here so old receipts remain accurate even if product details change later.
-
-Current implementation status:
-
-- OrderItems table is initialized from C#.
-- OrderItemRepository has been added to StockFlow.Infrastructure.
-- OrderItemRepository supports adding order items and retrieving order items by OrderId.
-- Full checkout integration is planned for a later milestone.
-
-## Payments
-
-Purpose:
-
-Stores payment records for orders.
-
-Main columns:
-
-- PaymentId - Primary key
-- PaymentNumber - Unique payment number
-- OrderId - Foreign key to Orders
-- OrderNumber
-- PaymentDate
-- PaymentMethod
-- AmountDue
-- AmountPaid
-- ChangeAmount
-- PaymentStatus
-
-Design notes:
-
-- AmountDue is the actual sales income.
-- AmountPaid is the money received from the customer.
-- ChangeAmount is the money returned to the customer.
-- PaymentNumber is the user-facing payment reference.
-
-Current implementation status:
-
-- Payments table is initialized from C#.
-- PaymentRepository has been added to StockFlow.Infrastructure.
-- PaymentRepository supports adding payments, reading all payments, finding one payment by payment number, and getting payments by order number.
-- PaymentNumber is used to identify one specific payment transaction.
-- OrderNumber is used to group payments under one order.
-- The design can support future partial payments, split payments, and payment history tracking.
-
-## Receipts
-
-Purpose:
-
-Stores receipt records generated from paid orders.
-
-Main columns:
-
-- ReceiptId - Primary key
-- ReceiptNumber - Unique receipt number
-- OrderId - Foreign key to Orders
-- PaymentId - Foreign key to Payments
-- OrderNumber
-- PaymentNumber
-- ReceiptDate
-- TotalAmount
-- PaymentMethod
-- AmountPaid
-- ChangeAmount
-
-Design notes:
-
-- A receipt should only be generated for a paid order.
-- Receipts are used for transaction proof, viewing, and future export or reprinting.
-- ReceiptNumber is the user-facing receipt reference.
-
-Current implementation status:
-
-- Receipts table is initialized from C#.
-- ReceiptRepository has been added to StockFlow.Infrastructure.
-- ReceiptRepository supports adding receipts, reading all receipts, finding one receipt by receipt number, and getting receipts by order number.
-- ReceiptNumber is used to identify one specific issued receipt.
-- OrderNumber is used to retrieve receipts connected to one order.
-- Receipts are linked to Orders and Payments through OrderId and PaymentId.
-
-## StockMovements
-
-Purpose:
-
-Stores inventory quantity changes.
-
-Main columns:
-
-- StockMovementId - Primary key
-- ProductId - Foreign key to Products
-- ProductCode
-- ProductName
-- MovementType
-- QuantityChanged
-- StockBefore
-- StockAfter
-- Reason
-- MovementDate
-
-Design notes:
-
-- Stock movements create an inventory audit trail.
-- QuantityChanged can be positive, negative, or zero.
-- Stock In is usually positive.
-- Stock Out is usually negative.
-- Adjustment can be positive, negative, or zero.
-
-Current implementation status:
-
-- StockMovements table is initialized from C#.
-- StockMovementRepository has been added to StockFlow.Infrastructure.
-- StockMovementRepository supports adding stock movements, reading all stock movements, retrieving movements by product code, and retrieving movements by reference number.
-- QuantityChanged stores positive values for stock increases and negative values for stock decreases.
-- ReferenceNumber can be used to connect movement history to an order, receipt, or adjustment.
-
-## Notifications
-
-Purpose:
-
-Stores notification records generated by the app.
-
-Main columns:
-
-- NotificationId - Primary key
-- NotificationType
-- Recipient
-- Subject
-- Message
-- CreatedAt
-- Status
-
-Design notes:
-
-- Notifications are simulated for now.
-- This table prepares the system for future real email sending.
-- Possible future statuses include Pending, Sent, Failed, and Simulated.
-
-Current implementation status:
-
-- Notifications table is initialized from C#.
-- NotificationRepository has been added to StockFlow.Infrastructure.
-- NotificationRepository supports adding notifications, reading all notifications, reading unread notifications, and marking notifications as read.
-- IsRead uses 0 or 1 in SQLite and is converted to true or false in C#.
-- RelatedReference is optional and can connect a notification to a product, order, payment, receipt, or stock movement.
-
----
-
-# Relationship Summary
-
-- One product can appear in many order items.
-- One order can contain many order items.
-- One order can have one payment.
-- One payment can have one receipt.
-- One product can have many stock movements.
-- Notifications store system-generated message history.
+## 3. Logical Data Model
+
+The lists below document the currently described model and table columns. The SQL in `DatabaseConnectionService.InitializeDatabase()` remains the definitive reference for exact column constraints in a specific checkout of the code.
+
+### 3.1 Products
+
+**Purpose:** Maintain the product catalog, availability, pricing, and current stock quantity.
+
+| Column | Purpose |
+| --- | --- |
+| `ProductId` | SQLite-generated primary key |
+| `ProductCode` | Unique business-facing product identifier |
+| `Name` | Product name |
+| `Category` | Product classification |
+| `UnitPrice` | Current selling price |
+| `QuantityInStock` | Current quantity available |
+| `ReorderLevel` | Low-stock threshold |
+| `IsActive` | Active/inactive flag (`1`/`0`) |
+
+**Design rules:** Products at or below `ReorderLevel` are low-stock when active. Normal removal should use deactivation so historical transactions remain meaningful. Hard deletion requires special care when related order items or movements exist.
+
+### 3.2 Orders
+
+**Purpose:** Store one checkout's summary and its order/payment lifecycle.
+
+| Column | Purpose |
+| --- | --- |
+| `OrderId` | SQLite-generated primary key |
+| `OrderNumber` | Unique business-facing order reference |
+| `OrderDate` | Checkout timestamp |
+| `TotalAmount` | Recorded order total |
+| `OrderStatus` | Order lifecycle status |
+| `PaymentStatus` | Payment lifecycle status |
+
+**Design rules:** A newly checked-out order is initially `Pending Payment` / `Unpaid` in the current Console flow. After successful payment, the application updates its statuses to `Completed` / `Paid`. The parent `OrderId` is needed when saving its items.
+
+### 3.3 OrderItems
+
+**Purpose:** Preserve the purchased items and prices at the time of checkout.
+
+| Column | Purpose |
+| --- | --- |
+| `OrderItemId` | SQLite-generated primary key |
+| `OrderId` | Reference to the parent order |
+| `ProductId` | Reference to the product |
+| `ProductCode` | Product code snapshot |
+| `ProductName` | Product name snapshot |
+| `Quantity` | Units purchased |
+| `UnitPrice` | Price at checkout |
+| `LineTotal` | `Quantity × UnitPrice` at checkout |
+
+An `OrderItem` model should contain **both** `OrderItemId` and `OrderId`. At checkout, the service saves the order first, retrieves its generated `OrderId`, and inserts each item using that ID. The repository should load both IDs when reconstructing an item.
+
+The item snapshots must not be silently changed when the catalog product is later renamed or repriced. Clearing the temporary basket does not remove persisted order items.
+
+### 3.4 Payments
+
+**Purpose:** Record money collected for orders.
+
+| Column | Purpose |
+| --- | --- |
+| `PaymentId` | SQLite-generated primary key |
+| `PaymentNumber` | Unique business-facing payment reference |
+| `OrderId` | Reference to the paid order |
+| `OrderNumber` | Readable order reference |
+| `PaymentDate` | Payment timestamp |
+| `PaymentMethod` | Selected payment channel |
+| `AmountDue` | Amount owed for the transaction |
+| `AmountPaid` | Amount tendered |
+| `ChangeAmount` | Amount returned, if any |
+| `PaymentStatus` | Payment lifecycle status |
+
+**Reporting rule:** `AmountDue` is the sale amount for a fully paid transaction. `AmountPaid` includes any overpayment subsequently returned as change, so it should not be treated as sales income without adjustment. The current Console flow processes full payments; multiple or partial payments are possible future requirements, not verified current behavior.
+
+### 3.5 Receipts
+
+**Purpose:** Record proof of payment and support display, reprinting, and text export.
+
+| Column | Purpose |
+| --- | --- |
+| `ReceiptId` | SQLite-generated primary key |
+| `ReceiptNumber` | Unique business-facing receipt reference |
+| `OrderId` | Reference to the related order |
+| `PaymentId` | Reference to the related payment |
+| `OrderNumber` | Readable order reference |
+| `PaymentNumber` | Readable payment reference |
+| `ReceiptDate` | Receipt creation timestamp |
+| `TotalAmount` | Transaction total snapshot |
+| `PaymentMethod` | Payment method snapshot |
+| `AmountPaid` | Tendered amount snapshot |
+| `ChangeAmount` | Change snapshot |
+
+**Current intended rule:** At most one receipt per payment. The service should check for an existing receipt before inserting. Whether the database also enforces `UNIQUE(PaymentId)` must be checked against the actual initialization SQL; application validation alone does not eliminate concurrency races. Receipt item details are currently obtained by loading the related order's `OrderItems`, not from a separate `ReceiptItems` table.
+
+### 3.6 StockMovements
+
+**Purpose:** Explain how and why available stock changed.
+
+| Column | Purpose |
+| --- | --- |
+| `StockMovementId` | SQLite-generated primary key |
+| `ProductId` | Reference to the product |
+| `ProductCode` | Readable product reference |
+| `ProductName` | Product name at recording time |
+| `MovementType` | Such as `Stock In`, `Stock Out`, or `Adjustment` |
+| `QuantityChanged` | Signed inventory difference |
+| `StockBefore` | Quantity before the change |
+| `StockAfter` | Quantity after the change |
+| `Reason` | Explanation for the movement |
+| `MovementDate` | Event timestamp |
+| `ReferenceNumber` | Related order or other business reference, if applicable |
+
+A stock increase has a positive `QuantityChanged`; a sale stock-out has a negative value. Adjustments may be positive, negative, or zero. For a valid movement, `StockAfter = StockBefore + QuantityChanged`.
+
+### 3.7 Notifications
+
+**Purpose:** Preserve simulated email/alert history and support future real notification delivery.
+
+| Column | Purpose |
+| --- | --- |
+| `NotificationId` | SQLite-generated primary key |
+| `NotificationType` | Type of business event |
+| `Recipient` | Intended recipient |
+| `Subject` | Message subject |
+| `Title` | Display title |
+| `Message` | Notification body |
+| `RelatedReference` | Related business reference, if any |
+| `IsRead` | Read state (`1`/`0`) |
+| `CreatedAt` | Creation timestamp |
+| `Status` | Current notification status, e.g. `Simulated` |
+
+Notifications are currently simulated; a saved row does **not** mean an email was actually sent.
+
+## 4. Relationships and Integrity
+
+### 4.1 Entity relationships
 
 ```text
-Products
-   ↓
-OrderItems
-   ↑
-Orders
-   ↓
-Payments
-   ↓
-Receipts
+Products (1) ───────────< OrderItems >─────────── (1) Orders
+    |                                                |
+    └─────────< StockMovements                      └──< Payments
+                                                         |
+                                                         └──< Receipts
 
-Products
-   ↓
-StockMovements
-
-Notifications
+Notifications: related business events are currently identified with
+RelatedReference rather than a universal database foreign key.
 ```
 
----
+| Parent | Child | Relationship / intended rule |
+| --- | --- | --- |
+| `Orders.OrderId` | `OrderItems.OrderId` | One order has many items |
+| `Products.ProductId` | `OrderItems.ProductId` | One product can appear in many items |
+| `Orders.OrderId` | `Payments.OrderId` | Current flow allows one completed payment per order; future partial payments could change this |
+| `Orders.OrderId` | `Receipts.OrderId` | A receipt refers to its order |
+| `Payments.PaymentId` | `Receipts.PaymentId` | Current intended rule: at most one receipt per payment |
+| `Products.ProductId` | `StockMovements.ProductId` | One product can have many stock movements |
 
-# Data Type Notes
+**Enforcement note:** Confirm actual `FOREIGN KEY`, `UNIQUE`, and delete constraints in `InitializeDatabase()` before claiming they are guaranteed by SQLite. SQLite foreign-key enforcement also depends on connection configuration such as `PRAGMA foreign_keys = ON`.
 
-Planned database type guide:
+### 4.2 Internal IDs and business references
 
-- INTEGER - IDs, quantities, boolean values in SQLite
-- TEXT - names, codes, statuses, messages
-- DECIMAL(10,2) - money values
-- DATETIME - dates and timestamps
+Internal IDs (`ProductId`, `OrderId`, `OrderItemId`, `PaymentId`, `ReceiptId`, `StockMovementId`, `NotificationId`) identify database rows. Business references (`ProductCode`, `OrderNumber`, `PaymentNumber`, `ReceiptNumber`) are intended for users, display, and lookup.
 
-SQLite boolean note:
+SQLite creates internal row IDs. The application currently generates business references; generating them from the highest stored ID is adequate for a single-user learning workflow but is not a complete concurrency-safe numbering strategy.
+
+### 4.3 Historical consistency
+
+Order item names and prices, payment amounts, and receipt transaction details are snapshots of completed activity. Changes to the current product catalog should not rewrite past transactions. Product deactivation is preferable to hard deletion where transactional history references the product.
+
+## 5. Data Types and Mapping Conventions
+
+| Data | Current convention | Important qualification |
+| --- | --- | --- |
+| IDs and quantities | SQLite `INTEGER` ↔ C# `int` | Exact PK definition comes from initialization SQL |
+| Names, codes, statuses, messages | SQLite `TEXT` ↔ C# `string` | Required/nullable constraints vary by column |
+| Money | SQL declarations such as `DECIMAL(10,2)` ↔ C# `decimal` | SQLite does not enforce decimal precision or fixed scale from the declaration alone; verify monetary round-tripping |
+| Timestamps | Timestamp text ↔ C# `DateTime` | Current repositories serialize/parse dates; use a consistent format |
+| Booleans | SQLite `INTEGER` (`0`/`1`) ↔ C# `bool` | Reader mapping typically uses `GetInt32(...) == 1` |
+| Optional references | Nullable SQL field ↔ nullable C# property where appropriate | Check `IsDBNull` before reading null values |
+
+**Reader-mapping rule:** Explicit `SELECT` column order must match the positional indexes in each `MapReaderTo...()` helper. A misplaced index can cause conversion errors (for example, parsing an order number as a date). Maintain consistent SELECT lists for all methods sharing one mapper.
+
+## 6. Persistence and Transaction Flows
+
+### 6.1 Initialization and repository access
+
+`DatabaseConnectionService` supplies the SQLite connection string and creates required tables using `CREATE TABLE IF NOT EXISTS`. Repositories use `Microsoft.Data.Sqlite` commands with SQL parameters for supplied values. Run initialization before executing repository operations.
+
+`CREATE TABLE IF NOT EXISTS` **does not migrate an existing table**. Changes to columns or constraints require an explicit migration or a disposable development database reset.
+
+### 6.2 Checkout
 
 ```text
-1 = true
-0 = false
+Validate basket against current Products
+  → create Order and insert into Orders
+  → obtain generated OrderId
+  → insert related OrderItems
+  → update affected Product quantities
+  → insert Stock Out movements using OrderNumber
+  → clear temporary basket after successful completion
 ```
 
-Example:
+**Current reliability gap:** The previously reviewed Console implementation calls multiple repository operations using separate connections. Until a shared transaction coordinates the inserts and stock updates, a failure midway could leave a partially completed checkout. Implement and test atomic checkout before treating the database workflow as production-safe.
 
-```text
-IsActive = 1 means active
-IsActive = 0 means inactive
-```
+### 6.3 Payment and receipt
 
----
+A successful payment saves a `Payment` row linked to an existing order and updates order/payment status. Receipt generation locates the saved payment, checks for an existing receipt, loads the related order and its items for display, and saves the receipt linked to the payment and order.
 
-# Database Design Rules
+The current process should be regression-tested for consistent `Completed` / `Paid` statuses, prevention of duplicate payments and receipts, and recovery from partial failures. Treat multi-write payment updates as a candidate for a shared transaction.
 
-- Product records should be deactivated instead of hard deleted when transaction history exists.
-- Order items should preserve historical product details.
-- Sales reports should use AmountDue as income.
-- Stock movements should explain why inventory quantity changed.
-- Receipts should be generated only for paid orders.
-- Notifications are simulated for now but prepare the app for future real email integration.
-- Future database access should be separated using repositories.
-- Generated database files should not be committed to Git.
+### 6.4 Stock adjustments and notification history
 
-# Current Limitations
+Stock-in and adjustment flows update `Products.QuantityInStock` and insert a matching `StockMovements` row. Notification simulation queries the relevant persisted records and stores simulated messages through `NotificationRepository`.
 
-- Only Products table is currently initialized from C#.
-- ProductRepository has been started.
-- Other repositories are not yet implemented.
-- Full app flow is not yet database-backed.
-- JSON persistence still exists.
+For reliability, the product quantity change and corresponding movement should eventually be saved within the same database transaction.
 
-## Current Database Implementation Status
+## 7. Database Lifecycle and Environments
 
-- SQLite integration has started.
-- DatabaseConnectionService has been moved to StockFlow.Infrastructure.
-- ProductRepository has been moved to StockFlow.Infrastructure.
-- ProductRepository currently supports product data access.
-- Product API endpoints use ProductRepository and SQLite.
-- Other repositories are not yet implemented.
-- Full database-backed application flow is planned for a later version.
+### 7.1 Location and configuration
 
-### Database initialization
+The current development configuration has used a relative path such as `Database/stockflow.db`. Its physical location depends on the process's working directory unless normalized centrally. `GetDatabaseFilePath()` can return `Path.GetFullPath(_databaseFilePath)` for troubleshooting; ideally the service consistently uses one normalized path for **both** connection creation and reset.
 
-Current implementation status:
-- DatabaseConnectionService creates the SQLite database folder.
-- DatabaseConnectionService opens a SQLite connection.
-- DatabaseConnectionService creates required tables using CREATE TABLE IF NOT EXISTS.
-- ExecuteNonQuery is used to run CREATE TABLE commands.
-- Database initialization currently creates tables for Products, Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications.
+Keep generated `.db`, `.db-shm`, and `.db-wal` files out of Git. Do not store production data or secrets in the repository.
 
-### Product read flow status
+### 7.2 Development reset and seed data
 
-Current implementation status:
+A **development-only** `ResetDatabase()` may delete the configured database file and call `InitializeDatabase()` to recreate all tables. It must be protected by explicit confirmation in the Console and must never point at production data. Clear any remaining in-memory basket state after reset. If product seeding is configured, document whether reset recreates sample products or leaves an empty catalog.
 
-- Products table is initialized by DatabaseConnectionService.
-- ProductRepository reads active product records from SQLite.
-- The Console app now begins using ProductRepository.GetActiveProducts() for product display.
-- Product data is loaded into List<Product> as a temporary in-memory working copy.
-- Product add/update/deactivate flow is planned for the next SQLite integration step.
+A file-level reset should only run when application connections to that file are closed. Handle SQLite sidecar files appropriately and use disposable test databases for automated tests.
 
-### Product add flow status
+### 7.3 Schema changes and migrations
 
-Current implementation status:
+For disposable development data, recreate the database when a schema changes. For data that must be retained, write a deliberate migration (for example, `ALTER TABLE`) and test it against a backup. Track future migration/versioning conventions here when implemented; do not describe a proposed migration system as active.
 
-- ProductRepository supports inserting new product records into SQLite.
-- InventoryService now uses ProductRepository.AddProduct() when adding products.
-- Newly added products are saved in the Products table.
-- The Console product list is refreshed from SQLite after adding a product.
+### 7.4 Test isolation
 
-### Product management flow status
+Automated integration tests should each use an isolated temporary SQLite database (or another clearly isolated supported setup) rather than the normal development `stockflow.db`. Important checks include initialization, CRUD, relationships, receipt uniqueness, stock consistency, reset behavior, and a complete checkout/payment/receipt workflow.
 
-Current implementation status:
+## 8. Security, Reliability, and Operational Constraints
 
-- Products can be updated through ProductRepository.UpdateProduct().
-- Products can be deactivated using ProductRepository.DeactivateProduct().
-- Products can be reactivated using ProductRepository.ReactivateProduct().
-- Products can be hard deleted using ProductRepository.DeleteProduct().
-- IsActive uses 1 or 0 in SQLite and is converted to true or false in C#.
-- GetActiveProducts() returns only active products.
-- GetAllProducts() returns both active and inactive products.
+- Use parameterized SQL for externally supplied values; do not interpolate user input into SQL commands.
+- Restrict destructive operations such as product hard deletion and database reset; application-level roles are planned, not yet enforced.
+- Favor explicit database transactions for workflows that must succeed or fail as one unit.
+- Verify foreign-key enforcement and uniqueness constraints on actual connections.
+- Use consistent status values and timestamps; validate money/quantity input before persistence.
+- Avoid duplicate business references and test behavior after deleting/deactivating records.
+- Do not infer successful notification delivery from `Status = Simulated`.
 
-### Order and order item saving flow status
+## 9. Open Design Items
 
-Current implementation status:
+This table is an ongoing list of architecture-level database gaps, **not** a milestone history. Update rows in place as the implementation changes.
 
-- Orders are saved to the Orders table using OrderRepository.
-- Order items are saved to the OrderItems table using OrderItemRepository.
-- OrderId links each order item to its parent order.
-- OrderNumber remains the business-facing order reference.
-- OrderId is generated by SQLite and should not be manually assigned by the app.
-- OrderItemId is generated by SQLite and should not be manually assigned by the app.
-- LineTotal stores the calculated total for each order item line.
+| Item | Current position | Verification / next decision |
+| --- | --- | --- |
+| Cross-repository transactions | Not confirmed in reviewed Console flow | Make checkout and multi-write stock/payment operations atomic |
+| Foreign-key enforcement | Table relationships described; connection-level enforcement not verified | Check SQL definitions and connection PRAGMA |
+| One receipt per payment | Intended business rule; service protection being added | Verify repository lookup and consider database UNIQUE constraint |
+| Business number generation | Derived from stored records in current learning implementation | Review collision handling for multi-user use |
+| Monetary storage | C# decimal with SQLite decimal-style declarations | Verify round-tripping; choose explicit storage policy before production |
+| Schema migrations | Manual/development reset approach | Define migrations when retaining user data matters |
+| Automated database tests | Planned | Add isolated integration tests and workflow regression coverage |
+| API parity | Product API is repository-backed; other endpoint integration needs code verification | Update `api-design.md` as endpoints are connected |
 
-### Payment and receipt saving flow status
+## 10. Document Maintenance
 
-Current implementation status:
+Treat sections **2–9 as stable headings**. Update the existing table or subsection when an entity, constraint, mapping rule, or data flow changes; create a new entity subsection only when the actual schema gains a new entity.
 
-- Payments are saved to the Payments table using PaymentRepository.
-- Receipts are saved to the Receipts table using ReceiptRepository.
-- PaymentId is generated by SQLite.
-- ReceiptId is generated by SQLite.
-- PaymentNumber is generated by StockFlow.
-- ReceiptNumber is generated by StockFlow.
-- Payments are linked to orders through OrderId.
-- Receipts are linked to orders and payments through OrderId and PaymentId.
+- Update **Section 3** when entity fields change.
+- Update **Section 4** when relationships or constraints change.
+- Update **Sections 5–7** when mapping, persistence, configuration, or migration conventions change.
+- Update **Sections 8–9** when reliability requirements or design decisions change.
+- Change **Last reviewed** only after checking the document against the relevant source files.
+- Record milestone completion in `milestone-plan.md` and historical changes in `release-notes.md`; do not append milestone-by-milestone updates here.
 
-### Stock movement and notification saving flow status
-
-Current implementation status:
-
-- Stock movement records are saved to the StockMovements table.
-- Notification records are saved to the Notifications table.
-- StockMovementId is generated by SQLite.
-- NotificationId is generated by SQLite.
-- Stock movements can be linked to orders or other references using ReferenceNumber.
-- Notifications can be linked to related business references using RelatedReference.
+**Source-of-truth reminder:** This document describes the maintained design. The current initialization SQL and repository implementations must be checked when exact database behavior matters.

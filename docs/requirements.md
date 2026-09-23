@@ -1,691 +1,243 @@
-# StockFlow Requirements
-
-## Document Purpose
-
-This document defines what StockFlow should do as a system.
-
-It should answer:
-
-- What features should StockFlow support?
-- What business needs should the system solve?
-- What rules should the system follow?
-- What requirements are implemented, in progress, planned, or deferred?
-
-This file should not be the main milestone tracker. Version and milestone progress are tracked in `docs/milestone-plan.md`.
-
-## Requirement Status Labels
-
-Use only these status labels to keep this document easy to update:
-
-- Implemented - already working
-- In Progress - currently being developed
-- Planned - planned for a future milestone or version
-- Deferred - moved to a later version
-- Future Enhancement - useful, but not part of the current MVP plan
-
-## Requirement ID Guide
-
-- INV - Inventory
-- ORD - Orders and basket
-- PAY - Payments
-- RCT - Receipts
-- STK - Stock movement
-- DASH - Dashboard and reporting
-- NOTIF - Notifications
-- USER - Users and roles
-- API - Web API
-- DB - Database
-- NFR - Non-functional requirements
-
-## How to Update This File
-
-When a milestone changes, update only the affected requirement cards.
-
-Do not repeat the full version roadmap here. Use short references only, such as:
-
-```text
-Related Milestone: M25
-```
-
-The full version roadmap belongs in `docs/milestone-plan.md`.
-
----
-
-# Functional Requirements
-
-## Inventory Management
-
-Business need:
-
-Small businesses need to create, view, search, update, deactivate, reactivate, and monitor products.
-
-#### INV-001 - Add Products
-
-- Requirement: The system should allow authorized users to add products.
-- Status: Implemented
-- Related Milestone: M02
-- Notes: Product code should be unique. Product name should not be empty.
-
-#### INV-002 - View Products
-
-- Requirement: The system should allow users or API clients to view product records.
-- Status: Implemented
-- Related Milestone: M01, M25
-- Notes: Console version is implemented. API version is currently part of M25.
-
-#### INV-003 - Search Products
-
-- Requirement: The system should allow users or API clients to search products by product code.
-- Status: Implemented
-- Related Milestone: M02, M25
-- Notes: API version should return 404 when the product code does not exist.
-
-#### INV-004 - Update Products
-
-- Requirement: The system should allow authorized users to update product details.
-- Status: Implemented
-- Related Milestone: M02
-- Notes: API and database-backed versions are planned for later.
-
-#### INV-005 - Deactivate Products
-
-- Requirement: The system should allow authorized users to deactivate products.
-- Status: Implemented
-- Related Milestone: M02
-- Notes: Deactivation should be preferred over hard deletion when transaction history exists.
-
-#### INV-006 - Reactivate Products
-
-- Requirement: The system should allow authorized users to reactivate inactive products.
-- Status: Implemented
-- Related Milestone: v0.2.0
-- Notes: Reactivated products can be used again in normal inventory operations.
-
-#### INV-007 - Delete Products
-
-- Requirement: The system should allow authorized users to delete products only when appropriate.
-- Status: Implemented
-- Related Milestone: M02
-- Notes: Hard delete should be controlled by business rules.
-
-#### INV-008 - Track Stock Quantity
-
-- Requirement: The system should track product stock quantity.
-- Status: Implemented
-- Related Milestone: M02
-- Notes: Full database-backed stock tracking is planned for a later version.
-
-#### INV-009 - Identify Low-Stock Products
-
-- Requirement: The system should identify products where stock is at or below reorder level.
-- Status: Implemented
-- Related Milestone: M12
-- Notes: Dashboard API version is planned for M28.
-
----
-
-## Basket and Order Management
-
-Business need:
-
-The business needs to select products for checkout and convert them into order records.
-
-#### ORD-001 - Add Items to Basket
-
-- Requirement: The system should allow users to add products to a basket.
-- Status: Implemented
-- Related Milestone: M04
-- Notes: Basket data is temporary in the current console version.
-
-#### ORD-002 - View Basket
-
-- Requirement: The system should allow users to view basket contents.
-- Status: Implemented
-- Related Milestone: M04
-
-#### ORD-003 - Remove Items from Basket
-
-- Requirement: The system should allow users to remove items from the basket.
-- Status: Implemented
-- Related Milestone: M04
-
-#### ORD-004 - Clear Basket
-
-- Requirement: The system should allow users to clear the basket.
-- Status: Implemented
-- Related Milestone: M04
-
-#### ORD-005 - Calculate Basket Total
-
-- Requirement: The system should calculate basket totals using quantity and unit price.
-- Status: Implemented
-- Related Milestone: M04
-
-#### ORD-006 - Checkout Basket
-
-- Requirement: The system should convert a valid basket into an order.
-- Status: Implemented
-- Related Milestone: M05
-- Notes: Checkout should not proceed when stock is insufficient.
-
-#### ORD-007 - Create Order Records
-
-- Requirement: The system should create order records.
-- Status: Implemented
-- Related Milestone: M05
-- Notes: API read endpoint is planned for M26.
-
-#### ORD-008 - Create Order Item Records
-
-- Requirement: The system should create order item records for products inside an order.
-- Status: Implemented
-- Related Milestone: M05
-- Notes: Order items should preserve product snapshot data.
-
-#### ORD-009 - View Orders
-
-- Requirement: The system should allow users or API clients to view orders.
-- Status: Completed
-- Related Milestone: M26
-
-#### ORD-010 - Search Orders
-
-- Requirement: The system should allow users or API clients to search orders by order number.
-- Status: Completed
-- Related Milestone: M26
-
----
-
-## Payment Management
-
-Business need:
-
-The business needs to record customer payments and track paid or unpaid orders.
-
-#### PAY-001 - Process Payment
-
-- Requirement: The system should allow users to process payment for an order.
-- Status: Implemented
-- Related Milestone: M06
-
-#### PAY-002 - Record Payment Method
-
-- Requirement: The system should record payment method.
-- Status: Implemented
-- Related Milestone: M06
-
-#### PAY-003 - Validate Payment Amount
-
-- Requirement: The system should validate that amount paid is enough to cover amount due.
-- Status: Implemented
-- Related Milestone: M06
-
-#### PAY-004 - Calculate Change
-
-- Requirement: The system should calculate change when amount paid is greater than amount due.
-- Status: Implemented
-- Related Milestone: M06
-
-#### PAY-005 - Track Payment Status
-
-- Requirement: The system should track paid and unpaid orders.
-- Status: Implemented
-- Related Milestone: M06
-
-#### PAY-006 - View Payment Records
-
-- Requirement: The system should allow users or API clients to view payment records.
-- Status: Implemented
-- Related Milestone: M27
-
-#### PAY-007 - Search Payment Records
-
-- Requirement: The system should allow users or API clients to search payment records by payment number or order number.
-- Status: Implemented
-- Related Milestone: M27
-
----
-
-## Receipt Management
-
-Business need:
-
-The business needs proof of completed transactions.
-
-#### RCT-001 - Generate Receipt
-
-- Requirement: The system should generate receipts after successful payment.
-- Status: Implemented
-- Related Milestone: M07
-
-#### RCT-002 - Prevent Duplicate Receipts
-
-- Requirement: The system should prevent duplicate receipt generation for the same order.
-- Status: Implemented
-- Related Milestone: M07
-
-#### RCT-003 - Display Receipt Details
-
-- Requirement: The receipt should display ordered items, quantities, prices, total amount, payment method, amount paid, and change.
-- Status: Implemented
-- Related Milestone: M07
-
-#### RCT-004 - View Receipts
-
-- Requirement: The system should allow users to view generated receipts.
-- Status: Implemented
-- Related Milestone: M07
-
-#### RCT-005 - Export Receipt to Text File
-
-- Requirement: The system should export receipts as text files.
-- Status: Implemented
-- Related Milestone: M13
-
-#### RCT-006 - Export Receipt to PDF
-
-- Requirement: The system should support receipt PDF export.
-- Status: Future Enhancement
-- Related Milestone: Future
-
----
-
-## Stock Movement Requirements
-
-Business need:
-
-The business needs an audit trail of inventory quantity changes.
-
-#### STK-001 - Record Stock In
-
-- Requirement: The system should record stock increases.
-- Status: Implemented
-- Related Milestone: M11
-
-#### STK-002 - Record Stock Adjustments
-
-- Requirement: The system should record stock adjustments.
-- Status: Implemented
-- Related Milestone: M11
-
-#### STK-003 - Record Stock Out
-
-- Requirement: The system should record stock reductions caused by checkout.
-- Status: Implemented
-- Related Milestone: M11
-
-#### STK-004 - Store Stock Before and After
-
-- Requirement: Stock movement records should store stock before and stock after values.
-- Status: Implemented
-- Related Milestone: M11
-
-#### STK-005 - Record Movement Reason
-
-- Requirement: Stock movement records should include a reason.
-- Status: Implemented
-- Related Milestone: M11
-
-#### STK-006 - View Stock Movement History
-
-- Requirement: The system should allow users to view stock movement history.
-- Status: Implemented
-- Related Milestone: M11
-
----
-
-## Dashboard and Reporting Requirements
-
-Business need:
-
-The business needs summaries to understand inventory, orders, payments, and sales performance.
-
-#### DASH-001 - Inventory Summary
-
-- Requirement: The system should show inventory summary data.
-- Status: Implemented
-- Related Milestone: M08, M28
-- Notes: Console dashboard summary is implemented. API dashboard summary is implemented through `GET /api/dashboard/summary`.
-
-#### DASH-002 - Order Summary
-
-- Requirement: The system should show order summary data.
-- Status: Implemented
-- Related Milestone: M08, M14
-- Notes: API dashboard version is planned for M28.
-
-#### DASH-003 - Payment Summary
-
-- Requirement: The system should show payment summary data.
-- Status: Implemented
-- Related Milestone: M08, M14, M28
-- Notes: API dashboard summary includes total payments.
-
-#### DASH-004 - Income Summary
-
-- Requirement: The system should show total sales income.
-- Status: Implemented
-- Related Milestone: M08, M14, M28
-- Notes: API dashboard summary includes total sales income.
-
-#### DASH-005 - Low-Stock Summary
-
-- Requirement: The system should show low-stock product summary.
-- Status: Implemented
-- Related Milestone: M08, M12, M28
-- Notes: API dashboard summary includes low-stock product count.
-
-#### DASH-006 - Sales by Payment Method
-
-- Requirement: The system should display sales grouped by payment method.
-- Status: Implemented
-- Related Milestone: M14
-
-#### DASH-007 - Dashboard API Endpoint
-
-- Requirement: The API should expose dashboard summary data.
-- Status: Implemented
-- Related Milestone: M28
-
----
-
-## Notification Requirements
-
-Business need:
-
-The system should record or notify important business events.
-
-#### NOTIF-001 - Simulate Low-Stock Notification
-
-- Requirement: The system should create simulated low-stock notification records.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-002 - Simulate Completed Order Notification
-
-- Requirement: The system should create simulated completed order notification records.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-003 - Simulate Receipt Notification
-
-- Requirement: The system should create simulated receipt notification records.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-004 - Store Notification Details
-
-- Requirement: The system should store notification type, recipient, subject, message, creation date, and status.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-005 - View Notification History
-
-- Requirement: The system should allow users to view notification history.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-006 - Save and Load Notifications
-
-- Requirement: The system should save and load notification records through persistence.
-- Status: Implemented
-- Related Milestone: M15
-
-#### NOTIF-007 - Real Email Notification
-
-- Requirement: The system should support real email sending in the future.
-- Status: Future Enhancement
-- Related Milestone: Future
-
----
-
-## User Management and Role Requirements
-
-Business need:
-
-A business-ready system should restrict actions based on user roles.
-
-#### USER-001 - User Accounts
-
-- Requirement: The system should support user accounts.
-- Status: Planned
-- Related Milestone: v0.7.0
-
-#### USER-002 - Login
-
-- Requirement: The system should support user login.
-- Status: Planned
-- Related Milestone: v0.7.0
-
-#### USER-003 - Role-Based Access
-
-- Requirement: The system should support role-based access.
-- Status: Planned
-- Related Milestone: v0.7.0
-
-#### USER-004 - Admin, Staff, and Cashier Roles
-
-- Requirement: The system should support Admin, Staff, and Cashier roles.
-- Status: Planned
-- Related Milestone: v0.7.0
-
-#### USER-005 - Protected Actions
-
-- Requirement: The system should restrict sensitive actions such as product deletion and payment processing.
-- Status: Planned
-- Related Milestone: v0.7.0
-
----
-
-# Database Requirements
-
-#### DB-001 - Define Database Entities
-
-- Requirement: The system should identify main business entities that need storage.
-- Status: Implemented
-- Related Milestone: M18
-
-#### DB-002 - Design Database Tables
-
-- Requirement: The system should define planned database tables.
-- Status: Implemented
-- Related Milestone: M19
-
-#### DB-003 - Define Keys and Relationships
-
-- Requirement: The system should define primary keys, foreign keys, and table relationships.
-- Status: Implemented
-- Related Milestone: M19
-
-#### DB-004 - Preserve Historical Transaction Data
-
-- Requirement: The system should preserve historical product details in order items.
-- Status: Implemented
-- Related Milestone: M19
-
-#### DB-005 - SQL CRUD Scripts
-
-- Requirement: The system should include SQL scripts for create, read, update, and delete operations.
-- Status: Implemented
-- Related Milestone: M20
-
-#### DB-006 - SQLite Integration
-
-- Requirement: The system should initialize a local SQLite database file.
-- Status: Implemented
-- Related Milestone: M21
-
-#### DB-007 - Repository Pattern
-
-- Requirement: The system should separate database access through repositories.
-- Status: Started
-- Related Milestone: M22
-
-#### DB-008 - Full Database-Backed Flow
-
-- Requirement: The system should eventually replace JSON persistence with database-backed storage.
-- Status: Planned
-- Related Milestone: v0.6.0
-
----
-
-# API Requirements
-
-#### API-001 - API Project Setup
-
-- Requirement: The system should include an ASP.NET Core Web API project.
-- Status: Implemented
-- Related Milestone: M24
-
-#### API-002 - OpenAPI Document
-
-- Requirement: The API should expose an OpenAPI document for endpoint discovery.
-- Status: Implemented
-- Related Milestone: M24
-- Notes: Current route is `/openapi/v1.json`.
-
-#### API-003 - Product List Endpoint
-
-- Requirement: The API should expose `GET /api/products`.
-- Status: Implemented
-- Related Milestone: M25
-
-#### API-004 - Product Search Endpoint
-
-- Requirement: The API should expose `GET /api/products/{productCode}`.
-- Status: Implemented
-- Related Milestone: M25
-
-#### API-005 - Order List Endpoint
-
-- Requirement: The API should expose `GET /api/orders`.
-- Status: Completed
-- Related Milestone: M26
-
-#### API-006 - Order Search Endpoint
-
-- Requirement: The API should expose `GET /api/orders/{orderNumber}`.
-- Status: Completed
-- Related Milestone: M26
-
-#### API-007 - Payment List Endpoint
-
-- Requirement: The API should expose `GET /api/payments`.
-- Status: Implemented
-- Related Milestone: M27
-
-#### API-008 - Payment Search Endpoint
-
-- Requirement: The API should expose `GET /api/payments/{paymentNumber}`.
-- Status: Implemented
-- Related Milestone: M27
-
-#### API-009 - Dashboard Endpoint
-
-- Requirement: The API should expose dashboard summary data.
-- Status: Implemented
-- Related Milestone: M28
-
-#### API-010 - API Validation and Error Responses
-
-- Requirement: The API should return proper status codes and clear error messages.
-- Status: Impemented
-- Related Milestone: M29
-
-#### API-011 - Swagger UI or Scalar UI
-
-- Requirement: The API may support an interactive browser testing UI.
-- Status: Future Enhancement
-- Related Milestone: Future
-
----
-
-# Non-Functional Requirements
-
-#### NFR-001 - Input Validation
-
-- Requirement: The system should validate user input and prevent common invalid inputs from crashing the app.
-- Status: Implemented
-- Related Milestone: M03, M29
-
-#### NFR-002 - Clear Code Structure
-
-- Requirement: The system should separate responsibilities into appropriate projects, folders, and classes.
-- Status: Ongoing
-- Related Milestone: M31, M32, M33, M34, M35
-- Notes: StockFlow.Core now contains shared models. StockFlow.Infrastructure now contains database and repository logic. Current services remain in StockFlow.Console until pure business logic can be extracted.
-
-#### NFR-003 - Persistence
-
-- Requirement: The system should save important business data so it is not lost after closing the app.
-- Status: Implemented
-- Related Milestone: M09, v0.6.0
-
-#### NFR-004 - Logging
-
-- Requirement: The system should record informational and error log entries.
-- Status: Implemented
-- Related Milestone: M16
-
-#### NFR-005 - Reliability
-
-- Requirement: The system should handle expected errors safely.
-- Status: Implemented
-- Related Milestone: M03, M13, M16, M29, v0.9.0
-
-#### NFR-006 - Security
-
-- Requirement: The system should protect sensitive actions and avoid storing secrets in source code.
-- Status: Planned
-- Related Milestone: v0.7.0
-
-#### NFR-007 - Testing
-
-- Requirement: The system should include automated tests.
-- Status: Planned
-- Related Milestone: v0.9.0
-
-#### NFR-008 - Documentation
-
-- Requirement: The system should be documented through README and project docs.
-- Status: Ongoing
-- Related Milestone: All releases
-
-#### NFR-009 - Version Control
-
-- Requirement: The system should use Git and GitHub with clear commits and release tags.
-- Status: Ongoing
-- Related Milestone: All releases
-
----
-
-# Known Current Limitations
-
-- The full app is not yet production-ready.
-- The full app is not yet fully database-backed.
-- JSON persistence still exists.
-- API endpoints may still use temporary sample data.
-- M25 should remain In Progress until API routes are fully verified.
-- Authentication is not yet implemented.
-- Role-based access is not yet implemented.
-- Frontend UI is not yet implemented.
-- Automated tests are not yet implemented.
-- Real email sending is not yet implemented.
-- Deployment is not yet implemented.
-
-# Future Enhancements
-
-- Add Swagger UI or Scalar UI for interactive API testing.
-- Add full SQLite-backed API integration.
-- Add authentication and authorization.
-- Add frontend dashboard.
-- Add automated tests.
-- Add deployment configuration.
-- Add real email notifications.
-- Add customer management.
-- Add supplier management.
-- Add product categories.
-- Add audit logs.
-- Add advanced reports.
-- Add PDF and Excel exports.
-- Add barcode scanning.
+# StockFlow Software Requirements Specification
+
+**Document:** `docs/requirements.md`  
+**System:** StockFlow Inventory and Sales Management System  
+**Document status:** Living specification  
+**Last reviewed:** 2026-09-23
+
+## 1. Purpose and Scope
+
+This document specifies **what StockFlow must do** and the quality constraints it must meet. It is organized by stable business and technical domains, not by development milestone. Update an existing requirement when its implementation changes; add a new requirement only when the system gains a distinct capability or constraint.
+
+StockFlow supports small-business product management, a temporary shopping basket, checkout, payments, receipts, inventory history, business summaries, and simulated notifications. The current application includes a SQLite-backed Console workflow and a partially integrated ASP.NET Core Web API. Authentication, a frontend, and broader production readiness are planned.
+
+**Related documents:**
+
+| Document | Responsibility |
+|---|---|
+| [`project-overview.md`](project-overview.md) | Business context, users, goals and scope |
+| [`business-rules.md`](business-rules.md) | Detailed business rules and invariants |
+| [`architecture.md`](architecture.md) | How the system is designed and organized |
+| [`database-design.md`](database-design.md) | Database schema and relationships |
+| [`api-design.md`](api-design.md) | HTTP routes, requests and responses |
+| [`acceptance-criteria.md`](acceptance-criteria.md) | Detailed verification scenarios |
+| [`milestone-plan.md`](milestone-plan.md) | Milestone and version schedule |
+| [`release-notes.md`](release-notes.md) | Historical changes and releases |
+
+## 2. Requirements Conventions
+
+### 2.1 Status definitions
+
+| Status | Meaning |
+|---|---|
+| **Implemented** | Implemented in the stated application surface; may still await automated regression tests |
+| **In Progress** | Partially implemented, being refactored, or awaiting required behavior |
+| **Planned** | Approved for an upcoming milestone or version but not implemented |
+| **Deferred** | Previously planned but postponed |
+| **Future Enhancement** | Possible capability outside the current committed scope |
+
+A requirement's status is not evidence that automated testing has passed. **Surface** identifies where the stated behavior applies: Console, API, Shared, or Future. When Console works but API still uses sample data, describe the difference explicitly rather than claiming full implementation across both.
+
+### 2.2 Stable identifiers
+
+| Prefix | Domain |
+|---|---|
+| `INV` | Product and inventory management |
+| `ORD` | Basket and order management |
+| `PAY` | Payment management |
+| `RCT` | Receipt management |
+| `STK` | Stock movement and audit history |
+| `DASH` | Dashboard and reporting |
+| `NOTIF` | Notifications |
+| `USER` | Identity and authorization |
+| `DB` | Data persistence |
+| `API` | Web API |
+| `NFR` | Non-functional requirements |
+
+Never reuse a retired identifier for a different requirement. Keep milestone references short; the full roadmap belongs in `milestone-plan.md`.
+
+## 3. Functional Requirements
+
+### 3.1 Product and Inventory Management
+
+**Business need:** Maintain an accurate product catalog and current stock information, with controlled handling of inactive and historical products.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| INV-001 | Create products with a unique product code and required product details. | Implemented | Console | M02, M46.2; code-generation cleanup in M47 |
+| INV-002 | View product records, including active records as appropriate to the operation. | Implemented | Console, API | M01, M25; product API reads SQLite |
+| INV-003 | Search products by product code; Console may also search by name. | Implemented | Console, API | M02, M25 |
+| INV-004 | Update product name, category, price, quantity and reorder level. | Implemented | Console | M02, M46.3; API write operations not yet implemented |
+| INV-005 | Deactivate a product without deleting its record. | Implemented | Console | M02, M46.3 |
+| INV-006 | Reactivate an inactive product. | Implemented | Console | M46.3 |
+| INV-007 | Allow hard deletion only when permitted by referential-integrity and business rules. | In Progress | Console | M02, M47; deletion safeguards need verification |
+| INV-008 | Track and persist each product's current stock quantity. | Implemented | Console | M02, M46.6; transaction consistency under review |
+| INV-009 | Identify active products whose stock is at or below their reorder level. | Implemented | Console | M12; API summary integration differs by endpoint |
+
+### 3.2 Basket and Order Management
+
+**Business need:** Select available products, validate quantities and convert a valid basket into a durable order while preserving purchase details.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| ORD-001 | Add available products to the current basket without exceeding available stock. | Implemented | Console | M04; current repository lookup cleanup in M47 |
+| ORD-002 | View basket items, quantities, prices and line totals. | Implemented | Console | M04 |
+| ORD-003 | Remove a selected basket item. | Implemented | Console | M04 |
+| ORD-004 | Clear the current basket. | Implemented | Console | M04 |
+| ORD-005 | Calculate basket totals from item quantities and unit prices. | Implemented | Console | M04 |
+| ORD-006 | Validate current stock and create an order from a valid basket. | Implemented | Console | M05, M46.4; atomic checkout is a reliability improvement |
+| ORD-007 | Persist order header information with a business-facing order number. | Implemented | Console | M05, M46.4 |
+| ORD-008 | Persist order items with an `OrderId` link and purchase-time product details. | Implemented | Console | M05, M46.4; full ID mapping in M47 |
+| ORD-009 | View saved orders and their related order items. | In Progress | Console, API | M47; Console item loading being finalized, API integration separate |
+| ORD-010 | Retrieve a specific order by its order number. | Implemented | Console; API route exists | M26, M46.4; API may use sample data |
+| ORD-011 | Keep the current basket as session state; clearing it must not delete saved orders or order items. | Implemented | Console | M04, M47 |
+
+### 3.3 Payment Management
+
+**Business need:** Record payment transactions and reflect their effect on the associated order.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| PAY-001 | Process a payment against an existing, unpaid order. | Implemented | Console | M06, M46.5 |
+| PAY-002 | Record the selected payment method. | Implemented | Console | M06 |
+| PAY-003 | Reject a payment amount below the amount due. | Implemented | Console | M06 |
+| PAY-004 | Calculate change when amount paid exceeds the amount due. | Implemented | Console | M06 |
+| PAY-005 | Persist payment status and mark the associated order completed after successful payment. | Implemented | Console | M46.5; cross-record transaction safety still planned |
+| PAY-006 | View persisted payment records. | Implemented | Console; API route exists | M27, M46.5; API data source to be verified |
+| PAY-007 | Retrieve payments by payment number or associated order number. | Implemented | Repository / Console | M42; API currently has payment-number route |
+
+**Current scope:** The Console flow processes full payment for an order. Repository support for multiple payments by order does **not** mean partial or split payments are implemented.
+
+### 3.4 Receipt Management
+
+**Business need:** Produce durable proof of payment and provide a readable or exportable transaction record.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| RCT-001 | Generate a receipt from a valid saved payment and its associated order. | Implemented | Console | M07, M46.5 |
+| RCT-002 | Prevent more than one receipt from being issued for the same payment. | In Progress | Console | M47; add/verify lookup by `PaymentNumber`, ideally enforce uniqueness in SQLite |
+| RCT-003 | Display saved order items, totals, payment method, amount paid and change. | Implemented | Console | M07; order items loaded from SQLite |
+| RCT-004 | View previously saved receipts. | Implemented | Console | M07, M46.5 |
+| RCT-005 | Export a saved receipt as a text file. | Implemented | Console | M13 |
+| RCT-006 | Export receipts as PDF files. | Future Enhancement | Future | Not in current release scope |
+
+### 3.5 Stock Movement and Audit History
+
+**Business need:** Explain and trace every inventory quantity change.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| STK-001 | Save stock-in movements with positive quantity changes. | Implemented | Console | M11, M46.6 |
+| STK-002 | Save stock adjustments, including increases and decreases. | Implemented | Console | M11, M46.6 |
+| STK-003 | Save stock-out movements when checkout deducts inventory. | Implemented | Console | M11, M46.6 |
+| STK-004 | Preserve stock-before, quantity-changed and stock-after values. | Implemented | Console | M11 |
+| STK-005 | Record the movement reason and related business reference when available. | Implemented | Console | M11, M44 |
+| STK-006 | View persisted stock movement history. | Implemented | Console | M46.6; removal of stale list parameters in M47 |
+
+### 3.6 Dashboard and Reporting
+
+**Business need:** Give the business a reliable summary of products, transactions, inventory warnings and sales performance.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| DASH-001 | Show product counts and current stock totals. | In Progress | Console; API route exists | M08, M28, M47; verify active/inactive count uses all products |
+| DASH-002 | Show order counts by current status. | Implemented | Console; API route exists | M08, M14; API may use sample summary |
+| DASH-003 | Show payment counts and paid-payment summary. | Implemented | Console; API route exists | M08, M14 |
+| DASH-004 | Calculate sales income from paid transactions using amount due. | Implemented | Console | M08, M14 |
+| DASH-005 | Display low-stock product information. | Implemented | Console; API route exists | M08, M12 |
+| DASH-006 | Group paid sales by payment method. | In Progress | Console | M14, M47; standardize grouping on paid payments only |
+| DASH-007 | Expose dashboard summary data through an HTTP endpoint. | Implemented | API | M28; route exists, real repository data integration still planned |
+
+### 3.7 Notifications
+
+**Business need:** Keep a record of important business events and provide a foundation for later outbound messaging.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| NOTIF-001 | Create simulated low-stock notifications. | Implemented | Console | M15, M46.6 |
+| NOTIF-002 | Create simulated completed-order notifications only for completed orders. | Implemented | Console | M15; current order data read from repository |
+| NOTIF-003 | Create simulated receipt notifications for existing receipts. | Implemented | Console | M15 |
+| NOTIF-004 | Store notification type, recipient, content, reference, time and state. | Implemented | Console / Repository | M45 |
+| NOTIF-005 | View persisted notification history. | Implemented | Console | M46.6 |
+| NOTIF-006 | Persist and retrieve notifications through SQLite. | Implemented | Console / Repository | M45, M46.6 |
+| NOTIF-007 | Send real email notifications. | Future Enhancement | Future | Current emails are simulations only |
+
+### 3.8 Identity and Access Management
+
+**Business need:** Control access to sensitive business operations as the application grows beyond its developer-operated Console workflow.
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| USER-001 | Support persistent user accounts. | Planned | Future | v0.7.0 |
+| USER-002 | Authenticate users through a login workflow. | Planned | Future | v0.7.0 |
+| USER-003 | Enforce role-based authorization. | Planned | Future | v0.7.0 |
+| USER-004 | Support Admin, Staff and Cashier roles. | Planned | Future | v0.7.0 |
+| USER-005 | Protect sensitive actions, including product deletion and payment processing. | Planned | Future | v0.7.0 |
+
+Existing Console business actions are not role-secured merely because their requirement descriptions refer to future authorized users.
+
+## 4. Data and Persistence Requirements
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| DB-001 | Identify durable business entities. | Implemented | Shared | M18 |
+| DB-002 | Define database tables for durable entities. | Implemented | Infrastructure | M19, M39–M45 |
+| DB-003 | Define primary/foreign keys and intended relationships. | Implemented | Infrastructure | M19; enforcement and tests should be verified |
+| DB-004 | Preserve purchase-time product details in OrderItems. | Implemented | Shared / Infrastructure | M19, M46.4 |
+| DB-005 | Maintain SQL CRUD reference scripts. | Implemented | Documentation | M20 |
+| DB-006 | Initialize a local SQLite database. | Implemented | Infrastructure | M21 |
+| DB-007 | Keep database access in Infrastructure repository classes. | Implemented | Infrastructure | M22, M39–M45 |
+| DB-008 | Use SQLite instead of JSON as the primary persistent source for Console business records. | In Progress | Console | M46 completed main migration; M47 removes remaining transitional code |
+| DB-009 | Support safe, development-only database recreation and database-path diagnostics. | In Progress | Console / Infrastructure | M47.8; not a production feature |
+| DB-010 | Execute multi-record checkout/payment changes without leaving partial business transactions. | Planned | Console / Infrastructure | Reliability work; requires transaction design and tests |
+
+## 5. API Requirements
+
+These requirements describe available HTTP capabilities. A working route using temporary data is not equivalent to full SQLite-backed API integration; the endpoint implementation detail remains in [`api-design.md`](api-design.md).
+
+| ID | Requirement | Status | Surface | Reference / notes |
+|---|---|---|---|---|
+| API-001 | Provide an ASP.NET Core Web API project. | Implemented | API | M24 |
+| API-002 | Expose an OpenAPI document for endpoint discovery. | Implemented | API | M24; `/openapi/v1.json` |
+| API-003 | Expose `GET /api/products`. | Implemented | API | M25; SQLite-backed |
+| API-004 | Expose `GET /api/products/{productCode}`. | Implemented | API | M25; SQLite-backed |
+| API-005 | Expose `GET /api/orders`. | Implemented | API | M26; repository integration not yet verified |
+| API-006 | Expose `GET /api/orders/{orderNumber}`. | Implemented | API | M26; repository integration not yet verified |
+| API-007 | Expose `GET /api/payments`. | Implemented | API | M27; repository integration not yet verified |
+| API-008 | Expose `GET /api/payments/{paymentNumber}`. | Implemented | API | M27; repository integration not yet verified |
+| API-009 | Expose `GET /api/dashboard/summary`. | Implemented | API | M28; repository integration not yet verified |
+| API-010 | Return appropriate HTTP success and client-error responses. | Implemented | API | M29; expand automated verification later |
+| API-011 | Provide interactive API documentation through Swagger UI or Scalar. | Future Enhancement | API | Optional |
+| API-012 | Replace remaining temporary API sample data with real business data. | Planned | API | v0.7.0 API completion |
+
+## 6. Non-Functional Requirements
+
+| ID | Quality attribute | Requirement | Status | Verification / reference |
+|---|---|---|---|---|
+| NFR-001 | Input quality | Validate required values and expected numeric ranges; reject invalid input safely. | Implemented | Console validation; API route validation; M03, M29 |
+| NFR-002 | Maintainability | Separate Console/UI orchestration, shared domain logic and Infrastructure persistence with correct dependency direction. | In Progress | Architecture review and build; M31–M37, M47 |
+| NFR-003 | Durability | Persist durable business records between application restarts. | Implemented | SQLite restart checks; M46 |
+| NFR-004 | Observability | Record useful application and error information without relying solely on Console output. | In Progress | Logging implementation and coverage review; M16 |
+| NFR-005 | Reliability | Handle expected failures without inconsistent partial transactions or unexpected crashes. | In Progress | Manual regression and future transaction tests; M47–M48 |
+| NFR-006 | Security | Protect privileged operations and keep secrets out of source control. | Planned | Authentication and authorization; v0.7.0 |
+| NFR-007 | Testability | Provide repeatable automated unit and integration tests using isolated test data. | Planned | M48; expanded coverage in v0.9.0 |
+| NFR-008 | Documentation | Maintain accurate, navigable Markdown requirements, design, acceptance criteria and release history. | In Progress | Review alongside relevant code changes; all releases |
+| NFR-009 | Change management | Use Git, meaningful commits and release tags for released versions. | Implemented | Git history and tagged release checks |
+| NFR-010 | Test isolation | Ensure automated tests and database resets cannot unintentionally erase development or production databases. | Planned | Dedicated temporary test database; M48 |
+
+## 7. Scope Boundaries and Open Items
+
+The following are intentionally **not** treated as implemented today: authenticated Console/API access; a production frontend; real outbound email; partial/split-payment workflows; production deployment; PDF receipt export; and broad automated regression coverage.
+
+**Active verification and design work:** Finalize repository-first Console cleanup; confirm that order display loads related OrderItems; prevent duplicate receipts; verify inventory dashboard counts and sales grouping; isolate development/test databases; and design transaction boundaries for multi-step writes. Track work and completion dates in `milestone-plan.md`, not by appending new milestone sections here.
+
+**Potential future enhancements:** customer/supplier management, product categories, audit logs, advanced and date-filtered reporting, PDF/Excel exports, barcode scanning and interactive API documentation. Move any enhancement into the numbered requirements tables when its scope is agreed.
+
+## 8. Requirement Maintenance and Traceability
+
+1. **Update in place.** Keep the section names and requirement IDs stable. Change the existing row's status, scope or notes when implementation evolves; do not append a new section for each milestone.
+2. **Preserve identity.** Never renumber existing requirements after implementation. Add the next available ID within its domain only for genuinely new behavior.
+3. **Separate implementation surfaces.** Explicitly say Console, API, Shared or Future when the same capability has different implementation status across applications.
+4. **Separate evidence.** A code review or reported completion is not the same as a passing regression test. Detailed test cases belong in `acceptance-criteria.md`; test runs belong in the testing workflow.
+5. **Record history elsewhere.** Milestone progress belongs in `milestone-plan.md`; completed changes and release dates belong in `release-notes.md`; implementation details belong in architecture, database and API design documents.
+6. **Review on change.** For each feature/fix, check its requirement ID, business rules, acceptance criteria and affected design pages. Update `Last reviewed` when the document is reviewed against current source.

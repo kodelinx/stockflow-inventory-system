@@ -1,6 +1,6 @@
 # StockFlow Milestone Plan
 
-Last updated: 2026-09-05
+Last updated: 2026-09-22
 
 ## Purpose
 
@@ -61,25 +61,27 @@ Status: Released
 - M26 - Order API Endpoints - Completed
 - M27 - Payment API Endpoints - Completed
 - M28 - Dashboard API Endpoints - Completed
-- M29 - API Validation and Error Responses - Competed
+- M29 - API Validation and Error Responses - Completed
 - M30 - v0.4.0 Release - Completed
 
-## v0.5.0 - Shared Architecture and Full API Integration
+## v0.5.0 - Shared Architecture and API Integration
 
-Status: In Progress
+Status: Released
 
 - M31 - Create StockFlow.Core Class Library - Completed
 - M32 - Move Models to StockFlow.Core - Completed
 - M33 - Service Layer Assessment - Completed
 - M34 - Create StockFlow.Infrastructure Class Library - Completed
 - M35 - Move Database and Repository Logic to StockFlow.Infrastructure - Completed
-- M36 - Extract Pure Business Service to StockFlow.Core - Completed
-- M37 - Connect API Endpoints to Real Service and Repositories - Competed
-- M38 - v0.5.0 Release - Competed
+- M36 - Extract Product Business Service to StockFlow.Core - Completed
+- M37 - Connect Product API to Core and Infrastructure - Completed
+- M38 - v0.5.0 Release - Completed
 
-## v0.6.0 - Full Database-Backed StockFlow
+## v0.6.0 - Full Database-Backed Console and Service Refactor
 
-Status: Planned
+Status: In Progress
+
+### Repository Foundation
 
 - M39 - Complete Product Repository CRUD - Completed
 - M40 - Add Order Repository - Completed
@@ -88,88 +90,93 @@ Status: Planned
 - M43 - Add Receipt Repository - Completed
 - M44 - Add StockMovement Repository - Completed
 - M45 - Add Notification Repository - Completed
-- M46 - Replace JSON Flow with SQLite Flow - In Progress
-  - M46.0 - Fix SQLite database initialization syntax - Completed
-  - M46.1 - Connect product read flow to SQLite - Completed
-  - M46.2 - Connect product add flow to SQLite - Completed
-  - M46.3 - Connect product update/deactivate flow to SQLite - Completed
-  - M46.4 - Connect order and order item saving flow to SQLite - Completed
-  - M46.5 - Connect payment and receipt saving flow to SQLite - Completed
-  - M46.6 - Connect stock movement and notification saving flow to SQLite - Completed
-  - M46.7 - Archive or remove old JSON flow - In Progress
-- M47 - v0.6.0 Release - Planned
 
-## v0.7.0 - Authentication and User Roles
+### SQLite Migration
+
+- M46 - Replace JSON Flow with SQLite Flow - Completed
+  - M46.0 - Fix SQLite Database Initialization - Completed
+  - M46.1 - Connect Product Read Flow to SQLite - Completed
+  - M46.2 - Connect Product Add Flow to SQLite - Completed
+  - M46.3 - Connect Product Update, Status, and Delete Flow to SQLite - Completed
+  - M46.4 - Connect Order and OrderItem Saving Flow to SQLite - Completed
+  - M46.5 - Connect Payment and Receipt Saving Flow to SQLite - Completed
+  - M46.6 - Connect Stock Movement and Notification Saving Flow to SQLite - Completed
+  - M46.7 - Disable Active JSON Persistence Flow - Completed
+
+### Repository-First Service Refactor
+
+- M47 - Repository-First Console Service Refactor - In Progress
+  - M47.1 - Refactor InventoryService to Repository-First Flow - In Progress
+  - M47.2 - Refactor BasketService Product Access - Planned
+  - M47.3 - Refactor Order and OrderItem Flow - In Progress
+  - M47.4 - Refactor Payment and Receipt Flow - In Progress
+  - M47.5 - Refactor StockMovementService - In Progress
+  - M47.6 - Refactor Alert, Dashboard, Sales Report, and Notification Services - In Progress
+  - M47.7 - Clean Program.cs Temporary Lists and Legacy JSON Remnants - Planned
+  - M47.8 - Add Development Database Reset and Path Diagnostics - In Progress
+  - M47.9 - Manual Regression Verification - Planned
+
+### Automated Verification
+
+- M48 - Automated Regression Testing Foundation - Planned
+  - M48.1 - Create Automated Test Project - Planned
+  - M48.2 - Add Database Test Isolation and Reset Support - Planned
+  - M48.3 - Add Product Repository Integration Tests - Planned
+  - M48.4 - Add Order and OrderItem Integration Tests - Planned
+  - M48.5 - Add Payment and Receipt Integration Tests - Planned
+  - M48.6 - Add StockMovement and Notification Integration Tests - Planned
+  - M48.7 - Add Full Sales Workflow Regression Test - Planned
+  - M48.8 - Add Core Business Logic Unit Tests - Planned
+  - M48.9 - Run Full Automated and Manual Regression Suite - Planned
+
+- M49 - v0.6.0 Release - Planned
+
+## v0.7.0 - Authentication, User Roles, and API Completion
 
 Status: Planned
 
-- M48 - User and Role Requirements
-- M49 - User Model and Role Model
-- M50 - Login Endpoint
-- M51 - Role-Based Authorization Rules
-- M52 - Protect Product, Order, and Payment Endpoints
-- M53 - v0.7.0 Release
+- M50 - Connect Remaining API Reads to Real Repositories
+- M51 - User and Role Requirements
+- M52 - User and Role Models and Persistence
+- M53 - Login and Authentication Flow
+- M54 - Role-Based Authorization Rules
+- M55 - Protect Product, Order, and Payment Operations
+- M56 - v0.7.0 Release
 
 ## v0.8.0 - Frontend Web Dashboard
 
 Status: Planned
 
-- M54 - Frontend Project Setup
-- M55 - Product Management Page
-- M56 - Order Management Page
-- M57 - Payment Management Page
-- M58 - Dashboard Summary Page
-- M59 - Connect Frontend to StockFlow API
-- M60 - v0.8.0 Release
+- M57 - Frontend Project Setup
+- M58 - Product Management Page
+- M59 - Order Management Page
+- M60 - Payment Management Page
+- M61 - Dashboard Summary Page
+- M62 - Connect Frontend to StockFlow API
+- M63 - v0.8.0 Release
 
-## v0.9.0 - Testing, Error Handling, and Production Readiness
+## v0.9.0 - Production Readiness and Expanded Testing
 
 Status: Planned
 
-- M61 - Unit Test Project Setup
-- M62 - Service Unit Tests
-- M63 - Repository Tests
-- M64 - API Integration Tests
-- M65 - Standardized Error Handling
-- M66 - Logging and Environment Configuration
-- M67 - Seed Data and Demo Data Setup
-- M68 - v0.9.0 Release
+- M64 - Expand Unit Test Coverage
+- M65 - Expand Repository Integration Test Coverage
+- M66 - API Integration Tests
+- M67 - Standardized Error Handling
+- M68 - Structured Logging and Environment Configuration
+- M69 - Seed Data and Demo Data Setup
+- M70 - Deployment Preparation
+- M71 - v0.9.0 Release
 
 ## v1.0.0 - Business MVP Release
 
 Status: Planned
 
-- M69 - Final Feature Review
-- M70 - Final Bug Fixes and Cleanup
-- M71 - Final Documentation Update
-- M72 - Portfolio README Update
-- M73 - Demo Walkthrough Preparation
-- M74 - v1.0.0 Business MVP Release
+- M72 - Final Feature Review
+- M73 - Final Bug Fixes and Cleanup
+- M74 - Final Documentation Review
+- M75 - Portfolio README Update
+- M76 - Demo Walkthrough Preparation
+- M77 - v1.0.0 Business MVP Release
 
 ---
-
-# Milestone Update Rules
-
-For every milestone:
-
-1. Complete the code work.
-2. Test the feature.
-3. Update the affected documentation.
-4. Commit code changes.
-5. Commit documentation changes.
-6. Update this milestone plan.
-7. Update release notes if the milestone belongs to an active version.
-8. Tag the release only at release milestones.
-
-# Release Tag Rules
-
-Use Git tags for completed release milestones:
-
-```text
-v0.1.0
-v0.2.0
-v0.3.0
-v0.4.0
-```
-
-Do not create a tag for every milestone. Tags are for release checkpoints.

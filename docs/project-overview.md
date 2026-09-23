@@ -1,114 +1,134 @@
 # StockFlow Project Overview
 
-## Project Name
+**Project:** StockFlow Inventory System  
+**Document owner:** Project maintainer  
+**Last reviewed:** 2026-09-24  
+**Document status:** Living document
 
-StockFlow Inventory System
+## 1. Executive Summary
 
-## Project Description
+StockFlow is an inventory and sales management system for small businesses. It brings product records, stock tracking, checkout, payments, receipts, alerts, and sales summaries into a single application.
 
-StockFlow is an inventory and sales management system designed for small business operations. It helps manage products, stock levels, customer orders, payments, receipts, sales income, and dashboard summaries.
+StockFlow is also a developer portfolio project. Its staged development demonstrates practical C#/.NET engineering, software planning, layered architecture, database design, API development, testing, documentation, and Git-based delivery. The project is intended to evolve into a demonstrable business MVP; it is not currently presented as production-ready software.
 
-The project is also a developer portfolio project. It is intentionally built through planned versions and milestones to demonstrate software development practices used in real projects.
+## 2. Business Context and Problem
 
-## Project Purpose
+Small businesses may manage inventory and sales using notebooks, spreadsheets, or disconnected tools. This makes it harder to maintain accurate stock counts, identify products that need replenishment, preserve transaction records, and evaluate sales performance.
 
-The purpose of StockFlow is to build a practical business tool while applying professional software development practices such as:
+StockFlow addresses these needs by maintaining a consistent record of products and transactions and making the information available through operational workflows and summary views.
 
-- Requirements gathering
-- Milestone planning
-- Versioned releases
-- Code architecture
-- Database design
-- API development
-- Documentation
-- Git and GitHub workflow
+## 3. Objectives and Success Criteria
 
-## Business Problem
+### 3.1 Business Objectives
 
-Small businesses need a simple way to track inventory, process sales, monitor low-stock products, record payments, generate receipts, and review sales performance.
+- Maintain a searchable product catalog with current quantities and reorder levels.
+- Support a repeatable basket-to-checkout, payment, and receipt workflow.
+- Preserve historical orders, payments, receipts, and inventory movements.
+- Identify low-stock products and provide useful sales and operational summaries.
+- Introduce controlled user access when authentication and authorization are implemented.
 
-Without a system, these tasks may be handled manually through notebooks, spreadsheets, or disconnected tools. That can lead to incorrect stock counts, missed low-stock items, incomplete sales records, and difficulty reviewing business performance.
+### 3.2 Engineering and Portfolio Objectives
 
-## Project Goal
+- Demonstrate maintainable separation between entry points, business logic, and persistence.
+- Use SQLite-backed repositories for persistent records.
+- Expose appropriate capabilities through an ASP.NET Core Web API.
+- Establish repeatable automated tests for critical business flows.
+- Maintain clear requirements, design documents, release notes, and version-control history.
 
-Build StockFlow into a business-ready inventory and sales management application.
+### 3.3 Success Criteria
 
-The project will start as a console application and evolve into a database-backed application with API support, user roles, frontend dashboard, testing, and deployment-ready structure.
+StockFlow's business MVP should allow a user to complete a sale—from product selection through order creation, payment, receipt issuance, and stock-history review—while preserving the resulting records across application restarts. Its important business rules should be verified by tests, and its supported features and limitations should be documented accurately.
 
-## Target Users
+Detailed, testable acceptance conditions belong in [acceptance-criteria.md](acceptance-criteria.md); implementation progress belongs in [milestone-plan.md](milestone-plan.md).
 
-- Business Owner
-- Admin User
-- Inventory Staff
-- Cashier
-- Future Web Dashboard User
+## 4. Intended Users and Stakeholders
 
-## User Role Summary
+These are intended personas and responsibilities, **not a statement that authentication or role-based authorization is already implemented**.
 
-### Business Owner
+| Persona | Primary need | Typical activities |
+| --- | --- | --- |
+| Business owner | Visibility into operations and performance | Review inventory, low-stock alerts, orders, sales, and summaries |
+| Administrator | Oversight of catalog and system configuration | Maintain products and, when implemented, manage users and permissions |
+| Inventory staff | Accurate product availability | Update quantities, record stock movements, monitor reorder levels |
+| Cashier | Reliable transaction processing | Prepare baskets, create orders, process payments, issue receipts |
+| API or future web user | Access from another application or browser | Retrieve or manage permitted data through supported interfaces |
+| Project maintainer | Deliver and demonstrate the application | Implement, test, document, and release changes |
 
-Reviews overall business performance, sales income, inventory status, and dashboard summaries.
+## 5. Product Scope
 
-### Admin User
+### 5.1 Core Capabilities
 
-Manages product records, users, roles, and important system settings.
+The intended product scope comprises the following capability areas. Their detailed behavior and implementation statuses are maintained in [requirements.md](requirements.md).
 
-### Inventory Staff
+| Capability | Intended outcome |
+| --- | --- |
+| Product and inventory management | Create, search, update, activate/deactivate, and monitor products |
+| Basket and orders | Validate product selections, calculate totals, and retain completed order details |
+| Payments | Record payment methods, amounts, change, and payment status |
+| Receipts | Produce and retain transaction proof; support text export |
+| Stock movements | Preserve stock-in, adjustment, and sale-related stock-out history |
+| Alerts and notifications | Flag low stock and record simulated operational messages |
+| Dashboard and reports | Summarize inventory, orders, payments, and sales performance |
+| Persistence | Store business records reliably using SQLite |
+| API | Provide HTTP access to supported business information and, as expanded, operations |
+| User access | Introduce authentication and role-based authorization |
+| Web interface | Offer browser-based business workflows and summaries |
+| Quality and delivery | Validate workflows with automated testing and maintain release documentation |
 
-Updates stock quantities, records stock movements, and monitors low-stock products.
+### 5.2 Current Product Boundary
 
-### Cashier
+StockFlow currently centers on its Console application and a developing ASP.NET Core API. The Console's main persistent workflows have been connected to SQLite, while repository-first service cleanup and automated regression testing remain part of the active development plan. Some API areas may still use temporary data rather than the full database-backed business workflow.
 
-Creates orders, processes payments, and generates receipts.
+For the authoritative current milestone and release status, see [milestone-plan.md](milestone-plan.md). Do not use this overview as a second progress tracker.
 
-### Future Web Dashboard User
+### 5.3 Outside the Committed MVP Scope
 
-Uses StockFlow from a browser-based interface after frontend development.
+The following capabilities are possible future enhancements, not commitments for the current business MVP:
 
-## In Scope
+- Real payment gateway integration and real email delivery
+- Barcode scanning and mobile applications
+- Multi-branch inventory and supplier purchasing workflows
+- Customer loyalty programs
+- Cloud deployment and enterprise-scale operational capabilities
 
-StockFlow is planned to include:
+Their inclusion would require updated requirements, business rules, architecture, and milestones before implementation.
 
-- Product management
-- Inventory tracking
-- Basket and order processing
-- Payment tracking
-- Receipt generation
-- Stock movement audit trail
-- Low-stock alerts
-- Sales reporting
-- Notification simulation
-- SQLite database storage
-- ASP.NET Core Web API
-- User authentication and roles
-- Frontend dashboard
-- Automated tests
-- Portfolio-ready documentation
+## 6. Product Direction
 
-## Out of Scope for Current Stage
+The intended direction is a business MVP with persistent inventory and sales records, a documented API, controlled access, a usable web dashboard, and repeatable tests. StockFlow develops incrementally so that the current application can be reviewed and validated before additional interfaces or features are introduced.
 
-The following are not part of the current working stage:
+This section describes product direction only. Dates, version targets, dependencies, and milestone completion belong exclusively in [milestone-plan.md](milestone-plan.md).
 
-- Real payment gateway integration
-- Real email provider integration
-- Barcode scanning
-- Multi-branch inventory
-- Supplier purchasing workflow
-- Customer loyalty system
-- Mobile application
-- Cloud deployment
-- Enterprise-grade security
+## 7. Constraints and Assumptions
 
-These may be considered future enhancements.
+- **Primary audience:** Small-business operations, rather than multi-branch or enterprise-scale deployment.
+- **Application evolution:** Console-first development, with API and browser access expanded separately.
+- **Primary persistence:** SQLite for current local business records; temporary basket state may remain in memory.
+- **Notifications:** Simulated unless an actual delivery provider is deliberately integrated.
+- **Payments:** Internal payment recording; no claim of payment-gateway processing.
+- **Security:** Role-based access is a product objective, not an assumption about currently protected routes.
+- **Reliability:** Existing features and proposed safeguards must be distinguished until validation is complete.
 
-## Long-Term Goal
+Architecture decisions and their technical implications are maintained in [architecture.md](architecture.md), [database-design.md](database-design.md), and [business-rules.md](business-rules.md).
 
-The long-term goal is to evolve StockFlow from a console application into a complete portfolio-level business MVP with:
+## 8. Documentation and Governance
 
-- Database-backed storage
-- Web API endpoints
-- Frontend dashboard
-- User authentication and roles
-- Reliable validation and error handling
-- Automated testing
-- Documentation
+| Document | Source of truth for |
+| --- | --- |
+| [requirements.md](requirements.md) | Functional and non-functional requirements and their statuses |
+| [business-rules.md](business-rules.md) | Rules and constraints that workflows must enforce |
+| [architecture.md](architecture.md) | System structure, dependencies, and runtime flows |
+| [database-design.md](database-design.md) | Persistent entities, keys, mappings, and data integrity |
+| [api-design.md](api-design.md) | Routes, contracts, conventions, and API integration status |
+| [acceptance-criteria.md](acceptance-criteria.md) | Verifiable conditions for features and workflows |
+| [milestone-plan.md](milestone-plan.md) | Version roadmap, milestones, and development status |
+| [release-notes.md](release-notes.md) | Historical changes grouped by release |
+| [../README.md](../README.md) | Public-facing introduction, setup, and navigation |
+
+### Maintenance Rules
+
+1. Keep these eight sections stable. Revise existing content when the business purpose, audience, scope, or direction changes.
+2. Do not add milestone-by-milestone or version-by-version sections to this document.
+3. Update requirements and acceptance criteria for feature-level changes; update architecture and database documents for technical changes.
+4. Record development progress in the milestone plan and released changes in release notes.
+5. Review this overview when a significant product or scope decision changes. Update **Last reviewed** after that review, not after every code commit.

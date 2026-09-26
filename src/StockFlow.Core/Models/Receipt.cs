@@ -1,5 +1,3 @@
-using StockFlow.Models;
-
 namespace StockFlow.Models;
 
 public class Receipt
@@ -45,7 +43,7 @@ public class Receipt
         AmountPaid = amountPaid;
         ChangeAmount = changeAmount;
     }
-    //Constructor to be utilized by JsonSerializer.Deserialize()
+    // Parameterless constructor for object initialization and data mapping.
     public Receipt()
     {
         

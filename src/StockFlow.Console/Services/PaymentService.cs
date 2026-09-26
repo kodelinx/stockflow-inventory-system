@@ -39,6 +39,24 @@ public class PaymentService
             return;
         }
 
+        List<Payment> existingPayments =_paymentRepository.GetPaymentsByOrderNumber(
+            order.OrderNumber
+        );
+
+        bool hasPaidPayment = existingPayments.Any(
+            payment => payment.PaymentStatus.Equals(
+                "Paid",
+                StringComparison.OrdinalIgnoreCase
+            )
+        );
+
+        if (order.PaymentStatus.Equals("Paid", StringComparison.OrdinalIgnoreCase
+            ) || hasPaidPayment)
+        {
+            Console.WriteLine("The order is already paid.");
+            return;
+        }
+
         string paymentMethod = GetPaymentMethod();
 
         decimal amountPaid = _inputValidationService.GetValidDecimal(
@@ -52,7 +70,7 @@ public class PaymentService
 
         Payment payment = new Payment
         {
-            //paymentId,
+            OrderId = order.OrderId,
             PaymentNumber = paymentNumber,
             OrderNumber = order.OrderNumber,
             PaymentDate = DateTime.Now,
@@ -63,7 +81,9 @@ public class PaymentService
             PaymentStatus = "Paid"
         };
 
-        _paymentRepository.AddPayment(order.OrderId, payment);
+        int paymentId = _paymentRepository.AddPayment(payment);
+
+        payment.PaymentId = paymentId;
         
         _orderRepository.UpdatePaymentStatus(order.OrderNumber, "Paid");
         

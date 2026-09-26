@@ -1,5 +1,4 @@
 using Microsoft.Data.Sqlite;
-using SQLitePCL;
 using StockFlow.Database;
 using StockFlow.Models;
 
@@ -14,7 +13,7 @@ public class ReceiptRepository
         _databaseConnectionService = databaseConnectionService;
     }
 
-    public void AddReceipt(int orderId, int paymentId, Receipt receipt)
+    public void AddReceipt(Receipt receipt)
     {
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()
@@ -54,8 +53,8 @@ public class ReceiptRepository
         command.CommandText = sql;
 
         command.Parameters.AddWithValue("@ReceiptNumber", receipt.ReceiptNumber);
-        command.Parameters.AddWithValue("@OrderId", orderId);
-        command.Parameters.AddWithValue("@PaymentId", paymentId);
+        command.Parameters.AddWithValue("@OrderId", receipt.OrderId);
+        command.Parameters.AddWithValue("@PaymentId", receipt.PaymentId);
         command.Parameters.AddWithValue("@OrderNumber", receipt.OrderNumber);
         command.Parameters.AddWithValue("@PaymentNumber", receipt.PaymentNumber);
         command.Parameters.AddWithValue("@ReceiptDate", receipt.ReceiptDate.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -167,11 +166,13 @@ public class ReceiptRepository
                 PaymentMethod,
                 AmountPaid,
                 ChangeAmount
-            FROM Payments
+            FROM Receipts
             WHERE PaymentNumber = @PaymentNumber
         ";
 
         using SqliteCommand command = new SqliteCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@PaymentNumber", paymentNumber);
 
         using SqliteDataReader reader = command.ExecuteReader();
 
@@ -198,6 +199,8 @@ public class ReceiptRepository
             SELECT
                 ReceiptId,
                 ReceiptNumber,
+                OrderId,
+                PaymentId,
                 OrderNumber,
                 PaymentNumber,
                 ReceiptDate,

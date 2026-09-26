@@ -1,4 +1,3 @@
-using StockFlow.Models;
 namespace StockFlow.Models;
 
 public class Payment
@@ -38,7 +37,7 @@ public class Payment
         ChangeAmount = changeAmount;
         PaymentStatus = paymentStatus; 
     }
-    //Constructor to be utilized by JsonSerializer.Deserialize()
+    // Parameterless constructor for object initialization and data mapping.
     public Payment()
     {
         

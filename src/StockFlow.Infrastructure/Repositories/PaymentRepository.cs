@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using Microsoft.Data.Sqlite;
 using StockFlow.Database;
 using StockFlow.Models;
@@ -14,7 +13,7 @@ public class PaymentRepository
         _databaseConnectionService = databaseConnectionService;
     }
 
-    public void AddPayment(int orderId, Payment payment)
+    public int AddPayment(Payment payment)
     {
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()
@@ -45,14 +44,15 @@ public class PaymentRepository
                 @AmountPaid,
                 @ChangeAmount,
                 @PaymentStatus
-            );
+            )
+            RETURNING PaymentId;
         ";
 
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = sql;
 
         command.Parameters.AddWithValue("@PaymentNumber", payment.PaymentNumber);
-        command.Parameters.AddWithValue("@OrderId", orderId);
+        command.Parameters.AddWithValue("@OrderId", payment.OrderId);
         command.Parameters.AddWithValue("@OrderNumber", payment.OrderNumber);
         command.Parameters.AddWithValue("@PaymentDate", payment.PaymentDate.ToString("yyyy-MM-dd HH:mm:ss"));
         command.Parameters.AddWithValue("@PaymentMethod", payment.PaymentMethod);
@@ -61,7 +61,16 @@ public class PaymentRepository
         command.Parameters.AddWithValue("@ChangeAmount", payment.ChangeAmount);
         command.Parameters.AddWithValue("@PaymentStatus", payment.PaymentStatus);
 
-        command.ExecuteNonQuery();
+        object? result = command.ExecuteScalar();
+
+        if (result == null)
+        {
+            throw new InvalidOperationException(
+                "Payment was inserted but no PaymentId was returned."
+            );
+        }
+
+        return Convert.ToInt32(result);
     }
 
     public List<Payment> GetAllPayments()

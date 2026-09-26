@@ -46,6 +46,16 @@ public class ReceiptService
             return;
         }
 
+        if (!payment.PaymentStatus.Equals(
+            "Paid",
+            StringComparison.OrdinalIgnoreCase
+        ))
+        {
+            Console.WriteLine("A receipt can only be generated for a paid payment.");
+
+            return;
+        }
+
         // Prevents multiple receipts for the same payment.
         Receipt? existingReceipt = _receiptRepository.FindReceiptByPaymentNumber(payment.PaymentNumber);
 
@@ -71,11 +81,19 @@ public class ReceiptService
         // using OrderId before printing the receipt.
         order.Items = _orderItemRepository.GetOrderItemsByOrderId(order.OrderId);
 
+        if (order.Items.Count == 0)
+{
+            Console.WriteLine("Receipt cannot be generated because the order has no saved items.");
+            return;
+        }
+
         string receiptNumber = GenerateNextReceiptNumber();
 
         // Creates a receipt snapshot using the saved payment and order data.
         Receipt receipt = new Receipt
         {
+            OrderId = order.OrderId,
+            PaymentId = payment.PaymentId,
             ReceiptNumber = receiptNumber,
             OrderNumber = order.OrderNumber,
             PaymentNumber = payment.PaymentNumber,
@@ -86,12 +104,8 @@ public class ReceiptService
             ChangeAmount = payment.ChangeAmount
         };
 
-        // Saves the receipt to SQLite and links it to the order and payment.
-        _receiptRepository.AddReceipt(
-            order.OrderId,
-            payment.PaymentId,
-            receipt
-        );
+        // Saves the receipt to SQLite
+        _receiptRepository.AddReceipt(receipt);
 
         // Reloads the saved receipt so the database version is used.
         Receipt? savedReceipt = _receiptRepository.FindReceiptByNumber(receipt.ReceiptNumber);

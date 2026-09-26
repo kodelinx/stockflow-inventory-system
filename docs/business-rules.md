@@ -188,7 +188,9 @@ This section records important gaps **without asserting that every documented ru
 | Area | Verification or enforcement still needed | Related work |
 | --- | --- | --- |
 | Checkout | Verify all items are checked against current stock; introduce one database transaction for order, items, stock updates, and movements. | Repository-first refactor / regression testing |
-| Basket | Verify repository-backed product lookup, out-of-stock handling, and total quantity when the same product is added twice. | Service refactor |
+| Basket | Verify that BasketService uses current repository-backed product data when adding items. Confirm that inactive products cannot be added, requested quantity is positive, and the combined quantity already in the basket plus the new request does not exceed available stock. | M47.2 / M48 |
+| Basket state | Verify that removing an item or clearing the basket changes only temporary session state and does not modify persistent product stock. | M47.2 / M48 |
+| Checkout revalidation | Verify that product availability is checked again during checkout because basket contents do not reserve inventory. | M47.3 / M48 |
 | Order details | Verify saved orders reload their related order items correctly. | Service refactor / integration tests |
 | Payments | Confirm duplicate-payment prevention and consistent `Paid`/`Completed` values. | Regression testing |
 | Receipts | Verify duplicate prevention for the same payment; consider a database uniqueness constraint. | Service refactor / integration tests |

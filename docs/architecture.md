@@ -209,6 +209,36 @@ Clear basket only after successful checkout
 
 The order header is saved before its items so the items can use the generated parent `OrderId`. The current implementation coordinates multiple repository calls from `OrderService`; **a single cross-repository SQLite transaction is a reliability improvement still to be implemented/verified**. Do not describe checkout as atomic until that improvement exists.
 
+### Basket Management
+
+The Console application keeps `List<BasketItem>` as temporary session state for the current shopping basket.
+
+`BasketService` is responsible for basket operations such as adding products, viewing basket contents, removing items, and clearing the basket.
+
+Persistent product information should be obtained through `ProductRepository` rather than through a separately maintained in-memory product catalog.
+
+The intended flow is:
+
+Program.cs
+    |
+    v
+BasketService
+    |
+    +--> List<BasketItem>   Temporary session state
+    |
+    v
+ProductRepository
+    |
+    v
+SQLite Products
+
+```markdown
+Basket operations retrieve current product information through `ProductRepository` while keeping the basket itself as temporary session state.
+
+The basket validates product availability before an item is added, including the total quantity already present in the basket. Removing or clearing basket items does not modify persistent stock.
+
+Final product availability is revalidated during checkout because the basket does not reserve inventory.
+
 ### Payment and order completion
 
 ```text

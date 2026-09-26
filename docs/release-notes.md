@@ -45,6 +45,8 @@ Moves the Console application's persistent business records from JSON/list-based
 - Updating order and receipt display to load related `OrderItems` from their own repository.
 - Updating alerts, dashboard summaries, sales reports, and notification simulations to use current repository-backed data.
 - Completed repository-first inventory-service cleanup and separated ordinary product-detail updates from audited stock-quantity adjustments.
+- Completed repository-first basket workflow validation while keeping the shopping basket as temporary session state.
+- Improved basket stock validation so repeated additions of the same product respect the total quantity already present in the basket.
 
 
 #### Fixed

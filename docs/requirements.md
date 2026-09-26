@@ -80,7 +80,7 @@ Never reuse a retired identifier for a different requirement. Keep milestone ref
 
 | ID | Requirement | Status | Surface | Reference / notes |
 |---|---|---|---|---|
-| ORD-001 | Add available products to the current basket without exceeding available stock. | Implemented | Console | M04; current repository lookup cleanup in M47 |
+| ORD-001 | Add available products to the current basket without exceeding available stock. | Implemented | Console | M04; M47.2 |
 | ORD-002 | View basket items, quantities, prices and line totals. | Implemented | Console | M04 |
 | ORD-003 | Remove a selected basket item. | Implemented | Console | M04 |
 | ORD-004 | Clear the current basket. | Implemented | Console | M04 |
@@ -90,7 +90,7 @@ Never reuse a retired identifier for a different requirement. Keep milestone ref
 | ORD-008 | Persist order items with an `OrderId` link and purchase-time product details. | Implemented | Console | M05, M46.4; full ID mapping in M47 |
 | ORD-009 | View saved orders and their related order items. | In Progress | Console, API | M47; Console item loading being finalized, API integration separate |
 | ORD-010 | Retrieve a specific order by its order number. | Implemented | Console; API route exists | M26, M46.4; API may use sample data |
-| ORD-011 | Keep the current basket as session state; clearing it must not delete saved orders or order items. | Implemented | Console | M04, M47 |
+| ORD-011 | Keep the current basket as session state; clearing it must not delete saved orders or order items. | Implemented | Console | M04, M47.2 |
 
 ### 3.3 Payment Management
 

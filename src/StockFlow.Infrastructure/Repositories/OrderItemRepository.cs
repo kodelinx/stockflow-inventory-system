@@ -13,7 +13,7 @@ public class OrderItemRepository
         _databaseConnectionService = databaseConnectionService;
     }
 
-    public void AddOrderItem(int orderId, OrderItem orderItem)
+    public void AddOrderItem(OrderItem orderItem)
     {
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()
@@ -42,7 +42,7 @@ public class OrderItemRepository
         ";    
         using SqliteCommand command = new SqliteCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@OrderId", orderId);
+        command.Parameters.AddWithValue("@OrderId", orderItem.OrderId);
         command.Parameters.AddWithValue("@ProductId", orderItem.ProductId);
         command.Parameters.AddWithValue("@ProductCode", orderItem.ProductCode);
         command.Parameters.AddWithValue("@ProductName", orderItem.ProductName);

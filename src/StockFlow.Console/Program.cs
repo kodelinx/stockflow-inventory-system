@@ -68,7 +68,6 @@ OrderService orderService = new OrderService(
     productRepository,
     orderRepository,
     orderItemRepository,
-    stockMovementRepository,
     stockMovementService
 );
 

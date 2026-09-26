@@ -8,14 +8,12 @@ public class OrderService
     private readonly ProductRepository _productRepository;
     private readonly OrderRepository _orderRepository;
     private readonly OrderItemRepository _orderItemRepository;
-    private readonly StockMovementRepository _stockMovementRepository;
     private readonly StockMovementService _stockMovementService;
 
     public OrderService(
         ProductRepository productRepository,
         OrderRepository orderRepository,
         OrderItemRepository orderItemRepository,
-        StockMovementRepository stockMovementRepository,
         StockMovementService stockMovementService
         
     )
@@ -23,7 +21,6 @@ public class OrderService
         _productRepository = productRepository;
         _orderRepository = orderRepository;
         _orderItemRepository = orderItemRepository;
-        _stockMovementRepository = stockMovementRepository;
         _stockMovementService  = stockMovementService;
     }
 
@@ -38,20 +35,24 @@ public class OrderService
         }
 
         // Checks if each basket item is still available and has enough stock.
-        foreach (BasketItem basketItem in basketItems)
+        foreach (var productGroup in basketItems.GroupBy(
+            item => item.ProductId
+        ))
         {
             Product? product = products.FirstOrDefault(product =>
                 product.IsActive &&
-                product.ProductId == basketItem.ProductId
+                product.ProductId == productGroup.Key
             );
 
             if (product == null)
             {
-                Console.WriteLine($"Cannot checkout. {basketItem.ProductName} is no longer available.");
+                Console.WriteLine($"Cannot checkout. A product is no longer available.");
                 return;
             }
 
-            if (basketItem.Quantity > product.QuantityInStock)
+            int totalRequested = productGroup.Sum(item => item.Quantity);
+
+            if (totalRequested > product.QuantityInStock)
             {
                 Console.WriteLine($"Cannot checkout. Not enough stock for {product.Name}.");
                 return;
@@ -91,27 +92,20 @@ public class OrderService
             PaymentStatus = "Unpaid"
         };
 
-        // Saves the order summary to SQLite.
-        _orderRepository.AddOrder(order);
+        // Saves the order summary to SQLite and automatically gets the saved order so we can use the SQLite geenerated OrderId.
+        int orderId = _orderRepository.AddOrder(order);
+
+        order.OrderId = orderId;
 
         // Gets the saved order so we can use the SQLite-generated OrderId.
         Order? savedOrder = _orderRepository.FindOrderByNumber(order.OrderNumber);
 
-        if (savedOrder == null)
-        {
-            Console.WriteLine("Order was not saved properly.");
-            return;
-        }
-
         // Saves each order item using the saved OrderId.
         foreach (OrderItem orderItem in orderItems)
         {
-            orderItem.OrderId = savedOrder.OrderId;
+            orderItem.OrderId = order.OrderId;
 
-            _orderItemRepository.AddOrderItem(
-                savedOrder.OrderId,
-                orderItem
-            );
+            _orderItemRepository.AddOrderItem(orderItem);
         }
 
         // Updates product stock and records stock-out movement.

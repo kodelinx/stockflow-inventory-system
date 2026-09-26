@@ -1,5 +1,3 @@
-using System.ComponentModel.Design;
-using System.Runtime.CompilerServices;
 using Microsoft.Data.Sqlite;
 using StockFlow.Database;
 using StockFlow.Models;
@@ -15,7 +13,7 @@ public class OrderRepository
         _databaseConnectionService = databaseConnectionService;
     }
 
-    public void AddOrder(Order order)
+    public int AddOrder(Order order)
     {
         using SqliteConnection connection = new SqliteConnection(
             _databaseConnectionService.GetConnectionString()
@@ -37,7 +35,8 @@ public class OrderRepository
                 @TotalAmount,
                 @OrderStatus,
                 @PaymentStatus
-            );
+            )
+            RETURNING OrderId;
         ";
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = sql;
@@ -48,7 +47,16 @@ public class OrderRepository
         command.Parameters.AddWithValue("@OrderStatus", order.OrderStatus);
         command.Parameters.AddWithValue("@PaymentStatus", order.PaymentStatus);
 
-        command.ExecuteNonQuery();
+        object? result = command.ExecuteScalar();
+
+        if (result == null)
+        {
+            throw new InvalidOperationException(
+                "Order was inserted but no OrderId was returned"
+            );
+        }
+
+        return Convert.ToInt32(result);
     }
 
     public List<Order> GetAllOrders()

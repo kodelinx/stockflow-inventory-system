@@ -238,6 +238,34 @@ Basket operations retrieve current product information through `ProductRepositor
 The basket validates product availability before an item is added, including the total quantity already present in the basket. Removing or clearing basket items does not modify persistent stock.
 
 Final product availability is revalidated during checkout because the basket does not reserve inventory.
+### Checkout and Order Processing
+
+Checkout converts the temporary `List<BasketItem>` session state into persistent sales records.
+
+`OrderService` performs final product and stock validation using repository-backed product data before creating an order.
+
+The checkout flow is:
+
+List<BasketItem>
+    |
+    v
+OrderService
+    |
+    +--> ProductRepository
+    |       Revalidate active products and available stock
+    |
+    +--> OrderRepository
+    |       Persist the parent Order
+    |       Return the SQLite-generated OrderId
+    |
+    +--> OrderItemRepository
+    |       Persist child OrderItems using OrderId
+    |
+    +--> ProductRepository
+    |       Persist stock deductions
+    |
+    +--> StockMovementService
+            Persist Stock Out audit records
 
 ### Payment and order completion
 

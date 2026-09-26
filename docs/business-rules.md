@@ -192,6 +192,10 @@ This section records important gaps **without asserting that every documented ru
 | Basket state | Verify that removing an item or clearing the basket changes only temporary session state and does not modify persistent product stock. | M47.2 / M48 |
 | Checkout revalidation | Verify that product availability is checked again during checkout because basket contents do not reserve inventory. | M47.3 / M48 |
 | Order details | Verify saved orders reload their related order items correctly. | Service refactor / integration tests |
+| Checkout | Verify final product availability and aggregate requested quantities against current SQLite stock before persistence. | M47.3 / M48 |
+| Order relationships | Verify that every OrderItem uses the SQLite-generated parent `OrderId` and preserves its transaction snapshot values. | M47.3 / M48 |
+| Inventory consistency | Verify that successful checkout persists the stock deduction and corresponding Stock Out movement with the OrderNumber as its reference. | M47.3 / M48 |
+| Checkout atomicity | Order, OrderItem, product update, and stock movement operations currently use independent repository connections. Shared transaction handling remains an outstanding reliability requirement. | Future persistence hardening / M48 verification |
 | Payments | Confirm duplicate-payment prevention and consistent `Paid`/`Completed` values. | Regression testing |
 | Receipts | Verify duplicate prevention for the same payment; consider a database uniqueness constraint. | Service refactor / integration tests |
 | Inventory | Verify stock history and product quantity cannot diverge after a partial failure. | Transaction handling / integration tests |

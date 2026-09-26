@@ -91,6 +91,7 @@ Never reuse a retired identifier for a different requirement. Keep milestone ref
 | ORD-009 | View saved orders and their related order items. | In Progress | Console, API | M47; Console item loading being finalized, API integration separate |
 | ORD-010 | Retrieve a specific order by its order number. | Implemented | Console; API route exists | M26, M46.4; API may use sample data |
 | ORD-011 | Keep the current basket as session state; clearing it must not delete saved orders or order items. | Implemented | Console | M04, M47.2 |
+| ORD-012 |  Checkout follows a repository-backed parent-child flow. The Order is persisted first so that its SQLite-generated `OrderId` can be assigned to each related OrderItem. | Implemented | Console | M47.3
 
 ### 3.3 Payment Management
 

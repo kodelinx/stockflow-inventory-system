@@ -108,8 +108,8 @@ Status: In Progress
 - M47 - Repository-First Console Service Refactor - In Progress
   - M47.1 - Refactor InventoryService to Repository-First Flow - Completed
   - M47.2 - Refactor BasketService Product Access - Completed
-  - M47.3 - Refactor Order and OrderItem Flow - Planned
-  - M47.4 - Refactor Payment and Receipt Flow - In Progress
+  - M47.3 - Refactor Order and OrderItem Flow - Completed
+  - M47.4 - Refactor Payment and Receipt Flow - Planned
   - M47.5 - Refactor StockMovementService - In Progress
   - M47.6 - Refactor Alert, Dashboard, Sales Report, and Notification Services - In Progress
   - M47.7 - Clean Program.cs Temporary Lists and Legacy JSON Remnants - Planned

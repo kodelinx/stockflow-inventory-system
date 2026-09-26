@@ -238,6 +238,7 @@ Basket operations retrieve current product information through `ProductRepositor
 The basket validates product availability before an item is added, including the total quantity already present in the basket. Removing or clearing basket items does not modify persistent stock.
 
 Final product availability is revalidated during checkout because the basket does not reserve inventory.
+
 ### Checkout and Order Processing
 
 Checkout converts the temporary `List<BasketItem>` session state into persistent sales records.
@@ -280,6 +281,51 @@ PaymentService
 
 The order status is stored in SQLite. A later notification workflow reads the updated persisted order rather than relying on a stale in-memory order list. Payment insertion and order-status updates likewise require transaction-level consistency work before being considered atomic.
 
+### Payment and Receipt Processing
+
+Payment processing retrieves the related Order from SQLite and validates that the order has not already been paid.
+
+A successful payment creates a persistent Payment record linked to the parent Order through `OrderId`. The Payment also preserves the business-facing `OrderNumber`, payment method, amount due, amount paid, change amount, payment date, and payment status.
+
+The payment flow is:
+
+```text
+Order
+    |
+    v
+PaymentService
+    |
+    +--> OrderRepository
+    |       Load and validate Order
+    |
+    +--> PaymentRepository
+    |       Persist Payment and return PaymentId
+    |
+    +--> OrderRepository
+            Update PaymentStatus and OrderStatus
+```
+Receipt generation begins from a persisted paid Payment. The related Order and OrderItems are reloaded from SQLite before the receipt is generated.
+```text
+Payment
+    |
+    v
+ReceiptService
+    |
+    +--> PaymentRepository
+    |       Load Payment
+    |
+    +--> ReceiptRepository
+    |       Check for an existing receipt
+    |
+    +--> OrderRepository
+    |       Load related Order
+    |
+    +--> OrderItemRepository
+    |       Load purchased OrderItems
+    |
+    +--> ReceiptRepository
+            Persist Receipt and return ReceiptId
+```
 ### Receipt generation and export
 
 ```text

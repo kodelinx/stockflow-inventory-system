@@ -196,8 +196,11 @@ This section records important gaps **without asserting that every documented ru
 | Order relationships | Verify that every OrderItem uses the SQLite-generated parent `OrderId` and preserves its transaction snapshot values. | M47.3 / M48 |
 | Inventory consistency | Verify that successful checkout persists the stock deduction and corresponding Stock Out movement with the OrderNumber as its reference. | M47.3 / M48 |
 | Checkout atomicity | Order, OrderItem, product update, and stock movement operations currently use independent repository connections. Shared transaction handling remains an outstanding reliability requirement. | Future persistence hardening / M48 verification |
-| Payments | Confirm duplicate-payment prevention and consistent `Paid`/`Completed` values. | Regression testing |
-| Receipts | Verify duplicate prevention for the same payment; consider a database uniqueness constraint. | Service refactor / integration tests |
+| Payments | Verify that only valid unpaid Orders can receive a full payment and that duplicate successful payments are rejected. | M47.4 / M48 |
+| Payment consistency | Verify that the persisted Payment links to the correct Order and that successful payment updates both PaymentStatus and OrderStatus. | M47.4 / M48 |
+| Receipts | Verify that receipts can only be generated from paid Payments and that the Receipt preserves the correct OrderId, PaymentId, OrderNumber, and PaymentNumber. | M47.4 / M48 |
+| Duplicate receipts | Verify application-level prevention of multiple receipts for the same Payment. Database-level uniqueness remains future hardening. | M47.4 / M48 |
+| Payment atomicity | Payment insertion and Order status updates currently use independent repository connections. Shared transaction handling remains an outstanding reliability improvement. | Future persistence hardening |
 | Inventory | Verify stock history and product quantity cannot diverge after a partial failure. | Transaction handling / integration tests |
 | Database reset | Verify safe development-only access, correct file path, initialization, and isolated test databases. | Development tooling / integration tests |
 | API | Verify documented responses against live controller behavior and connect remaining temporary data sources when planned. | API integration / API tests |

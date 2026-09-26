@@ -48,6 +48,7 @@ Moves the Console application's persistent business records from JSON/list-based
 - Completed repository-first basket workflow validation while keeping the shopping basket as temporary session state.
 - Improved basket stock validation so repeated additions of the same product respect the total quantity already present in the basket.
 - Improved Order verification, including direct generated OrderId handling, OrderItem relationship persistence, aggregate stock validation, and checkout regression testing.
+- Completed payment and receipt flow hardening, including generated PaymentId and ReceiptId handling, receipt query fixes, duplicate payment/receipt safeguards, and regression verification.
 
 
 #### Fixed

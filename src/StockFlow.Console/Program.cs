@@ -1,14 +1,13 @@
 ﻿using StockFlow.Services;
 using StockFlow.Models;
 using StockFlow.Utilities;
-using StockFlow.Data;
 using StockFlow.Database;
 using StockFlow.Repositories;
 
 ProductManager productManager = new ProductManager();
 
 LoggingService loggingService = new LoggingService();
-JsonStorageService jsonStorageService = new JsonStorageService(loggingService);
+
 
 
 // Prepares the SQLite database and creates needed tables.
@@ -101,14 +100,6 @@ List<BasketItem> basketItems = new List<BasketItem>();
 
 Console.WriteLine("\nSQLite database initialized successfully.\n");
 
-/*
-string productsFilePath = "Data/products.json";
-string ordersFilePath ="Data/orders.json";
-string paymentsFilePath = "Data/payments.json";
-string receiptsFilePath = "Data/receipts.json";
-string stockMovementsFilePath = "Data/stock-movements.json";
-string notificationFilePath = "Data/notifications.json";
-*/
 
 bool keepRunning = true;
 
@@ -138,22 +129,20 @@ while (keepRunning)
     Console.WriteLine("16. Generate Receipt");
     Console.WriteLine("17. View Receipts");
     Console.WriteLine("18. Show Dashboard");
-    Console.WriteLine("19. Save Data to JSON (Legacy - Disabled)");
-    Console.WriteLine("20. Reload Data(Legacy - Disabled)");
-    Console.WriteLine("21. Add Stock");
-    Console.WriteLine("22. Adjust Stock");
-    Console.WriteLine("23. View Stock movements");
-    Console.WriteLine("24. View Low Stock Products");
-    Console.WriteLine("25. Export Receipt to Text File");
-    Console.WriteLine("26. View Sales Summary Report");
-    Console.WriteLine("27. Simulate Low Stock Email");
-    Console.WriteLine("28. Simulate Order Completed Email");
-    Console.WriteLine("29. Simulate Receipt Email");
-    Console.WriteLine("30. View Notifications");
-    Console.WriteLine("31. Reset Database");
-    Console.WriteLine("32. Exit");
+    Console.WriteLine("19. Add Stock");
+    Console.WriteLine("20. Adjust Stock");
+    Console.WriteLine("21. View Stock movements");
+    Console.WriteLine("22. View Low Stock Products");
+    Console.WriteLine("23. Export Receipt to Text File");
+    Console.WriteLine("24. View Sales Summary Report");
+    Console.WriteLine("25. Simulate Low Stock Email");
+    Console.WriteLine("26. Simulate Order Completed Email");
+    Console.WriteLine("27. Simulate Receipt Email");
+    Console.WriteLine("28. View Notifications");
+    Console.WriteLine("29. Reset Database");
+    Console.WriteLine("30. Exit");
 
-    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 32);
+    int option = inputValidationService.GetValidInt("Choose an option: ",  1, 30);
     Console.WriteLine("");
 
     switch(option)
@@ -213,71 +202,42 @@ while (keepRunning)
             dashboardService.ShowDashboard();
             break;
         case 19:
-             // Transitional only: products are now read from SQLite, but JSON save still exists.
-            /*jsonStorageService.SaveData(products, productsFilePath);
-            jsonStorageService.SaveData(orders, ordersFilePath);
-            jsonStorageService.SaveData(payments, paymentsFilePath);
-            jsonStorageService.SaveData(receipts, receiptsFilePath);
-            jsonStorageService.SaveData(stockMovements, stockMovementsFilePath);
-            jsonStorageService.SaveData(notifications, notificationFilePath);**/
-
-            Console.WriteLine("JSON saving is disabled because SQLite is now the main data source.\n");
-
-            break;
-        case 20:
-            /* Reloads products from SQLite.
-            products = productRepository.GetActiveProducts();
-
-            // Orders, payments, and receipts may now also be database-backed.
-            orders = orderRepository.GetAllOrders();
-            payments = paymentRepository.GetAllPayments();
-            receipts = receiptRepository.GetAllReceipts();
-
-            // Reloads stock movements and notifications from SQLite.
-            stockMovements = stockMovementRepository.GetAllStockMovements();
-            notifications = notificationRepository.GetAllNotifications();
-
-            Console.WriteLine("Data reloaded from SQLite successfully.\n");
-            */
-            Console.WriteLine("Functionality Disabled (Legacy)");
-            break;  
-        case 21:
             stockMovementService.AddStock();
             break;
-        case 22:
+        case 20:
             stockMovementService.AdjustStock();
             break;
-        case 23:
+        case 21:
             stockMovementService.ViewStockMovements();
             break;
-        case 24:
+        case 22:
             alertService.ShowLowstockAlerts();
             break;
-        case 25:
+        case 23:
             receiptService.ExportReceiptToTextFile();
             break;
-        case 26:
+        case 24:
             salesReportService.ShowSalesSummary();
             break;
-        case 27:
+        case 25:
             notificationService.SimulateLowStockEmail();
             break;
-        case 28:
+        case 26:
             notificationService.SimulateOrderCompletedEmail();
             break;
-        case 29:
+        case 27:
             notificationService.SimulateReceiptEmail();
             break;
-        case 30:
+        case 28:
             notificationService.ViewNotificationEmail();
             break;
-        case 31:
+        case 29:
             databaseConnectionService.ResetDatabase();
             basketItems.Clear();
 
             Console.WriteLine( $"Current database location: {databaseConnectionService.GetDatabaseFilePath()}");
             break;
-        case 32:
+        case 30:
             loggingService.LogInfo("Stockflow application closed.");
             Console.WriteLine("StockFlow has been closed");
             keepRunning = false;

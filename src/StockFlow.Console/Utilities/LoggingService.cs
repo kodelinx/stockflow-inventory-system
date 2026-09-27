@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using StockFlow.Models;
-
 namespace StockFlow.Utilities;
 
 public class LoggingService
@@ -25,7 +22,7 @@ public class LoggingService
                 Directory.CreateDirectory(_logFolderPath);
             }
 
-            string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{loglevel} {message}]";
+            string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{loglevel}] {message}";
 
             File.AppendAllText(_logFilePath, logEntry + Environment.NewLine);
         }

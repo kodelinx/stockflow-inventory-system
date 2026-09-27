@@ -227,6 +227,7 @@ This section records important gaps **without asserting that every documented ru
 | Successful reset | A successful development reset recreates the SQLite database, reseeds required starting data, and clears temporary basket state. | M47.8 / M48 |
 | SQLite pooling | Normal connection pooling remains enabled. Connection pools are cleared before destructive database-file deletion. | M47.8 |
 | Reset scope | Database reset is development/testing tooling rather than a production business capability. | M47.8 |
+| End-to-end regression | Repository-backed business rules must be verified together through the complete Product → Basket → Checkout → Payment → Receipt → Reporting/Notification lifecycle before v0.6 release preparation. | M47.9 / M48 |
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 

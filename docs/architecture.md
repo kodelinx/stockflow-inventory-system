@@ -448,6 +448,43 @@ Microsoft.Data.Sqlite connection pooling remains enabled for normal repository a
 
 Database reset is development tooling and is not treated as a normal production business operation.
 
+### Repository-First Runtime Verification
+
+The repository-first Console architecture is verified through an end-to-end regression workflow that exercises the complete business lifecycle against SQLite.
+
+The verification path includes:
+
+```text
+Product
+   |
+   v
+Basket
+   |
+   v
+Checkout
+   |
+   +--> Order + OrderItems
+   +--> Product stock update
+   +--> Stock Out audit
+   |
+   v
+Payment
+   |
+   v
+Receipt
+   |
+   +--> Receipt display / export
+   |
+   v
+Dashboard / Reports / Notifications
+   |
+   v
+Application Restart
+   |
+   v
+Persistence Verification
+```
+
 
 ## 7. API Architecture and Integration Status
 
@@ -474,6 +511,7 @@ HTTP JSON response
 | Dashboard | Earlier implementation uses typed temporary sample data; live repository integration not yet confirmed |
 
 The OpenAPI JSON document is available at `/openapi/v1.json` when the API is running. Exact routes, responses, and verification status are tracked in [`api-design.md`](api-design.md). No live order/payment/dashboard integration should be claimed until the corresponding controllers have been checked.
+
 
 ## 8. Cross-Cutting Concerns
 

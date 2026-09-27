@@ -220,7 +220,7 @@ These requirements describe available HTTP capabilities. A working route using t
 | ID | Quality attribute | Requirement | Status | Verification / reference |
 |---|---|---|---|---|
 | NFR-001 | Input quality | Validate required values and expected numeric ranges; reject invalid input safely. | Implemented | Console validation; API route validation; M03, M29 |
-| NFR-002 | Maintainability | Separate Console/UI orchestration, shared domain logic and Infrastructure persistence with correct dependency direction. | In Progress | Architecture review and build; M31–M37, M47 |
+| NFR-002 | Maintainability | Separate Console/UI orchestration, shared domain logic and Infrastructure persistence with correct dependency direction. | Completed | Architecture review and build; M31–M37, M47 |
 | NFR-003 | Durability | Persist durable business records between application restarts. | Implemented | SQLite restart checks; M46 |
 | NFR-004 | Observability | Record useful application and error information without relying solely on Console output. | In Progress | Logging implementation and coverage review; M16 |
 | NFR-005 | Reliability | Handle expected failures without inconsistent partial transactions or unexpected crashes. | In Progress | Manual regression and future transaction tests; M47–M48 |
@@ -229,6 +229,9 @@ These requirements describe available HTTP capabilities. A working route using t
 | NFR-008 | Documentation | Maintain accurate, navigable Markdown requirements, design, acceptance criteria and release history. | In Progress | Review alongside relevant code changes; all releases |
 | NFR-009 | Change management | Use Git, meaningful commits and release tags for released versions. | Implemented | Git history and tagged release checks |
 | NFR-010 | Test isolation | Ensure automated tests and database resets cannot unintentionally erase development or production databases. | Planned | Dedicated temporary test database; M48 |
+| NFR-011 | Reset Scope | Development database reset must require explicit `RESET` confirmation. Before deleting SQLite files, pooled connections must be cleared. The reset workflow must recreate and initialize the database | Implemented | M47.8 |
+| NFR-012 | Reset Scope | Temporary basket state must be cleared only after a successful database reset. Cancelling the reset must preserve the existing basket and persisted records. | Implemented | M47.8 |
+
 
 ## 7. Scope Boundaries and Open Items
 

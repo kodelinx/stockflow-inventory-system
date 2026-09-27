@@ -53,6 +53,7 @@ Moves the Console application's persistent business records from JSON/list-based
 - Completed dashboard, reporting, alert, and notification cleanup, including centralized low-stock lookup, reduced duplicate repository reads, notification persistence consistency, and reporting regression verification.
 - Removed the retired JSON persistence workflow and legacy JSON Console options, leaving SQLite repositories as the authoritative persistence mechanism.
 - Simplified Console composition and menu wiring while retaining temporary basket state, operational logging, and receipt text export.
+- Hardened the development database reset workflow with explicit path diagnostics, reset confirmation, SQLite pool cleanup, sidecar-file handling, automatic reseeding, and safe temporary-basket clearing.
 
 
 #### Fixed

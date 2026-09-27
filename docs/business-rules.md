@@ -221,6 +221,12 @@ This section records important gaps **without asserting that every documented ru
 | Application persistence | SQLite is the authoritative source for persistent StockFlow business data. Legacy JSON persistence is not part of the active runtime. | M47.7 / M48 |
 | Session state | Basket contents remain temporary in-memory state and are not expected to survive application restart. | M47.7 / M48 |
 | File output | Logging and receipt text export are permitted file-based outputs but are not authoritative business-data persistence mechanisms. | M47.7 |
+| Database path | StockFlow must expose the exact resolved SQLite database path used by repository connections. | M47.8 / M48 |
+| Database reset | Destructive reset requires the exact confirmation text `RESET`. | M47.8 / M48 |
+| Reset cancellation | Cancelling database reset must preserve both persisted database records and the current temporary basket. | M47.8 / M48 |
+| Successful reset | A successful development reset recreates the SQLite database, reseeds required starting data, and clears temporary basket state. | M47.8 / M48 |
+| SQLite pooling | Normal connection pooling remains enabled. Connection pools are cleared before destructive database-file deletion. | M47.8 |
+| Reset scope | Database reset is development/testing tooling rather than a production business capability. | M47.8 |
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 

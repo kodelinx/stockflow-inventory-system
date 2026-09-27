@@ -59,6 +59,13 @@ The shopping basket remains temporary session state and is cleared when the Cons
 
 File output is still used for operational logging and explicit receipt text exports, but these files are not the application's primary data store.
 
+### Development Database Reset
+
+The Console application includes a development-only SQLite reset operation.
+
+Reset displays the active database path and requires the exact confirmation text `RESET`. A successful reset recreates and reseeds the development database and clears temporary basket state.
+
+Cancelling the operation leaves the database and basket unchanged.
 
 ## Getting Started
 

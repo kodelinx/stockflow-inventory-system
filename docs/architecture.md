@@ -395,6 +395,60 @@ DashboardService / NotificationService / Console
                     v
               SQLite Products
 
+### Database Path and Development Reset
+
+StockFlow resolves its SQLite database file to one absolute path and uses that same path for connection creation and diagnostics.
+
+The database lifecycle is:
+
+```text
+Application Startup
+       |
+       v
+Resolve Database Path
+       |
+       v
+Create Database Directory
+       |
+       v
+Initialize SQLite
+       |
+       +--> Create missing tables
+       |
+       +--> Seed Products when appropriate
+```
+
+StockFlow also provides a development-only database reset workflow:
+Request Reset
+     |
+     v
+Display Database Path and Warning
+     |
+     v
+Require exact RESET confirmation
+     |
+     v
+Clear SQLite Connection Pools
+     |
+     v
+Delete database and optional SQLite sidecar files
+     |
+     v
+Initialize Database
+     |
+     v
+Reseed Initial Product Data
+     |
+     v
+Clear Temporary Basket State
+
+A cancelled reset does not modify the database and does not clear temporary basket state.
+
+Microsoft.Data.Sqlite connection pooling remains enabled for normal repository activity. Pools are explicitly cleared only during destructive development reset operations.
+
+Database reset is development tooling and is not treated as a normal production business operation.
+
+
 ## 7. API Architecture and Integration Status
 
 The API is a separate ASP.NET Core entry point. Controllers own HTTP concerns and may use Core business logic and Infrastructure repositories through configured dependencies.

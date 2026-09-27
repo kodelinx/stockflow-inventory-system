@@ -210,7 +210,7 @@ public class ProductRepository
         command.Parameters.AddWithValue("@UnitPrice", product.UnitPrice);
         command.Parameters.AddWithValue("@QuantityInStock", product.QuantityInStock);
         command.Parameters.AddWithValue("@ReorderLevel", product.ReorderLevel);
-        command.Parameters.AddWithValue("@IsActive", product.IsActive);
+        command.Parameters.AddWithValue("@IsActive", product.IsActive ? 1 : 0);
 
         command.ExecuteNonQuery();
     }
@@ -229,7 +229,7 @@ public class ProductRepository
         using SqliteCommand command = new SqliteCommand(deactivateSql, connection);
 
         command.Parameters.AddWithValue("@ProductCode", productCode);
-        command.Parameters.AddWithValue("@IsActive", false);
+        command.Parameters.AddWithValue("@IsActive", 0);
 
         command.ExecuteNonQuery();
         

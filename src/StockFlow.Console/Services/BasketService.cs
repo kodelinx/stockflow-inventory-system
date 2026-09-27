@@ -32,6 +32,12 @@ public class BasketService
             return;
         }
 
+        if(product.QuantityInStock == 0)
+        {
+            Console.WriteLine("There's no items in stock");
+            return;
+        }
+
         int quantity = _inputValidationService.GetValidInt("How many products you wish to add? ", 1, product.QuantityInStock);
 
         BasketItem? existingBasketItem = basketItems.FirstOrDefault(

@@ -31,7 +31,7 @@ public class Product
         ReorderLevel = reorderLevel;
         IsActive = isActive;
     }
-    //Constructor to be utilized by JsonSerializer.Deserialize()
+    // Parameterless constructor for object initialization and data mapping.
     public Product()
     {
         

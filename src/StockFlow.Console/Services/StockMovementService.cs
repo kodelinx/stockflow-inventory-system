@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using StockFlow.Models;
 using StockFlow.Repositories;
 using StockFlow.Utilities;
@@ -29,7 +30,13 @@ public class StockMovementService
 
         if (product == null)
         {
-            Console.WriteLine("The product does not exist or is deactivated.");
+            Console.WriteLine("The product does not exist");
+            return;
+        }
+
+        if (!product.IsActive)
+        {
+            Console.WriteLine("Stock cannot be modified for an inactive product");
             return;
         }
 
@@ -39,7 +46,7 @@ public class StockMovementService
         int stockBefore = product.QuantityInStock;
 
         // Adds the entered quantity to the current product stock.
-        CalculateStockChange(product, quantityChanged);
+        ApplyStockChange(product, quantityChanged);
 
         int stockAfter = product.QuantityInStock;
 
@@ -67,7 +74,13 @@ public class StockMovementService
 
         if (product == null)
         {
-            Console.WriteLine("The product does not exist or is deactivated.");
+            Console.WriteLine("The product does not exist.");
+            return;
+        }
+
+        if (!product.IsActive)
+        {
+            Console.WriteLine("Stock cannot be modified for an inactive product");
             return;
         }
 
@@ -75,6 +88,14 @@ public class StockMovementService
         string reason = _inputValidationService.GetRequiredText("Reason: ");
 
         int stockBefore = product.QuantityInStock;
+
+        if (newStockQuantity == stockBefore)
+        {
+            Console.WriteLine(
+                "No stock adjustment was made because the quantity is unchanged."
+            );
+            return;
+        }
 
         // Calculates the difference between old stock and new stock.
         int quantityChanged = newStockQuantity - stockBefore;
@@ -147,7 +168,7 @@ public class StockMovementService
         }
     }
 
-    public void RecordMovement(
+    private void RecordMovement(
         Product product,
         string movementType,
         int stockBefore,
@@ -156,8 +177,6 @@ public class StockMovementService
         string reason,
         string referenceNumber)
     {
-        // Creates the next temporary movement ID for list/JSON flow.
-        // int stockMovementId = stockMovements.Count + 1;
 
         // Creates one stock movement history record.
         StockMovement stockMovement = new StockMovement
@@ -177,7 +196,7 @@ public class StockMovementService
         _stockMovementRepository.AddStockMovement(stockMovement);
     }
 
-    public void CalculateStockChange(Product product, int quantityChanged)
+    private void ApplyStockChange(Product product, int quantityChanged)
     {
         // Updates the product's current stock quantity.
         product.QuantityInStock += quantityChanged;

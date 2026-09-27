@@ -218,6 +218,9 @@ This section records important gaps **without asserting that every documented ru
 | Receipt notification | A Receipt notification may be created only for an existing persisted Receipt. | M47.6 / M48 |
 | Notification reference | Notifications may store an OrderNumber or ReceiptNumber as RelatedReference. Notifications without a related business record may store a NULL reference. | M47.6 / M48 |
 | Pending orders | In v0.6, Pending currently represents all non-Completed Orders because the supported Order status set is limited. This rule must be revisited if Cancelled, Refunded, Voided, or additional statuses are introduced. | Future status expansion |
+| Application persistence | SQLite is the authoritative source for persistent StockFlow business data. Legacy JSON persistence is not part of the active runtime. | M47.7 / M48 |
+| Session state | Basket contents remain temporary in-memory state and are not expected to survive application restart. | M47.7 / M48 |
+| File output | Logging and receipt text export are permitted file-based outputs but are not authoritative business-data persistence mechanisms. | M47.7 |
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 

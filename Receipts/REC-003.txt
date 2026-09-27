@@ -1,0 +1,18 @@
+=================================
+          STOCKFLOW RECEIPT       
+=================================
+Receipt Number: REC-003
+Order Number: ORD-010
+Payment Number: PAY-004
+Receipt Date: 9/20/2026 2:12:21 PM
+---------------------------------
+Items:
+Keyboard x 5
+  Unit Price: $750.00
+  Line Total: $3,750.00
+---------------------------------
+Total Amount: $3,750.00
+Payment Method: Cash
+Amount Paid: $5,000.00
+Change: $1,250.00
+=================================

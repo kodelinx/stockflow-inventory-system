@@ -51,6 +51,8 @@ Moves the Console application's persistent business records from JSON/list-based
 - Completed payment and receipt flow hardening, including generated PaymentId and ReceiptId handling, receipt query fixes, duplicate payment/receipt safeguards, and regression verification.
 - Completed stock movement cleanup and verification, including inactive-product protection, signed movement validation, no-change adjustment handling, and stock audit regression testing.
 - Completed dashboard, reporting, alert, and notification cleanup, including centralized low-stock lookup, reduced duplicate repository reads, notification persistence consistency, and reporting regression verification.
+- Removed the retired JSON persistence workflow and legacy JSON Console options, leaving SQLite repositories as the authoritative persistence mechanism.
+- Simplified Console composition and menu wiring while retaining temporary basket state, operational logging, and receipt text export.
 
 
 #### Fixed

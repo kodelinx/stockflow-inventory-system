@@ -47,6 +47,19 @@ The Console's persistent business records are being consolidated around SQLite r
 
 For component boundaries and data flows, see [Architecture](docs/architecture.md) and [Database Design](docs/database-design.md).
 
+### Persistence
+
+StockFlow uses SQLite as its authoritative persistence layer.
+
+Persistent application data includes Products, Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications.
+
+Legacy JSON save/reload persistence has been retired.
+
+The shopping basket remains temporary session state and is cleared when the Console application ends.
+
+File output is still used for operational logging and explicit receipt text exports, but these files are not the application's primary data store.
+
+
 ## Getting Started
 
 ### Prerequisites

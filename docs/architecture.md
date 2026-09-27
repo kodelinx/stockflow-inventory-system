@@ -384,6 +384,16 @@ StockFlow reporting, dashboard, alert, and notification features use repository-
 ```text
 QuantityInStock <= ReorderLevel
 ```
+DashboardService / NotificationService / Console
+                    |
+                    v
+               AlertService
+                    |
+                    v
+             ProductRepository
+                    |
+                    v
+              SQLite Products
 
 ## 7. API Architecture and Integration Status
 

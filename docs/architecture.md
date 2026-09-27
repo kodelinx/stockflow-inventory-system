@@ -375,6 +375,16 @@ StockMovementService
             Persist inventory audit record
 ```
 
+### Reporting, Alerts, and Notifications
+
+StockFlow reporting, dashboard, alert, and notification features use repository-backed SQLite data rather than long-lived in-memory copies.
+
+`AlertService` owns the low-stock use case. It retrieves active Products through `ProductRepository` and identifies Products where:
+
+```text
+QuantityInStock <= ReorderLevel
+```
+
 ## 7. API Architecture and Integration Status
 
 The API is a separate ASP.NET Core entry point. Controllers own HTTP concerns and may use Core business logic and Infrastructure repositories through configured dependencies.

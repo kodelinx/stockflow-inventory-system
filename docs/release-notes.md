@@ -50,6 +50,7 @@ Moves the Console application's persistent business records from JSON/list-based
 - Improved Order verification, including direct generated OrderId handling, OrderItem relationship persistence, aggregate stock validation, and checkout regression testing.
 - Completed payment and receipt flow hardening, including generated PaymentId and ReceiptId handling, receipt query fixes, duplicate payment/receipt safeguards, and regression verification.
 - Completed stock movement cleanup and verification, including inactive-product protection, signed movement validation, no-change adjustment handling, and stock audit regression testing.
+- Completed dashboard, reporting, alert, and notification cleanup, including centralized low-stock lookup, reduced duplicate repository reads, notification persistence consistency, and reporting regression verification.
 
 
 #### Fixed

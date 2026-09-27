@@ -211,6 +211,13 @@ This section records important gaps **without asserting that every documented ru
 | API | Verify documented responses against live controller behavior and connect remaining temporary data sources when planned. | API integration / API tests |
 | Access control | Implement and test authentication and role authorization. | Authentication and roles |
 | Notifications | Test simulated history and failure handling when a real provider is introduced. | Integration tests / future email integration |
+| Low stock | Low-stock detection applies only to active Products where QuantityInStock is less than or equal to ReorderLevel. | M47.6 / M48 |
+| Dashboard income | Dashboard income must be calculated from Paid Payments only. | M47.6 / M48 |
+| Sales reporting | Sales income, cash received, change totals, and payment-method summaries must use Paid Payments only. | M47.6 / M48 |
+| Order notification | An Order Completed notification may be created only for an existing Order whose OrderStatus is Completed. | M47.6 / M48 |
+| Receipt notification | A Receipt notification may be created only for an existing persisted Receipt. | M47.6 / M48 |
+| Notification reference | Notifications may store an OrderNumber or ReceiptNumber as RelatedReference. Notifications without a related business record may store a NULL reference. | M47.6 / M48 |
+| Pending orders | In v0.6, Pending currently represents all non-Completed Orders because the supported Order status set is limited. This rule must be revisited if Cancelled, Refunded, Voided, or additional statuses are introduced. | Future status expansion |
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 

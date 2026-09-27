@@ -111,7 +111,7 @@ Status: In Progress
   - M47.3 - Refactor Order and OrderItem Flow - Completed
   - M47.4 - Refactor Payment and Receipt Flow - Completed
   - M47.5 - Refactor StockMovementService - Completed
-  - M47.6 - Refactor Alert, Dashboard, Sales Report, and Notification Services - Planned
+  - M47.6 - Refactor Alert, Dashboard, Sales Report, and Notification Services - Completed
   - M47.7 - Clean Program.cs Temporary Lists and Legacy JSON Remnants - Planned
   - M47.8 - Add Development Database Reset and Path Diagnostics - In Progress
   - M47.9 - Manual Regression Verification - Planned

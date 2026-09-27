@@ -134,6 +134,10 @@ Never reuse a retired identifier for a different requirement. Keep milestone ref
 | STK-004 | Preserve stock-before, quantity-changed and stock-after values. | Implemented | Console | M11 |
 | STK-005 | Record the movement reason and related business reference when available. | Implemented | Console | M11, M44 |
 | STK-006 | View persisted stock movement history. | Implemented | Console | M46.6; removal of stale list parameters in M47 |
+| STK-007 | Manual Stock In and Adjustment operations must operate only on active Products. | Implemented | Console | M47.5 |
+| STK-009 | An unchanged adjustment must not create a StockMovement. | Implemented | Console | M47.5 |
+| STK-010 | Sale Stock Out records use negative QuantityChanged values and preserve the related OrderNumber as the movement reference. | Implemented | Console | M47.5 |
+
 
 ### 3.6 Dashboard and Reporting
 

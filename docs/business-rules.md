@@ -202,6 +202,11 @@ This section records important gaps **without asserting that every documented ru
 | Duplicate receipts | Verify application-level prevention of multiple receipts for the same Payment. Database-level uniqueness remains future hardening. | M47.4 / M48 |
 | Payment atomicity | Payment insertion and Order status updates currently use independent repository connections. Shared transaction handling remains an outstanding reliability improvement. | Future persistence hardening |
 | Inventory | Verify stock history and product quantity cannot diverge after a partial failure. | Transaction handling / integration tests |
+| Stock activity | Verify that manual Stock In and Adjustment operations reject nonexistent and inactive Products. | M47.5 / M48 |
+| Movement quantity | Verify that increases use positive QuantityChanged values and decreases use negative values. | M47.5 / M48 |
+| Adjustment | Verify that QuantityChanged equals the difference between the requested final stock and previous stock and that unchanged quantities do not create audit records. | M47.5 / M48 |
+| Stock Out | Verify that sales create Stock Out records containing correct StockBefore, StockAfter, signed QuantityChanged, and OrderNumber reference. | M47.5 / M48 |
+| Inventory atomicity | Product quantity updates and StockMovement persistence currently use independent repository connections. Shared transaction handling remains an outstanding reliability improvement. | Future persistence hardening |
 | Database reset | Verify safe development-only access, correct file path, initialization, and isolated test databases. | Development tooling / integration tests |
 | API | Verify documented responses against live controller behavior and connect remaining temporary data sources when planned. | API integration / API tests |
 | Access control | Implement and test authentication and role authorization. | Authentication and roles |

@@ -358,6 +358,23 @@ DashboardService / SalesReportService
 
 Stock-in uses a positive `QuantityChanged`; stock-out uses a negative value; adjustments may be positive, negative, or zero. Notifications are simulations, not actual outgoing emails.
 
+### Inventory and Stock Movement Flow
+
+Persistent product quantities are stored in SQLite through `ProductRepository`. Inventory changes that represent stock activity are coordinated by `StockMovementService`.
+
+The stock movement flow is:
+
+```text
+StockMovementService
+    |
+    +--> ProductRepository
+    |       Load current Product
+    |       Persist updated QuantityInStock
+    |
+    +--> StockMovementRepository
+            Persist inventory audit record
+```
+
 ## 7. API Architecture and Integration Status
 
 The API is a separate ASP.NET Core entry point. Controllers own HTTP concerns and may use Core business logic and Infrastructure repositories through configured dependencies.

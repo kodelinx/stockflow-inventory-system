@@ -5,7 +5,13 @@ namespace StockFlow.Database;
 
 public class DatabaseConnectionService
 {
-    private readonly string _databaseFilePath = "Database/stockflow.db";
+    private readonly string _databaseFilePath = 
+        Path.GetFullPath(
+            Path.Combine(
+                "Database",
+                "stockflow.db"
+            )
+        );
     public string GetConnectionString()
     {
             return $"Data Source={_databaseFilePath}";
@@ -13,11 +19,18 @@ public class DatabaseConnectionService
 
     public string GetDatabaseFilePath()
     {
-        return Path.GetFullPath(_databaseFilePath);
+        return _databaseFilePath;
     }
     public void InitializeDatabase()
     {
-        Directory.CreateDirectory("Database");
+        string? databaseDirectory = Path.GetDirectoryName(_databaseFilePath);
+
+        if (!string.IsNullOrWhiteSpace(databaseDirectory))
+        {
+            Directory.CreateDirectory(
+                databaseDirectory
+            );
+        }
 
         //Creates a database connection object
         // automatically closes and disposes the database connection after use
@@ -192,7 +205,7 @@ public class DatabaseConnectionService
         InsertProduct(
             connection,
             insertSql,
-            "P001",
+            "PRD-001",
             "Mouse",
             "Accessories",
             250.00m,
@@ -204,24 +217,12 @@ public class DatabaseConnectionService
         InsertProduct(
             connection,
             insertSql,
-            "P002",
+            "PRD-002",
             "Keyboard",
             "Accessories",
             750.00m,
             10,
             3,
-            true
-        );
-
-        InsertProduct(
-            connection,
-            insertSql,
-            "P003",
-            "Monitor",
-            "Display",
-            5500.00m,
-            1,
-            2,
             true
         );
     }
@@ -265,10 +266,23 @@ public class DatabaseConnectionService
 
         command.ExecuteNonQuery();
     }**/
-    public void ResetDatabase()
+    //returns as bool to consider the Basket clear item command in Programs. If this returns sa False, it won't clear out the basket.
+    public bool ResetDatabase()
     {
+        Console.WriteLine(
+            "\nDEVELOPMENT DATABASE RESET"
+        );
+
+        Console.WriteLine(
+            $"Database: {_databaseFilePath}"
+        );
+
+        Console.WriteLine(
+            "WARNING: This permanently deletes all StockFlow database records."
+        );
+
         Console.Write(
-            "WARNING: This will permanently delete all StockFlow database records. Type RESET to continue: "
+            "Type RESET to continue: "
         );
 
         string? confirmation = Console.ReadLine();
@@ -278,17 +292,75 @@ public class DatabaseConnectionService
             "RESET",
             StringComparison.Ordinal))
         {
-            Console.WriteLine("Database reset cancelled.\n");
-            return;
+            Console.WriteLine(
+                "Database reset cancelled.\n"
+            );
+
+            return false;
         }
 
-        if (File.Exists(_databaseFilePath))
-        {
-            File.Delete(_databaseFilePath);
-        }
+        SqliteConnection.ClearAllPools();
+
+        DeleteDatabaseFiles();
 
         InitializeDatabase();
 
-        Console.WriteLine("Database has been reset successfully.\n");
+        Console.WriteLine(
+            "Database has been reset successfully."
+        );
+
+        Console.WriteLine(
+            $"Database location: {_databaseFilePath}\n"
+        );
+
+        return true;
+    }
+
+    private void DeleteDatabaseFiles()
+    {
+        string[] databaseFiles =
+        {
+            _databaseFilePath,
+            $"{_databaseFilePath}-wal",
+            $"{_databaseFilePath}-shm"
+        };
+
+        foreach (string filePath in databaseFiles)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+    }
+    public void ShowDatabaseDiagnostics()
+    {
+        Console.WriteLine(
+            "\nDatabase Diagnostics"
+        );
+
+        Console.WriteLine(
+            "--------------------"
+        );
+
+        Console.WriteLine(
+            $"Database path: {_databaseFilePath}"
+        );
+
+        Console.WriteLine(
+            $"Database exists: {File.Exists(_databaseFilePath)}"
+        );
+
+        if (File.Exists(_databaseFilePath))
+        {
+            FileInfo databaseFile =
+                new FileInfo(_databaseFilePath);
+
+            Console.WriteLine(
+                $"Database size: {databaseFile.Length} bytes"
+            );
+        }
+
+        Console.WriteLine();
     }
 }

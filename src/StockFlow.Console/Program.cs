@@ -5,21 +5,12 @@ using StockFlow.Database;
 using StockFlow.Repositories;
 
 ProductManager productManager = new ProductManager();
-
 LoggingService loggingService = new LoggingService();
-
-
 
 // Prepares the SQLite database and creates needed tables.
 DatabaseConnectionService databaseConnectionService = new DatabaseConnectionService();
 databaseConnectionService.InitializeDatabase();
-
-Console.WriteLine(
-    $"Database location: {databaseConnectionService.GetDatabaseFilePath()}"
-);
-
-// Temporary migration: fixes old typo in existing OrderItems table.
-//databaseConnectionService.RenameLineTotaColumnIfNeeded();
+databaseConnectionService.ShowDatabaseDiagnostics();
 
 // Creates repositories used by the Console app.
 ProductRepository productRepository = new ProductRepository(databaseConnectionService);
@@ -232,10 +223,17 @@ while (keepRunning)
             notificationService.ViewNotificationEmail();
             break;
         case 29:
-            databaseConnectionService.ResetDatabase();
-            basketItems.Clear();
+            bool databaseWasReset = databaseConnectionService.ResetDatabase();
 
-            Console.WriteLine( $"Current database location: {databaseConnectionService.GetDatabaseFilePath()}");
+            if (databaseWasReset)
+            {
+                basketItems.Clear();
+
+                Console.WriteLine(
+                    "Temporary basket state has been cleared.\n"
+                );
+            }
+            
             break;
         case 30:
             loggingService.LogInfo("Stockflow application closed.");

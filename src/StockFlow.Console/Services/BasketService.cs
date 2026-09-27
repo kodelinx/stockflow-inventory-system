@@ -26,9 +26,9 @@ public class BasketService
 
         Product? product = _productRepository.FindProductByCode(productCode);
 
-        if(product == null)
+        if(product == null || !product.IsActive)
         {
-            Console.WriteLine("The product is not available or inactive.");
+            Console.WriteLine("The product is not available.");
             return;
         }
 

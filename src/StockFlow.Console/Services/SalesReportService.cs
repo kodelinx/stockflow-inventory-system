@@ -17,20 +17,22 @@ public class SalesReportService
     }
     public void ShowSalesSummary()
     {
+        List<Order> orders = _orderRepository.GetAllOrders();
+        List<Payment> payments = _paymentRepository.GetAllPayments();
+
         Console.WriteLine("\nSales Summary Report");
         Console.WriteLine("====================");
 
-        ShowOrderSalesSummary();
-        ShowCompletedOrderDetails();
-        ShowPaymentSalesSummary();
-        ShowSalesByPaymentMethod();
+        ShowOrderSalesSummary(orders);
+        ShowCompletedOrderDetails(orders);
+        ShowPaymentSalesSummary(payments);
+        ShowSalesByPaymentMethod(payments);
         
         Console.WriteLine();
     }
 
-    public void ShowOrderSalesSummary()
+    public void ShowOrderSalesSummary(List<Order> orders)
     {
-        List<Order> orders = _orderRepository.GetAllOrders();
         int totalOrders = orders.Count;
 
         int completedOrders = orders.Count(order => 
@@ -48,9 +50,8 @@ public class SalesReportService
         Console.WriteLine($"Pending Orders: {pendingOrders}");
     }
 
-    public void ShowCompletedOrderDetails()
+    public void ShowCompletedOrderDetails(List<Order> orders)
     {
-        List<Order> orders = _orderRepository.GetAllOrders();
         Console.WriteLine("\nCompleted Orders Details");
         Console.WriteLine("------------------------");
         List<Order> completedOrders = orders
@@ -73,9 +74,8 @@ public class SalesReportService
         }
     }
 
-    public void ShowPaymentSalesSummary()
+    public void ShowPaymentSalesSummary(List<Payment> payments)
     {
-        List<Payment> payments = _paymentRepository.GetAllPayments();
         int totalPayments = payments.Count;
 
         decimal totalSalesIncome = payments
@@ -100,10 +100,8 @@ public class SalesReportService
 
     }
 
-    public void ShowSalesByPaymentMethod()
+    public void ShowSalesByPaymentMethod(List<Payment> payments)
     {
-        List<Payment> payments = _paymentRepository.GetAllPayments();
-
         List<Payment> paidPayments = payments
             .Where(payment => payment.PaymentStatus.Equals("Paid", StringComparison.OrdinalIgnoreCase))
             .ToList();
@@ -135,6 +133,29 @@ public class SalesReportService
 
             Console.WriteLine($"{paymentMethod}: {methodCount} payment(s), {methodTotal:C}");
         }
+        //Similar LINQ valid pattern below
+        /*
+        var paymentGroups = paidPayments.GroupBy(
+                payment => payment.PaymentMethod
+        );
+
+        foreach (var paymentGroup in paymentGroups)
+        {
+            int methodCount =
+                paymentGroup.Count();
+
+            decimal methodTotal =
+                paymentGroup.Sum(
+                    payment => payment.AmountDue
+                );
+
+            Console.WriteLine(
+                $"{paymentGroup.Key}: " +
+                $"{methodCount} payment(s), " +
+                $"{methodTotal:C}"
+            );
+        }
+        */
     }
 
 

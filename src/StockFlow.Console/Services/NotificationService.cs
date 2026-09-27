@@ -8,7 +8,6 @@ public class NotificationService
 {
     private readonly InputValidationService _inputValidationService;
     private readonly NotificationRepository _notificationRepository;
-    private readonly ProductRepository _productRepository;
     private readonly OrderRepository _orderRepository;
     private readonly ReceiptRepository _receiptRepository;
     private readonly AlertService _alertService;
@@ -16,7 +15,6 @@ public class NotificationService
     public NotificationService(
         InputValidationService inputValidationService,
         NotificationRepository notificationRepository,
-        ProductRepository productRepository,
         OrderRepository orderRepository,
         ReceiptRepository receiptRepository,
         AlertService alertService
@@ -24,7 +22,6 @@ public class NotificationService
     {
         _inputValidationService = inputValidationService;
         _notificationRepository = notificationRepository;
-        _productRepository = productRepository;
         _orderRepository = orderRepository;
         _receiptRepository = receiptRepository;
         _alertService = alertService;
@@ -33,9 +30,7 @@ public class NotificationService
 
     public void SimulateLowStockEmail()
     {
-        List<Product> lowStockProducts = _alertService.GetLowStockProducts(
-            _productRepository.GetActiveProducts()
-        );
+        List<Product> lowStockProducts = _alertService.GetLowStockProducts();
 
         if (lowStockProducts.Count == 0)
         {
@@ -67,13 +62,6 @@ public class NotificationService
 
     public void SimulateOrderCompletedEmail()
     {
-        List<Order> orders = _orderRepository.GetAllOrders();
-        if (orders.Count == 0)
-        {
-            Console.WriteLine("No order available for notification.\n");
-            return;
-        }
-
         string orderNumber = _inputValidationService.GetRequiredText("Enter completed order number: ");
 
         Order? order = _orderRepository.FindOrderByNumber(orderNumber);
@@ -113,12 +101,6 @@ public class NotificationService
 
     public void SimulateReceiptEmail()
     {
-        List<Receipt> receipts = _receiptRepository.GetAllReceipts();
-        if (receipts.Count == 0)
-        {
-            Console.WriteLine("No receipts available for notification.\n");
-            return;
-        }
 
         string receiptNumber = _inputValidationService.GetRequiredText("Enter receipt number: ");
 
@@ -184,7 +166,7 @@ public class NotificationService
         }
     }
 
-    public void CreateNotification(
+    private void CreateNotification(
         string notificationType,
         string recipient,
         string subject,

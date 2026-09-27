@@ -12,7 +12,7 @@ public class AlertService
     }
     public void ShowLowstockAlerts()
     {
-        List<Product> lowStockProducts = GetLowStockProducts(_productRepository.GetActiveProducts());
+        List<Product> lowStockProducts = GetLowStockProducts();
 
         if (lowStockProducts.Count == 0)
         {
@@ -33,14 +33,16 @@ public class AlertService
         Console.WriteLine();
 
     }
-    public int CountLowStockProducts(List<Product> products)
+    public int CountLowStockProducts()
     {
-        return  GetLowStockProducts(products).Count;
+        return  GetLowStockProducts().Count;
     }
 
-    public List<Product> GetLowStockProducts(List<Product> products)
+    public List<Product> GetLowStockProducts()
     {
-        return products
+        List<Product> activeProducts = _productRepository.GetActiveProducts();
+
+        return activeProducts
         .Where(product =>
             product.QuantityInStock <= product.ReorderLevel)
         .ToList();

@@ -51,7 +51,8 @@ public class DashboardService
         Console.WriteLine("Quantity of Stocks per Product");
         foreach(Product product in products)
         {
-            Console.WriteLine($" - {product.Name}: {product.QuantityInStock}");
+            string status = product.IsActive ? "Active" : "Inactive";
+            Console.WriteLine($" - {product.Name}: {product.QuantityInStock} ({status})");
         }
         Console.WriteLine($"Total Stock Quantity: {totalStockQuantity}");
         
@@ -88,7 +89,7 @@ public class DashboardService
     }
     public void ShowLowStockProducts()
     {
-        List<Product> lowStockProducts = _alertService.GetLowStockProducts(_productRepository.GetActiveProducts());
+        List<Product> lowStockProducts = _alertService.GetLowStockProducts();
 
         Console.WriteLine("\nLow Stock Products");
         Console.WriteLine("------------------");

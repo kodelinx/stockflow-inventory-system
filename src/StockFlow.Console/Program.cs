@@ -85,7 +85,6 @@ DashboardService dashboardService = new DashboardService(
 NotificationService notificationService = new NotificationService(
     inputValidationService,
     notificationRepository,
-    productRepository,
     orderRepository,
     receiptRepository,
     alertService

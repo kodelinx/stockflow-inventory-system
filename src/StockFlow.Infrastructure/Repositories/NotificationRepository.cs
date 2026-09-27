@@ -58,8 +58,8 @@ public class NotificationRepository
         command.Parameters.AddWithValue("@Subject", notification.Subject);
         command.Parameters.AddWithValue("@Title", notification.Title);
         command.Parameters.AddWithValue("@Message", notification.Message);
-        command.Parameters.AddWithValue("@RelatedReference", notification.RelatedReference);
-        command.Parameters.AddWithValue("@IsRead", notification.IsRead);
+        command.Parameters.AddWithValue("@RelatedReference", string.IsNullOrWhiteSpace(notification.RelatedReference) ? DBNull.Value : notification.RelatedReference);
+        command.Parameters.AddWithValue("@IsRead", notification.IsRead ? 1 : 0);
         command.Parameters.AddWithValue("@CreatedAt", notification.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
         command.Parameters.AddWithValue("@Status", notification.Status);
 

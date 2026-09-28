@@ -485,6 +485,23 @@ Application Restart
 Persistence Verification
 ```
 
+### Automated Testing Architecture
+
+StockFlow uses a separate xUnit test project under `tests/StockFlow.Tests`.
+
+The test project is separate from production source projects:
+
+```text
+StockFlow.sln
+│
+├── src/
+│   ├── StockFlow.Console
+│   ├── StockFlow.Core
+│   └── StockFlow.Infrastructure
+│
+└── tests/
+    └── StockFlow.Tests
+
 
 ## 7. API Architecture and Integration Status
 

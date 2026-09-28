@@ -105,7 +105,7 @@ Status: In Progress
 
 ### Repository-First Service Refactor
 
-- M47 - Repository-First Console Service Refactor - In Progress
+- M47 - Repository-First Console Service Refactor - Completed
   - M47.1 - Refactor InventoryService to Repository-First Flow - Completed
   - M47.2 - Refactor BasketService Product Access - Completed
   - M47.3 - Refactor Order and OrderItem Flow - Completed
@@ -119,8 +119,8 @@ Status: In Progress
 ### Automated Verification
 
 - M48 - Automated Regression Testing Foundation - Planned
-  - M48.1 - Create Automated Test Project - Planned
-  - M48.2 - Add Database Test Isolation and Reset Support - Planned
+  - M48.1 - Create Automated Test Project - Completed
+  - M48.2 - Add Database Test Isolation and Reset Support - In Progress
   - M48.3 - Add Product Repository Integration Tests - Planned
   - M48.4 - Add Order and OrderItem Integration Tests - Planned
   - M48.5 - Add Payment and Receipt Integration Tests - Planned

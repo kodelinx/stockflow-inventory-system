@@ -232,6 +232,17 @@ These requirements describe available HTTP capabilities. A working route using t
 | NFR-011 | Reset Scope | Development database reset must require explicit `RESET` confirmation. Before deleting SQLite files, pooled connections must be cleared. The reset workflow must recreate and initialize the database | Implemented | M47.8 |
 | NFR-012 | Reset Scope | Temporary basket state must be cleared only after a successful database reset. Cancelling the reset must preserve the existing basket and persisted records. | Implemented | M47.8 |
 
+### 6.1 Testing/Quality
+
+| ID | Quality attribute | Requirement | Status | Verification / reference |
+|---|---|---|---|---|
+| TST-001 | Automated Regression | Include a dedicated automated test project separate from production source projects. | Planned | M48 |
+| TST-002 | Automated Persistence | Must not modify the normal StockFlow development database. | M48 |
+| TST-003 | Unit Testing| Isolated unit testing of business logic | Planned | M48 |
+| TST-004 | Integration Testing isolated integration testing of repository and SQLite behavior | Planned | M48 |
+
+
+
 
 ## 7. Scope Boundaries and Open Items
 

@@ -55,6 +55,7 @@ Moves the Console application's persistent business records from JSON/list-based
 - Simplified Console composition and menu wiring while retaining temporary basket state, operational logging, and receipt text export.
 - Hardened the development database reset workflow with explicit path diagnostics, reset confirmation, SQLite pool cleanup, sidecar-file handling, automatic reseeding, and safe temporary-basket clearing.
 - Completed repository-first Console regression verification across the full sales and inventory lifecycle, including restart persistence and development database reset behavior.
+- Establish the automated regression foundation, including xUnit project setup, isolated SQLite test databases, repository integration coverage, business-logic unit tests, and workflow regression tests.
 
 
 #### Fixed

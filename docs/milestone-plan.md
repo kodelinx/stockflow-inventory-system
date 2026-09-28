@@ -120,8 +120,8 @@ Status: In Progress
 
 - M48 - Automated Regression Testing Foundation - Planned
   - M48.1 - Create Automated Test Project - Completed
-  - M48.2 - Add Database Test Isolation and Reset Support - In Progress
-  - M48.3 - Add Product Repository Integration Tests - Planned
+  - M48.2 - Add Database Test Isolation and Reset Support - Completed
+  - M48.3 - Add Product Repository Integration Tests - In Progress
   - M48.4 - Add Order and OrderItem Integration Tests - Planned
   - M48.5 - Add Payment and Receipt Integration Tests - Planned
   - M48.6 - Add StockMovement and Notification Integration Tests - Planned

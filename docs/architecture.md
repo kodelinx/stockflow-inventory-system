@@ -529,6 +529,34 @@ HTTP JSON response
 
 The OpenAPI JSON document is available at `/openapi/v1.json` when the API is running. Exact routes, responses, and verification status are tracked in [`api-design.md`](api-design.md). No live order/payment/dashboard integration should be claimed until the corresponding controllers have been checked.
 
+#### SQLite Test Database Isolation
+
+Repository integration tests use temporary SQLite database files rather than StockFlow's normal development database.
+
+The test lifecycle is:
+
+```text
+Automated Test
+      |
+      v
+Create unique temporary DB path
+      |
+      v
+DatabaseConnectionService(testPath)
+      |
+      v
+InitializeDatabase()
+      |
+      v
+Repository Test
+      |
+      v
+Dispose TestDatabase
+      |
+      +--> Clear SQLite connection pools
+      +--> Delete temporary database
+      +--> Delete optional WAL/SHM files
+```
 
 ## 8. Cross-Cutting Concerns
 

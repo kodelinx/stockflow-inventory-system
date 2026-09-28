@@ -236,11 +236,11 @@ These requirements describe available HTTP capabilities. A working route using t
 
 | ID | Quality attribute | Requirement | Status | Verification / reference |
 |---|---|---|---|---|
-| TST-001 | Automated Regression | Include a dedicated automated test project separate from production source projects. | Planned | M48 |
-| TST-002 | Automated Persistence | Must not modify the normal StockFlow development database. | M48 |
-| TST-003 | Unit Testing| Isolated unit testing of business logic | Planned | M48 |
-| TST-004 | Integration Testing isolated integration testing of repository and SQLite behavior | Planned | M48 |
-
+| TST-001 | Automated Regression | Include a dedicated automated test project separate from production source projects. | In Progress | M48.1 |
+| TST-002 | Automated Persistence | Must not modify the normal StockFlow development database. | Implemented | M48.2 |
+| TST-003 | Unit Testing| Isolated unit testing of business logic | Implemented | M48.2 |
+| TST-004 | Integration Testing isolated integration testing of repository and SQLite behavior | Implemented | M48.2 |
+| TST-005 | Automated repository tests must not require interactive database-reset input. | Implemented | M48.2 |
 
 
 

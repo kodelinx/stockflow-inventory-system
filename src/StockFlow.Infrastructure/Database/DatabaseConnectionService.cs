@@ -1,26 +1,51 @@
-using System.Data;
 using Microsoft.Data.Sqlite;
 
 namespace StockFlow.Database;
 
+// Currently demonstrates Construtor Overloading
 public class DatabaseConnectionService
 {
-    private readonly string _databaseFilePath = 
-        Path.GetFullPath(
-            Path.Combine(
-                "Database",
-                "stockflow.db"
+    private readonly string _databaseFilePath;
+    // Supports both default app and custom database
+    public DatabaseConnectionService()
+       : this( 
+            Path.GetFullPath(
+                Path.Combine(
+                    "Database",
+                    "stockflow.db"
+                )
             )
-        );
+        )
+    {
+    }
+
+    public DatabaseConnectionService( string databaseFilePath)
+    {
+        if (string.IsNullOrWhiteSpace(databaseFilePath))
+        {
+            throw new ArgumentException(
+                "Database file path is required.",
+                nameof(databaseFilePath)
+            );
+        }
+        _databaseFilePath = Path.GetFullPath(databaseFilePath);
+    }
+    
+        
     public string GetConnectionString()
     {
-            return $"Data Source={_databaseFilePath}";
+        return new SqliteConnectionStringBuilder
+        {
+            DataSource = _databaseFilePath
+        }.ToString();
+        
     }
 
     public string GetDatabaseFilePath()
     {
         return _databaseFilePath;
     }
+
     public void InitializeDatabase()
     {
         string? databaseDirectory = Path.GetDirectoryName(_databaseFilePath);

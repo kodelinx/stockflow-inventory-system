@@ -599,6 +599,24 @@ Order
 OrderItem
 ```
 
+### Payment and Receipt Integration Testing
+
+StockFlow uses repository integration tests to verify the persisted transaction relationship between Orders, Payments, and Receipts.
+
+The relationship is:
+
+```text
+Order
+  |
+  | OrderId
+  v
+Payment
+  |
+  | PaymentId
+  v
+Receipt
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

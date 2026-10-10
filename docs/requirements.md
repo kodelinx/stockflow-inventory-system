@@ -243,7 +243,7 @@ These requirements describe available HTTP capabilities. A working route using t
 | TST-005 | Automated repository tests must not require interactive database-reset input. | Implemented | M48.2 |
 | TST-006 | Repository persistence behavior must be verified against isolated SQLite test databases.| In Progress | M48 |
 | TST-007 | Each repository test must be independent and must not depend on execution order or the normal StockFlow development database. | In Progress | M48 |
-| TST-008 | Automated repository integration coverage must verify Order and OrderItem persistence against isolated SQLite databases. | Implemented | M48.4 |
+| TST-008 | Automated repository integration coverage must verify Order, OrderItem, Payment, Receipt persistence against isolated SQLite databases. | In Progress | M48 |
 
 
 

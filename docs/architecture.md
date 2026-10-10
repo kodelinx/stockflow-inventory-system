@@ -558,6 +558,31 @@ Dispose TestDatabase
       +--> Delete optional WAL/SHM files
 ```
 
+#### Repository Integration Testing
+
+Repository tests verify StockFlow repository behavior against isolated temporary SQLite databases.
+
+Each repository test receives its own `TestDatabase` instance:
+
+```text
+Repository Test
+      |
+      v
+TestDatabase
+      |
+      v
+Unique Temporary SQLite Database
+      |
+      v
+Repository SQL Operation
+      |
+      v
+Persisted / Retrieved Model
+      |
+      v
+xUnit Assertions
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

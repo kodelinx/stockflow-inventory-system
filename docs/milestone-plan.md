@@ -122,8 +122,8 @@ Status: In Progress
   - M48.1 - Create Automated Test Project - Completed
   - M48.2 - Add Database Test Isolation and Reset Support - Completed
   - M48.3 - Add Product Repository Integration Tests - Completed
-  - M48.4 - Add Order and OrderItem Integration Tests - In Progress
-  - M48.5 - Add Payment and Receipt Integration Tests - Planned
+  - M48.4 - Add Order and OrderItem Integration Tests - Completed
+  - M48.5 - Add Payment and Receipt Integration Tests - In Progress
   - M48.6 - Add StockMovement and Notification Integration Tests - Planned
   - M48.7 - Add Full Sales Workflow Regression Test - Planned
   - M48.8 - Add Core Business Logic Unit Tests - Planned

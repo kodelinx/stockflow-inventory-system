@@ -583,6 +583,22 @@ Persisted / Retrieved Model
 xUnit Assertions
 ```
 
+### Order and OrderItem Integration Testing
+
+StockFlow uses automated integration tests to verify that Orders and OrderItems are persisted correctly in SQLite and that their parent-child relationship is preserved.
+
+The relationship is:
+
+```text
+Order
+  |
+  | 1
+  |
+  |------< many
+  |
+OrderItem
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

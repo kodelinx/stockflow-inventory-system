@@ -398,6 +398,32 @@ DashboardService / NotificationService / Console
                     v
               SQLite Products
 
+### Authentication and Authorization
+
+StockFlow v0.7 introduces a user and role boundary between clients and protected application operations.
+
+Target request flow:
+
+```text
+Client
+   |
+   v
+Login
+   |
+   v
+Authentication
+   |
+   v
+Authenticated User + Role
+   |
+   v
+Authorization Check
+   |
+   +---- Allowed ----> Controller / Operation
+   |
+   └---- Denied -----> 401 / 403 Response
+   ```
+
 ### Database Path and Development Reset
 
 StockFlow resolves its SQLite database file to one absolute path and uses that same path for connection creation and diagnostics.

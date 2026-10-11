@@ -33,7 +33,10 @@ Expands StockFlow's API integration and introduces the identity and authorizatio
 
 #### Added
 
-- Pending future v0.7 capabilities.
+- Defined the initial StockFlow user-account requirements.
+- Defined `Admin` and `Staff` application roles.
+- Defined the initial role-permission matrix for inventory, sales, and user-management operations.
+- Defined security requirements for password storage, inactive users, and protected operations.
 
 #### Changed
 

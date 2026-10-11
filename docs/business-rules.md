@@ -181,7 +181,49 @@ The following rules define the intended protected state; authentication and role
 
 The same business rules apply regardless of whether an operation originates from the Console app or an API client. HTTP-specific conventions are specified in `api-design.md`, including JSON responses, consistent routes, `200 OK` for successful reads, `400 Bad Request` for applicable invalid input, `404 Not Found` for missing records, and avoidance of unnecessary internal error details. Controllers must not contain direct SQL.
 
-## 7. Enforcement and Verification Register
+## 7. User and Authorization Rules
+
+### User Accounts
+
+- Every application user must have a unique username.
+- A user must have exactly one application role.
+- The initial supported roles are `Admin` and `Staff`.
+- A user can be active or inactive.
+- Inactive users must not be permitted to authenticate.
+- Passwords must never be persisted as plain text.
+- Authentication credentials must not be exposed through normal API responses.
+
+### Admin Role
+
+Admin users may perform standard StockFlow operations and administrative operations.
+
+Administrative permissions include:
+
+- managing user accounts
+- assigning user roles
+- deactivating user accounts
+- performing restricted product-management operations
+
+### Staff Role
+
+Staff users may perform ordinary inventory and sales workflows, including:
+
+- product viewing and searching
+- basket and checkout operations
+- payment processing
+- receipt generation
+- stock-in and stock adjustments
+- viewing orders, payments, dashboards, reports, and notifications
+
+Staff users must not manage user accounts or assign roles.
+
+### Development Database Reset
+
+Database reset is a development-only utility.
+
+It must not become a normal application permission granted to either Admin or Staff in production-oriented authorization rules.
+
+## 8. Enforcement and Verification Register
 
 This section records important gaps **without asserting that every documented rule has already been fully enforced or tested**. Keep the rows current; do not append a new milestone report after each release.
 
@@ -232,7 +274,7 @@ This section records important gaps **without asserting that every documented ru
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 
-## 8. Document Maintenance
+## 9. Document Maintenance
 
 1. **Keep Sections 1–8 permanent.** Update the relevant rule or verification row when implementation changes.
 2. **Do not create milestone headings.** Milestone dates, work items, and completion belong in `milestone-plan.md`; historical changes belong in `release-notes.md`.

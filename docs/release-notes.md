@@ -20,7 +20,37 @@ For milestone status, see [`milestone-plan.md`](milestone-plan.md). For current 
 
 ---
 
-## 2. Released Versions
+## 2. Unreleased
+
+### v0.7.0 — Authentication, Roles, and API Completion
+
+**Status:** Unreleased  
+**Release date:** TBD
+
+#### Summary
+
+Expands StockFlow's API integration and introduces the identity and authorization foundation required for controlled application access.
+
+#### Added
+
+- Pending future v0.7 capabilities.
+
+#### Changed
+
+- Connected Order API reads to `OrderRepository` and live SQLite data.
+- Connected Payment API reads to `PaymentRepository` and live SQLite data.
+- Connected Dashboard API summary calculations to Product, Order, and Payment repository data.
+- Removed typed temporary sample data from the remaining implemented API read endpoints.
+- Completed repository-backed integration for the current StockFlow API read surface.
+
+#### Known Limitations
+
+- API write endpoints are not yet implemented.
+- Authentication and role-based authorization are not yet implemented.
+- Interactive Swagger/Scalar UI is not currently configured.
+- Frontend integration remains planned for a later version.
+
+## 3. Released Versions
 
 ### v0.6.0 — Database-Backed Console and Service Refactor
 

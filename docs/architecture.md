@@ -724,7 +724,26 @@ Manual Regression
       v
 Actual Console application workflow
 ```
+### API Repository Integration
 
+StockFlow's implemented API read endpoints retrieve live persisted data through Infrastructure repositories.
+
+```text
+HTTP Client
+    |
+    v
+StockFlow.Api Controller
+    |
+    +--> ProductRepository
+    +--> OrderRepository
+    +--> PaymentRepository
+    |
+    v
+SQLite
+    |
+    v
+JSON Response
+```
 
 ## 8. Cross-Cutting Concerns
 

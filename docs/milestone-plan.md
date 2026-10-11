@@ -135,8 +135,8 @@ Status: In Progress
 
 Status: In progress
 
-- M50 - Connect Remaining API Reads to Real Repositories - In Progress
-- M51 - User and Role Requirements - Planned
+- M50 - Connect Remaining API Reads to Real Repositories - Completed
+- M51 - User and Role Requirements - In Progress
 - M52 - User and Role Models and Persistence - Planned
 - M53 - Login and Authentication Flow - Planned
 - M54 - Role-Based Authorization Rules - Planned

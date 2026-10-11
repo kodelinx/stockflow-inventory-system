@@ -2,7 +2,7 @@
 
 **Document status:** Maintained  
 **Last reviewed:** 2026-10-11  
-**API implementation:** Partial; read endpoints exist, but not every endpoint uses live SQLite data
+**API implementation:** Current read endpoints are repository-backed and use live SQLite data; write endpoints and authentication remain future work.
 
 ## 1. Purpose and Scope
 
@@ -52,7 +52,11 @@ SQLite
 JSON HTTP response
 ```
 
-**Current exception:** The Product API has repository-backed reads and uses `ProductManager` for low-stock calculation. Order, Payment, and Dashboard controllers were initially implemented using typed sample data. Their live-database integration must be checked against the current code before changing their status below.
+**Current exception:** All currently implemented StockFlow read endpoints use repository-backed SQLite data.
+
+The Product API uses `ProductRepository` and `ProductManager`. Order reads use `OrderRepository`, Payment reads use `PaymentRepository`, and the Dashboard combines Product, Order, and Payment repository data.
+
+Write operations remain outside the currently confirmed API contract.
 
 ## 3. API Design Conventions
 
@@ -120,8 +124,8 @@ Controllers are responsible for HTTP-specific validation and responses. Reusable
 
 | Method | Route | Purpose | Implementation | Data source |
 |---|---|---|---|---|
-| `GET` | `/api/orders` | List orders | Implemented; verification needed | Initially typed sample data |
-| `GET` | `/api/orders/{orderNumber}` | Find an order by business reference | Implemented; verification needed | Initially typed sample data |
+| `GET` | `/api/orders` | List orders | Implemented | `OrderRepository` / SQLite |
+| `GET` | `/api/orders/{orderNumber}` | Find an order by business reference | Implemented | `OrderRepository` / SQLite |
 
 Expected responses: `200 OK` for a successful read, `200 OK` with an empty collection for a list with no entries, and `404 Not Found` for an unknown individual order. Integration with `OrderRepository` and optional inclusion of related OrderItems should be verified before marking the endpoint fully database-backed. A saved Order does not automatically include its OrderItems merely because they share `OrderId`.
 
@@ -129,9 +133,9 @@ Expected responses: `200 OK` for a successful read, `200 OK` with an empty colle
 
 | Method | Route | Purpose | Implementation | Data source |
 |---|---|---|---|---|
-| `GET` | `/api/payments` | List payments | Implemented; verification needed | Initially typed sample data |
-| `GET` | `/api/payments/{paymentNumber}` | Find payment by business reference | Implemented; verification needed | Initially typed sample data |
-| `GET` | `/api/payments/order/{orderNumber}` | Retrieve payments for an order | Proposed / optional | Future PaymentRepository integration |
+| `GET` | `/api/payments` | List payments | Implemented | `PaymentRepository` / SQLite |
+| `GET` | `/api/payments/{paymentNumber}` | Find payment by business reference | Implemented | `PaymentRepository` / SQLite |
+| `GET` | `/api/payments/order/{orderNumber}` | Retrieve payments for an order | Proposed / optional | Future API endpoint |
 
 Expected responses for confirmed read routes: `200 OK` for a successful read; `404 Not Found` for an unknown individual payment. Because the repository can represent more than one payment per order, any future order-payment route should explicitly specify whether it returns **a collection**, including the empty-result behavior.
 
@@ -139,7 +143,7 @@ Expected responses for confirmed read routes: `200 OK` for a successful read; `4
 
 | Method | Route | Purpose | Implementation | Data source |
 |---|---|---|---|---|
-| `GET` | `/api/dashboard/summary` | Return business summary metrics | Implemented; verification needed | Initially typed sample data |
+| `GET` | `/api/dashboard/summary` | Return business summary metrics | Implemented | Product, Order, and Payment repositories / SQLite |
 
 The initial source document proposed `/api/dashboard`; the subsequently implemented route documented for the project is `/api/dashboard/summary`. **Do not advertise `/api/dashboard` as active unless it has been added and tested.**
 

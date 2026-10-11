@@ -1,6 +1,6 @@
 # StockFlow Milestone Plan
 
-Last updated: 2026-09-22
+Last updated: 2026-10-11
 
 ## Purpose
 
@@ -118,7 +118,7 @@ Status: In Progress
 
 ### Automated Verification
 
-- M48 - Automated Regression Testing Foundation - Planned
+- M48 - Automated Regression Testing Foundation - Completed
   - M48.1 - Create Automated Test Project - Completed
   - M48.2 - Add Database Test Isolation and Reset Support - Completed
   - M48.3 - Add Product Repository Integration Tests - Completed
@@ -129,19 +129,19 @@ Status: In Progress
   - M48.8 - Add Core Business Logic Unit Tests - Completed
   - M48.9 - Run Full Automated and Manual Regression Suite - Completed
 
-- M49 - v0.6.0 Release - In Progress
+- M49 - v0.6.0 Release - Completed
 
 ## v0.7.0 - Authentication, User Roles, and API Completion
 
-Status: Planned
+Status: In progress
 
-- M50 - Connect Remaining API Reads to Real Repositories
-- M51 - User and Role Requirements
-- M52 - User and Role Models and Persistence
-- M53 - Login and Authentication Flow
-- M54 - Role-Based Authorization Rules
-- M55 - Protect Product, Order, and Payment Operations
-- M56 - v0.7.0 Release
+- M50 - Connect Remaining API Reads to Real Repositories - In Progress
+- M51 - User and Role Requirements - Planned
+- M52 - User and Role Models and Persistence - Planned
+- M53 - Login and Authentication Flow - Planned
+- M54 - Role-Based Authorization Rules - Planned
+- M55 - Protect Product, Order, and Payment Operations - Planned
+- M56 - v0.7.0 Release - Planned
 
 ## v0.8.0 - Frontend Web Dashboard
 

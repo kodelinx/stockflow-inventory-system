@@ -1,8 +1,8 @@
 # StockFlow Architecture
 
 > **Document type:** Living technical reference  
-> **Status:** Implemented architecture with ongoing Console refactoring  
-> **Last reviewed:** 2026-09-23
+> **Status:** Implemented repository-first Console architecture; v0.6.0 release preparation  
+> **Last reviewed:** 2026-10-11
 
 ## 1. Purpose and Scope
 
@@ -52,7 +52,7 @@ StockFlow.Console                             StockFlow.Api
 | Persistence | SQLite through `Microsoft.Data.Sqlite` |
 | Data access | Repository classes in `StockFlow.Infrastructure` |
 | Dependency composition | Explicit construction in Console `Program.cs`; DI registrations in the API |
-| Testing | Manual regression checks currently; automated tests planned |
+| Testing | xUnit unit tests, repository integration tests, SQLite test isolation, workflow regression tests, and manual Console regression |
 
 ## 3. Solution Structure
 
@@ -86,7 +86,8 @@ stockflow-inventory-system/
 │   └── StockFlow.Infrastructure/
 │       ├── Database/
 │       └── Repositories/
-├── tests/                        # automated test project planned
+├── tests/
+│   └── StockFlow.Tests/          # automated unit, integration, and workflow regression tests
 └── StockFlow.sln
 ```
 
@@ -164,7 +165,9 @@ A list returned by a repository may still be used as a *local method variable* f
 
 ### Legacy JSON
 
-JSON was used as the original persistence mechanism. Its active save path has been disabled during migration; any retained `JsonStorageService` or JSON files are legacy code/data rather than authoritative records. Final removal is handled as code cleanup, not by creating additional architecture sections.
+JSON was StockFlow's original persistence mechanism. Active JSON runtime persistence has been retired. SQLite repositories are now the authoritative persistence mechanism for durable business records.
+
+Operational logging and explicit receipt text export remain legitimate file-based outputs, but they are not authoritative business persistence.
 
 ## 6. Application and Business Flows
 
@@ -741,7 +744,21 @@ Console input validation lives in `InputValidationService`. SQL parameters are u
 
 ### Testing
 
-Manual regression checks currently verify the end-to-end Console workflow. Automated unit and repository integration tests are planned, with independent temporary SQLite databases and a repeatable `dotnet test` command. A successful build alone does not verify business behavior or persistence.
+StockFlow uses a dedicated xUnit test project under `tests/StockFlow.Tests`.
+
+Testing currently includes:
+
+- Core business-logic unit tests
+- repository integration tests against isolated temporary SQLite databases
+- database-isolation checks
+- full sales workflow regression
+- manual Console regression
+
+Automated tests must not use the normal development database.
+
+xUnit test parallelization is disabled because SQLite test cleanup clears shared connection pools during temporary database disposal. This prevents one test's cleanup from interfering with another test that is still using SQLite.
+
+A successful build alone does not verify business behavior or persistence.
 
 ### Security and deployment
 
@@ -762,11 +779,11 @@ Authentication, role-based authorization, production deployment configuration, a
 
 | Area | Current constraint or work in progress |
 | --- | --- |
-| Console architecture | Some services and `Program.cs` still contain transitional list arguments or legacy setup |
+| Console architecture | Persistent workflows are repository-first; some Console services still combine user interaction and business orchestration |
 | Transaction consistency | Multi-repository checkout and payment writes are not yet verified to run atomically |
 | Receipts | Duplicate-per-payment protection is being implemented/verified |
 | API | Non-product areas may still use sample data |
-| Automated tests | Repository isolation and regression suite are planned |
+| Automated tests | Automated regression foundation is implemented; broader coverage and API integration tests remain future work |
 | Production security | Authentication, roles, and guarded administrative operations remain future work |
 
 These are maintained as **current constraints**, not milestone-specific subsections. Remove or revise each row when the implementation changes.

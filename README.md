@@ -2,11 +2,12 @@
 
 StockFlow is a C#/.NET inventory and sales management application for small businesses. It supports product management, stock tracking, checkout, payment recording, receipts, reporting, and simulated notifications. The project is also a development portfolio that demonstrates an incremental transition from a console MVP to a layered, database-backed application with a Web API.
 
-> **Development status:** v0.6.0 in progress · M47 — Repository-First Console Service Refactor · Next: M48 — Automated Regression Testing Foundation. v0.6.0 has not yet been released.
+> **Development status:** v0.6.0 released · Current development: v0.7.0 — Authentication, User Roles, and API Completion · M50 — Connect Remaining API Reads to Real Repositories.
+
 
 ## Overview
 
-StockFlow is intended to help small businesses keep inventory and sales records in one system. Its current development focus is finishing the repository-backed Console workflow and establishing repeatable tests before the next release.
+StockFlow is intended to help small businesses keep inventory and sales records in one system. Its current development focus is final v0.6.0 release verification and documentation after completing the repository-backed Console workflow and automated regression foundation.
 
 ### Capabilities
 
@@ -20,7 +21,7 @@ StockFlow is intended to help small businesses keep inventory and sales records 
 | Notifications | Simulated low-stock, completed-order, and receipt messages |
 | API | Read endpoints for products, orders, payments, and dashboard summary; integration levels vary by endpoint |
 
-These features describe implemented workflows developed to date, not a claim that every workflow has passed final v0.6.0 regression testing. See [Requirements](docs/requirements.md) and [Acceptance Criteria](docs/acceptance-criteria.md) for their tracked status and verification conditions.
+These features describe implemented workflows developed to date. See [Requirements](docs/requirements.md) and [Acceptance Criteria](docs/acceptance-criteria.md) for tracked status and verification conditions.
 
 ## Technology and Architecture
 
@@ -29,7 +30,7 @@ These features describe implemented workflows developed to date, not a claim tha
 - **Database:** SQLite via `Microsoft.Data.Sqlite`
 - **Architecture:** Separate Console, API, Core, and Infrastructure projects; repository-based database access
 - **Development:** Git, GitHub, and Markdown documentation
-- **Testing:** Automated regression test foundation planned for M48
+- **Testing:** xUnit unit tests, SQLite repository integration tests, isolated temporary test databases, workflow regression testing, and manual Console regression
 
 ```text
 stockflow-inventory-system/
@@ -38,12 +39,13 @@ stockflow-inventory-system/
 │   ├── StockFlow.Api/            # HTTP endpoints and API startup
 │   ├── StockFlow.Core/           # Shared models and reusable business logic
 │   └── StockFlow.Infrastructure/ # SQLite setup and repositories
-├── tests/                        # Automated tests as implemented
+├── tests/
+│   └── StockFlow.Tests/          # xUnit unit, integration, and workflow tests
 ├── docs/                         # Project specifications and engineering records
 └── StockFlow.sln
 ```
 
-The Console's persistent business records are being consolidated around SQLite repositories. `List<BasketItem>` intentionally remains temporary session state. Some Console service and `Program.cs` cleanup is still in progress; not all API endpoints are connected to live repository-backed data.
+The Console's persistent business records use SQLite repositories as the authoritative data source. `List<BasketItem>` intentionally remains temporary session state. The repository-first Console refactor is complete, while some API endpoints still require migration or verification against live repository-backed data.
 
 For component boundaries and data flows, see [Architecture](docs/architecture.md) and [Database Design](docs/database-design.md).
 
@@ -110,17 +112,37 @@ GET /api/dashboard/summary
 
 The OpenAPI document is available at `/openapi/v1.json` when enabled in the current environment. Some order, payment, and dashboard API routes may still return temporary sample data; consult [API Design](docs/api-design.md) for endpoint-level status.
 
-### Database and test data
+### Database and Test Data
 
-The application uses a local SQLite database. Database initialization occurs when the relevant application startup calls `InitializeDatabase()`; `dotnet build` alone does not create a database. Database file paths can depend on the working directory until path configuration is finalized. Development database reset is destructive and must only be used on disposable development or test data. Database files should not be committed to Git.
+The application uses a local SQLite database. Database initialization occurs when application startup calls `InitializeDatabase()`; `dotnet build` alone does not create the database.
 
-Automated regression testing is planned for M48. Once the test project is added, its normal command will be:
+`DatabaseConnectionService` resolves the configured development database path for repository connections and diagnostics. Development database reset is destructive and should only be used with disposable development data.
+
+Generated SQLite database files and sidecar files such as `.db`, `.db-wal`, and `.db-shm` should not be committed to Git.
+
+### Automated Testing
+
+StockFlow includes an xUnit automated regression suite.
+
+Current automated coverage includes:
+
+- Core business logic unit tests
+- Product repository integration tests
+- Order and OrderItem integration tests
+- Payment and Receipt integration tests
+- StockMovement and Notification integration tests
+- isolated temporary SQLite test databases
+- full sales workflow regression testing
+
+Run the complete automated test suite from the repository root:
 
 ```powershell
 dotnet test
 ```
 
-Do not interpret this planned command as confirmation that a complete automated suite exists yet.
+Automated repository tests use isolated temporary SQLite databases and must not modify the normal development database.
+
+The actual Console interface and interactive business workflows are also verified through manual regression testing.
 
 ## Documentation
 
@@ -145,22 +167,26 @@ Do not interpret this planned command as confirmation that a complete automated 
 | v0.3.0 | Database design and initial SQLite/repository integration | Released |
 | v0.4.0 | Initial Web API read endpoints | Released |
 | v0.5.0 | Shared Core and Infrastructure architecture | Released |
-| v0.6.0 | SQLite-backed Console, repository-first cleanup, and automated regression foundation | In Progress |
-| v0.7.0 | Remaining API integration, authentication, and roles | Planned |
+| v0.6.0 | SQLite-backed Console, repository-first cleanup, and automated regression foundation | Released |
+| v0.7.0 | Remaining API integration, authentication, and roles | In Progress |
 | v0.8.0 | Frontend web dashboard | Planned |
 | v0.9.0 | Expanded testing and production readiness | Planned |
 | v1.0.0 | Business MVP release | Planned |
 
-The authoritative milestone breakdown, including M47 and M48, is maintained in [Milestone Plan](docs/milestone-plan.md). This README intentionally does not include individual milestone journals or duplicate detailed release history.
+The authoritative milestone breakdown is maintained in [Milestone Plan](docs/milestone-plan.md). This README intentionally does not duplicate detailed milestone or release history.
 
 ## Current Limitations
 
-- The final repository-first Console refactor and regression verification are in progress.
-- The API's order, payment, and dashboard reads may still rely on temporary sample data.
-- Authentication, authorization, and frontend UI are not implemented.
-- Automated regression coverage is planned but not yet established.
-- Transactional consistency for multi-repository operations such as checkout needs further work before production use.
-- Simulated notifications are not real email delivery, and payment recording is not a payment-gateway integration.
+- Multi-repository operations such as checkout, payment processing, and stock changes are not yet wrapped in one shared SQLite transaction, so atomic all-or-nothing persistence still requires future hardening.
+- The API's order, payment, and dashboard reads may still rely on temporary sample data and require separate repository-integration verification.
+- Authentication and role-based authorization are not yet implemented.
+- A frontend web interface is not yet implemented.
+- Some Console workflow services still combine user interaction with business orchestration and are not yet reusable pure Core services.
+- Product hard deletion requires stronger historical-reference safeguards before production use.
+- Business-facing reference-number generation uses a simple strategy suitable for the current single-user learning workflow but is not designed for concurrent production use.
+- Database-level duplicate-receipt protection and foreign-key enforcement can be strengthened further.
+- Simulated notifications are not real email delivery.
+- Payment processing records transactions internally and does not integrate with a real payment gateway.
 
 StockFlow is a development and portfolio project, not a production-ready financial or inventory system.
 

@@ -1,7 +1,7 @@
 # StockFlow Database Design
 
 **Status:** Active technical reference  
-**Last reviewed:** 2026-09-24  
+**Last reviewed:** 2026-10-11  
 **Database:** SQLite  
 **Owner:** StockFlow development project
 
@@ -21,7 +21,7 @@ Update the existing entity, relationship, or operations section when the design 
 
 ### 2.1 Storage architecture
 
-SQLite is the primary persistent store for the Console application's business records. The repository-first service refactor is still being completed. `BasketItem` is intentionally kept in memory for the current Console session; it becomes persisted `Order` and `OrderItem` data at checkout.
+SQLite is the primary persistent store for the Console application's business records. The repository-first Console refactor is complete. `BasketItem` is intentionally kept in memory for the current Console session; it becomes persisted `Order` and `OrderItem` data at checkout.
 
 ```text
 StockFlow.Console / StockFlow.Api
@@ -285,9 +285,17 @@ A file-level reset should only run when application connections to that file are
 
 For disposable development data, recreate the database when a schema changes. For data that must be retained, write a deliberate migration (for example, `ALTER TABLE`) and test it against a backup. Track future migration/versioning conventions here when implemented; do not describe a proposed migration system as active.
 
-### 7.4 Test isolation
+### 7.4 Test Isolation
 
-Automated integration tests should each use an isolated temporary SQLite database (or another clearly isolated supported setup) rather than the normal development `stockflow.db`. Important checks include initialization, CRUD, relationships, receipt uniqueness, stock consistency, reset behavior, and a complete checkout/payment/receipt workflow.
+Automated integration tests use isolated temporary SQLite database files instead of the normal development `stockflow.db`.
+
+Each `TestDatabase` instance creates a unique temporary database path, initializes the normal StockFlow schema, and removes its database and SQLite sidecar files during disposal.
+
+Repository tests therefore remain independent from development data and from other tests.
+
+SQLite connection pools are cleared during test database cleanup so temporary database files can be released safely on Windows. Because pool cleanup is process-wide, xUnit test parallelization is disabled for the current test project to prevent one test's cleanup from interfering with another active SQLite test.
+
+The automated suite currently covers repository persistence, entity relationships, transaction snapshots, stock movement history, notification state, Core product business rules, and a full successful sales persistence workflow.
 
 ## 8. Security, Reliability, and Operational Constraints
 
@@ -311,7 +319,7 @@ This table is an ongoing list of architecture-level database gaps, **not** a mil
 | Business number generation | Derived from stored records in current learning implementation | Review collision handling for multi-user use |
 | Monetary storage | C# decimal with SQLite decimal-style declarations | Verify round-tripping; choose explicit storage policy before production |
 | Schema migrations | Manual/development reset approach | Define migrations when retaining user data matters |
-| Automated database tests | Planned | Add isolated integration tests and workflow regression coverage |
+| Automated database tests | Implemented foundation | Isolated repository integration tests and full sales workflow regression are implemented; broader integrity, concurrency, and API coverage remain future work |
 | API parity | Product API is repository-backed; other endpoint integration needs code verification | Update `api-design.md` as endpoints are connected |
 
 ## 10. Document Maintenance

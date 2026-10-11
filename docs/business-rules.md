@@ -1,7 +1,7 @@
 # StockFlow Business Rules
 
 **Document status:** Maintained specification  
-**Last reviewed:** 2026-09-24  
+**Last reviewed:** 2026-10-11  
 **Scope:** StockFlow inventory and sales operations
 
 ## 1. Purpose and Scope
@@ -193,8 +193,8 @@ This section records important gaps **without asserting that every documented ru
 | Checkout revalidation | Verify that product availability is checked again during checkout because basket contents do not reserve inventory. | M47.3 / M48 |
 | Order details | Verify saved orders reload their related order items correctly. | Service refactor / integration tests |
 | Checkout | Verify final product availability and aggregate requested quantities against current SQLite stock before persistence. | M47.3 / M48 |
-| Order relationships | Verify that every OrderItem uses the SQLite-generated parent `OrderId` and preserves its transaction snapshot values. | M47.3 / M48 |
-| Inventory consistency | Verify that successful checkout persists the stock deduction and corresponding Stock Out movement with the OrderNumber as its reference. | M47.3 / M48 |
+| Order relationships | Verified by isolated Order/OrderItem repository integration tests and full sales workflow regression. | M48.4 / M48.7 |
+| Inventory consistency | Successful-sales regression verifies Product stock reduction and matching Stock Out persistence with the OrderNumber reference; atomic transaction handling remains future hardening. | M48.6 / M48.7 |
 | Checkout atomicity | Order, OrderItem, product update, and stock movement operations currently use independent repository connections. Shared transaction handling remains an outstanding reliability requirement. | Future persistence hardening / M48 verification |
 | Payments | Verify that only valid unpaid Orders can receive a full payment and that duplicate successful payments are rejected. | M47.4 / M48 |
 | Payment consistency | Verify that the persisted Payment links to the correct Order and that successful payment updates both PaymentStatus and OrderStatus. | M47.4 / M48 |
@@ -203,7 +203,7 @@ This section records important gaps **without asserting that every documented ru
 | Payment atomicity | Payment insertion and Order status updates currently use independent repository connections. Shared transaction handling remains an outstanding reliability improvement. | Future persistence hardening |
 | Inventory | Verify stock history and product quantity cannot diverge after a partial failure. | Transaction handling / integration tests |
 | Stock activity | Verify that manual Stock In and Adjustment operations reject nonexistent and inactive Products. | M47.5 / M48 |
-| Movement quantity | Verify that increases use positive QuantityChanged values and decreases use negative values. | M47.5 / M48 |
+| Movement quantity | Positive and negative `QuantityChanged` persistence is verified through repository integration tests. | M48.6 |
 | Adjustment | Verify that QuantityChanged equals the difference between the requested final stock and previous stock and that unchanged quantities do not create audit records. | M47.5 / M48 |
 | Stock Out | Verify that sales create Stock Out records containing correct StockBefore, StockAfter, signed QuantityChanged, and OrderNumber reference. | M47.5 / M48 |
 | Inventory atomicity | Product quantity updates and StockMovement persistence currently use independent repository connections. Shared transaction handling remains an outstanding reliability improvement. | Future persistence hardening |
@@ -218,7 +218,7 @@ This section records important gaps **without asserting that every documented ru
 | Receipt notification | A Receipt notification may be created only for an existing persisted Receipt. | M47.6 / M48 |
 | Notification reference | Notifications may store an OrderNumber or ReceiptNumber as RelatedReference. Notifications without a related business record may store a NULL reference. | M47.6 / M48 |
 | Pending orders | In v0.6, Pending currently represents all non-Completed Orders because the supported Order status set is limited. This rule must be revisited if Cancelled, Refunded, Voided, or additional statuses are introduced. | Future status expansion |
-| Application persistence | SQLite is the authoritative source for persistent StockFlow business data. Legacy JSON persistence is not part of the active runtime. | M47.7 / M48 |
+| Application persistence | SQLite is the authoritative source for persistent StockFlow business data; legacy JSON persistence is not part of the active runtime and restart behavior is covered by manual regression. | M47.7 / M48.9 |
 | Session state | Basket contents remain temporary in-memory state and are not expected to survive application restart. | M47.7 / M48 |
 | File output | Logging and receipt text export are permitted file-based outputs but are not authoritative business-data persistence mechanisms. | M47.7 |
 | Database path | StockFlow must expose the exact resolved SQLite database path used by repository connections. | M47.8 / M48 |
@@ -227,7 +227,8 @@ This section records important gaps **without asserting that every documented ru
 | Successful reset | A successful development reset recreates the SQLite database, reseeds required starting data, and clears temporary basket state. | M47.8 / M48 |
 | SQLite pooling | Normal connection pooling remains enabled. Connection pools are cleared before destructive database-file deletion. | M47.8 |
 | Reset scope | Database reset is development/testing tooling rather than a production business capability. | M47.8 |
-| End-to-end regression | Repository-backed business rules must be verified together through the complete Product → Basket → Checkout → Payment → Receipt → Reporting/Notification lifecycle before v0.6 release preparation. | M47.9 / M48 |
+| Test isolation | Automated integration tests use unique temporary SQLite databases and do not use the normal development database. Test cleanup is serialized to avoid process-wide SQLite pool conflicts. | M48.2 / M48.9 |
+| End-to-end regression | Persistent sales workflow is covered by automated regression and Console behavior by manual regression; release preparation performs the final verification pass. | M48.7 / M48.9 |
 
 Detailed test steps and expected results belong in `acceptance-criteria.md` or automated test code, not in this document.
 

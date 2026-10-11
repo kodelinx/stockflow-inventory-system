@@ -1,7 +1,7 @@
 # StockFlow API Design
 
 **Document status:** Maintained  
-**Last reviewed:** 2026-09-24  
+**Last reviewed:** 2026-10-11  
 **API implementation:** Partial; read endpoints exist, but not every endpoint uses live SQLite data
 
 ## 1. Purpose and Scope

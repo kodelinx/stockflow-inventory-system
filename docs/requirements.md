@@ -3,7 +3,7 @@
 **Document:** `docs/requirements.md`  
 **System:** StockFlow Inventory and Sales Management System  
 **Document status:** Living specification  
-**Last reviewed:** 2026-09-23
+**Last reviewed:** 2026-10-11
 
 ## 1. Purpose and Scope
 
@@ -192,8 +192,8 @@ Existing Console business actions are not role-secured merely because their requ
 | DB-005 | Maintain SQL CRUD reference scripts. | Implemented | Documentation | M20 |
 | DB-006 | Initialize a local SQLite database. | Implemented | Infrastructure | M21 |
 | DB-007 | Keep database access in Infrastructure repository classes. | Implemented | Infrastructure | M22, M39–M45 |
-| DB-008 | Use SQLite instead of JSON as the primary persistent source for Console business records. | In Progress | Console | M46 completed main migration; M47 removes remaining transitional code |
-| DB-009 | Support safe, development-only database recreation and database-path diagnostics. | In Progress | Console / Infrastructure | M47.8; not a production feature |
+| DB-008 | Use SQLite instead of JSON as the primary persistent source for Console business records. | Implemented | Console | M46–M47 |
+| DB-009 | Support safe, development-only database recreation and database-path diagnostics. | Implemented | Console / Infrastructure | M47.8; not a production feature |
 | DB-010 | Execute multi-record checkout/payment changes without leaving partial business transactions. | Planned | Console / Infrastructure | Reliability work; requires transaction design and tests |
 
 ## 5. API Requirements
@@ -225,34 +225,33 @@ These requirements describe available HTTP capabilities. A working route using t
 | NFR-004 | Observability | Record useful application and error information without relying solely on Console output. | In Progress | Logging implementation and coverage review; M16 |
 | NFR-005 | Reliability | Handle expected failures without inconsistent partial transactions or unexpected crashes. | In Progress | Manual regression and future transaction tests; M47–M48 |
 | NFR-006 | Security | Protect privileged operations and keep secrets out of source control. | Planned | Authentication and authorization; v0.7.0 |
-| NFR-007 | Testability | Provide repeatable automated unit and integration tests using isolated test data. | Planned | M48; expanded coverage in v0.9.0 |
+| NFR-007 | Testability | Provide repeatable automated unit and integration tests using isolated test data. | Implemented | M48 automated regression foundation; expanded coverage planned for v0.9.0 |
 | NFR-008 | Documentation | Maintain accurate, navigable Markdown requirements, design, acceptance criteria and release history. | In Progress | Review alongside relevant code changes; all releases |
 | NFR-009 | Change management | Use Git, meaningful commits and release tags for released versions. | Implemented | Git history and tagged release checks |
-| NFR-010 | Test isolation | Ensure automated tests and database resets cannot unintentionally erase development or production databases. | Planned | Dedicated temporary test database; M48 |
+| NFR-010 | Test isolation | Ensure automated tests and database resets cannot unintentionally erase development or production databases. | Implemented | Dedicated temporary SQLite test databases; M48 |
 | NFR-011 | Reset Scope | Development database reset must require explicit `RESET` confirmation. Before deleting SQLite files, pooled connections must be cleared. The reset workflow must recreate and initialize the database | Implemented | M47.8 |
 | NFR-012 | Reset Scope | Temporary basket state must be cleared only after a successful database reset. Cancelling the reset must preserve the existing basket and persisted records. | Implemented | M47.8 |
 
-### 6.1 Testing/Quality
+### 6.1 Testing / Quality
 
 | ID | Quality attribute | Requirement | Status | Verification / reference |
 |---|---|---|---|---|
-| TST-001 | Automated Regression | Include a dedicated automated test project separate from production source projects. | In Progress | M48.1 |
-| TST-002 | Automated Persistence | Must not modify the normal StockFlow development database. | Implemented | M48.2 |
-| TST-003 | Unit Testing| Isolated unit testing of business logic | Implemented | M48.2 |
-| TST-004 | Integration Testing isolated integration testing of repository and SQLite behavior | Implemented | M48.2 |
-| TST-005 | Automated repository tests must not require interactive database-reset input. | Implemented | M48.2 |
-| TST-006 | Each repository test must be independent and must not depend on execution order or the normal StockFlow development database. | In Progress | M48 |
-| TST-007 | Automated repository integration coverage must verify Order, OrderItem, Payment, Receipt persistence against isolated SQLite databases. | In Progress | M48 |
-| TST-009 | Automated regression coverage for the persistent sales transaction flow. | Implemented | M48.7 |
-| TST-010 | Provide isolated unit tests for reusable business rules contained in `StockFlow.Core` | Implemented | M48.8 |
-
-
+| TST-001 | Automated Regression | Include a dedicated automated test project separate from production source projects. | Implemented | M48.1 |
+| TST-002 | Automated Persistence | Automated tests must not modify the normal StockFlow development database. | Implemented | M48.2 |
+| TST-003 | Unit Testing | Provide isolated unit testing of reusable business logic. | Implemented | M48.8 |
+| TST-004 | Integration Testing | Provide isolated repository and SQLite integration testing. | Implemented | M48.2–M48.6 |
+| TST-005 | Non-Interactive Testing | Automated repository tests must not require interactive database-reset input. | Implemented | M48.2 |
+| TST-006 | Test Independence | Each repository test must be independent and must not depend on execution order or the development database. | Implemented | M48 |
+| TST-007 | Repository Coverage | Automated repository integration coverage must verify Products, Orders, OrderItems, Payments, Receipts, StockMovements, and Notifications against isolated SQLite databases. | Implemented | M48.3–M48.6 |
+| TST-008 | Test Cleanup | Temporary SQLite test databases must be cleaned up after test execution and test cleanup must not interfere with other running tests. | Implemented | M48.9 |
+| TST-009 | Workflow Regression | Provide automated regression coverage for the persistent sales transaction flow. | Implemented | M48.7 |
+| TST-010 | Core Unit Testing | Provide isolated unit tests for reusable business rules contained in `StockFlow.Core`. | Implemented | M48.8 |
 
 ## 7. Scope Boundaries and Open Items
 
 The following are intentionally **not** treated as implemented today: authenticated Console/API access; a production frontend; real outbound email; partial/split-payment workflows; production deployment; PDF receipt export; and broad automated regression coverage.
 
-**Active verification and design work:** Finalize repository-first Console cleanup; confirm that order display loads related OrderItems; prevent duplicate receipts; verify inventory dashboard counts and sales grouping; isolate development/test databases; and design transaction boundaries for multi-step writes. Track work and completion dates in `milestone-plan.md`, not by appending new milestone sections here.
+**Active verification and design work:** v0.6.0 release preparation is focused on final documentation synchronization and repeatable regression verification. Remaining architectural hardening includes transaction boundaries for multi-step writes, stronger referential safeguards, and broader API integration/testing. Track work and completion dates in `milestone-plan.md`, not by appending new milestone sections here.
 
 **Potential future enhancements:** customer/supplier management, product categories, audit logs, advanced and date-filtered reporting, PDF/Excel exports, barcode scanning and interactive API documentation. Move any enhancement into the numbered requirements tables when its scope is agreed.
 

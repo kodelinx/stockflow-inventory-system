@@ -2,7 +2,7 @@
 
 **Project:** StockFlow Inventory System  
 **Document owner:** Project maintainer  
-**Last reviewed:** 2026-09-24  
+**Last reviewed:** 2026-10-11  
 **Document status:** Living document
 
 ## 1. Executive Summary
@@ -77,7 +77,13 @@ The intended product scope comprises the following capability areas. Their detai
 
 ### 5.2 Current Product Boundary
 
-StockFlow currently centers on its Console application and a developing ASP.NET Core API. The Console's main persistent workflows have been connected to SQLite, while repository-first service cleanup and automated regression testing remain part of the active development plan. Some API areas may still use temporary data rather than the full database-backed business workflow.
+StockFlow currently centers on its Console application and a developing ASP.NET Core API.
+
+The Console's persistent business workflows use SQLite repositories as the authoritative data source, and the repository-first Console refactor has been completed.
+
+An automated regression foundation is now in place, including Core unit tests, isolated SQLite repository integration tests, and full sales workflow regression.
+
+Some API areas may still use temporary data rather than the complete database-backed business workflow and remain part of the next development phase.
 
 For the authoritative current milestone and release status, see [milestone-plan.md](milestone-plan.md). Do not use this overview as a second progress tracker.
 

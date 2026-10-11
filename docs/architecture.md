@@ -617,6 +617,29 @@ Payment
 Receipt
 ```
 
+### StockMovement and Notification Integration Testing
+
+StockFlow uses repository integration tests to verify inventory audit history and persisted notification state.
+
+#### StockMovement Testing
+
+StockMovement records provide an inventory audit trail.
+
+Each movement preserves:
+
+```text
+ProductId
+ProductCode
+ProductName
+MovementType
+QuantityChanged
+StockBefore
+StockAfter
+Reason
+MovementDate
+ReferenceNumber
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

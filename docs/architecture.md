@@ -693,6 +693,35 @@ ProductManager
   v
 Result
 ```
+### Automated Regression Strategy
+
+StockFlow uses multiple testing levels to reduce regression risk.
+
+```text
+Core Unit Tests
+      |
+      v
+Business Rules
+
+
+Repository Integration Tests
+      |
+      v
+Repositories + SQLite
+
+
+Workflow Regression Test
+      |
+      v
+Cross-repository sales transaction
+
+
+Manual Regression
+      |
+      v
+Actual Console application workflow
+```
+
 
 ## 8. Cross-Cutting Concerns
 

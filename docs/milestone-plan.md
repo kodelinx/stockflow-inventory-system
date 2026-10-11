@@ -127,9 +127,9 @@ Status: In Progress
   - M48.6 - Add StockMovement and Notification Integration Tests - Completed
   - M48.7 - Add Full Sales Workflow Regression Test - Completed
   - M48.8 - Add Core Business Logic Unit Tests - Completed
-  - M48.9 - Run Full Automated and Manual Regression Suite - In Progress
+  - M48.9 - Run Full Automated and Manual Regression Suite - Completed
 
-- M49 - v0.6.0 Release - Planned
+- M49 - v0.6.0 Release - In Progress
 
 ## v0.7.0 - Authentication, User Roles, and API Completion
 

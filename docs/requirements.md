@@ -244,6 +244,7 @@ These requirements describe available HTTP capabilities. A working route using t
 | TST-006 | Each repository test must be independent and must not depend on execution order or the normal StockFlow development database. | In Progress | M48 |
 | TST-007 | Automated repository integration coverage must verify Order, OrderItem, Payment, Receipt persistence against isolated SQLite databases. | In Progress | M48 |
 | TST-009 | Automated regression coverage for the persistent sales transaction flow. | Implemented | M48.7 |
+| TST-010 | Provide isolated unit tests for reusable business rules contained in `StockFlow.Core` | Implemented | M48.8 |
 
 
 

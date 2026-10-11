@@ -665,6 +665,35 @@ Payment
 Receipt
 ```
 
+### Core Business Logic Unit Testing
+
+StockFlow uses unit tests to verify reusable business rules inside `StockFlow.Core`.
+
+Unlike repository integration tests, Core unit tests do not require SQLite or repository classes.
+
+```text
+Repository Integration Test
+
+Test
+  |
+  v
+Repository
+  |
+  v
+SQLite
+
+
+Core Unit Test
+
+Test
+  |
+  v
+ProductManager
+  |
+  v
+Result
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

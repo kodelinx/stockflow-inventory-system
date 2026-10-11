@@ -30,7 +30,9 @@ public class DatabaseConnectionService
         string solutionRoot = Path.GetFullPath(
             Path.Combine(
                 AppContext.BaseDirectory,
-                "../../../../"
+                // AppContext.BaseDirectory points to: src/StockFlow.Api/bin/Debug/net10.0/
+                // Go up 5 levels: net10.0 → Debug → bin → StockFlow.Api → src → solution root
+                "../../../../../"
             )
         );
 

@@ -1,15 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
+using StockFlow.Models;
+using StockFlow.Repositories;
 
-namespace StockFlow.Api.Contorllers;
+namespace StockFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/orders")]
-public class OrderControllers : ControllerBase
+public class OrdersController : ControllerBase
 {
+    private readonly OrderRepository _orderRepository;
+    
+    public OrdersController(OrderRepository orderRepository)
+    {
+        _orderRepository = orderRepository;
+    }
+
     [HttpGet]
     public IActionResult GetOrders()
     {
-        var orders = GetSampleOrders();
+        List<Order> orders = _orderRepository.GetAllOrders();
 
         return Ok(orders);
     }
@@ -24,7 +33,7 @@ public class OrderControllers : ControllerBase
 
         orderNumber = orderNumber.Trim();
 
-        var orders = GetSampleOrders();
+        var orders = _orderRepository.GetAllOrders();
 
         var order = orders.FirstOrDefault(order => 
             order.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase)
@@ -37,34 +46,4 @@ public class OrderControllers : ControllerBase
 
         return Ok(order);
     }
-
-    private static List<SampleOrder> GetSampleOrders()
-    {
-        return new List<SampleOrder>
-        {
-            new SampleOrder(
-                "ORD-001",
-                DateTime.Now.AddDays(-2),
-                1000.00m,
-                "Completed",
-                "Paid"
-            ),
-            new SampleOrder(
-                "ORD-002",
-                DateTime.Now.AddDays(-1),
-                750.00m,
-                "Pending",
-                "Unpaid"
-            )
-
-        };
-    }
-
-    private record SampleOrder(
-        string OrderNumber,
-        DateTime OrderDate,
-        decimal TotalAmount,
-        string OrderStatus,
-        string PaymentStatus
-    );
 }

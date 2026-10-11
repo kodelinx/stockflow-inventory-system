@@ -1,5 +1,4 @@
 using StockFlow.Database;
-using StockFlow.Models;
 using StockFlow.Repositories;
 using StockFlow.Services;
 
@@ -11,13 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<DatabaseConnectionService>();
+
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<OrderItemRepository>();
 builder.Services.AddScoped<ReceiptRepository>();
 builder.Services.AddScoped<StockMovementRepository>();
 builder.Services.AddScoped<NotificationRepository>();
-builder.Services.AddScoped<Payment>();
+builder.Services.AddScoped<PaymentRepository>();
+
 builder.Services.AddScoped<ProductManager>();
 
 

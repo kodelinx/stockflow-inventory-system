@@ -9,8 +9,7 @@ public class ProductManagerTests
     public void CreateProduct_ValidValues_CreatesActiveProductAndTrimsText()
     {
         // Arrange
-        ProductManager productManager =
-            new ProductManager();
+        ProductManager productManager = new ProductManager();
 
         // Act
         Product product =
@@ -71,22 +70,16 @@ public class ProductManagerTests
         bool expected)
     {
         // Arrange
-        ProductManager productManager =
-            new ProductManager();
+        ProductManager productManager = new ProductManager();
 
-        Product product =
-            new Product
-            {
-                QuantityInStock =
-                    quantityInStock,
-
-                ReorderLevel =
-                    reorderLevel
-            };
+        Product product = new Product
+        {
+            QuantityInStock = quantityInStock,
+            ReorderLevel = reorderLevel
+        };
 
         // Act
-        bool result =
-            productManager.IsLowStock(
+        bool result = productManager.IsLowStock(
                 product
             );
 
@@ -109,14 +102,11 @@ public class ProductManagerTests
         bool expected)
     {
         // Arrange
-        ProductManager productManager =
-            new ProductManager();
+        ProductManager productManager = new ProductManager();
 
-        Product product =
-            new Product
+        Product product = new Product
             {
-                QuantityInStock =
-                    quantityInStock
+                QuantityInStock = quantityInStock
             };
 
         // Act

@@ -19,25 +19,32 @@ public class DatabaseConnectionService
     {
     }
 
-    public DatabaseConnectionService( string databaseFilePath)
+    public DatabaseConnectionService( string? databaseFilePath = null)
     {
-        if (string.IsNullOrWhiteSpace(databaseFilePath))
+        if (!string.IsNullOrWhiteSpace(databaseFilePath))
         {
-            throw new ArgumentException(
-                "Database file path is required.",
-                nameof(databaseFilePath)
-            );
+            _databaseFilePath = Path.GetFullPath(databaseFilePath);
+            return;
         }
-        _databaseFilePath = Path.GetFullPath(databaseFilePath);
+
+        string solutionRoot = Path.GetFullPath(
+            Path.Combine(
+                AppContext.BaseDirectory,
+                "../../../../"
+            )
+        );
+
+        _databaseFilePath = Path.Combine(
+            solutionRoot,
+            "Database",
+            "stockflow.db"
+        );
     }
     
         
     public string GetConnectionString()
     {
-        return new SqliteConnectionStringBuilder
-        {
-            DataSource = _databaseFilePath
-        }.ToString();
+        return $"Data Source ={_databaseFilePath}";
         
     }
 
@@ -78,7 +85,7 @@ public class DatabaseConnectionService
 
         string createOrdersTableSql = @"
             CREATE TABLE IF NOT EXISTS Orders(
-                OrderID INTEGER PRIMARY KEY,
+                OrderId INTEGER PRIMARY KEY,
                 OrderNumber TEXT NOT NULL UNIQUE,
                 OrderDate TEXT NOT NULL,
                 TotalAmount DECIMAL(10,2) NOT NULL,
@@ -92,9 +99,9 @@ public class DatabaseConnectionService
                 OrderItemId INTEGER PRIMARY KEY,
                 OrderId INTEGER NOT NULL,
                 ProductId INTEGER NOT NULL,
-                ProductCode INTEGER NOT NULL,
-                ProductName STRING NOT NULL,
-                Quantity INTEGER NUT NULL,
+                ProductCode TEXT NOT NULL,
+                ProductName TEXT NOT NULL,
+                Quantity INTEGER NOT NULL,
                 UnitPrice DECIMAL(10,2) NOT NULL,
                 LineTotal DECIMAL(10,2) NOT NULL,
                 FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
@@ -105,7 +112,7 @@ public class DatabaseConnectionService
         string createPaymentsTableSql = @"
             CREATE TABLE IF NOT EXISTS Payments(
                 PaymentId INTEGER PRIMARY KEY,
-                PaymentNumber INTEGER NOT NULL UNIQUE,
+                PaymentNumber TEXT NOT NULL UNIQUE,
                 OrderId INTEGER NOT NULL,
                 OrderNumber TEXT NOT NULL,
                 PaymentDate TEXT NOT NULL,

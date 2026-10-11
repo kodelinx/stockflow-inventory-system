@@ -640,6 +640,31 @@ MovementDate
 ReferenceNumber
 ```
 
+### Full Sales Workflow Regression Testing
+
+StockFlow includes an automated workflow regression test that verifies the persisted state of a complete sales transaction across multiple repositories.
+
+The tested transaction flow is:
+
+```text
+Product
+   |
+   v
+Order
+   |
+   +--> OrderItem
+   |
+   +--> Product Stock Reduction
+   |
+   +--> StockMovement
+   |
+   v
+Payment
+   |
+   v
+Receipt
+```
+
 ## 8. Cross-Cutting Concerns
 
 ### Validation and error handling

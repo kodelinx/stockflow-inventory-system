@@ -125,7 +125,7 @@ Status: In Progress
   - M48.4 - Add Order and OrderItem Integration Tests - Completed
   - M48.5 - Add Payment and Receipt Integration Tests - Completed
   - M48.6 - Add StockMovement and Notification Integration Tests - Completed
-  - M48.7 - Add Full Sales Workflow Regression Test - In Progress
+  - M48.7 - Add Full Sales Workflow Regression Test - Completed
   - M48.8 - Add Core Business Logic Unit Tests - Planned
   - M48.9 - Run Full Automated and Manual Regression Suite - Planned
 

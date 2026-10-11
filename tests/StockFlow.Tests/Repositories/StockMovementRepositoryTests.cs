@@ -388,7 +388,7 @@ public class StockMovementRepositoryTests
         );
     }
 
-    // Tests repository when storing a blank ReferenceNumber as database NULL and converts database NULL back to an empty string when mapping the model.
+    // Saves NULL when there is no related Order or other business transaction reference.    
     [Fact]
     public void AddStockMovement_NoReference_PersistsEmptyReferenceAfterRead()
     {

@@ -1,5 +1,6 @@
 using StockFlow.Models;
 using StockFlow.Repositories;
+using StockFlow.Security;
 
 namespace StockFlow.Api.Services;
 
@@ -67,7 +68,8 @@ public class DevelopmentUserSeeder
         {
             Username = username,
             FullName = fullName,
-            Role = "Admin",
+            // Uses the centralized role constant instead of a raw string.
+            Role = UserRoles.Admin,
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };

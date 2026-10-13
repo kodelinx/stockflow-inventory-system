@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 // Provides token validation and signing-key classes.
 using Microsoft.IdentityModel.Tokens;
 using StockFlow.Api.Services;
+using StockFlow.Api.Security;
+using StockFlow.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +87,37 @@ builder.Services
                 ClockSkew = TimeSpan.Zero
             };
     });
+
+// Defines reusable role-based authorization rules.
+builder.Services.AddAuthorization(options =>
+{
+    // Only users with the Admin role satisfy this policy.
+    options.AddPolicy(
+        AuthorizationPolicies.AdminOnly,
+        policy =>
+        {
+            policy.RequireAuthenticatedUser();
+
+            policy.RequireRole(
+                UserRoles.Admin
+            );
+        }
+    );
+
+    // Both Staff and Admin users satisfy this policy.
+    options.AddPolicy(
+        AuthorizationPolicies.StaffOrAdmin,
+        policy =>
+        {
+            policy.RequireAuthenticatedUser();
+
+            policy.RequireRole(
+                UserRoles.Admin,
+                UserRoles.Staff
+            );
+        }
+    );
+});
 
 var app = builder.Build();
 

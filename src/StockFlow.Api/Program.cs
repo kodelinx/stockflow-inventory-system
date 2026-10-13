@@ -18,6 +18,7 @@ builder.Services.AddScoped<ReceiptRepository>();
 builder.Services.AddScoped<StockMovementRepository>();
 builder.Services.AddScoped<NotificationRepository>();
 builder.Services.AddScoped<PaymentRepository>();
+builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddScoped<ProductManager>();
 

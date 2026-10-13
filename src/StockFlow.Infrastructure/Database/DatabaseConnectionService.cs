@@ -177,6 +177,18 @@ public class DatabaseConnectionService
             );
         ";
 
+        string createUsersTableSql = @"
+            CREATE TABLE IF NOT EXISTS Users(
+                UserId INTEGER PRIMARY KEY,
+                Username TEXT NOT NULL UNIQUE,
+                PasswordHash TEXT NOT NULL,
+                FullName TEXT NOT NULL,
+                Role TEXT NOT NULL,
+                IsActive INTEGER NOT NULL,
+                CreatedAt TEXT NOT NULL
+            );
+        ";
+
         // Runs each CREATE TABLE command.
         ExecuteNonQuery(connection, createProductsTableSql);
         ExecuteNonQuery(connection, createOrdersTableSql);
@@ -185,6 +197,7 @@ public class DatabaseConnectionService
         ExecuteNonQuery(connection, createReceiptsTableSql);
         ExecuteNonQuery(connection, createStockMovementsTableSql);
         ExecuteNonQuery(connection, createNotificationsTableSql);
+        ExecuteNonQuery(connection, createUsersTableSql);
 
         SeedProducts();
     }

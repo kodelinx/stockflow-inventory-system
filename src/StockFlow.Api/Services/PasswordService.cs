@@ -5,6 +5,7 @@ namespace StockFlow.Api.Services;
 
 public class PasswordService
 {
+    // ASP.NET Core helper that securely hashes and verifies passwords.
     private readonly PasswordHasher<User> _passwordHasher;
 
     public PasswordService()
@@ -28,6 +29,7 @@ public class PasswordService
         string password
     )
     {
+        // Compares the entered password against the saved password hash.
         PasswordVerificationResult result =
             _passwordHasher.VerifyHashedPassword(
                 user,
@@ -35,6 +37,7 @@ public class PasswordService
                 password
             );
 
+        // Any result other than Failed means the password is valid.
         return result !=
             PasswordVerificationResult.Failed;
     }

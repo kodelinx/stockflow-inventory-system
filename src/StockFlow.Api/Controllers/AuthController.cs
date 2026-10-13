@@ -38,6 +38,7 @@ public class AuthController : ControllerBase
             );
         }
 
+        // Attempts to authenticate the user and generate a JWT.
         LoginResponse? response =
             _authenticationService.Login(
                 request.Username,
@@ -51,6 +52,7 @@ public class AuthController : ControllerBase
             );
         }
 
+        // Returns the authenticated identity and JWT.
         return Ok(response);
     }
 }

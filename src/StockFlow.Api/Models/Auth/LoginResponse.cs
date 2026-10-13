@@ -10,7 +10,9 @@ public class LoginResponse
 
     public string Role { get; set; } = string.Empty;
 
+    // JWT token used by the client for authenticated API requests.
     public string Token { get; set; } = string.Empty;
-
+    
+    // Indicates when the JWT token is no longer valid.
     public DateTime ExpiresAt { get; set; }
 }

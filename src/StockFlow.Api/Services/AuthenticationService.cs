@@ -6,8 +6,13 @@ namespace StockFlow.Api.Services;
 
 public class AuthenticationService
 {
+    // Reads persisted user accounts from SQLite.
     private readonly UserRepository _userRepository;
+
+    // Hashes and verifies user passwords.
     private readonly PasswordService _passwordService;
+
+    // Creates JWT tokens after successful authentication.
     private readonly JwtTokenService _jwtTokenService;
 
     public AuthenticationService(
@@ -60,12 +65,13 @@ public class AuthenticationService
         {
             return null;
         }
-
+        // Creates the JWT only after all authentication checks succeed.
         (
             string token,
             DateTime expiresAt
         ) = _jwtTokenService.CreateToken(user);
 
+        // Returns only safe identity information and the JWT.
         return new LoginResponse
         {
             UserId = user.UserId,

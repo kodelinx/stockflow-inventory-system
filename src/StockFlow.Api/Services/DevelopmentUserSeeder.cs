@@ -24,12 +24,14 @@ public class DevelopmentUserSeeder
 
     public void SeedAdmin()
     {
+        // Reads the development admin username from configuration.
         string username =
             _configuration[
                 "SeedAdmin:Username"
             ]
             ?? "admin";
 
+        // Prevents creating the same admin account more than once.
         User? existingUser =
             _userRepository
                 .FindUserByUsername(username);
@@ -39,6 +41,7 @@ public class DevelopmentUserSeeder
             return;
         }
 
+        // The development password is stored in User Secrets, not in source code.
         string? password =
             _configuration[
                 "SeedAdmin:Password"
@@ -59,6 +62,7 @@ public class DevelopmentUserSeeder
             ]
             ?? "StockFlow Administrator";
 
+        // Creates the initial development administrator account.
         User admin = new User
         {
             Username = username,
@@ -68,6 +72,7 @@ public class DevelopmentUserSeeder
             CreatedAt = DateTime.UtcNow
         };
 
+        // Hashes the password before the user is stored in SQLite.
         admin.PasswordHash =
             _passwordService.HashPassword(
                 admin,

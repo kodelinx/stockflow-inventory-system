@@ -2,7 +2,9 @@ using StockFlow.Database;
 using StockFlow.Repositories;
 using StockFlow.Services;
 using System.Text;
+// Provides JWT bearer authentication support for ASP.NET Core.
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+// Provides token validation and signing-key classes.
 using Microsoft.IdentityModel.Tokens;
 using StockFlow.Api.Services;
 
@@ -30,37 +32,46 @@ builder.Services.AddScoped<DevelopmentUserSeeder>();
 
 builder.Services.AddScoped<ProductManager>();
 
+// Gets the private JWT signing key from configuration/User Secrets.
 string jwtKey =
     builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException(
         "Jwt:Key is not configured."
     );
 
+// Identifies StockFlow.Api as the system issuing tokens.
 string jwtIssuer =
     builder.Configuration["Jwt:Issuer"]
     ?? "StockFlow.Api";
 
+// Identifies which client the JWT is intended for.
 string jwtAudience =
     builder.Configuration["Jwt:Audience"]
     ?? "StockFlow.Client";
 
+// Registers JWT Bearer as the API authentication method.
 builder.Services
     .AddAuthentication(
         JwtBearerDefaults.AuthenticationScheme
     )
     .AddJwtBearer(options =>
     {
+        // Defines the rules used when validating incoming JWT tokens.
         options.TokenValidationParameters =
             new TokenValidationParameters
             {
+                // Confirms the token was issued by StockFlow.Api.
                 ValidateIssuer = true,
                 ValidIssuer = jwtIssuer,
 
+                // Confirms the token is intended for the StockFlow client.
                 ValidateAudience = true,
                 ValidAudience = jwtAudience,
 
+                // Rejects expired tokens.
                 ValidateLifetime = true,
 
+                // Confirms the token signature matches the private signing key.
                 ValidateIssuerSigningKey = true,
 
                 IssuerSigningKey =
@@ -70,6 +81,7 @@ builder.Services
                         )
                     ),
 
+                // Removes the default extra expiration-time allowance.
                 ClockSkew = TimeSpan.Zero
             };
     });
@@ -81,8 +93,11 @@ DatabaseConnectionService databaseConnectionService =
 
 databaseConnectionService.InitializeDatabase();
 
+// Seeds the initial development admin only while running in Development.
 if (app.Environment.IsDevelopment())
 {
+    // Creates a temporary DI scope because UserRepository and related
+    // authentication services are registered as scoped services.
     using IServiceScope scope =
         app.Services.CreateScope();
 

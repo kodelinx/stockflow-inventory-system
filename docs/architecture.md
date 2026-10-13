@@ -398,32 +398,6 @@ DashboardService / NotificationService / Console
                     v
               SQLite Products
 
-### Authentication and Authorization
-
-StockFlow v0.7 introduces a user and role boundary between clients and protected application operations.
-
-Target request flow:
-
-```text
-Client
-   ↓
-POST /api/auth/login
-   ↓
-AuthController
-   ↓
-AuthenticationService
-   ↓
-UserRepository
-   ↓
-SQLite Users
-   ↓
-Password verification
-   ↓
-JwtTokenService
-   ↓
-Signed JWT
-   ```
-
 ### Database Path and Development Reset
 
 StockFlow resolves its SQLite database file to one absolute path and uses that same path for connection creation and diagnostics.
@@ -807,7 +781,55 @@ A successful build alone does not verify business behavior or persistence.
 
 ### Security and deployment
 
-Authentication, role-based authorization, production deployment configuration, and real email delivery are not implemented in the current architecture. Database reset and destructive product operations require stricter controls before production use.
+### Authentication and Authorization
+
+StockFlow v0.7 introduces a user and role boundary between clients and protected application operations.
+
+Target request flow:
+
+```text
+Client
+   ↓
+POST /api/auth/login
+   ↓
+AuthController
+   ↓
+AuthenticationService
+   ↓
+UserRepository
+   ↓
+SQLite Users
+   ↓
+Password verification
+   ↓
+JwtTokenService
+   ↓
+Signed JWT
+   ```
+### Role-Based Authorization
+
+```text
+HTTP Request
+     |
+     v
+JWT Authentication
+     |
+     v
+ClaimsPrincipal
+     |
+     +-- UserId
+     +-- Username
+     +-- Role
+     |
+     v
+Authorization Policy
+     |
+     +---- requirement satisfied ----> Controller Action
+     |
+     └---- requirement failed -------> 403 Forbidden
+```
+
+Production deployment configuration and real email delivery are not implemented in the current architecture. Database reset and destructive product operations require stricter controls before production use.
 
 ## 9. Architecture Principles and Constraints
 

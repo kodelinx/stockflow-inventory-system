@@ -46,6 +46,11 @@ Expands StockFlow's API integration and introduces the identity and authorizatio
 - Added `POST /api/auth/login`.
 - Added user identity and role claims to issued authentication tokens.
 - Added development administrator bootstrap using local secret configuration.
+- Added centralized `Admin` and `Staff` application role definitions.
+- Added reusable `AdminOnly` and `StaffOrAdmin` authorization policies.
+- Added authenticated identity inspection through `/api/auth/me`.
+- Added role-based authorization verification endpoints.
+- Added JWT claim-based role evaluation through ASP.NET Core authorization.
 
 #### Changed
 

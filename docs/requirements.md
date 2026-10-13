@@ -261,11 +261,11 @@ These requirements describe available HTTP capabilities. A working route using t
 | AUTH-003 | Stored passwords shall use a secure password hash. | Implemented | Security | M51–M53 |
 | AUTH-004 | Inactive users shall not be allowed to authenticate. | Implemented | Authentication | M51–M53 |
 | AUTH-005 | Successful authentication shall establish the user's identity and role. | Implemented | Authentication | M51–M53 |
-| AUTHZ-001 | Protected operations shall verify the authenticated user's role. | Planned | Authorization | M51–M55 |
-| AUTHZ-002 | Admin users shall be permitted to manage user accounts and roles. | Planned | Authorization | M51–M55 |
-| AUTHZ-003 | Staff users shall not be permitted to manage users or roles. | Planned | Authorization | M51–M55 |
-| AUTHZ-004 | Administrative product operations shall be restricted according to the defined permission matrix. | Planned | Authorization | M51–M55 |
-| AUTHZ-005 | Development database reset shall remain a development-only operation rather than a normal role permission. | Defined | Security | M51 |
+| AUTHZ-001 | Protected operations shall verify the authenticated user's role. | Implemented | Authorization | M51–M55 |
+| AUTHZ-002 | Admin users shall be permitted to manage user accounts and roles. | Implemented | Authorization | M51–M55 |
+| AUTHZ-003 | Staff users shall not be permitted to manage users or roles. | Implemented | Authorization | M51–M55 |
+| AUTHZ-004 | Administrative product operations shall be restricted according to the defined permission matrix. | Implemented | Authorization | M51–M55 |
+| AUTHZ-005 | Development database reset shall remain a development-only operation rather than a normal role permission. | Implemented | Security | M51 |
 
 ## 7. Scope Boundaries and Open Items
 

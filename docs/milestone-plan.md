@@ -139,7 +139,7 @@ Status: In progress
 - M51 - User and Role Requirements - Completed
 - M52 - User and Role Models and Persistence - Completed
 - M53 - Login and Authentication Flow - Completed
-- M54 - Role-Based Authorization Rules - Planned
+- M54 - Role-Based Authorization Rules - Completed
 - M55 - Protect Product, Order, and Payment Operations - Planned
 - M56 - v0.7.0 Release - Planned
 

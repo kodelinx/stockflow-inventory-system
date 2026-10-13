@@ -223,6 +223,26 @@ Database reset is a development-only utility.
 
 It must not become a normal application permission granted to either Admin or Staff in production-oriented authorization rules.
 
+### Authorization Policy Rules
+
+StockFlow centralizes role names and authorization policy names rather than duplicating raw role strings throughout the application.
+
+Current roles:
+
+- `Admin`
+- `Staff`
+
+Current authorization policies:
+
+- `AdminOnly` — authenticated users with the `Admin` role.
+- `StaffOrAdmin` — authenticated users with either the `Admin` or `Staff` role.
+
+Authentication alone does not grant access to every protected operation. The requested endpoint must also satisfy its configured authorization policy.
+
+An unauthenticated request to a protected endpoint returns `401 Unauthorized`.
+
+An authenticated user who fails the required authorization policy receives `403 Forbidden`.
+
 ## 8. Enforcement and Verification Register
 
 This section records important gaps **without asserting that every documented rule has already been fully enforced or tested**. Keep the rows current; do not append a new milestone report after each release.

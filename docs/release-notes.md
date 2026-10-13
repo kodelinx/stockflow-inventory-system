@@ -37,6 +37,10 @@ Expands StockFlow's API integration and introduces the identity and authorizatio
 - Defined `Admin` and `Staff` application roles.
 - Defined the initial role-permission matrix for inventory, sales, and user-management operations.
 - Defined security requirements for password storage, inactive users, and protected operations.
+- Added the shared `User` model for persisted application identities.
+- Added SQLite-backed user-account persistence through `UserRepository`.
+- Added unique usernames, application roles, active/inactive account status, and password-hash storage.
+- Added automated repository tests for user persistence and lifecycle updates.
 
 #### Changed
 

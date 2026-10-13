@@ -251,11 +251,11 @@ These requirements describe available HTTP capabilities. A working route using t
 
 | ID | Requirement | Status | Area | Reference |
 |---|---|---|---|---|
-| USR-001 | The system shall support persistent user accounts. | Planned | User Management | M51–M52 |
-| USR-002 | Each user shall have a unique username. | Planned | User Management | M51–M52 |
-| USR-003 | Each user shall have an active/inactive status. | Planned | User Management | M51–M52 |
-| USR-004 | Each user shall be assigned an application role. | Planned | User Management | M51–M52 |
-| USR-005 | The initial supported roles shall be Admin and Staff. | Defined | Authorization | M51 |
+| USR-001 | The system shall support persistent user accounts. | Implemented | User Management | M51–M52 |
+| USR-002 | Each user shall have a unique username. | Implemented | User Management | M51–M52 |
+| USR-003 | Each user shall have an active/inactive status. | Implemented | User Management | M51–M52 |
+| USR-004 | Each user shall be assigned an application role. | Implemented | User Management | M51–M52 |
+| USR-005 | The initial supported roles shall be Admin and Staff. | Implemented | Authorization | M51 |
 | AUTH-001 | Users shall authenticate before accessing protected operations. | Planned | Authentication | M51–M53 |
 | AUTH-002 | Passwords shall not be stored as plain text. | Defined | Security | M51 |
 | AUTH-003 | Stored passwords shall use a secure password hash. | Planned | Security | M51–M53 |

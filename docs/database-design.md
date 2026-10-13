@@ -184,6 +184,24 @@ A stock increase has a positive `QuantityChanged`; a sale stock-out has a negati
 
 Notifications are currently simulated; a saved row does **not** mean an email was actually sent.
 
+### 3.8 Users
+
+Stores application identities used by authentication and authorization.
+
+| Column | SQLite Type | Purpose |
+|---|---|---|
+| `UserId` | INTEGER | Internal primary key |
+| `Username` | TEXT | Unique login identifier |
+| `PasswordHash` | TEXT | Persisted password hash; never plain-text password |
+| `FullName` | TEXT | User display name |
+| `Role` | TEXT | Application role such as `Admin` or `Staff` |
+| `IsActive` | INTEGER | `1` for active, `0` for inactive |
+| `CreatedAt` | TEXT | Account creation timestamp |
+
+`Username` is unique.
+
+The database stores only `PasswordHash`; password hashing and credential verification are introduced by the authentication layer rather than the repository.
+
 ## 4. Relationships and Integrity
 
 ### 4.1 Entity relationships

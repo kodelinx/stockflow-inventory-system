@@ -6,6 +6,7 @@ namespace StockFlow.Api.Services;
 public class PasswordService
 {
     // ASP.NET Core helper that securely hashes and verifies passwords.
+    // PasswordHasher<User> handles password hashing and verification securely,
     private readonly PasswordHasher<User> _passwordHasher;
 
     public PasswordService()

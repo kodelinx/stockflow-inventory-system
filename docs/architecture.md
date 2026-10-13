@@ -406,22 +406,22 @@ Target request flow:
 
 ```text
 Client
-   |
-   v
-Login
-   |
-   v
-Authentication
-   |
-   v
-Authenticated User + Role
-   |
-   v
-Authorization Check
-   |
-   +---- Allowed ----> Controller / Operation
-   |
-   └---- Denied -----> 401 / 403 Response
+   ↓
+POST /api/auth/login
+   ↓
+AuthController
+   ↓
+AuthenticationService
+   ↓
+UserRepository
+   ↓
+SQLite Users
+   ↓
+Password verification
+   ↓
+JwtTokenService
+   ↓
+Signed JWT
    ```
 
 ### Database Path and Development Reset

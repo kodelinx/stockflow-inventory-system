@@ -41,6 +41,11 @@ Expands StockFlow's API integration and introduces the identity and authorizatio
 - Added SQLite-backed user-account persistence through `UserRepository`.
 - Added unique usernames, application roles, active/inactive account status, and password-hash storage.
 - Added automated repository tests for user persistence and lifecycle updates.
+- Added secure password hashing for StockFlow user credentials.
+- Added JWT-based authentication.
+- Added `POST /api/auth/login`.
+- Added user identity and role claims to issued authentication tokens.
+- Added development administrator bootstrap using local secret configuration.
 
 #### Changed
 

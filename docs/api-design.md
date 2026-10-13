@@ -149,7 +149,22 @@ The initial source document proposed `/api/dashboard`; the subsequently implemen
 
 Expected categories include product counts, low-stock count, order totals, completed/pending orders, payment count, and sales income. Only advertise specific response fields verified in the actual controller/OpenAPI document. Sales income should follow the business definition based on paid `AmountDue` rather than cash tendered before change.
 
-### 4.5 Future write and management operations
+### 4.5 Authentication
+
+#### POST `/api/auth/login`
+
+Authenticates an active StockFlow user.
+
+Request:
+
+```json
+{
+  "username": "admin",
+  "password": "user-supplied-password"
+}
+```
+
+### 4.6 Future write and management operations
 
 Create, update, deactivate, checkout, payment processing, receipt generation, notification management, and secured admin routes are **not** part of the confirmed current API contract. Define their routes, request models, validation rules, authorization, and response schemas when that work begins. Track the requirement in `requirements.md`, not in a new milestone-specific section here.
 

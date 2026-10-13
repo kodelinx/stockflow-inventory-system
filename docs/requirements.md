@@ -256,11 +256,11 @@ These requirements describe available HTTP capabilities. A working route using t
 | USR-003 | Each user shall have an active/inactive status. | Implemented | User Management | M51–M52 |
 | USR-004 | Each user shall be assigned an application role. | Implemented | User Management | M51–M52 |
 | USR-005 | The initial supported roles shall be Admin and Staff. | Implemented | Authorization | M51 |
-| AUTH-001 | Users shall authenticate before accessing protected operations. | Planned | Authentication | M51–M53 |
-| AUTH-002 | Passwords shall not be stored as plain text. | Defined | Security | M51 |
-| AUTH-003 | Stored passwords shall use a secure password hash. | Planned | Security | M51–M53 |
-| AUTH-004 | Inactive users shall not be allowed to authenticate. | Planned | Authentication | M51–M53 |
-| AUTH-005 | Successful authentication shall establish the user's identity and role. | Planned | Authentication | M51–M53 |
+| AUTH-001 | Users shall authenticate before accessing protected operations. | Implemented | Authentication | M51–M53 |
+| AUTH-002 | Passwords shall not be stored as plain text. | Implemented | Security | M51 |
+| AUTH-003 | Stored passwords shall use a secure password hash. | Implemented | Security | M51–M53 |
+| AUTH-004 | Inactive users shall not be allowed to authenticate. | Implemented | Authentication | M51–M53 |
+| AUTH-005 | Successful authentication shall establish the user's identity and role. | Implemented | Authentication | M51–M53 |
 | AUTHZ-001 | Protected operations shall verify the authenticated user's role. | Planned | Authorization | M51–M55 |
 | AUTHZ-002 | Admin users shall be permitted to manage user accounts and roles. | Planned | Authorization | M51–M55 |
 | AUTHZ-003 | Staff users shall not be permitted to manage users or roles. | Planned | Authorization | M51–M55 |

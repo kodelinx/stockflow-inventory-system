@@ -256,15 +256,15 @@ These requirements describe available HTTP capabilities. A working route using t
 | USR-003 | Each user shall have an active/inactive status. | Implemented | User Management | M51–M52 |
 | USR-004 | Each user shall be assigned an application role. | Implemented | User Management | M51–M52 |
 | USR-005 | The initial supported roles shall be Admin and Staff. | Implemented | Authorization | M51 |
-| AUTH-001 | Users shall authenticate before accessing protected operations. | Implemented | Authentication | M51–M53 |
+| AUTH-001 | Users shall authenticate before accessing protected operations. | Implemented | Authentication | M53–M55 |
 | AUTH-002 | Passwords shall not be stored as plain text. | Implemented | Security | M51 |
 | AUTH-003 | Stored passwords shall use a secure password hash. | Implemented | Security | M51–M53 |
 | AUTH-004 | Inactive users shall not be allowed to authenticate. | Implemented | Authentication | M51–M53 |
 | AUTH-005 | Successful authentication shall establish the user's identity and role. | Implemented | Authentication | M51–M53 |
-| AUTHZ-001 | Protected operations shall verify the authenticated user's role. | Implemented | Authorization | M51–M55 |
+| AUTHZ-001 | Protected operations shall verify the authenticated user's role. | Implemented | Authorization | M54–M55 |
 | AUTHZ-002 | Admin users shall be permitted to manage user accounts and roles. | Implemented | Authorization | M51–M55 |
-| AUTHZ-003 | Staff users shall not be permitted to manage users or roles. | Implemented | Authorization | M51–M55 |
-| AUTHZ-004 | Administrative product operations shall be restricted according to the defined permission matrix. | Implemented | Authorization | M51–M55 |
+| AUTHZ-003 | Staff users shall not be permitted to manage users or roles. | Implemented | Authorization | M54–M55 |
+| AUTHZ-004 | Administrative product operations shall be restricted according to the defined permission matrix. | Implemented | Authorization | M55 |
 | AUTHZ-005 | Development database reset shall remain a development-only operation rather than a normal role permission. | Implemented | Security | M51 |
 
 ## 7. Scope Boundaries and Open Items

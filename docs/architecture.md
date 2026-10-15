@@ -831,6 +831,31 @@ Authorization Policy
 
 Production deployment configuration and real email delivery are not implemented in the current architecture. Database reset and destructive product operations require stricter controls before production use.
 
+### Protected API Request Flow
+
+```text
+Client
+   |
+   | Authorization: Bearer <JWT>
+   v
+JWT Authentication Middleware
+   |
+   v
+Authenticated ClaimsPrincipal
+   |
+   v
+StaffOrAdmin Authorization Policy
+   |
+   v
+Controller
+   |
+   v
+Repository
+   |
+   v
+SQLite
+```
+
 ## 9. Architecture Principles and Constraints
 
 1. **Separation of concerns:** Entry points handle interfaces; Console services coordinate workflows; Core holds reusable business rules; Infrastructure implements persistence.

@@ -29,7 +29,7 @@ The published OpenAPI document, when available at runtime, should be used to con
 | API route prefix | `/api` |
 | API discovery | `/openapi/v1.json` |
 | Interactive Swagger/Scalar UI | Not currently configured |
-| Authentication and authorization | Planned; existing endpoints are not yet protected |
+| Authentication and authorization | JWT authentication with role-based authorization is implemented for the current business API surface |
 
 The Console and API are separate entry points. They share business models through `StockFlow.Core` and can use database implementations in `StockFlow.Infrastructure`. Console-specific services that read or write the terminal are **not** reusable API services.
 
@@ -164,7 +164,29 @@ Request:
 }
 ```
 
-### 4.6 Future write and management operations
+### 4.6 Protected API Access
+
+The current StockFlow business read API requires an authenticated user with either the `Admin` or `Staff` role.
+
+| Route | Required Access |
+|---|---|
+| `GET /api/products` | Staff or Admin |
+| `GET /api/products/{productCode}` | Staff or Admin |
+| `GET /api/orders` | Staff or Admin |
+| `GET /api/orders/{orderNumber}` | Staff or Admin |
+| `GET /api/payments` | Staff or Admin |
+| `GET /api/payments/{paymentNumber}` | Staff or Admin |
+| `GET /api/dashboard/summary` | Staff or Admin |
+| `GET /api/auth/me` | Authenticated user |
+| `GET /api/auth/admin-check` | Admin |
+| `GET /api/auth/staff-check` | Staff or Admin |
+| `POST /api/auth/login` | Public |
+
+Unauthenticated access to protected resources returns `401 Unauthorized`.
+
+Authenticated users who fail a role requirement receive `403 Forbidden`.
+
+### 4.7 Future write and management operations
 
 Create, update, deactivate, checkout, payment processing, receipt generation, notification management, and secured admin routes are **not** part of the confirmed current API contract. Define their routes, request models, validation rules, authorization, and response schemas when that work begins. Track the requirement in `requirements.md`, not in a new milestone-specific section here.
 

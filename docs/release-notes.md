@@ -51,6 +51,9 @@ Expands StockFlow's API integration and introduces the identity and authorizatio
 - Added authenticated identity inspection through `/api/auth/me`.
 - Added role-based authorization verification endpoints.
 - Added JWT claim-based role evaluation through ASP.NET Core authorization.
+- Protected current Product, Order, Payment, and Dashboard API reads with JWT role-based authorization.
+- Added a development Staff identity for role-boundary verification.
+- Added verification of `401 Unauthorized` and `403 Forbidden` behavior.
 
 #### Changed
 

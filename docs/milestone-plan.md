@@ -140,7 +140,7 @@ Status: In progress
 - M52 - User and Role Models and Persistence - Completed
 - M53 - Login and Authentication Flow - Completed
 - M54 - Role-Based Authorization Rules - Completed
-- M55 - Protect Product, Order, and Payment Operations - Planned
+- M55 - Protect Product, Order, and Payment Operations - Completed
 - M56 - v0.7.0 Release - Planned
 
 ## v0.8.0 - Frontend Web Dashboard

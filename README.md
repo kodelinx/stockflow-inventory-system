@@ -2,7 +2,7 @@
 
 StockFlow is a C#/.NET inventory and sales management application for small businesses. It supports product management, stock tracking, checkout, payment recording, receipts, reporting, and simulated notifications. The project is also a development portfolio that demonstrates an incremental transition from a console MVP to a layered, database-backed application with a Web API.
 
-> **Development status:** v0.7.0 released · Current development: v0.8.0 — Frontend Web Dashboard
+> **Development status:** v0.7.0 released · Current development: v0.8.0 — Complete Business API
 
 
 ## Overview

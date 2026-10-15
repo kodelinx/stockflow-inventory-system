@@ -79,7 +79,7 @@ Status: Released
 
 ## v0.6.0 - Full Database-Backed Console and Service Refactor
 
-Status: In Progress
+Status: Released
 
 ### Repository Foundation
 
@@ -131,9 +131,9 @@ Status: In Progress
 
 - M49 - v0.6.0 Release - Completed
 
-## v0.7.0 - Authentication, User Roles, and API Completion
+## v0.7.0 - Authentication, User Roles, and API Read connection
 
-Status: Completed
+Status: Released
 
 - M50 - Connect Remaining API Reads to Real Repositories - Completed
 - M51 - User and Role Requirements - Completed
@@ -143,30 +143,47 @@ Status: Completed
 - M55 - Protect Product, Order, and Payment Operations - Completed
 - M56 - v0.7.0 Release - Completed
 
-## v0.8.0 - Frontend Web Dashboard
+## v0.8.0 - Complete Business API
 
-Status: In Prgress
+Status: In Progress
 
-- M57 - Frontend Project Setup - In Progress
-- M58 - Product Management Page - Planned
-- M59 - Order Management Page - Planned
-- M60 - Payment Management Page - Planned
-- M61 - Dashboard Summary Page - Planned
-- M62 - Connect Frontend to StockFlow API - Planned
-- M63 - v0.8.0 Release - Planned
+- M57 - API Write Contract and DTO Design - Planned
+- M58 - Product Management API - Planned
+- M59 - Stock Management API - Planned
+- M60 - Order and Checkout API - Planned
+- M61 - Payment and Receipt API - Planned
+- M62 - User Administration API - Planned
+- M63 - API Validation and End-to-End Verification - Planned
+- M64 - v0.8.0 Release - Planned
 
-## v0.9.0 - Production Readiness and Expanded Testing
+## v0.9.0 - Frontend Web Dashboard
 
 Status: Planned
 
-- M64 - Expand Unit Test Coverage
-- M65 - Expand Repository Integration Test Coverage
-- M66 - API Integration Tests
-- M67 - Standardized Error Handling
-- M68 - Structured Logging and Environment Configuration
-- M69 - Seed Data and Demo Data Setup
-- M70 - Deployment Preparation
-- M71 - v0.9.0 Release
+- M65 - Frontend Project Setup - Planned
+- M66 - Authentication and Login Page - Planned
+- M67 - Dashboard Summary Page - Planned
+- M68 - Product Management Page - Planned
+- M69 - Order Management Page - Planned
+- M70 - Payment Management Page - Planned
+- M71 - User Management Page - Planned
+- M72 - Connect Frontend to StockFlow API - Planned
+- M73 - Frontend Validation and Role-Based UI - Planned
+- M74 - v0.9.0 Release - Planned
+
+## v0.10.0 - Production Readiness and Expanded Testing
+
+Status: Planned
+
+- M75 - Expand Unit Test Coverage - Planned
+- M76 - Expand Repository Integration Test Coverage - Planned
+- M77 - API Integration Tests - Planned
+- M78 - Frontend Integration / End-to-End Tests - Planned
+- M79 - Standardized Error Handling - Planned
+- M80 - Structured Logging and Environment Configuration - Planned
+- M81 - Seed Data and Demo Data Setup - Planned
+- M82 - Deployment Preparation - Planned
+- M83 - v0.10.0 Release - Planned
 
 ## v1.0.0 - Business MVP Release
 

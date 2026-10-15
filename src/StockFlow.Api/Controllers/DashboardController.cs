@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using StockFlow.Api.Security;
 using StockFlow.Models;
 using StockFlow.Repositories;
 using StockFlow.Services;
@@ -7,6 +9,7 @@ namespace StockFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/dashboard")]
+[Authorize(Policy = AuthorizationPolicies.StaffOrAdmin)]
 public class DashboardController : ControllerBase
 {
     private readonly ProductRepository _productRepository;

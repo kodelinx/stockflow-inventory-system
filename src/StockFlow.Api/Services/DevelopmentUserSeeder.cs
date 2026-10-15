@@ -87,4 +87,72 @@ public class DevelopmentUserSeeder
             $"Development admin '{username}' created."
         );
     }
+
+    public void SeedStaff()
+    {
+        // Reads the development Staff username from configuration.
+        string username =
+            _configuration[
+                "SeedStaff:Username"
+            ]
+            ?? "staff";
+
+        // Prevents the same Staff account from being created again.
+        User? existingUser =
+            _userRepository
+                .FindUserByUsername(username);
+
+        if (existingUser != null)
+        {
+            return;
+        }
+
+        // The Staff password comes from User Secrets,
+        // so it is never committed into Git.
+        string? password =
+            _configuration[
+                "SeedStaff:Password"
+            ];
+
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            Console.WriteLine(
+                "Development staff user was not seeded because SeedStaff:Password is not configured."
+            );
+
+            return;
+        }
+
+        string fullName =
+            _configuration[
+                "SeedStaff:FullName"
+            ]
+            ?? "StockFlow Staff";
+
+        User staff = new User
+        {
+            Username = username,
+            FullName = fullName,
+
+            // Uses the centralized Staff role constant.
+            Role = UserRoles.Staff,
+
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        // The plain-text password exists only long enough
+        // to create the secure password hash.
+        staff.PasswordHash =
+            _passwordService.HashPassword(
+                staff,
+                password
+            );
+
+        _userRepository.AddUser(staff);
+
+        Console.WriteLine(
+            $"Development staff '{username}' created."
+        );
+    }
 }

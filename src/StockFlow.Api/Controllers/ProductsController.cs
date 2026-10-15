@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StockFlow.Api.Security;
 using StockFlow.Models;
 using StockFlow.Repositories;
 using StockFlow.Services;
@@ -7,6 +9,10 @@ namespace StockFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/products")]
+// Requires the caller to be authenticated as either Admin or Staff.
+[Authorize(
+    Policy = AuthorizationPolicies.StaffOrAdmin
+)]
 public class ProductsController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
@@ -24,30 +30,39 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public IActionResult GetProducts()
     {
-        
-        List<Product> products = _productRepository.GetActiveProducts();
+        List<Product> products =
+            _productRepository.GetActiveProducts();
 
         return Ok(products);
     }
 
     [HttpGet("{productCode}")]
-    public IActionResult GetProductByCode(string productCode)
+    public IActionResult GetProductByCode(
+        string productCode
+    )
     {
         if (string.IsNullOrWhiteSpace(productCode))
         {
-            return BadRequest("Product code is required");
+            return BadRequest(
+                "Product code is required"
+            );
         }
 
         productCode = productCode.Trim();
 
-        Product? product = _productRepository.FindProductByCode(productCode);
+        Product? product =
+            _productRepository
+                .FindProductByCode(productCode);
 
         if (product == null)
         {
-            return NotFound($"Product with code {productCode} was not found");
+            return NotFound(
+                $"Product with code {productCode} was not found"
+            );
         }
 
-        bool isLowStock = _productManager.IsLowStock(product);
+        bool isLowStock =
+            _productManager.IsLowStock(product);
 
         var response = new
         {

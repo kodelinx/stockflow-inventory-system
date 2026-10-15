@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using StockFlow.Api.Security;
 using Microsoft.AspNetCore.Mvc;
 using StockFlow.Models;
 using StockFlow.Repositories;
@@ -6,6 +8,7 @@ namespace StockFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/orders")]
+[Authorize(Policy = AuthorizationPolicies.StaffOrAdmin)]
 public class OrdersController : ControllerBase
 {
     private readonly OrderRepository _orderRepository;

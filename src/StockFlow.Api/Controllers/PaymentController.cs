@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StockFlow.Api.Security;
 using StockFlow.Models;
 using StockFlow.Repositories;
 
@@ -6,6 +8,7 @@ namespace StockFlow.Api.Controllers;
 
 [ApiController]
 [Route ("api/payments")]
+[Authorize(Policy = AuthorizationPolicies.StaffOrAdmin)]
 public class PaymentController : ControllerBase
 {
     private readonly PaymentRepository _paymentRepository;

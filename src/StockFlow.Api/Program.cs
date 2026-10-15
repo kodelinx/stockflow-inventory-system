@@ -139,8 +139,9 @@ if (app.Environment.IsDevelopment())
             .GetRequiredService<
                 DevelopmentUserSeeder
             >();
-
+    // Creates development accounts only when they do not already exist.
     seeder.SeedAdmin();
+    seeder.SeedStaff();
 }
 
 // Configure the HTTP request pipeline.

@@ -22,55 +22,55 @@ For milestone status, see [`milestone-plan.md`](milestone-plan.md). For current 
 
 ## 2. Unreleased
 
-### v0.7.0 — Authentication, Roles, and API Completion
-
-**Status:** Unreleased  
-**Release date:** TBD
-
-#### Summary
-
-Expands StockFlow's API integration and introduces the identity and authorization foundation required for controlled application access.
-
-#### Added
-
-- Defined the initial StockFlow user-account requirements.
-- Defined `Admin` and `Staff` application roles.
-- Defined the initial role-permission matrix for inventory, sales, and user-management operations.
-- Defined security requirements for password storage, inactive users, and protected operations.
-- Added the shared `User` model for persisted application identities.
-- Added SQLite-backed user-account persistence through `UserRepository`.
-- Added unique usernames, application roles, active/inactive account status, and password-hash storage.
-- Added automated repository tests for user persistence and lifecycle updates.
-- Added secure password hashing for StockFlow user credentials.
-- Added JWT-based authentication.
-- Added `POST /api/auth/login`.
-- Added user identity and role claims to issued authentication tokens.
-- Added development administrator bootstrap using local secret configuration.
-- Added centralized `Admin` and `Staff` application role definitions.
-- Added reusable `AdminOnly` and `StaffOrAdmin` authorization policies.
-- Added authenticated identity inspection through `/api/auth/me`.
-- Added role-based authorization verification endpoints.
-- Added JWT claim-based role evaluation through ASP.NET Core authorization.
-- Protected current Product, Order, Payment, and Dashboard API reads with JWT role-based authorization.
-- Added a development Staff identity for role-boundary verification.
-- Added verification of `401 Unauthorized` and `403 Forbidden` behavior.
-
-#### Changed
-
-- Connected Order API reads to `OrderRepository` and live SQLite data.
-- Connected Payment API reads to `PaymentRepository` and live SQLite data.
-- Connected Dashboard API summary calculations to Product, Order, and Payment repository data.
-- Removed typed temporary sample data from the remaining implemented API read endpoints.
-- Completed repository-backed integration for the current StockFlow API read surface.
-
-#### Known Limitations
-
-- API write endpoints are not yet implemented.
-- Authentication and role-based authorization are not yet implemented.
-- Interactive Swagger/Scalar UI is not currently configured.
-- Frontend integration remains planned for a later version.
-
 ## 3. Released Versions
+
+## v0.7.0 — Authentication and Role-Based Authorization
+
+**Release date:** 2026-10-15
+
+### Summary
+
+StockFlow v0.7.0 introduces persisted application users, secure login authentication, JWT-based identity, role-based authorization, and protected business API access.
+
+### Added
+
+- Added persistent StockFlow user accounts.
+- Added `Admin` and `Staff` application roles.
+- Added secure password hashing.
+- Added JWT authentication.
+- Added `POST /api/auth/login`.
+- Added authenticated identity claims for user ID, username, full name, and role.
+- Added centralized role definitions.
+- Added reusable `AdminOnly` and `StaffOrAdmin` authorization policies.
+- Added development Admin and Staff account seeding using local secret configuration.
+- Added authenticated identity and authorization verification endpoints.
+
+### Changed
+
+- Connected remaining API reads to repository-backed SQLite data.
+- Protected Product API reads with role-based authorization.
+- Protected Order API reads with role-based authorization.
+- Protected Payment API reads with role-based authorization.
+- Protected Dashboard API reads with role-based authorization.
+- Centralized the development SQLite database path.
+
+### Security
+
+- Plain-text passwords are not persisted.
+- Password hashes are not exposed through login responses.
+- JWT signing secrets are kept outside committed source configuration.
+- Inactive users cannot authenticate.
+- Unauthenticated protected requests return `401 Unauthorized`.
+- Authenticated users without sufficient permission receive `403 Forbidden`.
+
+### Known Limitations
+
+- The API currently focuses primarily on read endpoints.
+- Product, Order, and Payment API write operations are not yet part of the confirmed current API surface.
+- User-management API endpoints are not yet implemented.
+- Token refresh and logout/revocation flows are not yet implemented.
+- Swagger/interactive API UI is not currently configured.
+- Frontend integration remains future work.
 
 ### v0.6.0 — Database-Backed Console and Service Refactor
 
